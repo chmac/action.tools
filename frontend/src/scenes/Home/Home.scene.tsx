@@ -2,7 +2,7 @@ import React from "react";
 
 import { createStyles, Theme, makeStyles, Typography } from "@material-ui/core";
 
-const Home: React.FC = props => {
+const Home: React.FC = () => {
   const classes = useStyles();
 
   return (
