@@ -1,16 +1,16 @@
 import React from "react";
 
-import { createStyles, Theme, makeStyles } from "@material-ui/core";
+import { createStyles, Theme, makeStyles, Typography } from "@material-ui/core";
 
 const Home: React.FC = props => {
   const classes = useStyles();
 
   return (
     <div className={classes.container}>
-      <h1>Welcome</h1>
-      <p>
+      <Typography variant="h1">Welcome</Typography>
+      <Typography>
         Edit this page in <code>frontend/src/scenes/Home/Home.scene.tsx</code>
-      </p>
+      </Typography>
     </div>
   );
 };
