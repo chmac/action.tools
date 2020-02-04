@@ -1,0 +1,292 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`todo.md markdownToMdast #CSbVZJ matches snapshot 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "checked": false,
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "position": Position {
+                    "end": Object {
+                      "column": 57,
+                      "line": 2,
+                      "offset": 57,
+                    },
+                    "indent": Array [],
+                    "start": Object {
+                      "column": 7,
+                      "line": 2,
+                      "offset": 7,
+                    },
+                  },
+                  "type": "text",
+                  "value": "Here's a top level task in a +Random project @home",
+                },
+              ],
+              "position": Position {
+                "end": Object {
+                  "column": 57,
+                  "line": 2,
+                  "offset": 57,
+                },
+                "indent": Array [],
+                "start": Object {
+                  "column": 7,
+                  "line": 2,
+                  "offset": 7,
+                },
+              },
+              "type": "paragraph",
+            },
+          ],
+          "position": Position {
+            "end": Object {
+              "column": 57,
+              "line": 2,
+              "offset": 57,
+            },
+            "indent": Array [],
+            "start": Object {
+              "column": 1,
+              "line": 2,
+              "offset": 1,
+            },
+          },
+          "spread": false,
+          "type": "listItem",
+        },
+        Object {
+          "checked": false,
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "position": Position {
+                    "end": Object {
+                      "column": 47,
+                      "line": 3,
+                      "offset": 104,
+                    },
+                    "indent": Array [],
+                    "start": Object {
+                      "column": 7,
+                      "line": 3,
+                      "offset": 64,
+                    },
+                  },
+                  "type": "text",
+                  "value": "With another second task +ClearOut @work",
+                },
+              ],
+              "position": Position {
+                "end": Object {
+                  "column": 47,
+                  "line": 3,
+                  "offset": 104,
+                },
+                "indent": Array [],
+                "start": Object {
+                  "column": 7,
+                  "line": 3,
+                  "offset": 64,
+                },
+              },
+              "type": "paragraph",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "checked": null,
+                  "children": Array [
+                    Object {
+                      "children": Array [
+                        Object {
+                          "position": Position {
+                            "end": Object {
+                              "column": 39,
+                              "line": 4,
+                              "offset": 143,
+                            },
+                            "indent": Array [],
+                            "start": Object {
+                              "column": 5,
+                              "line": 4,
+                              "offset": 109,
+                            },
+                          },
+                          "type": "text",
+                          "value": "A comment added to the second task",
+                        },
+                      ],
+                      "position": Position {
+                        "end": Object {
+                          "column": 39,
+                          "line": 4,
+                          "offset": 143,
+                        },
+                        "indent": Array [],
+                        "start": Object {
+                          "column": 5,
+                          "line": 4,
+                          "offset": 109,
+                        },
+                      },
+                      "type": "paragraph",
+                    },
+                  ],
+                  "position": Position {
+                    "end": Object {
+                      "column": 39,
+                      "line": 4,
+                      "offset": 143,
+                    },
+                    "indent": Array [],
+                    "start": Object {
+                      "column": 3,
+                      "line": 4,
+                      "offset": 107,
+                    },
+                  },
+                  "spread": false,
+                  "type": "listItem",
+                },
+                Object {
+                  "checked": false,
+                  "children": Array [
+                    Object {
+                      "children": Array [
+                        Object {
+                          "position": Position {
+                            "end": Object {
+                              "column": 50,
+                              "line": 5,
+                              "offset": 193,
+                            },
+                            "indent": Array [],
+                            "start": Object {
+                              "column": 9,
+                              "line": 5,
+                              "offset": 152,
+                            },
+                          },
+                          "type": "text",
+                          "value": "A sub task is also underneath the comment",
+                        },
+                      ],
+                      "position": Position {
+                        "end": Object {
+                          "column": 50,
+                          "line": 5,
+                          "offset": 193,
+                        },
+                        "indent": Array [],
+                        "start": Object {
+                          "column": 9,
+                          "line": 5,
+                          "offset": 152,
+                        },
+                      },
+                      "type": "paragraph",
+                    },
+                  ],
+                  "position": Position {
+                    "end": Object {
+                      "column": 50,
+                      "line": 5,
+                      "offset": 193,
+                    },
+                    "indent": Array [],
+                    "start": Object {
+                      "column": 3,
+                      "line": 5,
+                      "offset": 146,
+                    },
+                  },
+                  "spread": false,
+                  "type": "listItem",
+                },
+              ],
+              "ordered": false,
+              "position": Position {
+                "end": Object {
+                  "column": 50,
+                  "line": 5,
+                  "offset": 193,
+                },
+                "indent": Array [
+                  3,
+                ],
+                "start": Object {
+                  "column": 3,
+                  "line": 4,
+                  "offset": 107,
+                },
+              },
+              "spread": false,
+              "start": null,
+              "type": "list",
+            },
+          ],
+          "position": Position {
+            "end": Object {
+              "column": 50,
+              "line": 5,
+              "offset": 193,
+            },
+            "indent": Array [
+              1,
+              1,
+            ],
+            "start": Object {
+              "column": 1,
+              "line": 3,
+              "offset": 58,
+            },
+          },
+          "spread": false,
+          "type": "listItem",
+        },
+      ],
+      "ordered": false,
+      "position": Position {
+        "end": Object {
+          "column": 50,
+          "line": 5,
+          "offset": 193,
+        },
+        "indent": Array [
+          1,
+          1,
+          1,
+        ],
+        "start": Object {
+          "column": 1,
+          "line": 2,
+          "offset": 1,
+        },
+      },
+      "spread": false,
+      "start": null,
+      "type": "list",
+    },
+  ],
+  "position": Object {
+    "end": Object {
+      "column": 1,
+      "line": 6,
+      "offset": 194,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "type": "root",
+}
+`;
