@@ -17,11 +17,6 @@ const Home: React.FC = props => {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    anonContainer: {
-      paddingTop: "10vh",
-      textAlign: "center",
-      fontSize: "3em"
-    },
     container: {}
   })
 );
