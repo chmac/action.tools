@@ -1,20 +1,11 @@
 import React from "react";
 import { Router, Switch, Route } from "react-router-dom";
 import { createBrowserHistory } from "history";
-import { connect } from "react-redux";
-import {
-  createStyles,
-  withStyles,
-  WithStyles,
-  Theme,
-  createMuiTheme
-} from "@material-ui/core";
+import { createStyles, Theme, createMuiTheme } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
-import { responsiveFontSizes } from "@material-ui/core/styles";
+import { responsiveFontSizes, makeStyles } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
-
-import { AppState } from "../../store";
 
 import Bar from "../Bar/Bar.scene";
 import Home from "../Home/Home.scene";
@@ -24,44 +15,30 @@ const theme = responsiveFontSizes(baseTheme);
 
 export const history = createBrowserHistory();
 
-const Routes = (props: Props) => {
-  const { isLoggedIn } = props;
+const Routes: React.FC = () => {
+  const classes = useStyles();
 
   return (
     <ThemeProvider theme={theme}>
       <Router history={history}>
         <Bar />
         <CssBaseline />
-        <Container>
-          {isLoggedIn ? (
-            <Switch>
-              <Route exact path="/" component={Home} />
-            </Switch>
-          ) : (
-            <>
-              <Home />
-            </>
-          )}
+        <Container className={classes.container}>
+          <Switch>
+            <Route exact path="/" component={Home} />
+          </Switch>
         </Container>
       </Router>
     </ThemeProvider>
   );
 };
 
-const styles = (theme: Theme) =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
       flexGrow: 1
     }
-  });
+  })
+);
 
-const mapStateToProps = (state: AppState) => {
-  return {
-    isLoggedIn: state.auth.isLoggedIn
-  };
-};
-
-type StateProps = ReturnType<typeof mapStateToProps>;
-type Props = StateProps & WithStyles<typeof styles>;
-
-export default connect(mapStateToProps)(withStyles(styles)(Routes));
+export default Routes;

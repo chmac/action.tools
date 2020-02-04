@@ -1,19 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
 
-import { createStyles, withStyles, WithStyles, Theme } from "@material-ui/core";
+import { createStyles, Theme, makeStyles } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 
-import { AppState } from "../../store";
-import { showLock, logout } from "../../services/auth/auth.service";
-import { doesUserHaveRole } from "../../services/auth/auth.state";
-
-const Bar: React.FC<Props> = props => {
-  const { classes, isLoggedIn, isAdmin } = props;
+const Bar: React.FC = props => {
+  const classes = useStyles();
 
   return (
     <div className={classes.root}>
@@ -24,49 +18,13 @@ const Bar: React.FC<Props> = props => {
               App Header
             </Typography>
           </Link>
-          {isAdmin ? (
-            <Link to="/admin/route">
-              <Button color="inherit">Admin Link</Button>
-            </Link>
-          ) : null}
-          {isLoggedIn ? (
-            <>
-              <Link to="/authenticated/route">
-                <Button color="inherit">Logged In</Button>
-              </Link>
-              <Button
-                color="inherit"
-                onClick={() => {
-                  logout();
-                }}
-              >
-                Logout
-              </Button>
-            </>
-          ) : (
-            <Button
-              color="inherit"
-              onClick={() => {
-                showLock();
-              }}
-            >
-              Login
-            </Button>
-          )}
         </Toolbar>
       </AppBar>
     </div>
   );
 };
 
-const mapStateToProps = (state: AppState) => {
-  return {
-    isLoggedIn: state.auth.isLoggedIn,
-    isAdmin: doesUserHaveRole(state, "admin")
-  };
-};
-
-const styles = (theme: Theme) =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1
@@ -74,10 +32,7 @@ const styles = (theme: Theme) =>
     title: {
       flexGrow: 1
     }
-  });
+  })
+);
 
-type StateProps = ReturnType<typeof mapStateToProps>;
-
-type Props = StateProps & WithStyles<typeof styles>;
-
-export default connect(mapStateToProps)(withStyles(styles)(Bar));
+export default Bar;
