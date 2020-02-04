@@ -7,7 +7,7 @@ const Home: React.FC = props => {
 
   return (
     <div className={classes.container}>
-      <h1>You're logged in</h1>
+      <h1>Welcome</h1>
       <p>
         Edit this page in <code>frontend/src/scenes/Home/Home.scene.tsx</code>
       </p>
