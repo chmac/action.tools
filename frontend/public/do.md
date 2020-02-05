@@ -40,6 +40,33 @@ All dates are in ISO format like `2020-02-29` and can optionally have a time
 added. If a time is added the full ISO format must be used like
 `2020-02-29T14:27:00+01:00`.
 
+## Recursion
+
+Some tasks are repeated. They are often repeated on a schedule. This can be
+based on either **the date of completion** or the **after** date, or the
+**by** date. For simplicity we'll say that repetition will always affect both
+the `after` and `by` dates.
+
+- `repeat:everymon,tue,wed,thu,fri`
+- `repeat:everyjan,apr,jul,oct`
+- `repeat:every3months`
+- `repeat:every2days`
+- `repeat:after3months`
+
+There are 2 keywords `every` and `after`. The `every` keyword means that the
+task repeats based on its `after` and `by` dates. The `after` keyword means
+that the task repeats this period after its completion.
+
+## Automation
+
+We can automate some tasks. For example we could automate the replacement of
+some dates. An example might be `after:+7d` which says the task must be
+started after 7 days from now. We could automate the replacement of the `+7d`
+with a date 7 days in the future.
+
+- Relative date replacements
+- Creating the next task iteration
+
 # Work
 
 This is the general project that handles work related matters.
@@ -64,3 +91,15 @@ These tasks can be completed in order.
 - [ ] While a second series can be done in parallel
   1. [ ] Sub two three
   1. [ ] Again after before
+
+# Tech
+
+What tasks do we actually want to get done on this package?
+
+- [ ] Node script to apply recursion
+- [ ] Browser based version
+  - [ ] Connect to git backend
+  - [ ] Load data from a markdown file
+  - [ ] Allow filtering
+    - [ ] Tags
+    - [ ] Dates
