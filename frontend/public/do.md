@@ -96,6 +96,7 @@ These tasks can be completed in order.
 
 What tasks do we actually want to get done on this package?
 
+- [x] Support weekly repeats every 3 weeks
 - [ ] Node script to apply recursion
 - [ ] Browser based version
   - [ ] Connect to git backend
