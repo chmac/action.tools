@@ -7,6 +7,7 @@ import {
   getAllTasksFromTree,
   getNumberFromStart,
   getCountAndUnitFromString,
+  startsWith,
   isDay,
   isMonth,
   calculateNextOccurrence
@@ -69,6 +70,24 @@ describe("todo.md", () => {
     });
   });
 
+  describe("startsWith()", () => {
+    it("correctly detects every #qBzTJw", () => {
+      expect(startsWith("every", "every3days")).toEqual(true);
+    });
+
+    it("correctly detects after #TcCaVL", () => {
+      expect(startsWith("after", "after4days")).toEqual(true);
+    });
+
+    it("returns false for foo #gYg4ZW", () => {
+      expect(startsWith("every", "fevery")).toEqual(false);
+    });
+
+    it("matches EVERY #ILPRQM", () => {
+      expect(startsWith("every", "EVERY3days")).toEqual(true);
+    });
+  });
+
   describe("isDay()", () => {
     it("accepts mon", () => {
       expect(isDay("mon")).toEqual(true);
@@ -103,6 +122,8 @@ describe("todo.md", () => {
     const plusThreeWeeks = 1582731454000; // "2020-02-26T15:37:34.000";
     // This next date has jumped over a DST change
     const plusThreeMonths = 1588689454000; // "2020-05-05T14:37:34.000";
+    const plusMonTueThu = 1581003454000; // "2020-02-06T15:37:34.000Z"
+    const plusJanJul = 1593959854000; // "2020-07-05T14:37:34.000Z"
 
     beforeAll(() => {
       MockDate.set(startTime);
@@ -133,6 +154,18 @@ describe("todo.md", () => {
       expect(
         calculateNextOccurrence("every3months", new Date(startTime))
       ).toEqual(new Date(plusThreeMonths));
+    });
+
+    it("calculates mon, tue, thu #MMOCGX", () => {
+      expect(
+        calculateNextOccurrence("everymon,tue,thu", new Date(startTime))
+      ).toEqual(new Date(plusMonTueThu));
+    });
+
+    it("calculates jan, jul #YeRk6F", () => {
+      expect(
+        calculateNextOccurrence("everyjan,jul", new Date(startTime))
+      ).toEqual(new Date(plusJanJul));
     });
   });
 
