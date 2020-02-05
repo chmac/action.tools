@@ -1,6 +1,7 @@
 import * as R from "remeda";
 import unified from "unified";
 import markdown from "remark-parse";
+import stringify from "remark-stringify";
 import visit from "unist-util-visit";
 import map from "unist-util-map";
 import { selectAll } from "unist-util-select";
@@ -112,6 +113,11 @@ export const startup = () => {
         .use(markdown, { gfm: true })
         .parse(body);
     })
+    // .then(tree => {
+    //   const processor = unified().use(stringify, { listItemIndent: "1" });
+    //   const md = processor.stringify(tree);
+    //   return tree;
+    // })
     .then(tree => {
       return map(tree, (node: Node) => {
         if (isTask(node)) {

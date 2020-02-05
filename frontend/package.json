@@ -36,6 +36,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "remark-parse": "^7.0.2",
+    "remark-stringify": "^7.0.4",
     "remeda": "^0.0.14",
     "typescript": "~3.7.2",
     "unified": "^8.4.2",
