@@ -24,21 +24,20 @@ Only some tasks can be worked on right now.
 
 ## Data
 
-Some data can be added to tasks. We use the format `key:value`.
+Some data can be added to tasks. We use the format `k:value`.
 
-- `after:YYYY-MM-DD` is a date (and optionally time) after which this task be
+- `a:YYYY-MM-DD` is a date (and optionally time) **after** which this task be
   started. The task cannot be started before this date.
-- `by:YYYY-MM-DD` is the deadline for this task.
-- `created:YYYY-MM-DD` is the date this task was created.
-- `closed:YYYY-MM-DD` is the date when this task was completed.
-- `snooze:YYYY-MM-DD` is a date when this task should be hidden until.
+- `b:YYYY-MM-DD` is the date when this task should be finished **by**.
+- `c:YYYY-MM-DD` is the date this task was **created**.
+- `f:YYYY-MM-DD` is the date when this task was **finished**.
+- `s:YYYY-MM-DD` is a date when this task should be hidden until.
   - Snoozed dates are not quite the same as `by` dates.
   - A task might only be possible after the 1st of the month, and before the
     10th of the month, but might be snoozed on the 1st until the 4th.
 
 All dates are in ISO format like `2020-02-29` and can optionally have a time
-added. If a time is added the full ISO format must be used like
-`2020-02-29T14:27:00+01:00`.
+added. If a time is added the format is just `HH:MM` like `2020-02-29T14:27`.
 
 ## Recursion
 
@@ -47,11 +46,11 @@ based on either **the date of completion** or the **after** date, or the
 **by** date. For simplicity we'll say that repetition will always affect both
 the `after` and `by` dates.
 
-- `repeat:everymon,tue,wed,thu,fri`
-- `repeat:everyjan,apr,jul,oct`
-- `repeat:every3months`
-- `repeat:every2days`
-- `repeat:after3months`
+- `r:everymon,tue,wed,thu,fri`
+- `r:everyjan,apr,jul,oct`
+- `r:every3months`
+- `r:every2days`
+- `r:after3months`
 
 There are 2 keywords `every` and `after`. The `every` keyword means that the
 task repeats based on its `after` and `by` dates. The `after` keyword means
@@ -60,9 +59,9 @@ that the task repeats this period after its completion.
 ## Automation
 
 We can automate some tasks. For example we could automate the replacement of
-some dates. An example might be `after:+7d` which says the task must be
-started after 7 days from now. We could automate the replacement of the `+7d`
-with a date 7 days in the future.
+some dates. An example might be `a:+7d` which says the task must be started
+after 7 days from now. We could automate the replacement of the `+7d` with a
+date 7 days in the future.
 
 - Relative date replacements
 - Creating the next task iteration
@@ -76,7 +75,7 @@ This is the general project that handles work related matters.
 Work stuff which doens't below in any specific sub project
 
 - [ ] Uncompleted task at first +Generous @home #foo #bar
-  - after:2020-04-01 by:2020-05-07 created:2020-02-05
+  - a:2020-04-01 b:2020-05-07 c:2020-02-05
   - child comment  
     this is another line in the same comment
   - [ ] A sub task @home @email +Callum +Tom
@@ -104,3 +103,12 @@ What tasks do we actually want to get done on this package?
   - [ ] Allow filtering
     - [ ] Tags
     - [ ] Dates
+
+# Examples
+
+Some tasks which repeat so we can mess around with that.
+
+- [ ] First repetition task b:2020-02-05 r:after3days
+- [ ] A deadline repeating task a:2020-04-01 b:2020-05-07 repeat:after3months
+- [x] A deadline repeating task a:2020-01-01 b:2020-02-07 repeat:after3months
+      f:2020-02-05
