@@ -4,8 +4,12 @@ import markdown from "remark-parse";
 import stringify from "remark-stringify";
 import visit from "unist-util-visit";
 import map from "unist-util-map";
+import modifyChildren from "unist-util-modify-children";
+import toString from "mdast-util-to-string";
 import { selectAll } from "unist-util-select";
-import { Node } from "unist";
+import { Node, Parent } from "unist";
+
+export type NodeWithData = Node & { _data: { [prop: string]: any } };
 
 export const EVERY = "every";
 export const AFTER = "after";
@@ -99,15 +103,21 @@ export const addData = (task: Node) => {
   return R.addProp(task, "_data", buildDataForTask(task));
 };
 
+export const addProcessedToData = (node: NodeWithData) => {
+  const { _data, ...rest } = node;
+  return { _data: R.addProp(_data, "processed", true), ...rest };
+};
+
 export const startup = () => {
   fetch("/do.md")
     .then(response => {
       return response.text();
     })
     .then(body => {
-      return unified()
-        .use(markdown, { gfm: true })
-        .parse(body);
+      return markdownToMdast(body);
+      // return unified()
+      //   .use(markdown, { gfm: true })
+      //   .parse(body);
     })
     // .then(tree => {
     //   const processor = unified().use(stringify, { listItemIndent: "1" });
@@ -121,6 +131,35 @@ export const startup = () => {
         }
         return node;
       });
+    })
+    .then(treeWithData => {
+      const modifier = (node: NodeWithData, index: number, parent: Parent) => {
+        console.log("node #YQGjFr", node);
+        if (node.type === "listItem") {
+          const markdown = <string>toString(node);
+          if (
+            markdown.match(/inbox need to be filed/) &&
+            !node._data.processed
+          ) {
+            const currentNode = addProcessedToData(R.clone(node));
+            const { _data, ...rest } = R.clone(node);
+            const newNode = {
+              _data: R.addProp(_data, "inserted", true),
+              ...rest
+            };
+            parent.children.splice(index, 1, newNode, currentNode);
+            debugger;
+          }
+        }
+      };
+
+      const applyModify = modifyChildren(modifier);
+
+      visit(treeWithData, "list", (node, index, parent) => {
+        applyModify(node);
+      });
+
+      return treeWithData;
     })
     .then(treeWithDAta => {
       debugger;
