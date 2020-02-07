@@ -28,11 +28,11 @@ Some data can be added to tasks. We use the format `key:value`.
 
 - `after:YYYY-MM-DD` is a date (and optionally time) after which this task be
   started. The task cannot be started before this date.
-- `by:YYYY-MM-DD` is the deadline for this task.
+- `before:YYYY-MM-DD` is the deadline for this task.
 - `created:YYYY-MM-DD` is the date this task was created.
-- `closed:YYYY-MM-DD` is the date when this task was completed.
+- `finished:YYYY-MM-DD` is the date when this task was completed.
 - `snooze:YYYY-MM-DD` is a date when this task should be hidden until.
-  - Snoozed dates are not quite the same as `by` dates.
+  - Snoozed dates are not quite the same as `before` dates.
   - A task might only be possible after the 1st of the month, and before the
     10th of the month, but might be snoozed on the 1st until the 4th.
 
@@ -43,8 +43,8 @@ added. If a time is added the format is just `HH:MM` like `2020-02-29T14:27`.
 
 Some tasks are repeated. They are often repeated on a schedule. This can be
 based on either **the date of completion** or the **after** date, or the
-**by** date. For simplicity we'll say that repetition will always affect both
-the `after` and `by` dates.
+**before** date. For simplicity we'll say that repetition will always affect
+both the `after` and `before` dates.
 
 - `repeat:everymon,tue,wed,thu,fri`
 - `repeat:everyjan,apr,jul,oct`
@@ -53,8 +53,8 @@ the `after` and `by` dates.
 - `repeat:after3months`
 
 There are 2 keywords `every` and `after`. The `every` keyword means that the
-task repeats based on its `after` and `by` dates. The `after` keyword means
-that the task repeats this period after its completion.
+task repeats based on its `after` and `before` dates. The `after` keyword
+means that the task repeats this period after its completion.
 
 ## Automation
 
@@ -75,7 +75,7 @@ This is the general project that handles work related matters.
 Work stuff which doens't below in any specific sub project
 
 - [ ] Uncompleted task at first +Generous @home #foo #bar
-  - after:2020-04-01 by:2020-05-07 created:2020-02-05
+  - after:2020-04-01 before:2020-05-07 created:2020-02-05
   - child comment  
     this is another line in the same comment
   - [ ] A sub task @home @email +Callum +Tom
@@ -108,7 +108,7 @@ What tasks do we actually want to get done on this package?
 
 Some tasks which repeat so we can mess around with that.
 
-- [ ] First repetition task b:2020-02-05 r:after3days
-- [ ] A deadline repeating task a:2020-04-01 b:2020-05-07 repeat:after3months
-- [x] A deadline repeating task a:2020-01-01 b:2020-02-07 repeat:after3months
-      f:2020-02-05
+- [ ] First repetition task before:2020-02-05 repeat:after3days
+- [ ] A deadline repeating task after:2020-04-01 b:2020-05-07 repeat:after3months
+- [x] A deadline repeating task after:2020-01-01 b:2020-02-07 repeat:after3months
+      finished:2020-02-05
