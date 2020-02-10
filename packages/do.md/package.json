@@ -1,0 +1,39 @@
+{
+  "name": "do.md",
+  "version": "0.1.0",
+  "description": "",
+  "files": [
+    "dist/**/*"
+  ],
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "prepack": "yarn run build",
+    "prepublishOnly": "yarn test && yarn run lint",
+    "preversion": "yarn run format && git add -A src",
+    "test": "jest --config jestconfig.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "AGPL-3.0-or-later",
+  "devDependencies": {
+    "@types/jest": "^25.1.2",
+    "@types/unist": "^2.0.3",
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
+    "@typescript-eslint/parser": "^2.19.2",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-jest": "^23.7.0",
+    "jest": "^25.1.0",
+    "ts-jest": "^25.2.0",
+    "typescript": "^3.7.5",
+    "unist-builder": "^2.0.2"
+  },
+  "dependencies": {
+    "remeda": "^0.0.14",
+    "unist-util-select": "^3.0.1",
+    "unist-util-visit": "^2.0.1"
+  }
+}

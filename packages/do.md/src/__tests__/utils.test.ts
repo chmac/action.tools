@@ -1,5 +1,3 @@
-import u from "unist-builder";
-
 import {
   isTask,
   getTitle,
@@ -7,16 +5,14 @@ import {
   getTags,
   startsWith,
   removeFromFront
-} from "./utils";
+} from "../utils";
 
 import {
   task,
-  taskWithKeys,
-  tree,
   listItemWithNullChecked,
   listItemWithoutChecked,
   makeTask
-} from "./fixtures/tasks.fixtures";
+} from "./__fixtures__/tasks.fixtures";
 
 describe("utils", () => {
   describe("isTask()", () => {

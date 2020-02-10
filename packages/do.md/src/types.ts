@@ -8,7 +8,7 @@ import {
   MONTHS,
   MONTHS_TO_NUMBER
 } from "./constants";
-import { buildDataForTask } from "../../services/domd/domd.utils";
+// import { buildDataForTask } from "../../services/domd/domd.utils";
 
 export type Unit = typeof UNITS[number];
 
@@ -18,7 +18,7 @@ export type Month = typeof MONTHS[number];
 
 export type MonthNumber = typeof MONTHS_TO_NUMBER[Month];
 
-export type Data = ReturnType<typeof buildDataForTask>;
+// export type Data = ReturnType<typeof buildDataForTask>;
 
 export interface Task extends Node {
   type: "listItem";

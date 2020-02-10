@@ -1,7 +1,6 @@
 import * as R from "remeda";
 import { Node, Parent } from "unist";
-import map from "unist-util-map";
-import visit from "unist-util-visit";
+import * as visit from "unist-util-visit";
 import { selectAll } from "unist-util-select";
 
 import { Task } from "./types";
@@ -43,7 +42,7 @@ export const getKeyValue = (key: string, task: Task): string => {
   const matches = text.match(regex);
 
   if (matches === null) {
-    return;
+    return "";
   } else if (matches.length === 1) {
     return removeFromFront(`${key}${KEY_VALUE_SEPARATOR}`, matches[0]);
   }
