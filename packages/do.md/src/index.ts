@@ -1,1 +1,1 @@
-export default () => "coming soon";
+export default () => "Coming soon!";
