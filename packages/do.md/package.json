@@ -13,7 +13,7 @@
     "prepack": "yarn run build",
     "prepublishOnly": "yarn test && yarn run lint",
     "preversion": "yarn run format && git add -A src",
-    "test": "jest --config jestconfig.json"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
