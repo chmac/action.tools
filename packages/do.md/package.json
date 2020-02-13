@@ -16,7 +16,7 @@
     "test": "jest"
   },
   "keywords": [],
-  "author": "",
+  "author": "Callum Macdonald https://github.com/chmac",
   "license": "AGPL-3.0-or-later",
   "devDependencies": {
     "@types/jest": "^25.1.2",
