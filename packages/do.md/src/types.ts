@@ -1,5 +1,7 @@
 import { Node, Parent } from "unist";
 
+import { RuleOption } from "./rschedule";
+
 import {
   AFTER,
   EVERY,
@@ -25,8 +27,25 @@ export interface Task extends Node {
   // _data: Data;
 }
 
-export type Repeat = {
-  count: number;
+export type RepeatSimple = {
+  type: "simple";
+  repeat: typeof AFTER | typeof EVERY;
   unit: Unit;
-  type: typeof AFTER | typeof EVERY;
+  count: number;
 };
+
+export type RepeatWeekly = {
+  type: "weekly";
+  repeat: typeof EVERY;
+  count: number;
+  days: RuleOption.ByDayOfWeek[];
+};
+
+export type RepeatMonthly = {
+  type: "monthly";
+  repeat: typeof EVERY;
+  dates: number[];
+  months: RuleOption.ByDayOfMonth[];
+};
+
+export type Repeat = RepeatSimple | RepeatWeekly | RepeatMonthly;

@@ -74,7 +74,8 @@ describe("getLeadingNumbers()", () => {
   describe("getRepeatParams()", () => {
     it("Correctly extracts after3weeks #6uCEaq", () => {
       expect(getRepeatParams("after3weeks")).toEqual({
-        type: "after",
+        type: "simple",
+        repeat: "after",
         unit: "week",
         count: 3
       });
@@ -82,7 +83,8 @@ describe("getLeadingNumbers()", () => {
 
     it("Correctly extracts every12months #K4fFIz", () => {
       expect(getRepeatParams("every12months")).toEqual({
-        type: "every",
+        type: "simple",
+        repeat: "every",
         unit: "month",
         count: 12
       });
@@ -90,7 +92,8 @@ describe("getLeadingNumbers()", () => {
 
     it("Correctly extracts every4days #jNzCPG", () => {
       expect(getRepeatParams("every4days")).toEqual({
-        type: "every",
+        type: "simple",
+        repeat: "every",
         unit: "day",
         count: 4
       });
@@ -98,7 +101,8 @@ describe("getLeadingNumbers()", () => {
 
     it("Correctly extracts every3jan,apr,jul,oct #kzKbU5", () => {
       expect(getRepeatParams("every3jan,apr,jul,oct")).toEqual({
-        type: "every",
+        type: "monthly",
+        repeat: "every",
         dates: [3],
         months: [1, 4, 7, 10]
       });
@@ -106,7 +110,8 @@ describe("getLeadingNumbers()", () => {
 
     it("Correctly extracts every1,4,10jan,apr,jul,oct #VzEda9", () => {
       expect(getRepeatParams("every1,4,10jan,apr,jul,oct")).toEqual({
-        type: "every",
+        type: "monthly",
+        repeat: "every",
         dates: [1, 4, 10],
         months: [1, 4, 7, 10]
       });
@@ -114,7 +119,8 @@ describe("getLeadingNumbers()", () => {
 
     it("Correctly extracts everymon,tue,fri #Co2Et7", () => {
       expect(getRepeatParams("everymon,tue,fri")).toEqual({
-        type: "every",
+        type: "weekly",
+        repeat: "every",
         count: 1,
         days: ["MO", "TU", "FR"]
       });
@@ -122,7 +128,8 @@ describe("getLeadingNumbers()", () => {
 
     it("Correctly extracts every2mon,tue #VrJCf3", () => {
       expect(getRepeatParams("every2mon,tue")).toEqual({
-        type: "every",
+        type: "weekly",
+        repeat: "every",
         count: 2,
         days: ["MO", "TU"]
       });

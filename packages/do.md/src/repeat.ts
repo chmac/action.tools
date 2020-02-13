@@ -59,18 +59,18 @@ export const monthsInputToMonthOfYear = (
 };
 
 export const getRepeatParams = (input: string): Repeat => {
-  const type = startsWith(EVERY, input)
+  const repeat = startsWith(EVERY, input)
     ? EVERY
     : startsWith(AFTER, input)
     ? AFTER
     : null;
 
-  if (type === null) {
+  if (repeat === null) {
     throw new Error("Invalid repeat string #ITAWtF");
   }
 
   // Strip the leading every or after string
-  const countAndUnit = removeFromFront(type, input);
+  const countAndUnit = removeFromFront(repeat, input);
 
   const numbers = getLeadingNumbers(countAndUnit);
 
@@ -80,7 +80,7 @@ export const getRepeatParams = (input: string): Repeat => {
   const multpleUnits = unit.split(",");
 
   if (multpleUnits.length > 1) {
-    if (type === AFTER) {
+    if (repeat === AFTER) {
       throw new Error(
         "Invalid repeat string. Cannot mix after and multiple values. #Ah2i8c"
       );
@@ -92,7 +92,8 @@ export const getRepeatParams = (input: string): Repeat => {
       // NOTE: We default to every 1 week if a number was not specified
       const count = numbers.length === 1 ? numbers[0] : 1;
       return {
-        type,
+        type: "weekly",
+        repeat,
         count,
         days
       };
@@ -107,7 +108,8 @@ export const getRepeatParams = (input: string): Repeat => {
       // TypeScript cannot infer from the `.every()` type predicate
       const months = (multpleUnits as Month[]).map(monthsInputToMonthOfYear);
       return {
-        type,
+        type: "monthly",
+        repeat,
         dates: numbers,
         months
       };
@@ -127,7 +129,8 @@ export const getRepeatParams = (input: string): Repeat => {
   const [count] = numbers;
 
   return {
-    type,
+    type: "simple",
+    repeat,
     unit: trimmedUnit,
     count
   };
