@@ -1,5 +1,5 @@
-import "@rschedule/standard-date-adapter/setup";
+import "@rschedule/joda-date-adapter/setup";
 
-export * from "@rschedule/standard-date-adapter";
+export * from "@rschedule/joda-date-adapter";
 export * from "@rschedule/core";
 export * from "@rschedule/core/generators";

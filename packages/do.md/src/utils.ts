@@ -1,4 +1,6 @@
 import * as R from "remeda";
+import { LocalDate } from "@js-joda/core";
+
 import { Node, Parent } from "unist";
 import * as visit from "unist-util-visit";
 import { selectAll } from "unist-util-select";
@@ -58,4 +60,8 @@ export const getTags = (prefix: string, task: Task): string[] => {
   const matches = text.match(regex);
 
   return matches || [];
+};
+
+export const stringToLocalDate = (input: string): LocalDate => {
+  return LocalDate.parse(input);
 };

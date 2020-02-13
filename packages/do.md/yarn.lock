@@ -325,15 +325,20 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
+"@js-joda/core@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@js-joda/core/-/core-2.0.0.tgz#e9a351ee6feb91262770e2a3d085aa0219ad6afb"
+  integrity sha512-OWm/xa9O9e4ugzNHoRT3IsXZZYfaV6Ia1aRwctOmCQ2GYWMnhKBzMC1WomqCh/oGxEZKNtPy5xv5//VIAOgMqw==
+
 "@rschedule/core@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@rschedule/core/-/core-1.0.2.tgz#c54615366cb10e874aa4dd8fc1e993051c0b5582"
   integrity sha512-LHjFejZdW7PGH0mrTrtRDg7GZupVtoEWF+MToazn8UsgTdE5Jgf2KnVwwQXi/rJEGBzqb3pS860rVG6nbUpFpg==
 
-"@rschedule/standard-date-adapter@^1.0.2":
+"@rschedule/joda-date-adapter@^1.0.2":
   version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@rschedule/standard-date-adapter/-/standard-date-adapter-1.0.2.tgz#cb69db9a2f16293107df7234cfaff591223566e0"
-  integrity sha512-Httub4uPZEcYD0S75aX62QoZ6EXe6eJgB9/wdI5iZeyaA3+E3883nC3FMKYJH+Cg+cni69J13n1H9uuzgWCEQQ==
+  resolved "https://registry.yarnpkg.com/@rschedule/joda-date-adapter/-/joda-date-adapter-1.0.2.tgz#e11d1fc41d1fa59ea34b7e7c81bed77bfd8226dd"
+  integrity sha512-RCt28o58loNxupQybKS9jZP0EhCiF5RkZSL6mgc1QrR4e4y7V/BnUoEOXMvWVFL2zMLcoLNtBcuxjEedCNPEKw==
 
 "@sinonjs/commons@^1.7.0":
   version "1.7.0"
