@@ -4,8 +4,7 @@ import { LocalDate, TemporalQueries } from "@js-joda/core";
 import {
   nextDateOfIterationSimple,
   nextDateOfIterationWeekly,
-  nextDateOfIterationMonthly,
-  localDateToZonedDateTime
+  nextDateOfIterationMonthly
 } from "../calculateNextIteration";
 
 describe("calculateNextIteration", () => {
