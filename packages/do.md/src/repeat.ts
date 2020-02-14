@@ -1,7 +1,7 @@
 import * as R from "remeda";
 
-import { RuleOption } from "./rschedule";
-import { Repeat, Day, Month, Unit } from "./types";
+import { Rule, RuleOption } from "./rschedule";
+import { Repeat, Day, Month, Unit, RepeatWeekly } from "./types";
 import { startsWith, removeFromFront } from "./utils";
 import {
   EVERY,
@@ -46,6 +46,12 @@ export const isMonth = (input: string): input is Month => {
 
 export const isUnit = (input: string): input is Unit => {
   return UNITS.indexOf(input as Unit) !== -1;
+};
+
+export const isDayOfMonth = (
+  input: number
+): input is RuleOption.ByDayOfMonth => {
+  return typeof input === "number" && input >= -31 && input <= 31;
 };
 
 export const dayInputToDayOfWeek = (input: Day): RuleOption.ByDayOfWeek => {
@@ -101,16 +107,18 @@ export const getRepeatParams = (input: string): Repeat => {
       if (numbers.length === 0) {
         throw new Error("Invalid repeat string. No dates specified. #qBE8YE");
       }
-      if (!numbers.every(date => date <= 31)) {
+      if (!numbers.every(isDayOfMonth)) {
         throw new Error("Invalid repeat string. Date >31. #hciAdh");
       }
 
       // TypeScript cannot infer from the `.every()` type predicate
       const months = (multpleUnits as Month[]).map(monthsInputToMonthOfYear);
+
       return {
         type: "monthly",
         repeat,
-        dates: numbers,
+        // TypeScript cannot infer from the `.every()` type predicate
+        dates: numbers as RuleOption.ByDayOfMonth[],
         months
       };
     } else {

@@ -1,3 +1,4 @@
+/// <reference path="../../node_modules/@types/jest/index.d.ts"/>
 import { LocalDate } from "@js-joda/core";
 
 import {

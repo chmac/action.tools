@@ -44,8 +44,8 @@ export type RepeatWeekly = {
 export type RepeatMonthly = {
   type: "monthly";
   repeat: typeof EVERY;
-  dates: number[];
-  months: RuleOption.ByDayOfMonth[];
+  dates: RuleOption.ByDayOfMonth[];
+  months: RuleOption.ByMonthOfYear[];
 };
 
 export type Repeat = RepeatSimple | RepeatWeekly | RepeatMonthly;
