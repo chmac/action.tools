@@ -1,6 +1,6 @@
 export const EVERY = "every" as const;
 export const AFTER = "after" as const;
-export const BEFORE = "before" as const;
+export const BY = "by" as const;
 export const REPEAT = "repeat" as const;
 export const CREATED = "created" as const;
 export const FINISHED = "finished" as const;
@@ -53,7 +53,7 @@ export const RepeatRegex = new RegExp(`${REPEAT}${KeyVarRegexSuffix}`);
 
 export const AfterRegex = new RegExp(`${AFTER}${KeyVarRegexSuffix}`);
 
-export const BeforeRegex = new RegExp(`${BEFORE}${KeyVarRegexSuffix}`);
+export const BeforeRegex = new RegExp(`${BY}${KeyVarRegexSuffix}`);
 
 export const CreatedRegex = new RegExp(`${CREATED}${KeyVarRegexSuffix}`);
 
