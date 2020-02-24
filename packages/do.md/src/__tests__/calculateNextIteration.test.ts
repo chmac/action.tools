@@ -6,7 +6,8 @@ import {
   nextDateOfIterationSimple,
   nextDateOfIterationWeekly,
   nextDateOfIterationMonthly,
-  setNextByAndAfterDates
+  setNextByAndAfterDates,
+  createNextRepetitionTask
 } from "../calculateNextIteration";
 import { makeTask } from "./__fixtures__/tasks.fixtures";
 
@@ -113,6 +114,44 @@ describe("calculateNextIteration", () => {
         true
       );
       expect(setNextByAndAfterDates(task)).toEqual(expected);
+    });
+  });
+
+  describe("calculateNextIteration()", () => {
+    it("Correctly calculates for by:2020-02-21 repeat:after3days #b2mYm5", () => {
+      const task = makeTask(
+        "A simple task by:2020-02-21 repeat:after3days",
+        true
+      );
+      const expected = makeTask(
+        "A simple task by:2020-02-27 repeat:after3days",
+        false
+      );
+      expect(createNextRepetitionTask(task)).toEqual(expected);
+    });
+
+    it("Correctly calculates for by:2020-02-24 repeat:every3days #7jfVa5", () => {
+      const task = makeTask(
+        "A simple task by:2020-02-24 repeat:every3days",
+        true
+      );
+      const expected = makeTask(
+        "A simple task by:2020-02-27 repeat:every3days",
+        false
+      );
+      expect(createNextRepetitionTask(task)).toEqual(expected);
+    });
+
+    it("Removes the finished field #HFcU0o", () => {
+      const task = makeTask(
+        "A simple task by:2020-02-21 repeat:after3days finished:2020-02-24",
+        true
+      );
+      const expected = makeTask(
+        "A simple task by:2020-02-27 repeat:after3days",
+        false
+      );
+      expect(createNextRepetitionTask(task)).toEqual(expected);
     });
   });
 });
