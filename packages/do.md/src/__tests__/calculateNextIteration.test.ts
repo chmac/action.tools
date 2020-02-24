@@ -1,11 +1,14 @@
 /// <reference path="../../node_modules/@types/jest/index.d.ts"/>
-import { LocalDate, TemporalQueries } from "@js-joda/core";
+import { LocalDate } from "@js-joda/core";
+import { advanceTo, clear } from "jest-date-mock";
 
 import {
   nextDateOfIterationSimple,
   nextDateOfIterationWeekly,
-  nextDateOfIterationMonthly
+  nextDateOfIterationMonthly,
+  setNextByAndAfterDates
 } from "../calculateNextIteration";
+import { makeTask } from "./__fixtures__/tasks.fixtures";
 
 describe("calculateNextIteration", () => {
   describe("nextDateOfIterationSimple", () => {
@@ -77,6 +80,39 @@ describe("calculateNextIteration", () => {
           LocalDate.of(2020, 2, 13)
         )
       ).toEqual(LocalDate.of(2020, 4, 1));
+    });
+  });
+
+  describe("setNextByAndAfterDates()", () => {
+    beforeAll(() => {
+      advanceTo(new Date(2020, 1, 24));
+    });
+    afterAll(() => {
+      clear();
+    });
+
+    it("Correctly calculates for by:2020-02-21 repeat:after3days #hWLtrb", () => {
+      const task = makeTask(
+        "A simple task by:2020-02-21 repeat:after3days",
+        true
+      );
+      const expected = makeTask(
+        "A simple task by:2020-02-27 repeat:after3days",
+        true
+      );
+      expect(setNextByAndAfterDates(task)).toEqual(expected);
+    });
+
+    it("Correctly calculates for by:2020-02-24 repeat:every3days #hWLtrb", () => {
+      const task = makeTask(
+        "A simple task by:2020-02-24 repeat:every3days",
+        true
+      );
+      const expected = makeTask(
+        "A simple task by:2020-02-27 repeat:every3days",
+        true
+      );
+      expect(setNextByAndAfterDates(task)).toEqual(expected);
     });
   });
 });

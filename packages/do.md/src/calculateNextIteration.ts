@@ -1,3 +1,4 @@
+import * as R from "remeda";
 import { LocalDate, ZonedDateTime, ZoneOffset, LocalTime } from "@js-joda/core";
 
 import {
@@ -9,8 +10,9 @@ import {
 } from "./types";
 import { Rule } from "./rschedule";
 import { getRepeatParams } from "./repeat";
-import { getKeyValue, stringToLocalDate } from "./utils";
-import { EVERY, AFTER } from "./constants";
+import { getKeyValue, removeKeyValue, setKeyValue, hasKeyValue } from "./utils";
+import { setDateField, stringToLocalDate, getDateField } from "./dates";
+import { EVERY, AFTER, REPEAT, BY, FINISHED } from "./constants";
 
 export const nextDateOfIterationSimple = (
   repeat: RepeatSimple,
@@ -85,26 +87,52 @@ export const nextDateOfIteration = (
   }
 };
 
-export const calculateNextIteration = (task: Task) => {
-  const repeatString = getKeyValue("repeat", task);
+export const getRepeatFromDate = (
+  repeat: Repeat,
+  byDate: LocalDate
+): LocalDate => {
+  if (repeat.repeat === EVERY) {
+    return byDate;
+  } else if (repeat.repeat === AFTER) {
+    return LocalDate.now();
+  } else {
+    throw new Error("Unknown error. #8X711L");
+  }
+};
+
+export const setNextByAndAfterDates = (task: Task) => {
+  const repeatString = getKeyValue(REPEAT, task);
   if (repeatString.length === 0) {
     throw new Error(
-      "Cannot calculate next ieration for task without repepat. #wjVJOL"
+      "Cannot calculate next iteration for task without repepat. #wjVJOL"
     );
   }
 
   const repeat = getRepeatParams(repeatString);
 
-  if (repeat.repeat === EVERY) {
-    // Repeat after the last due date
-    const due = getKeyValue("due", task);
-    const dueDate = stringToLocalDate(due);
-    const nextDueDate = nextDateOfIteration(repeat, dueDate);
-  } else if (repeat.repeat === AFTER) {
-    // Repeat after the completion date
-    const today = LocalDate.now(); // Hack, use the current time for now
-    const nextDueDate = nextDateOfIteration(repeat, today);
-  } else {
-    throw new Error("Unknown error. #8X711L");
+  const byDate = getDateField(BY, task);
+  const afterString = getKeyValue(AFTER, task);
+
+  const repeatFromDate = getRepeatFromDate(repeat, byDate);
+  const nextByDate = nextDateOfIteration(repeat, repeatFromDate);
+
+  const withNextByDate = setDateField(BY, nextByDate, task);
+
+  if (afterString.length === 0) {
+    return withNextByDate;
   }
+
+  const afterDate = getDateField(AFTER, task);
+  const daysBetweenAfterAndBy = afterDate.until(byDate);
+  const nextAfterDate = nextByDate.minus(daysBetweenAfterAndBy);
+  return setDateField(AFTER, nextAfterDate, task);
+};
+
+export const createNextRepetitionTask = (task: Task): Task => {
+  return R.pipe(
+    task,
+    task => removeKeyValue(FINISHED, task),
+    task => setNextByAndAfterDates(task),
+    R.set("checked", false)
+  );
 };
