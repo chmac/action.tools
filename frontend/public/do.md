@@ -28,7 +28,7 @@ Some data can be added to tasks. We use the format `key:value`.
 
 - `after:YYYY-MM-DD` is a date (and optionally time) after which this task be
   started. The task cannot be started before this date.
-- `before:YYYY-MM-DD` is the deadline for this task.
+- `by:YYYY-MM-DD` is the deadline for this task.
 - `created:YYYY-MM-DD` is the date this task was created.
 - `finished:YYYY-MM-DD` is the date when this task was completed.
 - `snooze:YYYY-MM-DD` is a date when this task should be hidden until.
@@ -76,7 +76,7 @@ This is the general project that handles work related matters.
 Work stuff which doens't below in any specific sub project
 
 - [ ] Uncompleted task at first +Generous @home #foo #bar
-  - after:2020-04-01 before:2020-05-07 created:2020-02-05
+  - after:2020-04-01 by:2020-05-07 created:2020-02-05
   - child comment  
     this is another line in the same comment
   - [ ] A sub task @home @email +Callum +Tom
@@ -109,7 +109,8 @@ What tasks do we actually want to get done on this package?
 
 Some tasks which repeat so we can mess around with that.
 
-- [ ] First repetition task before:2020-02-05 repeat:after3days
-- [ ] A deadline repeating task after:2020-04-01 b:2020-05-07 repeat:after3months
-- [x] A deadline repeating task after:2020-01-01 b:2020-02-07 repeat:after3months
-      finished:2020-02-05
+- [ ] First repetition task by:2020-02-05 repeat:after3days
+- [ ] A deadline repeating task
+      after:2020-04-01 by:2020-05-07 repeat:after3months
+- [x] A deadline repeating task after:2020-01-01 by:2020-02-07
+      repeat:after3months finished:2020-02-05
