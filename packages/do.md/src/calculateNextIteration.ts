@@ -1,11 +1,4 @@
-import * as R from "remeda";
-import {
-  LocalDate,
-  convert,
-  ZonedDateTime,
-  ZoneOffset,
-  LocalTime
-} from "@js-joda/core";
+import { LocalDate, ZonedDateTime, ZoneOffset, LocalTime } from "@js-joda/core";
 
 import {
   Task,
@@ -14,7 +7,7 @@ import {
   RepeatWeekly,
   RepeatMonthly
 } from "./types";
-import { Rule, JodaDateAdapter, DateTime } from "./rschedule";
+import { Rule } from "./rschedule";
 import { getRepeatParams } from "./repeat";
 import { getKeyValue, stringToLocalDate } from "./utils";
 import { EVERY, AFTER } from "./constants";
