@@ -1,4 +1,4 @@
-import { Node, Parent } from "unist";
+import { Parent } from "unist";
 
 import { RuleOption } from "./rschedule";
 
@@ -22,7 +22,7 @@ export type MonthNumber = typeof MONTHS_TO_NUMBER[Month];
 
 // export type Data = ReturnType<typeof buildDataForTask>;
 
-export interface Task extends Node {
+export interface Task extends Parent {
   type: "listItem";
   // _data: Data;
 }
