@@ -5,6 +5,7 @@ import {
   isTask,
   getTitle,
   getKeyValue,
+  hasKeyValue,
   setKeyValue,
   removeKeyValue,
   getTags,
@@ -98,6 +99,32 @@ describe("utils", () => {
           )
         )
       ).toEqual("2020-02-15");
+    });
+  });
+
+  describe("hasKeyValue()", () => {
+    it("Correctly finds key:value #una37E", () => {
+      const task = u(
+        "listItem",
+        {
+          checked: true
+        },
+        [u("paragraph", [u("text", "There is some text here foo:bar")])]
+      );
+
+      expect(hasKeyValue("foo", task)).toEqual(true);
+    });
+
+    it("Correctly returns when no key value #LueSRt", () => {
+      const task = u(
+        "listItem",
+        {
+          checked: true
+        },
+        [u("paragraph", [u("text", "There is some text here foo:bar")])]
+      );
+
+      expect(hasKeyValue("baz", task)).toEqual(false);
     });
   });
 

@@ -1,5 +1,4 @@
 import * as R from "remeda";
-import { LocalDate } from "@js-joda/core";
 import reduce from "unist-util-reduce";
 
 import { Node } from "unist";
@@ -60,6 +59,11 @@ export const getKeyValue = (key: string, task: Task): string => {
   throw new Error("Found multiple matches for key value pair #NLqNJZ");
 };
 
+export const hasKeyValue = (key: string, task: Task): boolean => {
+  const value = getKeyValue(key, task);
+  return value.length !== 0;
+};
+
 export const setKeyValue = (key: string, value: string, task: Task): Task => {
   return reduce(task, node => {
     if (node.type === "text") {
@@ -105,8 +109,4 @@ export const getTags = (prefix: string, task: Task): string[] => {
   const matches = text.match(regex);
 
   return matches || [];
-};
-
-export const stringToLocalDate = (input: string): LocalDate => {
-  return LocalDate.parse(input);
 };
