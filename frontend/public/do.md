@@ -47,7 +47,8 @@ based on either **the date of completion** or the **after** date, or the
 both the `after` and `before` dates.
 
 - `repeat:everymon,tue,wed,thu,fri`
-- `repeat:everyjan,apr,jul,oct`
+- `repeat:every1jan,apr,jul,oct`
+- `repeat:every1,8,12jan,apr,jul,oct`
 - `repeat:every3months`
 - `repeat:every2days`
 - `repeat:after3months`
