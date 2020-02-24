@@ -3737,6 +3737,19 @@ unist-util-is@^4.0.0:
   resolved "https://registry.yarnpkg.com/unist-util-is/-/unist-util-is-4.0.1.tgz#ae3e39b9ad1b138c8e3b9d2f4658ad0031be4610"
   integrity sha512-7NYjErP4LJtkEptPR22wO5RsCPnHZZrop7t2SoQzjvpFedCFer4WW8ujj9GI5DkUX7yVcffXLjoURf6h2QUv6Q==
 
+unist-util-is@^4.0.1:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/unist-util-is/-/unist-util-is-4.0.2.tgz#c7d1341188aa9ce5b3cff538958de9895f14a5de"
+  integrity sha512-Ofx8uf6haexJwI1gxWMGg6I/dLnF2yE+KibhD3/diOqY2TinLcqHXCV6OI5gFVn3xQqDH+u0M625pfKwIwgBKQ==
+
+unist-util-reduce@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/unist-util-reduce/-/unist-util-reduce-0.2.1.tgz#918c940587fad906b8e9e286116e19722ccde357"
+  integrity sha512-t1p243kaVnA7/T9XT61DZ+QeGqQRim2vFFXJILz6JLw3EnS0bwZl3RcS2s+Oerz20txP742zb2JF2IygpRl7fw==
+  dependencies:
+    remeda "^0.0.14"
+    unist-util-is "^4.0.1"
+
 unist-util-select@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/unist-util-select/-/unist-util-select-3.0.1.tgz#787fc452db9ba77f0ade0e7dc53c3d9d4acc79c7"

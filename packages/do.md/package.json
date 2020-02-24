@@ -37,6 +37,7 @@
     "@rschedule/core": "^1.0.2",
     "@rschedule/joda-date-adapter": "^1.0.2",
     "remeda": "^0.0.14",
+    "unist-util-reduce": "^0.2.1",
     "unist-util-select": "^3.0.1",
     "unist-util-visit": "^2.0.1"
   }

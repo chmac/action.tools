@@ -6,7 +6,11 @@ import * as visit from "unist-util-visit";
 import { selectAll } from "unist-util-select";
 
 import { Task } from "./types";
-import { REGEX_SUFFIX, KEY_VALUE_SEPARATOR } from "./constants";
+import {
+  REGEX_SUFFIX,
+  KEY_VALUE_SEPARATOR,
+  KEY_VAR_REGEX_SUFFIX
+} from "./constants";
 
 export const isTask = (node: Node): node is Task => {
   return node.type === "listItem" && typeof node.checked === "boolean";
@@ -50,6 +54,28 @@ export const getKeyValue = (key: string, task: Task): string => {
   }
 
   throw new Error("Found multiple matches for key value pair #NLqNJZ");
+};
+
+export const setKeyValue = (key: string, value: string, task: Task): Task => {
+  return reduce(task, node => {
+    if (node.type === "text") {
+      const regex = new RegExp(`${key}${KEY_VAR_REGEX_SUFFIX}`);
+      const { value: oldValue } = node;
+      const replacedString = (oldValue as string).replace(
+        regex,
+        `${key}:${value}`
+      );
+
+      // If the replacement did not change anything, then the key was not found
+      // in the string, in this case append the new key:value pair.
+      if (replacedString === oldValue) {
+        return R.set(node, "value", `${oldValue} ${key}:${value}`);
+      }
+
+      return R.set(node, "value", replacedString);
+    }
+    return node;
+  });
 };
 
 export const getTags = (prefix: string, task: Task): string[] => {

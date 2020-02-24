@@ -1,14 +1,14 @@
 /// <reference path="../../node_modules/@types/jest/index.d.ts"/>
-import { LocalDate } from "@js-joda/core";
+import * as u from "unist-builder";
 
 import {
   isTask,
   getTitle,
   getKeyValue,
+  setKeyValue,
   getTags,
   startsWith,
-  removeFromFront,
-  stringToLocalDate
+  removeFromFront
 } from "../utils";
 
 import {
@@ -100,6 +100,68 @@ describe("utils", () => {
     });
   });
 
+  describe("setKeyValue()", () => {
+    it("Correctly sets foo:baz #eWiDYd", () => {
+      const task = u(
+        "listItem",
+        {
+          checked: true
+        },
+        [u("paragraph", [u("text", "There is some text here foo:bar")])]
+      );
+
+      const expected = u(
+        "listItem",
+        {
+          checked: true
+        },
+        [u("paragraph", [u("text", "There is some text here foo:baz")])]
+      );
+
+      expect(setKeyValue("foo", "baz", task)).toEqual(expected);
+    });
+
+    it("Correctly sets leading foo:bar #jPwKw2", () => {
+      const task = u(
+        "listItem",
+        {
+          checked: true
+        },
+        [u("paragraph", [u("text", "foo:bar There is some text here")])]
+      );
+
+      const expected = u(
+        "listItem",
+        {
+          checked: true
+        },
+        [u("paragraph", [u("text", "foo:baz There is some text here")])]
+      );
+
+      expect(setKeyValue("foo", "baz", task)).toEqual(expected);
+    });
+
+    it("Adds the key:value if it does not exist #0LxFHH", () => {
+      const task = u(
+        "listItem",
+        {
+          checked: true
+        },
+        [u("paragraph", [u("text", "There is some text here")])]
+      );
+
+      const expected = u(
+        "listItem",
+        {
+          checked: true
+        },
+        [u("paragraph", [u("text", "There is some text here foo:baz")])]
+      );
+
+      expect(setKeyValue("foo", "baz", task)).toEqual(expected);
+    });
+  });
+
   describe("getTags()", () => {
     it("Gets a single #hashtag #7iqKundefinedd", () => {
       expect(getTags("#", makeTask("Example task with #hashtag"))).toEqual([
@@ -120,18 +182,6 @@ describe("utils", () => {
       expect(
         getTags("@", makeTask("Example task with @home and @work contexts"))
       ).toEqual(["@home", "@work"]);
-    });
-  });
-
-  describe("stringToDate()", () => {
-    it("Correctly parses 2020-02-13 #hbvp4Z", () => {
-      expect(stringToLocalDate("2020-02-13")).toEqual(
-        LocalDate.of(2020, 2, 13)
-      );
-    });
-
-    it("Throws for 2020_02_13 #mDtJ8r", () => {
-      expect(() => stringToLocalDate("2020_02_13")).toThrow();
     });
   });
 });
