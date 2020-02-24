@@ -57,6 +57,13 @@ There are 2 keywords `every` and `after`. The `every` keyword means that the
 task repeats based on its `after` and `before` dates. The `after` keyword
 means that the task repeats this period after its completion.
 
+Steps to create a new instance of a recurring task:
+
+- Calculate the new `by` date
+- If there is an `after` date, update its value
+- Remove any `finished` date
+- Set `checked` to `false`
+
 ## Automation
 
 We can automate some tasks. For example we could automate the replacement of
