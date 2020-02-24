@@ -1,8 +1,8 @@
 import * as R from "remeda";
 import { LocalDate } from "@js-joda/core";
+import reduce from "unist-util-reduce";
 
-import { Node, Parent } from "unist";
-import * as visit from "unist-util-visit";
+import { Node } from "unist";
 import { selectAll } from "unist-util-select";
 
 import { Task } from "./types";
@@ -11,6 +11,10 @@ import {
   KEY_VALUE_SEPARATOR,
   KEY_VAR_REGEX_SUFFIX
 } from "./constants";
+
+export const getKeyValueRegExp = (key: string): RegExp => {
+  return new RegExp(`${key}${KEY_VAR_REGEX_SUFFIX}`);
+};
 
 export const isTask = (node: Node): node is Task => {
   return node.type === "listItem" && typeof node.checked === "boolean";
@@ -59,10 +63,9 @@ export const getKeyValue = (key: string, task: Task): string => {
 export const setKeyValue = (key: string, value: string, task: Task): Task => {
   return reduce(task, node => {
     if (node.type === "text") {
-      const regex = new RegExp(`${key}${KEY_VAR_REGEX_SUFFIX}`);
       const { value: oldValue } = node;
       const replacedString = (oldValue as string).replace(
-        regex,
+        getKeyValueRegExp(key),
         `${key}:${value}`
       );
 
@@ -72,6 +75,22 @@ export const setKeyValue = (key: string, value: string, task: Task): Task => {
         return R.set(node, "value", `${oldValue} ${key}:${value}`);
       }
 
+      return R.set(node, "value", replacedString);
+    }
+    return node;
+  });
+};
+
+export const removeKeyValue = (key: string, task: Task): Task => {
+  return reduce(task, node => {
+    if (node.type === "text") {
+      const { value: oldValue } = node;
+      const replacedString = (oldValue as string)
+        // NOTE: We replace the `key:value` pair including a LEADING space, and
+        // then including a TRAILING space to ensure that we always remove a
+        // single space and the pattern itself.
+        .replace(new RegExp(` ${key}${KEY_VAR_REGEX_SUFFIX}`), "")
+        .replace(new RegExp(`${key}${KEY_VAR_REGEX_SUFFIX} `), "");
       return R.set(node, "value", replacedString);
     }
     return node;

@@ -6,6 +6,7 @@ import {
   getTitle,
   getKeyValue,
   setKeyValue,
+  removeKeyValue,
   getTags,
   startsWith,
   removeFromFront
@@ -159,6 +160,68 @@ describe("utils", () => {
       );
 
       expect(setKeyValue("foo", "baz", task)).toEqual(expected);
+    });
+  });
+
+  describe("removeKeyValue()", () => {
+    it("Removes foo:bar from end #auvgdq", () => {
+      const task = u(
+        "listItem",
+        {
+          checked: true
+        },
+        [u("paragraph", [u("text", "There is some text here foo:bar")])]
+      );
+
+      const expected = u(
+        "listItem",
+        {
+          checked: true
+        },
+        [u("paragraph", [u("text", "There is some text here")])]
+      );
+
+      expect(removeKeyValue("foo", task)).toEqual(expected);
+    });
+
+    it("Removes foo:bar from start #5BgSrW", () => {
+      const task = u(
+        "listItem",
+        {
+          checked: true
+        },
+        [u("paragraph", [u("text", "foo:bar There is some text here")])]
+      );
+
+      const expected = u(
+        "listItem",
+        {
+          checked: true
+        },
+        [u("paragraph", [u("text", "There is some text here")])]
+      );
+
+      expect(removeKeyValue("foo", task)).toEqual(expected);
+    });
+
+    it("Removes foo:bar from middle #PXzLCm", () => {
+      const task = u(
+        "listItem",
+        {
+          checked: true
+        },
+        [u("paragraph", [u("text", "There is some foo:bar text here")])]
+      );
+
+      const expected = u(
+        "listItem",
+        {
+          checked: true
+        },
+        [u("paragraph", [u("text", "There is some text here")])]
+      );
+
+      expect(removeKeyValue("foo", task)).toEqual(expected);
     });
   });
 
