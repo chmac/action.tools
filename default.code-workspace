@@ -1,0 +1,14 @@
+{
+  "folders": [
+	{
+		"path": "cli"
+	},
+	{
+		"path": "frontend"
+	},
+	{
+		"path": "packages/do.md"
+	}
+],
+  "settings": {}
+}
