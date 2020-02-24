@@ -1,8 +1,8 @@
 import * as u from "unist-builder";
 import { Task } from "../../types";
 
-export const makeTask = (title: string): Task => {
-  return u("listItem", { checked: false, spread: false }, [
+export const makeTask = (title: string, completed = false): Task => {
+  return u("listItem", { checked: completed, spread: false }, [
     u("paragraph", [
       u("text", {
         value: title
