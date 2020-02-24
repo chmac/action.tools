@@ -28,6 +28,7 @@
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-jest": "^23.7.0",
     "jest": "^25.1.0",
+    "jest-date-mock": "^1.0.8",
     "ts-jest": "^25.2.0",
     "typescript": "^3.7.5",
     "unist-builder": "^2.0.2"

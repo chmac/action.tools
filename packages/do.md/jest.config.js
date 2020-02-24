@@ -5,6 +5,7 @@ module.exports = {
   //   "^.+\\.tsx?$": "ts-jest"
   // },
   // testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-  testPathIgnorePatterns: ["/__fixtures__/"]
+  testPathIgnorePatterns: ["/__fixtures__/"],
   // moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"]
+  setupFiles: ["jest-mock-date"]
 };
