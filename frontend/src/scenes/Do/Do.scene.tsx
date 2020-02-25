@@ -11,10 +11,6 @@ const WrapCheckBox = (props: any) => {
   return (
     <div
       onClick={() => {
-        // TODO - Flip the checkbox here
-        // sourcePosition.start.line, sourcePosition.start.column, sourcePosition.start.offset
-        // sourcePosition.end.line, sourcePosition.end.column, sourcePosition.end.offset
-        debugger;
         const lineIndex = sourcePosition.start.line - 1;
         const lines = markdown.split("\n");
         const find = checked ? markdownChecked : markdownUnchecked;
