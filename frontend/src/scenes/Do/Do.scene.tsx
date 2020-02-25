@@ -1,7 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import ReactMarkdown from "react-markdown";
 import { listItem as defaultListItem } from "react-markdown/lib/renderers";
 import Typography from "@material-ui/core/Typography";
+import { Paper, TextField, makeStyles } from "@material-ui/core";
+import { filterTasks } from "do.md";
+
+import {
+  markdownToMdast,
+  mdastToMarkdown
+} from "../../services/mdast/mdast.service";
 
 const markdownChecked = "- [x]";
 const markdownUnchecked = "- [ ]";
@@ -56,12 +63,25 @@ const ListItem = (props: {
 };
 
 const Do = () => {
-  const [markdown, setMarkdown] = useState("");
+  const classes = useStyles();
+  const [filter, setFilter] = useState("");
+  const [markdown, _setMarkdown] = useState("");
+
+  const setMarkdown = useCallback(
+    async (markdown: string) => {
+      const tree = markdownToMdast(markdown);
+      const filtered = filterTasks(tree, filter);
+      const filteredMarkdown = await mdastToMarkdown(filtered);
+      _setMarkdown(filteredMarkdown);
+    },
+    [filter]
+  );
+
   useEffect(() => {
     fetch("/do.md")
       .then(response => response.text())
       .then(markdown => setMarkdown(markdown));
-  }, []);
+  }, [setMarkdown]);
 
   const renderers = {
     listItem: (props: any) => {
@@ -86,6 +106,15 @@ const Do = () => {
   return (
     <div>
       <Typography variant="h1">Do</Typography>
+      <Paper elevation={1} className={classes.paper}>
+        <Typography>Enter a filter here:</Typography>
+        <TextField
+          label="Filter"
+          onChange={event => {
+            setFilter(event.target.value);
+          }}
+        />
+      </Paper>
       <ReactMarkdown
         source={markdown}
         // renderers={{ listItem: ListItem }}
@@ -97,3 +126,9 @@ const Do = () => {
 };
 
 export default Do;
+
+const useStyles = makeStyles(theme => ({
+  paper: {
+    padding: theme.spacing(2)
+  }
+}));

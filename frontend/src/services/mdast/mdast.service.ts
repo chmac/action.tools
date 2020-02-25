@@ -44,10 +44,18 @@ export const MONTHS_TO_NUMBER: { [month: string]: number } = {
   dec: 12
 };
 
-export const markdownToMdast = (text: string) => {
+export const markdownToMdast = (text: string): Parent => {
   return unified()
     .use(markdown, { gfm: true })
-    .parse(text);
+    .parse(text) as Parent;
+};
+
+export const mdastToMarkdown = async (tree: Parent): Promise<string> => {
+  return unified()
+    .use(stringify, {
+      listItemIndent: "1"
+    })
+    .stringify(tree);
 };
 
 export const isTask = (node: Node) => {
