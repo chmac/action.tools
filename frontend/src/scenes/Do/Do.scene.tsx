@@ -28,6 +28,33 @@ const WrapCheckBox = (props: any) => {
   );
 };
 
+const ListItem = (props: {
+  checked?: boolean;
+  children: any;
+  "data-sourcepos"?: any;
+}) => {
+  const { checked, children } = props;
+  const liProps = props["data-sourcepos"]
+    ? { "data-sourcepos": props["data-sourcepos"] }
+    : {};
+  return (
+    <li {...liProps}>
+      {typeof checked === "boolean" ? (
+        <input
+          type="checkbox"
+          readOnly
+          onClick={event => {
+            event.stopPropagation();
+            console.log(props);
+            debugger;
+          }}
+        />
+      ) : null}
+      {children}
+    </li>
+  );
+};
+
 const Do = () => {
   const [markdown, setMarkdown] = useState("");
   useEffect(() => {
@@ -59,7 +86,12 @@ const Do = () => {
   return (
     <div>
       <Typography variant="h1">Do</Typography>
-      <ReactMarkdown source={markdown} renderers={renderers} rawSourcePos />
+      <ReactMarkdown
+        source={markdown}
+        // renderers={{ listItem: ListItem }}
+        renderers={renderers}
+        rawSourcePos
+      />
     </div>
   );
 };
