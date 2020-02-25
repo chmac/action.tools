@@ -10,6 +10,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import Bar from "../Bar/Bar.scene";
 import Home from "../Home/Home.scene";
 import Actions from "../Actions/Actions.scene";
+import Do from "../Do/Do.scene";
 
 const baseTheme = createMuiTheme();
 const theme = responsiveFontSizes(baseTheme);
@@ -27,7 +28,8 @@ const Routes: React.FC = () => {
         <Container className={classes.container}>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/do" component={Actions} />
+            <Route exact path="/actions" component={Actions} />
+            <Route exact path="/do" component={Do} />
           </Switch>
         </Container>
       </Router>
