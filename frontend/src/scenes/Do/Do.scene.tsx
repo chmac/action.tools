@@ -10,7 +10,11 @@ const WrapCheckBox = (props: any) => {
   const { markdown, setMarkdown, sourcePosition, checked, children } = props;
   return (
     <div
-      onClick={() => {
+      onClick={event => {
+        // Unless we stop propagation, this event bubbles up to any parent
+        // wrapping listItems.
+        event.stopPropagation();
+
         const lineIndex = sourcePosition.start.line - 1;
         const lines = markdown.split("\n");
         const find = checked ? markdownChecked : markdownUnchecked;
