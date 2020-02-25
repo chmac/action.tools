@@ -2,3 +2,14 @@
 
 declare module "unist-util-modify-children";
 declare module "mdast-util-to-string";
+declare module "remark-rehype";
+// declare module "mdast-util-to-hast";
+declare module "mdast-util-to-hast/lib/handlers/list-item";
+
+declare module "rehype-react" {
+  import { Plugin } from "unified";
+
+  const rehype2react: Plugin;
+
+  export default rehype2react;
+}
