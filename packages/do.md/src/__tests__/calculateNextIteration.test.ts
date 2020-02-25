@@ -12,6 +12,13 @@ import {
 import { makeTask } from "./__fixtures__/tasks.fixtures";
 
 describe("calculateNextIteration", () => {
+  beforeAll(() => {
+    advanceTo(new Date(2020, 1, 24));
+  });
+  afterAll(() => {
+    clear();
+  });
+
   describe("nextDateOfIterationSimple", () => {
     it("Correctly adds 3 days #WMSXx4", () => {
       expect(
@@ -85,13 +92,6 @@ describe("calculateNextIteration", () => {
   });
 
   describe("setNextByAndAfterDates()", () => {
-    beforeAll(() => {
-      advanceTo(new Date(2020, 1, 24));
-    });
-    afterAll(() => {
-      clear();
-    });
-
     it("Correctly calculates for by:2020-02-21 repeat:after3days #hWLtrb", () => {
       const task = makeTask(
         "A simple task by:2020-02-21 repeat:after3days",

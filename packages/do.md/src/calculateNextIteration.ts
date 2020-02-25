@@ -10,8 +10,8 @@ import {
 } from "./types";
 import { Rule } from "./rschedule";
 import { getRepeatParams } from "./repeat";
-import { getKeyValue, removeKeyValue, setKeyValue, hasKeyValue } from "./utils";
-import { setDateField, stringToLocalDate, getDateField } from "./dates";
+import { getKeyValue, removeKeyValue } from "./utils";
+import { setDateField, getDateField } from "./dates";
 import { EVERY, AFTER, REPEAT, BY, FINISHED } from "./constants";
 
 export const nextDateOfIterationSimple = (
@@ -135,4 +135,10 @@ export const createNextRepetitionTask = (task: Task): Task => {
     task => setNextByAndAfterDates(task),
     R.set("checked", false)
   );
+};
+
+export const calculateNextIteration = (task: Task): Task[] => {
+  const nextTask = createNextRepetitionTask(task);
+  const taskWithFinished = setDateField(FINISHED, LocalDate.now(), task);
+  return [nextTask, taskWithFinished];
 };
