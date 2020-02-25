@@ -5,6 +5,7 @@ declare module "mdast-util-to-string";
 declare module "remark-rehype";
 // declare module "mdast-util-to-hast";
 declare module "mdast-util-to-hast/lib/handlers/list-item";
+declare module "react-markdown/lib/renderers";
 
 declare module "rehype-react" {
   import { Plugin } from "unified";
