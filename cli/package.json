@@ -1,15 +1,14 @@
 {
-  "name": "typescript-cli-starter",
+  "name": "action.tools-cli",
   "private": true,
-  "version": "1.0.0",
-  "description": "A simple and zero-opinion typescript starter template for building cross-platform command line applications.",
-  "author": "Khalid Zoabi <kzoabi@outlook.com>",
+  "version": "0.1.0",
+  "description": "action.tools CLI",
   "keywords": [
     "typescript",
     "cli",
     "starter"
   ],
-  "license": "MIT",
+  "license": "AGPL-3.0-or-later",
   "main": "./dist/index.js",
   "bin": "./dist/cli.js",
   "files": [
