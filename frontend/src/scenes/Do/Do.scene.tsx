@@ -78,7 +78,7 @@ const Do = () => {
   );
 
   useEffect(() => {
-    fetch("/do.md")
+    fetch("/doSimple.md")
       .then(response => response.text())
       .then(markdown => setMarkdown(markdown));
   }, [setMarkdown]);
