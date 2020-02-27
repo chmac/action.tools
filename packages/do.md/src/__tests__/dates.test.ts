@@ -1,11 +1,13 @@
 /// <reference path="../../node_modules/@types/jest/index.d.ts"/>
 import { LocalDate } from "@js-joda/core";
 
-import { stringToLocalDate, equalToOrAfter, equalToOrBefore } from "../dates";
+import {
+  stringToLocalDate,
+  isTodayOrInTheFuture,
+  isTodayOrInThePast
+} from "../dates";
 
-const today = LocalDate.of(2020, 2, 24);
-const yesterday = today.minusDays(1);
-const tomorrow = today.plusDays(1);
+import { yesterday, today, tomorrow } from "./__fixtures__/dates.fixtures";
 
 describe("dates", () => {
   describe("stringToDate()", () => {
@@ -20,31 +22,31 @@ describe("dates", () => {
     });
   });
 
-  describe("equalToOrAfter()", () => {
+  describe("isTodayOrInTheFuture()", () => {
     it("Returns false for yesterday #U2V17I", () => {
-      expect(equalToOrAfter(yesterday, today)).toEqual(false);
+      expect(isTodayOrInTheFuture(yesterday, today)).toEqual(false);
     });
 
     it("Returns true for today #JdBokK", () => {
-      expect(equalToOrAfter(today, today)).toEqual(true);
+      expect(isTodayOrInTheFuture(today, today)).toEqual(true);
     });
 
     it("Returns true for tomorrow #O4sCFt", () => {
-      expect(equalToOrAfter(tomorrow, today)).toEqual(true);
+      expect(isTodayOrInTheFuture(tomorrow, today)).toEqual(true);
     });
   });
 
-  describe("equalToOrBefore()", () => {
+  describe("isTodayOrInThePast()", () => {
     it("Returns true for yesterday #TYlScj", () => {
-      expect(equalToOrBefore(yesterday, today)).toEqual(true);
+      expect(isTodayOrInThePast(yesterday, today)).toEqual(true);
     });
 
     it("Returns true for today #hrpoH8", () => {
-      expect(equalToOrBefore(today, today)).toEqual(true);
+      expect(isTodayOrInThePast(today, today)).toEqual(true);
     });
 
     it("Returns false for tomorrow #EEsCyz", () => {
-      expect(equalToOrBefore(tomorrow, today)).toEqual(false);
+      expect(isTodayOrInThePast(tomorrow, today)).toEqual(false);
     });
   });
 });

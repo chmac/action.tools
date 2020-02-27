@@ -24,11 +24,14 @@ export const setDateField = (
   return setKeyValue(key, dateString, task);
 };
 
-export const equalToOrAfter = (input: LocalDate, today: LocalDate): boolean => {
+export const isTodayOrInTheFuture = (
+  input: LocalDate,
+  today: LocalDate
+): boolean => {
   return input.compareTo(today) >= 0;
 };
 
-export const equalToOrBefore = (
+export const isTodayOrInThePast = (
   input: LocalDate,
   today: LocalDate
 ): boolean => {
