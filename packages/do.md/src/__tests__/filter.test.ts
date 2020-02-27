@@ -231,5 +231,65 @@ describe("filter", () => {
 
       expect(filterTasks(tasks, "baz")).toEqual(expected);
     });
+
+    it("Hides completed tasks if showCompleted is false #2dL4GP", () => {
+      const tasks = u("root", [
+        u("list", [
+          makeTask("A task with foo and bar"),
+          u("listItem", { checked: false, spread: false }, [
+            u("list", [
+              makeTask("A task with foo and bar and baz"),
+              makeTask("A finished task", true),
+              makeTask("A COMPLETED task to be hidden", true)
+            ])
+          ]),
+          makeTask("A task with foo and bar")
+        ])
+      ]);
+      const expected = u("root", [
+        u("list", [
+          u("listItem", { checked: false, spread: false }, [
+            u("list", [makeTask("A task with foo and bar and baz")])
+          ])
+        ])
+      ]);
+
+      expect(filterTasks(tasks, "baz", undefined, false)).toEqual(expected);
+    });
+
+    it("Shows completed tasks if showCompleted is true #Vj0f2b", () => {
+      const tasks = u("root", [
+        u("list", [
+          makeTask("A task with foo and bar"),
+          u("listItem", { checked: false, spread: false }, [
+            u("list", [
+              makeTask("A task with foo and bar and baz"),
+              makeTask("A finished task with foo and bar and baz", true),
+              makeTask(
+                "A COMPLETED task to be hidden also with foo bar and baz",
+                true
+              )
+            ])
+          ]),
+          makeTask("A task with foo and bar")
+        ])
+      ]);
+      const expected = u("root", [
+        u("list", [
+          u("listItem", { checked: false, spread: false }, [
+            u("list", [
+              makeTask("A task with foo and bar and baz"),
+              makeTask("A finished task with foo and bar and baz", true),
+              makeTask(
+                "A COMPLETED task to be hidden also with foo bar and baz",
+                true
+              )
+            ])
+          ])
+        ])
+      ]);
+
+      expect(filterTasks(tasks, "baz", undefined, true)).toEqual(expected);
+    });
   });
 });

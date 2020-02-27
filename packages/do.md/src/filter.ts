@@ -64,7 +64,8 @@ export const doesTaskHaveMatchingChildren = (task: Task): boolean => {
 export const filterTasks = (
   root: Parent,
   filterText = "",
-  today?: LocalDate
+  today?: LocalDate,
+  showCompleted = false
 ): Parent => {
   if (filterText === "" && typeof today === "undefined") {
     return root;
@@ -77,6 +78,10 @@ export const filterTasks = (
       // children.
       if (doesTaskHaveMatchingChildren(task)) {
         return task;
+      }
+
+      if (!showCompleted && task.checked) {
+        return [];
       }
 
       // To match this node, we must match both the date AND text filters
