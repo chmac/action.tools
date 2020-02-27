@@ -13,11 +13,9 @@ const Bar: React.FC = props => {
     <div className={classes.root}>
       <AppBar position="static" color="default">
         <Toolbar>
-          <Link to="/" className={classes.title}>
-            <Typography variant="h6" component="h1" color="inherit">
-              do.md
-            </Typography>
-          </Link>
+          <Typography variant="h6" component="h1" color="inherit">
+            Do.md
+          </Typography>
         </Toolbar>
       </AppBar>
     </div>
