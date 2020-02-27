@@ -2,8 +2,15 @@ import React, { useState, useEffect, useCallback } from "react";
 import ReactMarkdown from "react-markdown";
 import { listItem as defaultListItem } from "react-markdown/lib/renderers";
 import Typography from "@material-ui/core/Typography";
-import { Paper, TextField, makeStyles } from "@material-ui/core";
-import { filterTasks } from "do.md";
+import {
+  Paper,
+  TextField,
+  makeStyles,
+  FormGroup,
+  FormControlLabel,
+  Switch
+} from "@material-ui/core";
+import { LocalDate, filterTasks } from "do.md";
 
 import {
   markdownToMdast,
@@ -66,15 +73,20 @@ const Do = () => {
   const classes = useStyles();
   const [filter, setFilter] = useState("");
   const [markdown, _setMarkdown] = useState("");
+  const [ignoreDates, setIgnoreDates] = useState(false);
 
   const setMarkdown = useCallback(
     async (markdown: string) => {
       const tree = markdownToMdast(markdown);
-      const filtered = filterTasks(tree, filter);
+      const filtered = filterTasks(
+        tree,
+        filter,
+        ignoreDates ? undefined : LocalDate.now()
+      );
       const filteredMarkdown = await mdastToMarkdown(filtered);
       _setMarkdown(filteredMarkdown);
     },
-    [filter]
+    [filter, ignoreDates]
   );
 
   useEffect(() => {
@@ -114,6 +126,20 @@ const Do = () => {
             setFilter(event.target.value);
           }}
         />
+        <FormGroup row>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={ignoreDates}
+                onChange={() => {
+                  setIgnoreDates(!ignoreDates);
+                }}
+                value="Ignore dates"
+              />
+            }
+            label="Ignore dates"
+          />
+        </FormGroup>
       </Paper>
       <ReactMarkdown
         source={markdown}
