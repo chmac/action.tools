@@ -121,7 +121,7 @@ export const setMarkdown = async (
   markdown: string,
   filepath: string = FILEPATH
 ) => {
-  debugger;
+  alert("Starting save to Git #YpHeKm");
   try {
     await fs.promises.writeFile(filepath, markdown, { encoding: "utf8" });
   } catch (error) {
@@ -152,7 +152,8 @@ export const setMarkdown = async (
     );
 
     await git.push(addBaseParams({}));
-    debugger;
+
+    alert("Successfully saved and pushd #AIp4wO");
   } catch (error) {
     debugger;
   }
