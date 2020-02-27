@@ -2,12 +2,11 @@ import { Node, Parent } from "unist";
 import reduce from "unist-util-reduce";
 import { select } from "unist-util-select";
 
-import { isTask, hasKeyValue, getTitle } from "./utils";
-import { calculateNextIteration } from "./calculateNextIteration";
-import { REPEAT, FINISHED } from "./constants";
+import { isTask, getTitle } from "./utils";
 import { Task } from "./types";
+import { LocalDate } from "@js-joda/core";
 
-const doesTaskMatchFilter = (task: Task, filterText = ""): boolean => {
+export const doesTaskMatchFilter = (task: Task, filterText = ""): boolean => {
   const title = getTitle(task);
   return title.indexOf(filterText) !== -1;
 };
@@ -16,12 +15,16 @@ const doesTaskMatchFilter = (task: Task, filterText = ""): boolean => {
 // upwards. By the time it runs for a parent task, the children will already
 // have been removed if they do not match. This means any task which has child
 // tasks, must have matching children.
-const doesTaskHaveMatchingChildren = (task: Task): boolean => {
+export const doesTaskHaveMatchingChildren = (task: Task): boolean => {
   const childTask = select(":root > list > listItem", task);
   return Boolean(childTask);
 };
 
-export const filterTasks = (root: Parent, filterText = ""): Parent => {
+export const filterTasks = (
+  root: Parent,
+  filterText = "",
+  today?: LocalDate
+): Parent => {
   if (filterText === "") {
     return root;
   }
