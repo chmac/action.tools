@@ -24,6 +24,8 @@ export type MonthNumber = typeof MONTHS_TO_NUMBER[Month];
 
 export interface Task extends Parent {
   type: "listItem";
+  checked?: boolean;
+  spread?: boolean;
   // _data: Data;
 }
 
