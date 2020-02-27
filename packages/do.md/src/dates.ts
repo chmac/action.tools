@@ -23,3 +23,14 @@ export const setDateField = (
   const dateString = localDateToString(date);
   return setKeyValue(key, dateString, task);
 };
+
+export const equalToOrAfter = (input: LocalDate, today: LocalDate): boolean => {
+  return input.compareTo(today) >= 0;
+};
+
+export const equalToOrBefore = (
+  input: LocalDate,
+  today: LocalDate
+): boolean => {
+  return input.compareTo(today) <= 0;
+};
