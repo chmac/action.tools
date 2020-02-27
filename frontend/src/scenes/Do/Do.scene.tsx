@@ -9,8 +9,14 @@ import {
   FormGroup,
   FormControlLabel,
   Switch,
-  Button
+  Button,
+  InputAdornment,
+  IconButton,
+  FormControl,
+  Input,
+  InputLabel
 } from "@material-ui/core";
+import Clear from "@material-ui/icons/Clear";
 import { today, filterTasks } from "do.md";
 
 import {
@@ -159,12 +165,28 @@ const Do = () => {
       <Typography variant="h1">Do</Typography>
       <Paper elevation={1} className={classes.paper}>
         <Typography>Enter a filter here:</Typography>
-        <TextField
-          label="Filter"
-          onChange={event => {
-            setFilter(event.target.value);
-          }}
-        />
+        <FormControl>
+          <InputLabel htmlFor="filter-text">Filter</InputLabel>
+          <Input
+            id="filter-text"
+            value={filter}
+            onChange={event => {
+              setFilter(event.target.value);
+            }}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="Clear filter"
+                  onClick={() => {
+                    setFilter("");
+                  }}
+                >
+                  <Clear />
+                </IconButton>
+              </InputAdornment>
+            }
+          ></Input>
+        </FormControl>
         <FormGroup row>
           <FormControlLabel
             control={
