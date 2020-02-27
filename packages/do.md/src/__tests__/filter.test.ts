@@ -1,10 +1,10 @@
 /// <reference path="../../node_modules/@types/jest/index.d.ts"/>
 import * as u from "unist-builder";
 
-import { filterTasks } from "../";
+import { filterTasks } from "..";
 import { makeTask } from "./__fixtures__/tasks.fixtures";
 
-describe("index", () => {
+describe("filter", () => {
   describe("filterTasks()", () => {
     it("Returns all tasks with an empty filter #P9yztO", () => {
       const tasks = u("root", [

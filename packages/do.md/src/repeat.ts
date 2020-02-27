@@ -1,7 +1,9 @@
 import * as R from "remeda";
+import { Node, Parent } from "unist";
+import reduce from "unist-util-reduce";
 
-import { Rule, RuleOption } from "./rschedule";
-import { Repeat, Day, Month, Unit, RepeatWeekly } from "./types";
+import { RuleOption } from "./rschedule";
+import { Repeat, Day, Month, Unit } from "./types";
 import { startsWith, removeFromFront } from "./utils";
 import {
   EVERY,
@@ -9,8 +11,12 @@ import {
   MONTHS,
   DAYS,
   MONTHS_TO_NUMBER,
-  UNITS
+  UNITS,
+  REPEAT,
+  FINISHED
 } from "./constants";
+import { calculateNextIteration } from "./calculateNextIteration";
+import { isTask, hasKeyValue } from "./utils";
 
 const leadingNumberRegex = new RegExp("^[\\d,]+");
 
@@ -142,4 +148,22 @@ export const getRepeatParams = (input: string): Repeat => {
     unit: trimmedUnit,
     count
   };
+};
+
+export const repeatTasks = (root: Parent): Parent => {
+  return reduce(root, (task: Node) => {
+    if (isTask(task)) {
+      if (
+        // Only repeat tasks which are closed
+        task.checked === true &&
+        // Only repeat tasks which do not have a finished date
+        !hasKeyValue(FINISHED, task) &&
+        // Only repeat tasks which do have a repeat field
+        hasKeyValue(REPEAT, task)
+      ) {
+        return calculateNextIteration(task);
+      }
+    }
+    return task;
+  });
 };
