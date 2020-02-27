@@ -14,7 +14,7 @@ import { AFTER, BY, SNOOZE } from "./constants";
 
 export const doesTaskMatchFilter = (task: Task, filterText = ""): boolean => {
   const title = getTitle(task);
-  return title.indexOf(filterText) !== -1;
+  return title.toLowerCase().indexOf(filterText) !== -1;
 };
 
 export const isTaskSnoozed = (task: Task, today: LocalDate): boolean => {

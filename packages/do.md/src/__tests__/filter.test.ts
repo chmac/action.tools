@@ -21,9 +21,14 @@ describe("filter", () => {
       expect(doesTaskMatchFilter(task, "foo")).toEqual(true);
     });
 
-    it.skip("Matches FOO #GGCt81", () => {
+    it("Matches FOO #GGCt81", () => {
       const task = makeTask("This is a FOO task");
       expect(doesTaskMatchFilter(task, "foo")).toEqual(true);
+    });
+
+    it("Does not match FOO as a filter #Zs6AQ1", () => {
+      const task = makeTask("This is a FOO task");
+      expect(doesTaskMatchFilter(task, "FOO")).toEqual(false);
     });
   });
 
