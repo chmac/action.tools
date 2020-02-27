@@ -227,12 +227,14 @@ const Do = () => {
           Create new task
         </Button>
       </Paper>
-      <ReactMarkdown
-        source={filteredMarkdown}
-        // renderers={{ listItem: ListItem }}
-        renderers={renderers}
-        rawSourcePos
-      />
+      <Typography component="div">
+        <ReactMarkdown
+          source={filteredMarkdown}
+          // renderers={{ listItem: ListItem }}
+          renderers={renderers}
+          rawSourcePos
+        />
+      </Typography>
     </div>
   );
 };
