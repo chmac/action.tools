@@ -14,6 +14,11 @@ import { getKeyValue, removeKeyValue } from "./utils";
 import { setDateField, getDateField } from "./dates";
 import { EVERY, AFTER, REPEAT, BY, FINISHED } from "./constants";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const notReachable = (_x: never): never => {
+  throw new Error("Unknown never error. #m3lX5k");
+};
+
 export const nextDateOfIterationSimple = (
   repeat: RepeatSimple,
   start: LocalDate
@@ -25,16 +30,18 @@ export const nextDateOfIterationSimple = (
     return start.plusWeeks(count);
   } else if (unit === "month") {
     return start.plusMonths(count);
-  } else {
-    const never: never = unit;
-    throw new Error("Never error. #uOUoK2");
   }
+  return notReachable(unit);
 };
 
-export const getNextOccurrenceFromRule = (rule: Rule) => {
+export const getNextOccurrenceFromRule = (rule: Rule): LocalDate => {
   const [next] = rule.occurrences({ take: 1 }).toArray();
 
   return LocalDate.from(next.date);
+};
+
+export const localDateToZonedDateTime = (start: LocalDate): ZonedDateTime => {
+  return ZonedDateTime.of(start, LocalTime.of(), ZoneOffset.UTC);
 };
 
 export const nextDateOfIterationWeekly = (
@@ -47,10 +54,6 @@ export const nextDateOfIterationWeekly = (
     start: localDateToZonedDateTime(start)
   });
   return getNextOccurrenceFromRule(rule);
-};
-
-export const localDateToZonedDateTime = (start: LocalDate): ZonedDateTime => {
-  return ZonedDateTime.of(start, LocalTime.of(), ZoneOffset.UTC);
 };
 
 export const nextDateOfIterationMonthly = (
@@ -80,27 +83,26 @@ export const nextDateOfIteration = (
     case "monthly": {
       return nextDateOfIterationMonthly(repeat, start);
     }
-    default: {
-      const never: never = repeat;
-      throw new Error("Never error #2gRKWY");
-    }
   }
+  return notReachable(repeat);
 };
 
 export const getRepeatFromDate = (
   repeat: Repeat,
   byDate: LocalDate
 ): LocalDate => {
-  if (repeat.repeat === EVERY) {
-    return byDate;
-  } else if (repeat.repeat === AFTER) {
-    return LocalDate.now();
-  } else {
-    throw new Error("Unknown error. #8X711L");
+  switch (repeat.repeat) {
+    case EVERY: {
+      return byDate;
+    }
+    case AFTER: {
+      return LocalDate.now();
+    }
   }
+  return notReachable(repeat);
 };
 
-export const setNextByAndAfterDates = (task: Task) => {
+export const setNextByAndAfterDates = (task: Task): Task => {
   const repeatString = getKeyValue(REPEAT, task);
   if (repeatString.length === 0) {
     throw new Error(
