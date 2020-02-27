@@ -27,9 +27,9 @@ const Routes: React.FC = () => {
         <CssBaseline />
         <Container className={classes.container}>
           <Switch>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={Do} />
             <Route exact path="/actions" component={Actions} />
-            <Route exact path="/do" component={Do} />
+            <Route exact path="/home" component={Home} />
           </Switch>
         </Container>
       </Router>
