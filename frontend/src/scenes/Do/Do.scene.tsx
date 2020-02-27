@@ -8,7 +8,8 @@ import {
   makeStyles,
   FormGroup,
   FormControlLabel,
-  Switch
+  Switch,
+  Button
 } from "@material-ui/core";
 import { today, filterTasks } from "do.md";
 
@@ -192,6 +193,18 @@ const Do = () => {
             label="Show completed"
           />
         </FormGroup>
+        <Button
+          variant="contained"
+          onClick={() => {
+            const newTask = window.prompt("Enter the next task") || "";
+            if (newTask.length === 0) {
+              return;
+            }
+            writeNewMarkdownToStorage(`- [ ] ${newTask}\n${fullMarkdown}`);
+          }}
+        >
+          Create new task
+        </Button>
       </Paper>
       <ReactMarkdown
         source={filteredMarkdown}
