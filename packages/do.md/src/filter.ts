@@ -53,7 +53,7 @@ export const doesTaskMatchTodayFilter = (
 // have been removed if they do not match. This means any task which has child
 // tasks, must have matching children.
 export const doesTaskHaveMatchingChildren = (task: Task): boolean => {
-  const childTasks = selectAll(":root > list > listItem", task);
+  const childTasks = selectAll(":root > list listItem", task);
   return Boolean(childTasks.find(isTask));
 };
 

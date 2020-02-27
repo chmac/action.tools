@@ -136,6 +136,21 @@ describe("filter", () => {
       ]);
       expect(doesTaskHaveMatchingChildren(task)).toEqual(false);
     });
+
+    it("Returns true for a task with a grand child task #NF0w9O", () => {
+      const task = u("listItem", { checked: false, spread: false }, [
+        u("paragraph", [
+          u("text", { value: "This is a task which does have a child" })
+        ]),
+        u("list", [
+          u("listItem", [
+            u("paragraph", [u("text", { value: "This is not a task" })]),
+            u("list", [makeTask("This is a grandchild task")])
+          ])
+        ])
+      ]);
+      expect(doesTaskHaveMatchingChildren(task)).toEqual(true);
+    });
   });
 
   describe("filterTasks()", () => {
