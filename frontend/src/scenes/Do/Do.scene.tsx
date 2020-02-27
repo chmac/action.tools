@@ -160,8 +160,7 @@ const Do = () => {
   };
 
   return (
-    <div>
-      <Typography variant="h1">Do</Typography>
+    <div className={classes.page}>
       <Paper elevation={1} className={classes.paper}>
         <Typography>Enter a filter here:</Typography>
         <FormControl>
@@ -242,6 +241,9 @@ const Do = () => {
 export default Do;
 
 const useStyles = makeStyles(theme => ({
+  page: {
+    paddingTop: 20
+  },
   paper: {
     padding: theme.spacing(2)
   }
