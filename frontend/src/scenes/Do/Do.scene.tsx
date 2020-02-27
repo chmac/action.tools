@@ -79,11 +79,12 @@ const ListItem = (props: {
 const Do = () => {
   const classes = useStyles();
   const [filter, setFilter] = useState("");
-  const [markdownState, setMarkdownState] = useState("");
+  const [filteredMarkdown, setFilteredMarkdown] = useState("");
   const [ignoreDates, setIgnoreDates] = useState(false);
 
   const setMarkdownCallback = useCallback(
     async (markdown: string) => {
+      // Apply our filters
       const tree = markdownToMdast(markdown);
       const filtered = filterTasks(
         tree,
@@ -91,10 +92,15 @@ const Do = () => {
         ignoreDates ? undefined : today()
       );
       const filteredMarkdown = await mdastToMarkdown(filtered);
-      setMarkdownState(filteredMarkdown);
+      setFilteredMarkdown(filteredMarkdown);
     },
     [filter, ignoreDates]
   );
+
+  const writeNewMarkdownToStorage = (markdown: string) => {
+    setMarkdown(markdown);
+    setMarkdownCallback(markdown);
+  };
 
   useEffect(() => {
     startup().then(() => {
@@ -109,8 +115,8 @@ const Do = () => {
         // debugger;
         return (
           <WrapCheckBox
-            markdown={markdownState}
-            setMarkdown={setMarkdownCallback}
+            markdown={filteredMarkdown}
+            setMarkdown={writeNewMarkdownToStorage}
             checked={checked}
             sourcePosition={sourcePosition}
           >
@@ -149,7 +155,7 @@ const Do = () => {
         </FormGroup>
       </Paper>
       <ReactMarkdown
-        source={markdownState}
+        source={filteredMarkdown}
         // renderers={{ listItem: ListItem }}
         renderers={renderers}
         rawSourcePos

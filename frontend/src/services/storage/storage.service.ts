@@ -3,16 +3,53 @@ import * as LightningFS from "@isomorphic-git/lightning-fs";
 import http from "isomorphic-git/http/web";
 import * as path from "path";
 
-const fs = new LightningFS("domd", { wipe: true });
+const fs = new LightningFS("domd", { wipe: false });
 const DIR = "/domd";
 const FILE = "do.md";
-const filepath = path.join(DIR, FILE);
+const FILEPATH = path.join(DIR, FILE);
 
-(window as any)["fs"] = fs;
+const AUTH_STORAGE_KEY = "__auth";
+
+if (process.env.NODE_ENV === "development") {
+  (window as any)["fs"] = fs;
+}
+
+export const getAuth = ():
+  | { username: string; password: string }
+  | undefined => {
+  const authJson = localStorage.getItem(AUTH_STORAGE_KEY) || undefined;
+  if (typeof authJson === "undefined") {
+    return;
+  }
+  return JSON.parse(authJson);
+};
+
+export const saveAuth = (auth: { username: string; password: string }) => {
+  localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(auth));
+};
+
+const onAuth = () => {
+  const auth = getAuth();
+  if (typeof auth !== "undefined") {
+    return auth;
+  }
+
+  if (window.confirm("Password required. Provide now?")) {
+    const username = window.prompt("Username") || "";
+    const password = window.prompt("Password") || "";
+
+    if (username.length > 0 && password.length > 0) {
+      const auth = { username, password };
+      saveAuth(auth);
+      return auth;
+    }
+    return { cancel: true };
+  }
+};
 
 export const addBaseParams = <T extends object>(
   opts: T
-): T & { fs: any; http: typeof http; dir: string } => {
+): T & { fs: typeof fs; http: typeof http; dir: string } => {
   return {
     ...opts,
     fs,
@@ -22,7 +59,8 @@ export const addBaseParams = <T extends object>(
     author: {
       name: "DoMd Browser",
       email: "dummy@domain.tld"
-    }
+    },
+    onAuth
   };
 };
 
@@ -69,16 +107,53 @@ export const startup = async () => {
   );
 };
 
-export const getMarkdown = async (filename: string = filepath) => {
+export const getMarkdown = async (filepath: string = FILEPATH) => {
   try {
-    await fs.promises.stat(filename);
+    await fs.promises.stat(filepath);
   } catch (error) {
     debugger;
   }
 
-  return fs.promises.readFile(filename, { encoding: "utf8" });
+  return fs.promises.readFile(filepath, { encoding: "utf8" });
 };
 
-export const setMarkdown = async (markdown: string) => {
-  return;
+export const setMarkdown = async (
+  markdown: string,
+  filepath: string = FILEPATH
+) => {
+  debugger;
+  try {
+    await fs.promises.writeFile(filepath, markdown, { encoding: "utf8" });
+  } catch (error) {
+    debugger;
+  }
+
+  try {
+    const status = await git.status(
+      addBaseParams({
+        filepath: FILE
+      })
+    );
+
+    if (status === "unmodified") {
+      return;
+    }
+
+    await git.add(
+      addBaseParams({
+        filepath: FILE
+      })
+    );
+
+    await git.commit(
+      addBaseParams({
+        message: "Adding an update from the web"
+      })
+    );
+
+    await git.push(addBaseParams({}));
+    debugger;
+  } catch (error) {
+    debugger;
+  }
 };
