@@ -27,7 +27,7 @@ const markdownChecked = "- [x]";
 const markdownUnchecked = "- [ ]";
 
 const WrapCheckBox = (props: any) => {
-  const { markdown, setMarkdown, sourcePosition, checked, children } = props;
+  const { setCheckedByLineNumber, sourcePosition, checked, children } = props;
   return (
     <div
       onClick={event => {
@@ -35,12 +35,7 @@ const WrapCheckBox = (props: any) => {
         // wrapping listItems.
         event.stopPropagation();
 
-        const lineIndex = sourcePosition.start.line - 1;
-        const lines = markdown.split("\n");
-        const find = checked ? markdownChecked : markdownUnchecked;
-        const replace = checked ? markdownUnchecked : markdownChecked;
-        lines[lineIndex] = lines[lineIndex].replace(find, replace);
-        setMarkdown(lines.join("\n"));
+        setCheckedByLineNumber(sourcePosition.start.line, checked);
       }}
     >
       {children}
@@ -100,11 +95,27 @@ const Do = () => {
     [filter, ignoreDates, showCompleted]
   );
 
-  const writeNewMarkdownToStorage = (markdown: string) => {
-    setMarkdown(markdown);
-    setFullMarkdown(markdown);
-    setMarkdownCallback(markdown);
-  };
+  const writeNewMarkdownToStorage = useCallback(
+    (markdown: string) => {
+      setMarkdown(markdown);
+      setFullMarkdown(markdown);
+      setMarkdownCallback(markdown);
+    },
+    [setFullMarkdown, setMarkdownCallback]
+  );
+
+  const setCheckedByLineNumber = useCallback(
+    (lineNumber: number, checked: boolean) => {
+      const lineIndex = lineNumber - 1;
+      const lines = fullMarkdown.split("\n");
+      const find = checked ? markdownChecked : markdownUnchecked;
+      const replace = checked ? markdownUnchecked : markdownChecked;
+      lines[lineIndex] = lines[lineIndex].replace(find, replace);
+      const markdown = lines.join("\n");
+      writeNewMarkdownToStorage(markdown);
+    },
+    [fullMarkdown, writeNewMarkdownToStorage]
+  );
 
   useEffect(() => {
     startup().then(() => {
@@ -121,8 +132,7 @@ const Do = () => {
         const { checked, sourcePosition } = props;
         return (
           <WrapCheckBox
-            markdown={fullMarkdown}
-            setMarkdown={writeNewMarkdownToStorage}
+            setCheckedByLineNumber={setCheckedByLineNumber}
             checked={checked}
             sourcePosition={sourcePosition}
           >
