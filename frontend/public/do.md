@@ -101,6 +101,19 @@ These tasks can be completed in order.
 
 # Tech
 
+## SLC
+
+To make this usable, the absolute minimum features are:
+
+- [ ] Git in the browser
+  - [ ] Get the latest
+  - [ ] Make a change, commit, push
+  - [ ] Deferred push
+- [x] Show only "current" tasks - by date
+- [ ] UI to add tasks
+
+## Bigger
+
 What tasks do we actually want to get done on this package?
 
 - [x] Support weekly repeats every 3 weeks
