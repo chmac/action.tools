@@ -122,6 +122,20 @@ describe("filter", () => {
       ]);
       expect(doesTaskHaveMatchingChildren(task)).toEqual(true);
     });
+
+    it("Returns false for a task with a child list that does not contain tasks #xWWKMo", () => {
+      const task = u("listItem", { checked: false, spread: false }, [
+        u("paragraph", [
+          u("text", { value: "This is a task which does have a child" })
+        ]),
+        u("list", [
+          u("listItem", [
+            u("paragraph", [u("text", { value: "This is not a task" })])
+          ])
+        ])
+      ]);
+      expect(doesTaskHaveMatchingChildren(task)).toEqual(false);
+    });
   });
 
   describe("filterTasks()", () => {

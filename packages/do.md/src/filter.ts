@@ -1,6 +1,6 @@
 import { Node, Parent } from "unist";
 import reduce from "unist-util-reduce";
-import { select } from "unist-util-select";
+import { selectAll } from "unist-util-select";
 
 import { isTask, getTitle, hasKeyValue } from "./utils";
 import { Task } from "./types";
@@ -53,8 +53,8 @@ export const doesTaskMatchTodayFilter = (
 // have been removed if they do not match. This means any task which has child
 // tasks, must have matching children.
 export const doesTaskHaveMatchingChildren = (task: Task): boolean => {
-  const childTask = select(":root > list > listItem", task);
-  return Boolean(childTask);
+  const childTasks = selectAll(":root > list > listItem", task);
+  return Boolean(childTasks.find(isTask));
 };
 
 export const filterTasks = (
