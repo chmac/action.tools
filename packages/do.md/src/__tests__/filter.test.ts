@@ -1,6 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../../node_modules/@types/jest/index.d.ts"/>
 import * as u from "unist-builder";
-import { LocalDate } from "@js-joda/core";
 
 import {
   doesTaskMatchFilter,
@@ -12,7 +12,7 @@ import {
 } from "../filter";
 
 import { makeTask } from "./__fixtures__/tasks.fixtures";
-import { yesterday, today, tomorrow } from "./__fixtures__/dates.fixtures";
+import { today } from "./__fixtures__/dates.fixtures";
 
 describe("filter", () => {
   describe("doesTaskMatchFilter()", () => {
