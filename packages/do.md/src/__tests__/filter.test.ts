@@ -1,12 +1,18 @@
 /// <reference path="../../node_modules/@types/jest/index.d.ts"/>
 import * as u from "unist-builder";
+import { LocalDate } from "@js-joda/core";
 
 import {
   doesTaskMatchFilter,
+  isTaskSnoozed,
+  isTaskActionableToday,
+  doesTaskMatchDate,
   doesTaskHaveMatchingChildren,
   filterTasks
 } from "../filter";
+
 import { makeTask } from "./__fixtures__/tasks.fixtures";
+import { yesterday, today, tomorrow } from "./__fixtures__/dates.fixtures";
 
 describe("filter", () => {
   describe("doesTaskMatchFilter()", () => {
@@ -18,6 +24,52 @@ describe("filter", () => {
     it("Matches FOO #GGCt81", () => {
       const task = makeTask("This is a FOO task");
       expect(doesTaskMatchFilter(task, "foo")).toEqual(true);
+    });
+  });
+
+  describe("isTaskSnoozed()", () => {
+    it("Returns true for a false snoozed until yesterday #8wrYPX", () => {
+      const task = makeTask("A snoozed until yesterday task snooze:2020-02-23");
+      expect(isTaskSnoozed(task, today)).toEqual(false);
+    });
+
+    it("Returns false for a task snoozed until today #WlFuI1", () => {
+      const task = makeTask("A snoozed until yesterday task snooze:2020-02-24");
+      expect(isTaskSnoozed(task, today)).toEqual(false);
+    });
+
+    it("Returns true for a task snoozed until tomorrow #hKy1hc", () => {
+      const task = makeTask("A snoozed until yesterday task snooze:2020-02-25");
+      expect(isTaskSnoozed(task, today)).toEqual(true);
+    });
+  });
+
+  describe("isTaskActionableToday()", () => {
+    it("Returns true for a task with no after date #TOn1Vq", () => {
+      const task = makeTask("An example task");
+      expect(isTaskActionableToday(task, today)).toEqual(true);
+    });
+
+    it("Returns true for a task with after:yesterday #sunNU9", () => {
+      const task = makeTask("An example task after:2020-02-23");
+      expect(isTaskActionableToday(task, today)).toEqual(true);
+    });
+
+    it("Returns true for a task with after:today #lcAaiu", () => {
+      const task = makeTask("An example task after:2020-02-24");
+      expect(isTaskActionableToday(task, today)).toEqual(true);
+    });
+
+    it("Returns false for a task with after:tomorrow #jAcnoR", () => {
+      const task = makeTask("An example task after:2020-02-25");
+      expect(isTaskActionableToday(task, today)).toEqual(false);
+    });
+  });
+
+  describe("doesTaskMatchDate()", () => {
+    it("Returns true for a task with only an after date in the past #3cDKiv", () => {
+      const task = makeTask("A task after yesterday after:2020-02-23");
+      expect(doesTaskMatchDate(task, LocalDate.of(2020, 2, 24))).toEqual(true);
     });
   });
 

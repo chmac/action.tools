@@ -2,13 +2,47 @@ import { Node, Parent } from "unist";
 import reduce from "unist-util-reduce";
 import { select } from "unist-util-select";
 
-import { isTask, getTitle } from "./utils";
+import { isTask, getTitle, hasKeyValue } from "./utils";
 import { Task } from "./types";
 import { LocalDate } from "@js-joda/core";
+import {
+  getDateField,
+  isTodayOrInTheFuture,
+  isTodayOrInThePast
+} from "./dates";
+import { AFTER, BY, SNOOZE } from "./constants";
 
 export const doesTaskMatchFilter = (task: Task, filterText = ""): boolean => {
   const title = getTitle(task);
   return title.indexOf(filterText) !== -1;
+};
+
+export const isTaskSnoozed = (task: Task, today: LocalDate): boolean => {
+  // When a task has no `snooze:` date, then it's not snoozed
+  if (!hasKeyValue(SNOOZE, task)) {
+    return false;
+  }
+  const snooze = getDateField(SNOOZE, task);
+  return snooze.isAfter(today);
+};
+
+export const isTaskActionableToday = (
+  task: Task,
+  today: LocalDate
+): boolean => {
+  // When a task has no `after:` date, then it's always actioanble
+  if (!hasKeyValue(AFTER, task)) {
+    return true;
+  }
+  const after = getDateField(AFTER, task);
+  return isTodayOrInThePast(after, today);
+};
+
+export const doesTaskMatchDate = (task: Task, today: LocalDate): boolean => {
+  if (isTaskSnoozed(task, today) || !isTaskActionableToday(task, today)) {
+    return false;
+  }
+  return true;
 };
 
 // The `reduce()` runs depth first, starting from the deepest nodes and working
