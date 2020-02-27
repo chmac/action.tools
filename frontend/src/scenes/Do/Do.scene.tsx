@@ -116,7 +116,7 @@ const Do = () => {
       if (
         !window.confirm(
           `Would you like to mark this task ${
-            checked ? "FINISHED" : "unfinished"
+            checked ? "unfinished" : "FINISHED"
           }.`
         )
       ) {
