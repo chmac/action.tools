@@ -10,7 +10,13 @@ import {
   FormControlLabel,
   Switch
 } from "@material-ui/core";
-import { LocalDate, filterTasks } from "do.md";
+import { today, filterTasks } from "do.md";
+
+import {
+  startup,
+  getMarkdown,
+  setMarkdown
+} from "../../services/storage/storage.service";
 
 import {
   markdownToMdast,
@@ -42,6 +48,7 @@ const WrapCheckBox = (props: any) => {
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ListItem = (props: {
   checked?: boolean;
   children: any;
@@ -72,28 +79,28 @@ const ListItem = (props: {
 const Do = () => {
   const classes = useStyles();
   const [filter, setFilter] = useState("");
-  const [markdown, _setMarkdown] = useState("");
+  const [markdownState, setMarkdownState] = useState("");
   const [ignoreDates, setIgnoreDates] = useState(false);
 
-  const setMarkdown = useCallback(
+  const setMarkdownCallback = useCallback(
     async (markdown: string) => {
       const tree = markdownToMdast(markdown);
       const filtered = filterTasks(
         tree,
         filter,
-        ignoreDates ? undefined : LocalDate.now()
+        ignoreDates ? undefined : today()
       );
       const filteredMarkdown = await mdastToMarkdown(filtered);
-      _setMarkdown(filteredMarkdown);
+      setMarkdownState(filteredMarkdown);
     },
     [filter, ignoreDates]
   );
 
   useEffect(() => {
-    fetch("/doSimple.md")
-      .then(response => response.text())
-      .then(markdown => setMarkdown(markdown));
-  }, [setMarkdown]);
+    startup().then(() => {
+      getMarkdown().then(markdown => setMarkdownCallback(markdown));
+    });
+  }, [setMarkdownCallback]);
 
   const renderers = {
     listItem: (props: any) => {
@@ -102,8 +109,8 @@ const Do = () => {
         // debugger;
         return (
           <WrapCheckBox
-            markdown={markdown}
-            setMarkdown={setMarkdown}
+            markdown={markdownState}
+            setMarkdown={setMarkdownCallback}
             checked={checked}
             sourcePosition={sourcePosition}
           >
@@ -142,7 +149,7 @@ const Do = () => {
         </FormGroup>
       </Paper>
       <ReactMarkdown
-        source={markdown}
+        source={markdownState}
         // renderers={{ listItem: ListItem }}
         renderers={renderers}
         rawSourcePos

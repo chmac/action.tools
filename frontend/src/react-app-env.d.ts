@@ -14,3 +14,5 @@ declare module "rehype-react" {
 
   export default rehype2react;
 }
+
+declare module "@isomorphic-git/lightning-fs";
