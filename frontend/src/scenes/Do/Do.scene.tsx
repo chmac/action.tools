@@ -106,6 +106,15 @@ const Do = () => {
 
   const setCheckedByLineNumber = useCallback(
     (lineNumber: number, checked: boolean) => {
+      if (
+        !window.confirm(
+          `Would you like to mark this task ${
+            checked ? "FINISHED" : "unfinished"
+          }.`
+        )
+      ) {
+        return;
+      }
       const lineIndex = lineNumber - 1;
       const lines = fullMarkdown.split("\n");
       const find = checked ? markdownChecked : markdownUnchecked;
