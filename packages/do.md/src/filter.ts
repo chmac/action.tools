@@ -5,11 +5,7 @@ import { selectAll } from "unist-util-select";
 import { isTask, getTitle, hasKeyValue } from "./utils";
 import { Task } from "./types";
 import { LocalDate } from "@js-joda/core";
-import {
-  getDateField,
-  isTodayOrInTheFuture,
-  isTodayOrInThePast
-} from "./dates";
+import { getDateField, isTodayOrInThePast } from "./dates";
 import { AFTER, BY, SNOOZE } from "./constants";
 
 export const doesTaskMatchFilter = (task: Task, filterText = ""): boolean => {
