@@ -36,8 +36,12 @@ export const isTaskActionableToday = (
 
 export const doesTaskMatchTodayFilter = (
   task: Task,
-  today: LocalDate
+  today?: LocalDate
 ): boolean => {
+  // If we don't have a date to match against, then all tasks match
+  if (typeof today === "undefined") {
+    return true;
+  }
   if (isTaskSnoozed(task, today) || !isTaskActionableToday(task, today)) {
     return false;
   }
@@ -64,9 +68,17 @@ export const filterTasks = (
 
   return reduce(root, (task: Node) => {
     if (isTask(task)) {
+      // If this task has matching children, then we always consider it to be a
+      // match, otherwise by removing this node we will also remove the
+      // children.
+      if (doesTaskHaveMatchingChildren(task)) {
+        return task;
+      }
+
+      // To match this node, we must match both the date AND text filters
       if (
-        doesTaskMatchFilter(task, filterText) ||
-        doesTaskHaveMatchingChildren(task)
+        doesTaskMatchTodayFilter(task, today) &&
+        doesTaskMatchFilter(task, filterText)
       ) {
         return task;
       }
