@@ -38,7 +38,10 @@ export const isTaskActionableToday = (
   return isTodayOrInThePast(after, today);
 };
 
-export const doesTaskMatchDate = (task: Task, today: LocalDate): boolean => {
+export const doesTaskMatchTodayFilter = (
+  task: Task,
+  today: LocalDate
+): boolean => {
   if (isTaskSnoozed(task, today) || !isTaskActionableToday(task, today)) {
     return false;
   }
