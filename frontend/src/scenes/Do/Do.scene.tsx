@@ -79,8 +79,10 @@ const ListItem = (props: {
 const Do = () => {
   const classes = useStyles();
   const [filter, setFilter] = useState("");
+  const [fullMarkdown, setFullMarkdown] = useState("");
   const [filteredMarkdown, setFilteredMarkdown] = useState("");
   const [ignoreDates, setIgnoreDates] = useState(false);
+  const [showCompleted, setShowCompleted] = useState(false);
 
   const setMarkdownCallback = useCallback(
     async (markdown: string) => {
@@ -89,22 +91,27 @@ const Do = () => {
       const filtered = filterTasks(
         tree,
         filter,
-        ignoreDates ? undefined : today()
+        ignoreDates ? undefined : today(),
+        showCompleted
       );
       const filteredMarkdown = await mdastToMarkdown(filtered);
       setFilteredMarkdown(filteredMarkdown);
     },
-    [filter, ignoreDates]
+    [filter, ignoreDates, showCompleted]
   );
 
   const writeNewMarkdownToStorage = (markdown: string) => {
     setMarkdown(markdown);
+    setFullMarkdown(markdown);
     setMarkdownCallback(markdown);
   };
 
   useEffect(() => {
     startup().then(() => {
-      getMarkdown().then(markdown => setMarkdownCallback(markdown));
+      getMarkdown().then(markdown => {
+        setMarkdownCallback(markdown);
+        setFullMarkdown(markdown);
+      });
     });
   }, [setMarkdownCallback]);
 
@@ -112,10 +119,9 @@ const Do = () => {
     listItem: (props: any) => {
       if (typeof props.checked === "boolean") {
         const { checked, sourcePosition } = props;
-        // debugger;
         return (
           <WrapCheckBox
-            markdown={filteredMarkdown}
+            markdown={fullMarkdown}
             setMarkdown={writeNewMarkdownToStorage}
             checked={checked}
             sourcePosition={sourcePosition}
@@ -151,6 +157,20 @@ const Do = () => {
               />
             }
             label="Ignore dates"
+          />
+        </FormGroup>{" "}
+        <FormGroup row>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={showCompleted}
+                onChange={() => {
+                  setShowCompleted(!showCompleted);
+                }}
+                value="Show completed"
+              />
+            }
+            label="Show completed"
           />
         </FormGroup>
       </Paper>
