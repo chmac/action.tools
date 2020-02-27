@@ -9,6 +9,10 @@ import { getDateField, isTodayOrInThePast } from "./dates";
 import { AFTER, SNOOZE } from "./constants";
 
 export const doesTaskMatchFilter = (task: Task, filterText = ""): boolean => {
+  // Always return true for an empty filter
+  if (filterText.length === 0) {
+    return true;
+  }
   const title = getTitle(task);
   return title.toLowerCase().indexOf(filterText) !== -1;
 };
@@ -62,7 +66,7 @@ export const filterTasks = (
   filterText = "",
   today?: LocalDate
 ): Parent => {
-  if (filterText === "") {
+  if (filterText === "" && typeof today === "undefined") {
     return root;
   }
 

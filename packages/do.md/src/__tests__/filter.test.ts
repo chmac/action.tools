@@ -166,6 +166,24 @@ describe("filter", () => {
       expect(filterTasks(tasks, "")).toEqual(tasks);
     });
 
+    it("Applies date filter even when text filter is empty #suIvp5", () => {
+      const tasks = u("root", [
+        u("list", [
+          makeTask("A task with foo and bar"),
+          makeTask("A task after tomorrow after:2020-02-25"),
+          makeTask("A task with foo and bar")
+        ])
+      ]);
+      const expected = u("root", [
+        u("list", [
+          makeTask("A task with foo and bar"),
+          makeTask("A task with foo and bar")
+        ])
+      ]);
+
+      expect(filterTasks(tasks, "", today)).toEqual(expected);
+    });
+
     it("Returns all tasks when they all match the filter #epsQL2", () => {
       const tasks = u("root", [
         u("list", [
