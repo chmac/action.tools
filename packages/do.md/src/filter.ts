@@ -80,6 +80,8 @@ export const filterTasks = (
         return task;
       }
 
+      // If we are NOT showing completed tasks AND this task is "checked", then
+      // this task should be hidden
       if (!showCompleted && task.checked) {
         return [];
       }
