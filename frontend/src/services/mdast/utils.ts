@@ -44,7 +44,7 @@ export const getCountAndUnitFromString = (
     throw new Error("Invalid recurrence string #LK6o80");
   }
 
-  const [_, countString, unitResult] = result;
+  const [, countString, unitResult] = result;
 
   const count = parseInt(countString);
 
