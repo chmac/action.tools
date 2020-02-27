@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "do.md",
+  "name": "Task manager based on markdown",
   "icons": [
     {
       "src": "favicon.ico",
