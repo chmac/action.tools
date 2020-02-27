@@ -15,7 +15,7 @@ const Bar: React.FC = props => {
         <Toolbar>
           <Link to="/" className={classes.title}>
             <Typography variant="h6" component="h1" color="inherit">
-              App Header
+              do.md
             </Typography>
           </Link>
         </Toolbar>
