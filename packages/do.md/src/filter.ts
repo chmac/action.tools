@@ -6,7 +6,7 @@ import { isTask, getTitle, hasKeyValue } from "./utils";
 import { Task } from "./types";
 import { LocalDate } from "@js-joda/core";
 import { getDateField, isTodayOrInThePast } from "./dates";
-import { AFTER, BY, SNOOZE } from "./constants";
+import { AFTER, SNOOZE } from "./constants";
 
 export const doesTaskMatchFilter = (task: Task, filterText = ""): boolean => {
   const title = getTitle(task);
