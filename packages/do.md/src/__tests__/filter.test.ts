@@ -21,7 +21,7 @@ describe("filter", () => {
       expect(doesTaskMatchFilter(task, "foo")).toEqual(true);
     });
 
-    it("Matches FOO #GGCt81", () => {
+    it.skip("Matches FOO #GGCt81", () => {
       const task = makeTask("This is a FOO task");
       expect(doesTaskMatchFilter(task, "foo")).toEqual(true);
     });
