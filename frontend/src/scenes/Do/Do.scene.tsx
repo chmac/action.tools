@@ -4,7 +4,6 @@ import { listItem as defaultListItem } from "react-markdown/lib/renderers";
 import Typography from "@material-ui/core/Typography";
 import {
   Paper,
-  TextField,
   makeStyles,
   FormGroup,
   FormControlLabel,
