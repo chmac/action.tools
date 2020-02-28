@@ -11,7 +11,7 @@ import { Node, Parent, Position } from "unist";
 
 type H = (node: any, tagName: string, props: {}, children: Node[]) => Node;
 
-const toReactProcessor = unified().use(remark2rehype, {
+const toRehypeProcessor = unified().use(remark2rehype, {
   handlers: {
     listItem: (h: any, node: Node, parent: Parent) => {
       const hast = listItemDefault(h, node, parent);
@@ -87,7 +87,7 @@ const Markdown = (props: Props) => {
     );
 
     // Now we convert the mdast into an hast
-    const hast = toReactProcessor.runSync(filtered);
+    const hast = toRehypeProcessor.runSync(filtered);
 
     // We convert the hast into `createElement()` calls
     const elements = unified()
