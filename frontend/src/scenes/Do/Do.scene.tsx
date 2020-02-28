@@ -42,7 +42,6 @@ const Do = () => {
 
   const setCheckedByLineNumber = useCallback(
     (lineNumber: number, previousCheckedValue: boolean) => {
-      debugger;
       const lineIndex = lineNumber - 1;
       const lines = fullMarkdown.split("\n");
       const find = previousCheckedValue ? markdownChecked : markdownUnchecked;
