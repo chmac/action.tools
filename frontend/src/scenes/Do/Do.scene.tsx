@@ -23,11 +23,11 @@ import {
   getMarkdown,
   setMarkdown
 } from "../../services/storage/storage.service";
-
 import {
   markdownToMdast,
   mdastToMarkdown
 } from "../../services/mdast/mdast.service";
+import Markdown from "./components/Markdown.component";
 
 const markdownChecked = "- [x]";
 const markdownUnchecked = "- [ ]";
@@ -81,51 +81,37 @@ const Do = () => {
   const classes = useStyles();
   const [filter, setFilter] = useState("");
   const [fullMarkdown, setFullMarkdown] = useState("");
-  const [filteredMarkdown, setFilteredMarkdown] = useState("");
   const [ignoreDates, setIgnoreDates] = useState(false);
   const [showCompleted, setShowCompleted] = useState(false);
-
-  const setMarkdownCallback = useCallback(
-    async (markdown: string) => {
-      // Apply our filters
-      const tree = markdownToMdast(markdown);
-      const filtered = filterTasks(
-        tree,
-        filter,
-        ignoreDates ? undefined : today(),
-        showCompleted
-      );
-      const filteredMarkdown = await mdastToMarkdown(filtered);
-      setFilteredMarkdown(filteredMarkdown);
-    },
-    [filter, ignoreDates, showCompleted]
-  );
 
   const writeNewMarkdownToStorage = useCallback(
     (markdown: string) => {
       setMarkdown(markdown);
       setFullMarkdown(markdown);
-      setMarkdownCallback(markdown);
     },
-    [setFullMarkdown, setMarkdownCallback]
+    [setFullMarkdown]
   );
 
   const setCheckedByLineNumber = useCallback(
-    (lineNumber: number, checked: boolean) => {
+    (lineNumber: number, previousCheckedValue: boolean) => {
+      debugger;
+      const lineIndex = lineNumber - 1;
+      const lines = fullMarkdown.split("\n");
+      const find = previousCheckedValue ? markdownChecked : markdownUnchecked;
+      const replace = previousCheckedValue
+        ? markdownUnchecked
+        : markdownChecked;
+      const line = lines[lineIndex];
       if (
         !window.confirm(
           `Would you like to mark this task ${
-            checked ? "unfinished" : "FINISHED"
-          }.`
+            previousCheckedValue ? "unfinished" : "FINISHED"
+          }:\n${line}`
         )
       ) {
         return;
       }
-      const lineIndex = lineNumber - 1;
-      const lines = fullMarkdown.split("\n");
-      const find = checked ? markdownChecked : markdownUnchecked;
-      const replace = checked ? markdownUnchecked : markdownChecked;
-      lines[lineIndex] = lines[lineIndex].replace(find, replace);
+      lines[lineIndex] = line.replace(find, replace);
       const markdown = lines.join("\n");
       writeNewMarkdownToStorage(markdown);
     },
@@ -135,12 +121,12 @@ const Do = () => {
   useEffect(() => {
     startup().then(() => {
       getMarkdown().then(markdown => {
-        setMarkdownCallback(markdown);
         setFullMarkdown(markdown);
       });
     });
-  }, [setMarkdownCallback]);
+  }, [setFullMarkdown]);
 
+  /*
   const renderers = {
     listItem: (props: any) => {
       if (typeof props.checked === "boolean") {
@@ -158,6 +144,7 @@ const Do = () => {
       return defaultListItem(props);
     }
   };
+  */
 
   return (
     <div className={classes.page}>
@@ -227,12 +214,19 @@ const Do = () => {
         </Button>
       </Paper>
       <Typography component="div">
-        <ReactMarkdown
+        <Markdown
+          markdown={fullMarkdown}
+          showCompleted={showCompleted}
+          ignoreDates={ignoreDates}
+          filterText={filter}
+          setCheckedByLineNumber={setCheckedByLineNumber}
+        />
+        {/* <ReactMarkdown
           source={filteredMarkdown}
           // renderers={{ listItem: ListItem }}
           renderers={renderers}
           rawSourcePos
-        />
+        /> */}
       </Typography>
     </div>
   );
