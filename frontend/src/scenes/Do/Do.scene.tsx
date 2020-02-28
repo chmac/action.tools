@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import ReactMarkdown from "react-markdown";
-import { listItem as defaultListItem } from "react-markdown/lib/renderers";
 import Typography from "@material-ui/core/Typography";
 import {
   Paper,
@@ -16,66 +14,16 @@ import {
   InputLabel
 } from "@material-ui/core";
 import Clear from "@material-ui/icons/Clear";
-import { today, filterTasks } from "do.md";
 
 import {
   startup,
   getMarkdown,
   setMarkdown
 } from "../../services/storage/storage.service";
-import {
-  markdownToMdast,
-  mdastToMarkdown
-} from "../../services/mdast/mdast.service";
 import Markdown from "./components/Markdown.component";
 
 const markdownChecked = "- [x]";
 const markdownUnchecked = "- [ ]";
-
-const WrapCheckBox = (props: any) => {
-  const { setCheckedByLineNumber, sourcePosition, checked, children } = props;
-  return (
-    <div
-      onClick={event => {
-        // Unless we stop propagation, this event bubbles up to any parent
-        // wrapping listItems.
-        event.stopPropagation();
-
-        setCheckedByLineNumber(sourcePosition.start.line, checked);
-      }}
-    >
-      {children}
-    </div>
-  );
-};
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const ListItem = (props: {
-  checked?: boolean;
-  children: any;
-  "data-sourcepos"?: any;
-}) => {
-  const { checked, children } = props;
-  const liProps = props["data-sourcepos"]
-    ? { "data-sourcepos": props["data-sourcepos"] }
-    : {};
-  return (
-    <li {...liProps}>
-      {typeof checked === "boolean" ? (
-        <input
-          type="checkbox"
-          readOnly
-          onClick={event => {
-            event.stopPropagation();
-            console.log(props);
-            debugger;
-          }}
-        />
-      ) : null}
-      {children}
-    </li>
-  );
-};
 
 const Do = () => {
   const classes = useStyles();
@@ -125,26 +73,6 @@ const Do = () => {
       });
     });
   }, [setFullMarkdown]);
-
-  /*
-  const renderers = {
-    listItem: (props: any) => {
-      if (typeof props.checked === "boolean") {
-        const { checked, sourcePosition } = props;
-        return (
-          <WrapCheckBox
-            setCheckedByLineNumber={setCheckedByLineNumber}
-            checked={checked}
-            sourcePosition={sourcePosition}
-          >
-            {defaultListItem(props)}
-          </WrapCheckBox>
-        );
-      }
-      return defaultListItem(props);
-    }
-  };
-  */
 
   return (
     <div className={classes.page}>
@@ -221,12 +149,6 @@ const Do = () => {
           filterText={filter}
           setCheckedByLineNumber={setCheckedByLineNumber}
         />
-        {/* <ReactMarkdown
-          source={filteredMarkdown}
-          // renderers={{ listItem: ListItem }}
-          renderers={renderers}
-          rawSourcePos
-        /> */}
       </Typography>
     </div>
   );
