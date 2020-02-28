@@ -9,6 +9,9 @@ const FILE = "do.md";
 const FILEPATH = path.join(DIR, FILE);
 
 const AUTH_STORAGE_KEY = "__auth";
+const NAME_KEY = "name";
+const EMAIL_KEY = "email";
+const REPO_KEY = "repo";
 
 if (process.env.NODE_ENV === "development") {
   (window as any)["fs"] = fs;
@@ -55,10 +58,9 @@ export const addBaseParams = <T extends object>(
     fs,
     http,
     dir: DIR,
-    corsProxy: "https://cors.isomorphic-git.org",
     author: {
-      name: "DoMd Browser",
-      email: "dummy@domain.tld"
+      name: localStorage.getItem(NAME_KEY) || "",
+      email: localStorage.getItem(EMAIL_KEY) || ""
     },
     onAuth
   };
@@ -77,6 +79,21 @@ export const ensureDir = async (dir: string) => {
 };
 
 export const startup = async () => {
+  const name = localStorage.getItem(NAME_KEY) || "";
+  const email = localStorage.getItem(EMAIL_KEY) || "";
+  const repo = localStorage.getItem(REPO_KEY) || "";
+  if (name.length === 0 || email.length === 0 || repo.length === 0) {
+    const name = window.prompt("Set your name for Git commits #8Q2DAI") || "";
+    const email = window.prompt("Set your email for Git commits #5hOmjM") || "";
+    const repo = window.prompt("Set your Git Repo #vr2VCA", "") || "";
+    if (name.length === 0 || email.length === 0 || repo.length === 0) {
+      throw new Error("Invalid. Reload. #t7aV6R");
+    }
+    window.localStorage.setItem(NAME_KEY, name);
+    window.localStorage.setItem(EMAIL_KEY, email);
+    window.localStorage.setItem(REPO_KEY, repo);
+  }
+
   await ensureDir(DIR);
 
   // await git.setConfig(
@@ -92,13 +109,19 @@ export const startup = async () => {
   //   })
   // );
 
-  await git.clone(
-    addBaseParams({
-      url: "https://github.com/chmac/do-test",
-      ref: "master",
-      singleBranch: false
-    })
-  );
+  try {
+    await git.clone(
+      addBaseParams({
+        url: localStorage.getItem(REPO_KEY) || "",
+        ref: "master",
+        singleBranch: false
+      })
+    );
+  } catch (error) {
+    // Clones might fail if it has already succeeded, so these errors can be
+    // swallowed. Surface them to the user just because...
+    alert(`Git clone error. #SWAnZr\n${error.message}`);
+  }
 
   await git.pull(
     addBaseParams({
