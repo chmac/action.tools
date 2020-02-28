@@ -11,35 +11,15 @@ import { Node, Parent, Position } from "unist";
 
 type H = (node: any, tagName: string, props: {}, children: Node[]) => Node;
 
-// const listItem = (h: H, node: Node, parent: Parent) => {
-//   if (isTask(node)) {
-//     const { children, position } = node;
-//     // Transform the children here
-//     const newChildren = children.reduce(child => {}, []);
-
-//     return h(
-//       node,
-//       "li",
-//       {
-//         position
-//       },
-//       node.children
-//     );
-//     debugger;
-//   }
-//   return listItemDefault(h, node, parent);
-// };
-
 const toReactProcessor = unified().use(remark2rehype, {
   handlers: {
-    // We add position data to any `listItem` node which is a task. This allows
-    // us to handle clicks on the node and figure out where it was positioned in
-    // the original markdown document.
     listItem: (h: any, node: Node, parent: Parent) => {
       const hast = listItemDefault(h, node, parent);
       if (!isTask(node)) {
         return hast;
       }
+      // We add data to any `listItem` node which is a task. This data is
+      // helpful later when we want to work with the task.
       const { position, checked } = node;
       const { properties, ...rest } = hast;
       return { ...rest, properties: { ...properties, position, checked } };
@@ -65,7 +45,9 @@ const LiFactory = (setCheckedByLineNumber: SetCheckedByLineNumber) => {
         {...rest}
         onClick={event => {
           // Descendant (child / grandchild / etc) tasks are nested inside other
-          // tasks, so we need to stop the event propagating up the tree.
+          // tasks, so we need to stop the event propagating up the tree,
+          // otherwise we end up with a click event on each of the ancestors of
+          // the task which was clicked.
           event.stopPropagation();
           setCheckedByLineNumber(position.start.line, checked);
         }}
@@ -93,17 +75,21 @@ const Markdown = (props: Props) => {
   } = props;
 
   const getReact = useCallback(() => {
+    // First convert the text markdown into an mdast
     const mdast = markdownToMdast(markdown);
-    // debugger;
+
+    // Then apply our filter settings
     const filtered = filterTasks(
       mdast,
       filterText,
       ignoreDates ? undefined : today(),
       showCompleted
     );
-    // return rehype2reactProcess.stringify(toReactProcessor.runSync(filtered));
+
+    // Now we convert the mdast into an hast
     const hast = toReactProcessor.runSync(filtered);
 
+    // We convert the hast into `createElement()` calls
     const elements = unified()
       .use(rehype2react, {
         createElement: React.createElement,
@@ -114,19 +100,15 @@ const Markdown = (props: Props) => {
       .stringify(hast);
 
     return elements;
-    // const out = toReactProcessor.runSync(filtered);
-    // debugger;
-    // return out;
-    // const (result  = toReactProcessor.runSync(filtered);
-    // const { contents } = result;
-    // return contents;
-  }, [markdown, showCompleted, ignoreDates, filterText]);
+  }, [
+    markdown,
+    showCompleted,
+    ignoreDates,
+    filterText,
+    setCheckedByLineNumber
+  ]);
 
-  const reactTree = getReact();
-
-  // debugger;
-
-  return <div>{reactTree}</div>;
+  return <div>{getReact()}</div>;
 };
 
 export default Markdown;
