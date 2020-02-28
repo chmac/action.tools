@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 import { createStyles, Theme, makeStyles } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
