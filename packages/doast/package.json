@@ -1,0 +1,45 @@
+{
+  "name": "doast",
+  "version": "0.1.0",
+  "description": "",
+  "files": [
+    "dist/**/*"
+  ],
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "eslint src/** --ext .js,.jsx,.ts,.tsx",
+    "prepack": "yarn run build",
+    "prepublishOnly": "yarn test && yarn run lint",
+    "preversion": "yarn run format && git add -A src",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "Callum Macdonald https://github.com/chmac",
+  "license": "AGPL-3.0-or-later",
+  "devDependencies": {
+    "@types/jest": "^25.1.2",
+    "@types/node": "^13.7.0",
+    "@types/unist": "^2.0.3",
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
+    "@typescript-eslint/parser": "^2.19.2",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-jest": "^23.7.0",
+    "jest": "^25.1.0",
+    "jest-date-mock": "^1.0.8",
+    "ts-jest": "^25.2.0",
+    "typescript": "^3.7.5",
+    "unist-builder": "^2.0.2"
+  },
+  "dependencies": {
+    "@js-joda/core": "^2.0.0",
+    "@rschedule/core": "^1.0.2",
+    "@rschedule/joda-date-adapter": "^1.0.2",
+    "remeda": "^0.0.14",
+    "unist-util-reduce": "^0.2.1",
+    "unist-util-select": "^3.0.1",
+    "unist-util-visit": "^2.0.1"
+  }
+}
