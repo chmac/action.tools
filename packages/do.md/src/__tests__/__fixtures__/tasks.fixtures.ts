@@ -1,11 +1,18 @@
 import * as u from "unist-builder";
 import { Task } from "../../types";
 
-export const makeTask = (title: string, completed = false): Task => {
+export const makeTask = (
+  title: string,
+  completed = false,
+  fields?: string[]
+): Task => {
   return u("listItem", { checked: completed, spread: false }, [
     u("paragraph", [
       u("text", {
         value: title
+      }),
+      ...(fields || []).map(field => {
+        return u("inlineCode", { value: field });
       })
     ])
   ]);

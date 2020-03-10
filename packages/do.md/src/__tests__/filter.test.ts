@@ -44,7 +44,9 @@ describe("filter", () => {
     });
 
     it("Returns true for a task snoozed until tomorrow #hKy1hc", () => {
-      const task = makeTask("A snoozed until yesterday task snooze:2020-02-25");
+      const task = makeTask("A snoozed until yesterday task", false, [
+        "snooze:2020-02-25"
+      ]);
       expect(isTaskSnoozed(task, today)).toEqual(true);
     });
   });
@@ -56,52 +58,64 @@ describe("filter", () => {
     });
 
     it("Returns true for a task with after:yesterday #sunNU9", () => {
-      const task = makeTask("An example task after:2020-02-23");
+      const task = makeTask("An example task", false, ["after:2020-02-23"]);
       expect(isTaskActionableToday(task, today)).toEqual(true);
     });
 
     it("Returns true for a task with after:today #lcAaiu", () => {
-      const task = makeTask("An example task after:2020-02-24");
+      const task = makeTask("An example task", false, ["after:2020-02-24"]);
       expect(isTaskActionableToday(task, today)).toEqual(true);
     });
 
     it("Returns false for a task with after:tomorrow #jAcnoR", () => {
-      const task = makeTask("An example task after:2020-02-25");
+      const task = makeTask("An example task", false, ["after:2020-02-25"]);
       expect(isTaskActionableToday(task, today)).toEqual(false);
     });
   });
 
   describe("doesTaskMatchTodayFilter()", () => {
     it("Returns true for a task with only an after date in the past #3cDKiv", () => {
-      const task = makeTask("A task after yesterday after:2020-02-23");
+      const task = makeTask("A task after yesterday", false, [
+        "after:2020-02-23"
+      ]);
       expect(doesTaskMatchTodayFilter(task, today)).toEqual(true);
     });
 
     it("Returns true for a task with only an after date in the future #tIHF4S", () => {
-      const task = makeTask("A task after tomorrow after:2020-02-25");
+      const task = makeTask("A task after tomorrow", false, [
+        "after:2020-02-25"
+      ]);
       expect(doesTaskMatchTodayFilter(task, today)).toEqual(false);
     });
 
     it("Returns true for a task with only a snooze date in the past #a5mD3U", () => {
-      const task = makeTask("A task snoozed until yesterday snooze:2020-02-23");
+      const task = makeTask("A task snoozed until yesterday", false, [
+        "snooze:2020-02-23"
+      ]);
       expect(doesTaskMatchTodayFilter(task, today)).toEqual(true);
     });
 
     it("Returns false for a task with only a snooze date in the future #sxrw7K", () => {
-      const task = makeTask("A task after tomorrow after:2020-02-23");
+      const task = makeTask("A task after tomorrow", false, [
+        "after:2020-02-23"
+      ]);
       expect(doesTaskMatchTodayFilter(task, today)).toEqual(true);
     });
 
     it("Returns false for a task with a snooze date in the future and an after date in the past #w9I4Hr", () => {
       const task = makeTask(
-        "A task after yesterday after:2020-02-23 snoozed until tomorrow snooze:2020-02-25"
+        "A task after yesterday snoozed until tomorrow",
+        false,
+        ["after:2020-02-23", "snooze:2020-02-25"]
       );
       expect(doesTaskMatchTodayFilter(task, today)).toEqual(false);
     });
 
     it("Returns false for a task with a snooze date in the past and an after date in the past #v1lmpS", () => {
       const task = makeTask(
-        "A task after the day before yesterday after:2020-02-22 snoozed until yesterday snooze:2020-02-23"
+        "A task after the day before yesterday snoozed until yesterday",
+        false,
+        ["after:2020-02-22", "snooze:2020-02-23"]
       );
       expect(doesTaskMatchTodayFilter(task, today)).toEqual(true);
     });
@@ -170,7 +184,7 @@ describe("filter", () => {
       const tasks = u("root", [
         u("list", [
           makeTask("A task with foo and bar"),
-          makeTask("A task after tomorrow after:2020-02-25"),
+          makeTask("A task after tomorrow", false, ["after:2020-02-25"]),
           makeTask("A task with foo and bar")
         ])
       ]);

@@ -59,7 +59,7 @@ describe("utils", () => {
   });
 
   describe("removeFromFront()", () => {
-    it("Removes after: from after:foo #9SSlpd", () => {
+    it("Removes after: from after:foo` #9SSlpd", () => {
       expect(removeFromFront("after:", "after:foo")).toEqual("foo");
     });
 
@@ -73,9 +73,9 @@ describe("utils", () => {
       expect(
         getKeyValue(
           "after",
-          makeTask(
-            "This is a task with a after:2020-02-15 key value pair #7lRBqI"
-          )
+          makeTask("This is a task with key value pair #7lRBqI", false, [
+            "after:2020-02-15"
+          ])
         )
       ).toEqual("2020-02-15");
     });
@@ -84,9 +84,9 @@ describe("utils", () => {
       expect(
         getKeyValue(
           "before",
-          makeTask(
-            "This is a task with a before:2020-02-15 key value pair #F9Yaie"
-          )
+          makeTask("This is a task with a key value pair #F9Yaie", false, [
+            "before:2020-02-15"
+          ])
         )
       ).toEqual("2020-02-15");
     });
@@ -95,9 +95,9 @@ describe("utils", () => {
       expect(
         getKeyValue(
           "before",
-          makeTask(
-            "This is a task with a BEFORE:2020-02-15 key value pair #igRct9"
-          )
+          makeTask("This is a task with a key value pair #igRct9", false, [
+            "BEFORE:2020-02-15"
+          ])
         )
       ).toEqual("2020-02-15");
     });
@@ -110,7 +110,12 @@ describe("utils", () => {
         {
           checked: true
         },
-        [u("paragraph", [u("text", "There is some text here foo:bar")])]
+        [
+          u("paragraph", [
+            u("text", "There is some text here "),
+            u("inlineCode", { value: "foo:bar" })
+          ])
+        ]
       );
 
       expect(hasKeyValue("foo", task)).toEqual(true);
@@ -122,7 +127,12 @@ describe("utils", () => {
         {
           checked: true
         },
-        [u("paragraph", [u("text", "There is some text here foo:bar")])]
+        [
+          u("paragraph", [
+            u("text", "There is some text here "),
+            u("inlineCode", { value: "foo:bar" })
+          ])
+        ]
       );
 
       expect(hasKeyValue("baz", task)).toEqual(false);
@@ -136,7 +146,12 @@ describe("utils", () => {
         {
           checked: true
         },
-        [u("paragraph", [u("text", "There is some text here foo:bar")])]
+        [
+          u("paragraph", [
+            u("text", "There is some text here "),
+            u("inlineCode", { value: "foo:bar" })
+          ])
+        ]
       );
 
       const expected = u(
@@ -144,27 +159,12 @@ describe("utils", () => {
         {
           checked: true
         },
-        [u("paragraph", [u("text", "There is some text here foo:baz")])]
-      );
-
-      expect(setKeyValue("foo", "baz", task)).toEqual(expected);
-    });
-
-    it("Correctly sets leading foo:bar #jPwKw2", () => {
-      const task = u(
-        "listItem",
-        {
-          checked: true
-        },
-        [u("paragraph", [u("text", "foo:bar There is some text here")])]
-      );
-
-      const expected = u(
-        "listItem",
-        {
-          checked: true
-        },
-        [u("paragraph", [u("text", "foo:baz There is some text here")])]
+        [
+          u("paragraph", [
+            u("text", "There is some text here "),
+            u("inlineCode", { value: "foo:baz" })
+          ])
+        ]
       );
 
       expect(setKeyValue("foo", "baz", task)).toEqual(expected);
@@ -184,7 +184,12 @@ describe("utils", () => {
         {
           checked: true
         },
-        [u("paragraph", [u("text", "There is some text here foo:baz")])]
+        [
+          u("paragraph", [
+            u("text", "There is some text here"),
+            u("inlineCode", { value: "foo:baz" })
+          ])
+        ]
       );
 
       expect(setKeyValue("foo", "baz", task)).toEqual(expected);
@@ -198,47 +203,12 @@ describe("utils", () => {
         {
           checked: true
         },
-        [u("paragraph", [u("text", "There is some text here foo:bar")])]
-      );
-
-      const expected = u(
-        "listItem",
-        {
-          checked: true
-        },
-        [u("paragraph", [u("text", "There is some text here")])]
-      );
-
-      expect(removeKeyValue("foo", task)).toEqual(expected);
-    });
-
-    it("Removes foo:bar from start #5BgSrW", () => {
-      const task = u(
-        "listItem",
-        {
-          checked: true
-        },
-        [u("paragraph", [u("text", "foo:bar There is some text here")])]
-      );
-
-      const expected = u(
-        "listItem",
-        {
-          checked: true
-        },
-        [u("paragraph", [u("text", "There is some text here")])]
-      );
-
-      expect(removeKeyValue("foo", task)).toEqual(expected);
-    });
-
-    it("Removes foo:bar from middle #PXzLCm", () => {
-      const task = u(
-        "listItem",
-        {
-          checked: true
-        },
-        [u("paragraph", [u("text", "There is some foo:bar text here")])]
+        [
+          u("paragraph", [
+            u("text", "There is some text here"),
+            u("inlineCode", { value: "foo:bar" })
+          ])
+        ]
       );
 
       const expected = u(
