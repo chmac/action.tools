@@ -1,14 +1,17 @@
 {
   "folders": [
-	{
-		"path": "cli"
-	},
-	{
-		"path": "frontend"
-	},
-	{
-		"path": "packages/do.md"
-	}
-],
+    {
+      "path": "cli"
+    },
+    {
+      "path": "frontend"
+    },
+    {
+      "path": "packages/do.md"
+    },
+    {
+      "path": "packages/doast"
+    }
+  ],
   "settings": {}
 }
