@@ -3,8 +3,8 @@ import { Node, Parent } from "unist";
 import reduce from "unist-util-reduce";
 
 import { RuleOption } from "./rschedule";
-import { Repeat, Day, Month, Unit } from "./types";
-import { startsWith, removeFromFront } from "./utils";
+import { Repeat, Day, Month, Unit, Task } from "./types";
+import { startsWith, removeFromFront, getKeyValue } from "./utils";
 import {
   EVERY,
   AFTER,
@@ -165,6 +165,20 @@ export const getRepeatParams = (input: string): Repeat => {
     unit: trimmedUnit,
     count
   };
+};
+
+export const getRepeatFromTaskOrThrow = (task: Task): Repeat => {
+  const repeatString = getKeyValue(REPEAT, task);
+
+  if (repeatString.length === 0) {
+    throw new Error(
+      "Cannot calculate next iteration for task without repeat data. #wjVJOL"
+    );
+  }
+
+  const repeat = getRepeatParams(repeatString);
+
+  return repeat;
 };
 
 export const repeatTasks = (root: Parent, todayString: string): Parent => {

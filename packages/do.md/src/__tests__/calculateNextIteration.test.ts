@@ -152,6 +152,25 @@ describe("calculateNextIteration", () => {
       ]);
       expect(setNextByAndAfterDates(task, today)).toEqual(expected);
     });
+
+    it("Correctly calculates for after:2020-02-24 repeat:every3days without a by date #b3qWvU", () => {
+      const task = makeTask("A simple task", true, [
+        "after:2020-02-24",
+        "repeat:every3days"
+      ]);
+      const expected = makeTask("A simple task", true, [
+        "after:2020-02-27",
+        "repeat:every3days"
+      ]);
+      expect(setNextByAndAfterDates(task, today)).toEqual(expected);
+    });
+
+    it("Throws for a task without an after or by date #Ntbyrc", () => {
+      const task = makeTask("An example without a date", false, [
+        "repeat:every3days"
+      ]);
+      expect(() => setNextByAndAfterDates(task, today)).toThrow();
+    });
   });
 
   describe("calculateNextIteration()", () => {

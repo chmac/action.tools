@@ -9,8 +9,8 @@ import {
   RepeatMonthly
 } from "./types";
 import { Rule } from "./rschedule";
-import { getRepeatParams } from "./repeat";
-import { getKeyValue, removeKeyValue } from "./utils";
+import { getRepeatParams, getRepeatFromTaskOrThrow } from "./repeat";
+import { getKeyValue, removeKeyValue, hasKeyValue } from "./utils";
 import { setDateField, getDateField, isTodayOrInTheFuture } from "./dates";
 import { EVERY, AFTER, REPEAT, BY, FINISHED } from "./constants";
 
@@ -119,14 +119,23 @@ export const getRepeatFromDate = (
 };
 
 export const setNextByAndAfterDates = (task: Task, today: LocalDate): Task => {
-  const repeatString = getKeyValue(REPEAT, task);
-  if (repeatString.length === 0) {
-    throw new Error(
-      "Cannot calculate next iteration for task without repepat. #wjVJOL"
-    );
-  }
+  const repeat = getRepeatFromTaskOrThrow(task);
 
-  const repeat = getRepeatParams(repeatString);
+  // If this task has no BY date, then just extend the AFTER date with the
+  // regular repeat logic and we're done.
+  if (!hasKeyValue(BY, task)) {
+    if (!hasKeyValue(AFTER, task)) {
+      throw new Error(
+        "Cannot repeat a task with neither AFTER or BY dates. #S5Bt0W"
+      );
+    }
+
+    const after = getDateField(AFTER, task);
+    const nextAfterDate = nextDateOfIterationAfterToday(repeat, after, today);
+    const withNextAfterDate = setDateField(AFTER, nextAfterDate, task);
+
+    return withNextAfterDate;
+  }
 
   const byDate = getDateField(BY, task);
   const afterString = getKeyValue(AFTER, task);
