@@ -25,14 +25,14 @@ import {
   markdownToMdast,
   mdastToMarkdown
 } from "../../services/mdast/mdast.service";
-import { repeatTasks } from "do.md";
+import { repeatTasks, today } from "do.md";
 
 const markdownChecked = "- [x]";
 const markdownUnchecked = "- [ ]";
 
 const applyMarkdownTransforms = async (input: string): Promise<string> => {
   const mdast = markdownToMdast(input);
-  const repeated = repeatTasks(mdast);
+  const repeated = repeatTasks(mdast, today().toString());
   const markdown = await mdastToMarkdown(repeated);
   return markdown;
 };
