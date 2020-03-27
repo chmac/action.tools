@@ -170,7 +170,8 @@ export default Do;
 
 const useStyles = makeStyles(theme => ({
   page: {
-    paddingTop: 20
+    paddingTop: 20,
+    paddingBottom: 100
   },
   paper: {
     padding: theme.spacing(2)
