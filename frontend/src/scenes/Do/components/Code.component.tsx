@@ -89,8 +89,19 @@ const CodeFactory = (today: LocalDate) => (props: any) => {
     const after = LocalDate.parse(value);
     const until = LocalDate.now().until(after);
     return (
-      <span style={{ fontWeight: "bold", color: periodToColour(until, blue) }}>
-        AFTER {formatPeriod(until)} ({value})
+      <span
+        style={{
+          padding: 3,
+          backgroundColor: blue[600]
+        }}
+      >
+        {!until.isNegative() && !until.isZero() ? (
+          <>
+            after {formatPeriod(until)} ({value})
+          </>
+        ) : (
+          <code>{content}</code>
+        )}
       </span>
     );
   }
@@ -99,7 +110,12 @@ const CodeFactory = (today: LocalDate) => (props: any) => {
     const by = LocalDate.parse(value);
     const until = LocalDate.now().until(by);
     return (
-      <span style={{ fontWeight: "bold", color: periodToColour(until, red) }}>
+      <span
+        style={{
+          padding: 3,
+          backgroundColor: periodToColour(until, red)
+        }}
+      >
         BY {formatPeriod(until)} ({value})
       </span>
     );
