@@ -20,7 +20,6 @@ const toRehypeProcessor = unified().use(remark2rehype, {
       if (!isTask(node)) {
         return hast;
       }
-      // debugger;
       // We add data to any `listItem` node which is a task. This data is
       // helpful later when we want to work with the task.
       const { position, checked } = node;
