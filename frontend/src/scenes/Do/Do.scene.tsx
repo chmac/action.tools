@@ -21,9 +21,21 @@ import {
   setMarkdown
 } from "../../services/storage/storage.service";
 import Markdown from "./components/Markdown.component";
+import {
+  markdownToMdast,
+  mdastToMarkdown
+} from "../../services/mdast/mdast.service";
+import { repeatTasks } from "do.md";
 
 const markdownChecked = "- [x]";
 const markdownUnchecked = "- [ ]";
+
+const applyMarkdownTransforms = async (input: string): Promise<string> => {
+  const mdast = markdownToMdast(input);
+  const repeated = repeatTasks(mdast);
+  const markdown = await mdastToMarkdown(repeated);
+  return markdown;
+};
 
 const Do = () => {
   const classes = useStyles();
@@ -33,7 +45,8 @@ const Do = () => {
   const [showCompleted, setShowCompleted] = useState(false);
 
   const writeNewMarkdownToStorage = useCallback(
-    (markdown: string) => {
+    async (input: string) => {
+      const markdown = await applyMarkdownTransforms(input);
       setMarkdown(markdown);
       setFullMarkdown(markdown);
     },
