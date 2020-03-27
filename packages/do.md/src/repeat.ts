@@ -17,6 +17,7 @@ import {
 } from "./constants";
 import { calculateNextIteration } from "./calculateNextIteration";
 import { isTask, hasKeyValue } from "./utils";
+import { LocalDate } from "@js-joda/core";
 
 const leadingNumberRegex = new RegExp("^[\\d,]+");
 
@@ -150,7 +151,8 @@ export const getRepeatParams = (input: string): Repeat => {
   };
 };
 
-export const repeatTasks = (root: Parent): Parent => {
+export const repeatTasks = (root: Parent, todayString: string): Parent => {
+  const today = LocalDate.parse(todayString);
   return reduce(root, (task: Node) => {
     if (isTask(task)) {
       if (
@@ -161,7 +163,7 @@ export const repeatTasks = (root: Parent): Parent => {
         // Only repeat tasks which do have a repeat field
         hasKeyValue(REPEAT, task)
       ) {
-        return calculateNextIteration(task);
+        return calculateNextIteration(task, today);
       }
     }
     return task;
