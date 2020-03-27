@@ -3,13 +3,13 @@ import unified from "unified";
 import remark2rehype from "remark-rehype";
 import rehype2react from "rehype-react";
 import { filterTasks, today } from "do.md";
-import { Node, Parent, Position } from "unist";
+import { Node, Parent } from "unist";
 import listItemDefault from "mdast-util-to-hast/lib/handlers/list-item";
 import { isTask } from "do.md/dist/utils";
 
 import { markdownToMdast } from "../../../services/mdast/mdast.service";
 import LiFactory, { SetCheckedByLineNumber } from "./Task.component";
-import Code from "./Code.component";
+import CodeFactory from "./Code.component";
 
 type H = (node: any, tagName: string, props: {}, children: Node[]) => Node;
 
@@ -68,7 +68,7 @@ const Markdown = (props: Props) => {
       .use(rehype2react, {
         createElement: React.createElement,
         components: {
-          code: Code,
+          code: CodeFactory(today()),
           li: LiFactory(setCheckedByLineNumber)
         }
       })
