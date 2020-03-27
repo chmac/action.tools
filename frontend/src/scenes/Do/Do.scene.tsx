@@ -18,7 +18,8 @@ import Clear from "@material-ui/icons/Clear";
 import {
   startup,
   getMarkdown,
-  setMarkdown
+  setMarkdown,
+  wipe
 } from "../../services/storage/storage.service";
 import Markdown from "./components/Markdown.component";
 import {
@@ -162,6 +163,25 @@ const Do = () => {
           setCheckedByLineNumber={setCheckedByLineNumber}
         />
       </Typography>
+      <Paper className={classes.bottomActions}>
+        <Typography variant="h2">Danger</Typography>
+        <Button
+          size="small"
+          onClick={() => {
+            if (!window.confirm("Are you sure? There is no undo.")) {
+              return;
+            }
+            if (
+              !window.confirm("Are you REALLY sure? There REALLY is no undo.")
+            ) {
+              return;
+            }
+            wipe();
+          }}
+        >
+          Reset Everything
+        </Button>
+      </Paper>
     </div>
   );
 };
@@ -174,6 +194,10 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: 100
   },
   paper: {
+    padding: theme.spacing(2)
+  },
+  bottomActions: {
+    marginTop: "100vh",
     padding: theme.spacing(2)
   }
 }));

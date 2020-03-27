@@ -3,7 +3,6 @@ import * as LightningFS from "@isomorphic-git/lightning-fs";
 import http from "isomorphic-git/http/web";
 import * as path from "path";
 
-const fs = new LightningFS("domd", { wipe: false });
 const DIR = "/domd";
 const FILE = "do.md";
 const FILEPATH = path.join(DIR, FILE);
@@ -12,10 +11,24 @@ const AUTH_STORAGE_KEY = "__auth";
 const NAME_KEY = "name";
 const EMAIL_KEY = "email";
 const REPO_KEY = "repo";
+const WIPE_ON_START_KEY = "__wipeOnStart";
+
+const shouldWipe = window.localStorage.getItem(WIPE_ON_START_KEY) === "true";
+if (shouldWipe) {
+  window.localStorage.removeItem(WIPE_ON_START_KEY);
+}
+
+const fs = new LightningFS("domd", { wipe: shouldWipe });
 
 if (process.env.NODE_ENV === "development") {
   (window as any)["fs"] = fs;
 }
+
+export const wipe = () => {
+  window.localStorage.clear();
+  window.localStorage.setItem(WIPE_ON_START_KEY, "true");
+  window.location.reload();
+};
 
 export const getAuth = ():
   | { username: string; password: string }
