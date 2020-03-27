@@ -74,6 +74,11 @@ with a date 7 days in the future.
 - Relative date replacements
 - Creating the next task iteration
 
+## Priority
+
+- [ ] A prio 1 task could be marked p1
+- [ ] A prio 2 task could be p2
+
 # Work
 
 This is the general project that handles work related matters.
