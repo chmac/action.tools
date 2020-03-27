@@ -13,7 +13,7 @@ import {
   createNextRepetitionTask
 } from "../calculateNextIteration";
 import { makeTask } from "./__fixtures__/tasks.fixtures";
-import { today } from "./__fixtures__/dates.fixtures";
+import { today, tomorrow } from "./__fixtures__/dates.fixtures";
 
 describe("calculateNextIteration", () => {
   beforeAll(() => {
@@ -124,7 +124,7 @@ describe("calculateNextIteration", () => {
           LocalDate.of(2020, 1, 1),
           today
         )
-      ).toEqual(today);
+      ).toEqual(tomorrow);
     });
   });
 

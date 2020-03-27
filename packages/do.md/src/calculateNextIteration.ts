@@ -94,7 +94,7 @@ export const nextDateOfIterationAfterToday = (
 ): LocalDate => {
   let next = nextDateOfIteration(repeat, start);
 
-  while (!isTodayOrInTheFuture(next, today)) {
+  while (!next.isAfter(today)) {
     next = nextDateOfIteration(repeat, next);
   }
 
