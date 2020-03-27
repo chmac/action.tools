@@ -34,10 +34,21 @@ export const nextDateOfIterationSimple = (
   return notReachable(unit);
 };
 
-export const getNextOccurrenceFromRule = (rule: Rule): LocalDate => {
-  const [next] = rule.occurrences({ take: 1 }).toArray();
+export const getNextOccurrenceFromRule = (
+  rule: Rule,
+  start: LocalDate
+): LocalDate => {
+  const [first, second] = rule.occurrences({ take: 2 }).toArray();
 
-  return LocalDate.from(next.date);
+  const firstDate = LocalDate.from(first.date);
+  // The first date created by the rule might be the same as the `start` date.
+  // In that case we did not find the "next" iteration.
+  if (firstDate.isAfter(start)) {
+    return firstDate;
+  }
+
+  const secondDate = LocalDate.from(second.date);
+  return secondDate;
 };
 
 export const localDateToZonedDateTime = (start: LocalDate): ZonedDateTime => {
@@ -53,7 +64,7 @@ export const nextDateOfIterationWeekly = (
     byDayOfWeek: repeat.days,
     start: localDateToZonedDateTime(start)
   });
-  return getNextOccurrenceFromRule(rule);
+  return getNextOccurrenceFromRule(rule, start);
 };
 
 export const nextDateOfIterationMonthly = (
@@ -66,7 +77,7 @@ export const nextDateOfIterationMonthly = (
     byMonthOfYear: repeat.months,
     start: localDateToZonedDateTime(start)
   });
-  return getNextOccurrenceFromRule(rule);
+  return getNextOccurrenceFromRule(rule, start);
 };
 
 export const nextDateOfIteration = (

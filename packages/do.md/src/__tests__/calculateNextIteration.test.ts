@@ -153,6 +153,34 @@ describe("calculateNextIteration", () => {
       expect(setNextByAndAfterDates(task, today)).toEqual(expected);
     });
 
+    it("Always selects a date after the last date #6JzpMD", () => {
+      const task = makeTask(
+        "An example task last Monday repeating on Mondays",
+        true,
+        ["after:2020-02-19", "repeat:everywed"]
+      );
+      const expected = makeTask(
+        "An example task last Monday repeating on Mondays",
+        true,
+        ["after:2020-02-26", "repeat:everywed"]
+      );
+      expect(setNextByAndAfterDates(task, today)).toEqual(expected);
+    });
+
+    it("Correctly skips today if today was the next iteration #xiw8x9", () => {
+      const task = makeTask(
+        "An example task last Monday repeating on Mondays",
+        true,
+        ["after:2020-02-17", "repeat:everymon"]
+      );
+      const expected = makeTask(
+        "An example task last Monday repeating on Mondays",
+        true,
+        ["after:2020-03-02", "repeat:everymon"]
+      );
+      expect(setNextByAndAfterDates(task, today)).toEqual(expected);
+    });
+
     it("Correctly calculates for after:2020-02-24 repeat:every3days without a by date #b3qWvU", () => {
       const task = makeTask("A simple task", true, [
         "after:2020-02-24",
