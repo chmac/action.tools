@@ -8,8 +8,8 @@ import listItemDefault from "mdast-util-to-hast/lib/handlers/list-item";
 import { isTask } from "do.md/dist/utils";
 
 import { markdownToMdast } from "../../../services/mdast/mdast.service";
-import LiFactory, { SetCheckedByLineNumber } from "./Task.component";
-import CodeFactory from "./Code.component";
+import TaskFactory, { SetCheckedByLineNumber } from "./Task.component";
+import DataFactory from "./Data.component";
 
 type H = (node: any, tagName: string, props: {}, children: Node[]) => Node;
 
@@ -68,8 +68,8 @@ const Markdown = (props: Props) => {
       .use(rehype2react, {
         createElement: React.createElement,
         components: {
-          code: CodeFactory(today()),
-          li: LiFactory(setCheckedByLineNumber)
+          code: DataFactory(today()),
+          li: TaskFactory(setCheckedByLineNumber)
         }
       })
       .stringify(hast);

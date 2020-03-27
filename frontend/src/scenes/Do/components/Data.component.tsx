@@ -81,7 +81,7 @@ const periodToColour = (period: Period, colour: Color) => {
 };
 
 // NOTE: Using `today.until()` throws, unclear why
-const CodeFactory = (today: LocalDate) => (props: any) => {
+const DataFactory = (today: LocalDate) => (props: any) => {
   const content = props.children[0];
   const [key, value] = content.split(":");
 
@@ -126,4 +126,4 @@ const CodeFactory = (today: LocalDate) => (props: any) => {
   return <code {...props} />;
 };
 
-export default CodeFactory;
+export default DataFactory;

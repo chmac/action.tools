@@ -1,4 +1,5 @@
 import React from "react";
+import orange from "@material-ui/core/colors/orange";
 import { Position } from "unist";
 
 export type SetCheckedByLineNumber = (
@@ -6,7 +7,20 @@ export type SetCheckedByLineNumber = (
   currentCheckedValue: boolean
 ) => void;
 
-const LiFactory = (setCheckedByLineNumber: SetCheckedByLineNumber) => {
+const titleToBackgroundColor = (title: string): string => {
+  if (title.indexOf("p1") !== -1) {
+    return orange[900];
+  }
+  if (title.indexOf("p2") !== -1) {
+    return orange[600];
+  }
+  if (title.indexOf("p3") !== -1) {
+    return orange[300];
+  }
+  return "";
+};
+
+const TaskFactory = (setCheckedByLineNumber: SetCheckedByLineNumber) => {
   const Li = (props: {
     position: Position;
     children: Element[];
@@ -15,7 +29,6 @@ const LiFactory = (setCheckedByLineNumber: SetCheckedByLineNumber) => {
     const { position, checked, children, ...rest } = props;
 
     /*
-
     // Add a deadline to the task description
     const [el, space, title, ...otherChildren] = children;
 
@@ -38,6 +51,7 @@ const LiFactory = (setCheckedByLineNumber: SetCheckedByLineNumber) => {
     // }, []);
 
     */
+    const [, , title] = children;
 
     return (
       <li
@@ -51,7 +65,8 @@ const LiFactory = (setCheckedByLineNumber: SetCheckedByLineNumber) => {
           setCheckedByLineNumber(position.start.line, checked);
         }}
         style={{
-          opacity: checked ? 0.5 : 1
+          opacity: checked ? 0.5 : 1,
+          backgroundColor: titleToBackgroundColor((title as unknown) as string)
         }}
       >
         {children}
@@ -62,4 +77,4 @@ const LiFactory = (setCheckedByLineNumber: SetCheckedByLineNumber) => {
   return Li;
 };
 
-export default LiFactory;
+export default TaskFactory;
