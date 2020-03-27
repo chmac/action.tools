@@ -49,7 +49,6 @@ const Markdown = (props: Props) => {
   const getReact = useCallback(() => {
     // First convert the text markdown into an mdast
     const mdast = markdownToMdast(markdown);
-    // debugger;
 
     // Then apply our filter settings
     const filtered = filterTasks(
