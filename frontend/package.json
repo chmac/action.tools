@@ -23,7 +23,7 @@
     "@types/vfile": "^4.0.0",
     "apollo-boost": "^0.4.7",
     "dayjs": "^1.8.20",
-    "do.md": "file:./../packages/do.md",
+    "do.md": "../packages/do.md",
     "graphql": "^14.5.8",
     "history": "^4.10.1",
     "isomorphic-git": "^1.0.0",
