@@ -90,6 +90,22 @@ export const getRepeatParams = (input: string): Repeat => {
   // NOTE: We convert to lower case here to ensure case insensitivity
   const unit = removeFromFront(numbers.join(","), countAndUnit).toLowerCase();
 
+  if (isDay(unit)) {
+    if (repeat === AFTER) {
+      throw new Error(
+        "Invalid repeat string. Cannot mix after and multiple values. #psuDCi"
+      );
+    }
+    const days = [dayInputToDayOfWeek(unit)];
+    const count = numbers.length === 1 ? numbers[0] : 1;
+    return {
+      type: "weekly",
+      repeat,
+      count,
+      days
+    };
+  }
+
   const multpleUnits = unit.split(",");
 
   if (multpleUnits.length > 1) {

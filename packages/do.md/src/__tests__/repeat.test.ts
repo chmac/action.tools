@@ -118,6 +118,15 @@ describe("getLeadingNumbers()", () => {
       });
     });
 
+    it("Correctly extracts everymon #w93uOU", () => {
+      expect(getRepeatParams("everymon")).toEqual({
+        type: "weekly",
+        repeat: "every",
+        count: 1,
+        days: ["MO"]
+      });
+    });
+
     it("Correctly extracts everymon,tue,fri #Co2Et7", () => {
       expect(getRepeatParams("everymon,tue,fri")).toEqual({
         type: "weekly",
