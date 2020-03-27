@@ -32,10 +32,15 @@ const markdownChecked = "- [x]";
 const markdownUnchecked = "- [ ]";
 
 const applyMarkdownTransforms = async (input: string): Promise<string> => {
-  const mdast = markdownToMdast(input);
-  const repeated = repeatTasks(mdast, today().toString());
-  const markdown = await mdastToMarkdown(repeated);
-  return markdown;
+  try {
+    const mdast = markdownToMdast(input);
+    const repeated = repeatTasks(mdast, today().toString());
+    const markdown = await mdastToMarkdown(repeated);
+    return markdown;
+  } catch (err) {
+    alert(`Error in transforming markdown #6V1BOv: ${err.message}`);
+    throw err;
+  }
 };
 
 const Do = () => {
