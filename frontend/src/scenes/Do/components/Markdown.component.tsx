@@ -3,11 +3,13 @@ import unified from "unified";
 import remark2rehype from "remark-rehype";
 import rehype2react from "rehype-react";
 import { filterTasks, today } from "do.md";
+import { Node, Parent, Position } from "unist";
 import listItemDefault from "mdast-util-to-hast/lib/handlers/list-item";
 import { isTask } from "do.md/dist/utils";
 
 import { markdownToMdast } from "../../../services/mdast/mdast.service";
-import { Node, Parent, Position } from "unist";
+import LiFactory, { SetCheckedByLineNumber } from "./Task.component";
+import Code from "./Code.component";
 
 type H = (node: any, tagName: string, props: {}, children: Node[]) => Node;
 
@@ -18,6 +20,7 @@ const toRehypeProcessor = unified().use(remark2rehype, {
       if (!isTask(node)) {
         return hast;
       }
+      // debugger;
       // We add data to any `listItem` node which is a task. This data is
       // helpful later when we want to work with the task.
       const { position, checked } = node;
@@ -26,36 +29,6 @@ const toRehypeProcessor = unified().use(remark2rehype, {
     }
   }
 });
-
-type SetCheckedByLineNumber = (
-  lineNumber: number,
-  currentCheckedValue: boolean
-) => void;
-
-const LiFactory = (setCheckedByLineNumber: SetCheckedByLineNumber) => {
-  const Li = (props: {
-    position: Position;
-    children: Element[];
-    checked: boolean;
-  }) => {
-    const { position, checked, ...rest } = props;
-
-    return (
-      <li
-        {...rest}
-        onClick={event => {
-          // Descendant (child / grandchild / etc) tasks are nested inside other
-          // tasks, so we need to stop the event propagating up the tree,
-          // otherwise we end up with a click event on each of the ancestors of
-          // the task which was clicked.
-          event.stopPropagation();
-          setCheckedByLineNumber(position.start.line, checked);
-        }}
-      />
-    );
-  };
-  return Li;
-};
 
 type Props = {
   markdown: string;
@@ -77,6 +50,7 @@ const Markdown = (props: Props) => {
   const getReact = useCallback(() => {
     // First convert the text markdown into an mdast
     const mdast = markdownToMdast(markdown);
+    // debugger;
 
     // Then apply our filter settings
     const filtered = filterTasks(
@@ -94,6 +68,7 @@ const Markdown = (props: Props) => {
       .use(rehype2react, {
         createElement: React.createElement,
         components: {
+          code: Code,
           li: LiFactory(setCheckedByLineNumber)
         }
       })
