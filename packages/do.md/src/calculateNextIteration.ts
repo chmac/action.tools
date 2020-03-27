@@ -93,9 +93,18 @@ export const nextDateOfIterationAfterToday = (
   today: LocalDate
 ): LocalDate => {
   let next = nextDateOfIteration(repeat, start);
+  const first = next;
 
   while (!next.isAfter(today)) {
     next = nextDateOfIteration(repeat, next);
+
+    // NOTE: There is a potential to reach an infinite loop here if the returned
+    // date is the same as the current date. This was an issue because
+    // `nextDateOfIteration()` was not always returning a date which was after
+    // its provided `start` date.
+    if (next.isEqual(first)) {
+      throw new Error("Recursive loop encountered. #l2OWKV");
+    }
   }
 
   return next;
