@@ -187,6 +187,7 @@ describe("utils", () => {
         [
           u("paragraph", [
             u("text", "There is some text here"),
+            u("text", " "),
             u("inlineCode", { value: "foo:baz" })
           ])
         ]

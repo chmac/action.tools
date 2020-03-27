@@ -103,9 +103,12 @@ export const setKeyValue = (key: string, value: string, task: Task): Task => {
     }
 
     if (node.type === "paragraph" && !foundMatch) {
-      const newChild = u("inlineCode", { value: valueString });
+      const newChildren = [
+        u("text", { value: " " }),
+        u("inlineCode", { value: valueString })
+      ];
       const { children, ...rest } = node as Parent;
-      return { ...rest, children: children.concat(newChild) };
+      return { ...rest, children: children.concat(newChildren) };
     }
 
     return node;
