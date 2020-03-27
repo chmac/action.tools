@@ -7,10 +7,13 @@ import {
   nextDateOfIterationSimple,
   nextDateOfIterationWeekly,
   nextDateOfIterationMonthly,
+  nextDateOfIteration,
+  nextDateOfIterationAfterToday,
   setNextByAndAfterDates,
   createNextRepetitionTask
 } from "../calculateNextIteration";
 import { makeTask } from "./__fixtures__/tasks.fixtures";
+import { today } from "./__fixtures__/dates.fixtures";
 
 describe("calculateNextIteration", () => {
   beforeAll(() => {
@@ -92,6 +95,39 @@ describe("calculateNextIteration", () => {
     });
   });
 
+  describe("nextDateOfIteration()", () => {
+    it("Calculates a date in the past #oaeFNf", () => {
+      expect(
+        nextDateOfIteration(
+          {
+            type: "simple",
+            repeat: "every",
+            count: 1,
+            unit: "day"
+          },
+          LocalDate.of(2020, 1, 1)
+        )
+      ).toEqual(LocalDate.of(2020, 1, 2));
+    });
+  });
+
+  describe("nextDateOfIterationAfterToday()", () => {
+    it("Finds a date in the future #98vsou", () => {
+      expect(
+        nextDateOfIterationAfterToday(
+          {
+            type: "simple",
+            repeat: "every",
+            count: 1,
+            unit: "day"
+          },
+          LocalDate.of(2020, 1, 1),
+          today
+        )
+      ).toEqual(today);
+    });
+  });
+
   describe("setNextByAndAfterDates()", () => {
     it("Correctly calculates for by:2020-02-21 repeat:after3days #hWLtrb", () => {
       const task = makeTask("A simple task", true, [
@@ -102,7 +138,7 @@ describe("calculateNextIteration", () => {
         "by:2020-02-27",
         "repeat:after3days"
       ]);
-      expect(setNextByAndAfterDates(task)).toEqual(expected);
+      expect(setNextByAndAfterDates(task, today)).toEqual(expected);
     });
 
     it("Correctly calculates for by:2020-02-24 repeat:every3days #hWLtrb", () => {
@@ -114,7 +150,7 @@ describe("calculateNextIteration", () => {
         "by:2020-02-27",
         "repeat:every3days"
       ]);
-      expect(setNextByAndAfterDates(task)).toEqual(expected);
+      expect(setNextByAndAfterDates(task, today)).toEqual(expected);
     });
   });
 
@@ -128,7 +164,7 @@ describe("calculateNextIteration", () => {
         "by:2020-02-27",
         "repeat:after3days"
       ]);
-      expect(createNextRepetitionTask(task)).toEqual(expected);
+      expect(createNextRepetitionTask(task, today)).toEqual(expected);
     });
 
     it("Correctly calculates for by:2020-02-24 repeat:every3days #7jfVa5", () => {
@@ -140,7 +176,7 @@ describe("calculateNextIteration", () => {
         "by:2020-02-27",
         "repeat:every3days"
       ]);
-      expect(createNextRepetitionTask(task)).toEqual(expected);
+      expect(createNextRepetitionTask(task, today)).toEqual(expected);
     });
 
     it("Removes the finished field #HFcU0o", () => {
@@ -153,7 +189,7 @@ describe("calculateNextIteration", () => {
         "by:2020-02-27",
         "repeat:after3days"
       ]);
-      expect(createNextRepetitionTask(task)).toEqual(expected);
+      expect(createNextRepetitionTask(task, today)).toEqual(expected);
     });
   });
 });

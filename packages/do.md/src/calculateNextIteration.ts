@@ -11,7 +11,7 @@ import {
 import { Rule } from "./rschedule";
 import { getRepeatParams } from "./repeat";
 import { getKeyValue, removeKeyValue } from "./utils";
-import { setDateField, getDateField } from "./dates";
+import { setDateField, getDateField, isTodayOrInTheFuture } from "./dates";
 import { EVERY, AFTER, REPEAT, BY, FINISHED } from "./constants";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -87,22 +87,38 @@ export const nextDateOfIteration = (
   return notReachable(repeat);
 };
 
+export const nextDateOfIterationAfterToday = (
+  repeat: Repeat,
+  start: LocalDate,
+  today: LocalDate
+): LocalDate => {
+  let next = nextDateOfIteration(repeat, start);
+
+  while (!isTodayOrInTheFuture(next, today)) {
+    next = nextDateOfIteration(repeat, next);
+  }
+
+  return next;
+  throw new Error("Yet to implement recursion #ORv2EF");
+};
+
 export const getRepeatFromDate = (
   repeat: Repeat,
-  byDate: LocalDate
+  byDate: LocalDate,
+  today: LocalDate
 ): LocalDate => {
   switch (repeat.repeat) {
     case EVERY: {
       return byDate;
     }
     case AFTER: {
-      return LocalDate.now();
+      return today;
     }
   }
   return notReachable(repeat);
 };
 
-export const setNextByAndAfterDates = (task: Task): Task => {
+export const setNextByAndAfterDates = (task: Task, today: LocalDate): Task => {
   const repeatString = getKeyValue(REPEAT, task);
   if (repeatString.length === 0) {
     throw new Error(
@@ -115,8 +131,12 @@ export const setNextByAndAfterDates = (task: Task): Task => {
   const byDate = getDateField(BY, task);
   const afterString = getKeyValue(AFTER, task);
 
-  const repeatFromDate = getRepeatFromDate(repeat, byDate);
-  const nextByDate = nextDateOfIteration(repeat, repeatFromDate);
+  const repeatFromDate = getRepeatFromDate(repeat, byDate, today);
+  const nextByDate = nextDateOfIterationAfterToday(
+    repeat,
+    repeatFromDate,
+    today
+  );
 
   const withNextByDate = setDateField(BY, nextByDate, task);
 
@@ -130,17 +150,23 @@ export const setNextByAndAfterDates = (task: Task): Task => {
   return setDateField(AFTER, nextAfterDate, task);
 };
 
-export const createNextRepetitionTask = (task: Task): Task => {
+export const createNextRepetitionTask = (
+  task: Task,
+  today: LocalDate
+): Task => {
   return R.pipe(
     task,
     task => removeKeyValue(FINISHED, task),
-    task => setNextByAndAfterDates(task),
+    task => setNextByAndAfterDates(task, today),
     R.set("checked", false)
   );
 };
 
-export const calculateNextIteration = (task: Task): Task[] => {
-  const nextTask = createNextRepetitionTask(task);
-  const taskWithFinished = setDateField(FINISHED, LocalDate.now(), task);
+export const calculateNextIteration = (
+  task: Task,
+  today: LocalDate
+): Task[] => {
+  const nextTask = createNextRepetitionTask(task, today);
+  const taskWithFinished = setDateField(FINISHED, today, task);
   return [nextTask, taskWithFinished];
 };
