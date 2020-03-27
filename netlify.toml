@@ -8,5 +8,5 @@
 [build]
   base = "frontend"
   publish = "build/"
-  command = "cd ../packages/do.md && yarn && yarn build && cd ../../frontend && yarn build"
+  command = "yarn build"
   ignore = "git diff --quiet HEAD^ HEAD -- . ../packages"

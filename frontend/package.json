@@ -53,6 +53,7 @@
     "unist-util-visit": "^2.0.1"
   },
   "scripts": {
+    "preinstall": "cd ../packages/do.md && yarn && yarn build",
     "start": "env-cmd -f ../.env react-scripts start",
     "build": "react-scripts build",
     "test": "env-cmd -f ../.env react-scripts test",
