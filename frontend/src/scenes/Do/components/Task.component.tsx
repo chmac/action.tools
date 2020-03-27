@@ -51,6 +51,9 @@ const LiFactory = (setCheckedByLineNumber: SetCheckedByLineNumber) => {
           event.stopPropagation();
           setCheckedByLineNumber(position.start.line, checked);
         }}
+        style={{
+          opacity: checked ? 0.5 : 1
+        }}
       >
         {children}
         {/* {newChildren} */}
