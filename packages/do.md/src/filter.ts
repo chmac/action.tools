@@ -67,7 +67,7 @@ export const filterTasks = (
   today?: LocalDate,
   showCompleted = false
 ): Parent => {
-  if (filterText === "" && typeof today === "undefined") {
+  if (filterText === "" && typeof today === "undefined" && showCompleted) {
     return root;
   }
 

@@ -305,5 +305,27 @@ describe("filter", () => {
 
       expect(filterTasks(tasks, "baz", undefined, true)).toEqual(expected);
     });
+
+    it("Does not show completed tasks when ignoring dates #XHI21O", () => {
+      const tasks = u("root", [
+        u("list", [
+          makeTask("An example task"),
+          makeTask("An example with a future after date", false, [
+            "after:2020-02-28"
+          ]),
+          makeTask("A completed task", true)
+        ])
+      ]);
+      const expected = u("root", [
+        u("list", [
+          makeTask("An example task"),
+          makeTask("An example with a future after date", false, [
+            "after:2020-02-28"
+          ])
+        ])
+      ]);
+
+      expect(filterTasks(tasks, "", undefined, false)).toEqual(expected);
+    });
   });
 });
