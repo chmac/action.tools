@@ -46,8 +46,15 @@ export const doesTaskMatchTodayFilter = (
   if (typeof today === "undefined") {
     return true;
   }
-  if (isTaskSnoozed(task, today) || !isTaskActionableToday(task, today)) {
-    return false;
+  try {
+    if (isTaskSnoozed(task, today) || !isTaskActionableToday(task, today)) {
+      return false;
+    }
+  } catch (error) {
+    // If the tests threw, then we say the task DID match. This ensures that
+    // whatever we cannot parse gets displayed to the user. Better to err on the
+    // side of over sharing rather than hiding potentially relevant tasks.
+    return true;
   }
   return true;
 };
