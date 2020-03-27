@@ -1,7 +1,7 @@
 import React from "react";
 import { Color } from "@material-ui/core";
 import red from "@material-ui/core/colors/red";
-import blue from "@material-ui/core/colors/blue";
+import lightBlue from "@material-ui/core/colors/lightBlue";
 import { LocalDate, Period } from "@js-joda/core";
 import { AFTER, BY } from "do.md/dist/constants";
 
@@ -92,13 +92,11 @@ const CodeFactory = (today: LocalDate) => (props: any) => {
       <span
         style={{
           padding: 3,
-          backgroundColor: blue[600]
+          backgroundColor: lightBlue[100]
         }}
       >
         {!until.isNegative() && !until.isZero() ? (
-          <>
-            after {formatPeriod(until)} ({value})
-          </>
+          `after ${formatPeriod(until)} (${value})`
         ) : (
           <code>{content}</code>
         )}
