@@ -85,38 +85,42 @@ const CodeFactory = (today: LocalDate) => (props: any) => {
   const content = props.children[0];
   const [key, value] = content.split(":");
 
-  if (key === AFTER) {
-    const after = LocalDate.parse(value);
-    const until = LocalDate.now().until(after);
-    return (
-      <span
-        style={{
-          padding: 3,
-          backgroundColor: lightBlue[100]
-        }}
-      >
-        {!until.isNegative() && !until.isZero() ? (
-          `after ${formatPeriod(until)} (${value})`
-        ) : (
-          <code>{content}</code>
-        )}
-      </span>
-    );
-  }
+  try {
+    if (key === AFTER) {
+      const after = LocalDate.parse(value);
+      const until = LocalDate.now().until(after);
+      return (
+        <span
+          style={{
+            padding: 3,
+            backgroundColor: lightBlue[100]
+          }}
+        >
+          {!until.isNegative() && !until.isZero() ? (
+            `after ${formatPeriod(until)} (${value})`
+          ) : (
+            <code>{content}</code>
+          )}
+        </span>
+      );
+    }
 
-  if (key === BY) {
-    const by = LocalDate.parse(value);
-    const until = LocalDate.now().until(by);
-    return (
-      <span
-        style={{
-          padding: 3,
-          backgroundColor: periodToColour(until, red)
-        }}
-      >
-        BY {formatPeriod(until)} ({value})
-      </span>
-    );
+    if (key === BY) {
+      const by = LocalDate.parse(value);
+      const until = LocalDate.now().until(by);
+      return (
+        <span
+          style={{
+            padding: 3,
+            backgroundColor: periodToColour(until, red)
+          }}
+        >
+          BY {formatPeriod(until)} ({value})
+        </span>
+      );
+    }
+  } catch (error) {
+    console.log("Code block parsing threw #KpYS8o", error);
   }
 
   return <code {...props} />;
