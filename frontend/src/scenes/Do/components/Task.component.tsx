@@ -7,15 +7,17 @@ export type SetCheckedByLineNumber = (
   currentCheckedValue: boolean
 ) => void;
 
-const titleToBackgroundColor = (title: string): string => {
-  if (title.indexOf("p1") !== -1) {
-    return orange[900];
-  }
-  if (title.indexOf("p2") !== -1) {
-    return orange[600];
-  }
-  if (title.indexOf("p3") !== -1) {
-    return orange[300];
+const titleToBackgroundColor = (title: any): string => {
+  if (typeof title === "string") {
+    if (title.indexOf("p1") !== -1) {
+      return orange[900];
+    }
+    if (title.indexOf("p2") !== -1) {
+      return orange[600];
+    }
+    if (title.indexOf("p3") !== -1) {
+      return orange[300];
+    }
   }
   return "";
 };
@@ -66,7 +68,7 @@ const TaskFactory = (setCheckedByLineNumber: SetCheckedByLineNumber) => {
         }}
         style={{
           opacity: checked ? 0.5 : 1,
-          backgroundColor: titleToBackgroundColor((title as unknown) as string)
+          backgroundColor: titleToBackgroundColor(title)
         }}
       >
         {children}
