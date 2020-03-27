@@ -101,6 +101,40 @@ describe("utils", () => {
         )
       ).toEqual("2020-02-15");
     });
+
+    it("Successfully finds a key value pair on a second line #jIlYxd", () => {
+      expect(
+        getKeyValue(
+          "before",
+          u("listItem", { checked: false }, [
+            u("paragraph", [
+              u("text", { value: "First line of a task" }),
+              u("break"),
+              u("inlineCode", { value: "before:2020-02-24" }),
+              u("text", { value: " " }),
+              u("inlineCode", { value: "after:2020-02-21" })
+            ])
+          ])
+        )
+      ).toEqual("2020-02-24");
+    });
+
+    it("Successfully finds a subsequent key value pair on a second line #6JxYsr", () => {
+      expect(
+        getKeyValue(
+          "after",
+          u("listItem", { checked: false }, [
+            u("paragraph", [
+              u("text", { value: "First line of a task" }),
+              u("break"),
+              u("inlineCode", { value: "before:2020-02-24" }),
+              u("text", { value: " " }),
+              u("inlineCode", { value: "after:2020-02-21" })
+            ])
+          ])
+        )
+      ).toEqual("2020-02-21");
+    });
   });
 
   describe("hasKeyValue()", () => {
