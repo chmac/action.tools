@@ -43,7 +43,6 @@ const LiFactory = (setCheckedByLineNumber: SetCheckedByLineNumber) => {
       <li
         {...rest}
         onClick={event => {
-          debugger;
           // Descendant (child / grandchild / etc) tasks are nested inside other
           // tasks, so we need to stop the event propagating up the tree,
           // otherwise we end up with a click event on each of the ancestors of
