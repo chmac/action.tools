@@ -6,7 +6,7 @@ import { isTask, getTitle, hasKeyValue } from "./utils";
 import { Task } from "./types";
 import { LocalDate } from "@js-joda/core";
 import { getDateField, isTodayOrInThePast } from "./dates";
-import { AFTER, SNOOZE } from "./constants";
+import { AFTER, SNOOZE, BY } from "./constants";
 
 export const doesTaskMatchFilterText = (
   task: Task,
@@ -29,28 +29,47 @@ export const isTaskSnoozed = (task: Task, today: LocalDate): boolean => {
   return snooze.isAfter(today);
 };
 
-export const isTaskActionableToday = (
+export const isTaskUndated = (task: Task): boolean => {
+  if (hasKeyValue(BY, task) || hasKeyValue(AFTER, task)) {
+    return false;
+  }
+  return true;
+};
+
+export const isTaskActionableByDate = (
   task: Task,
-  today: LocalDate
+  target: LocalDate
 ): boolean => {
   // When a task has no `after:` date, then it's always actioanble
   if (!hasKeyValue(AFTER, task)) {
     return true;
   }
   const after = getDateField(AFTER, task);
-  return isTodayOrInThePast(after, today);
+  return isTodayOrInThePast(after, target);
 };
 
-export const doesTaskMatchTodayFilter = (
+export const doesTaskMatchDateFilter = (
   task: Task,
-  today?: LocalDate
+  showUndated = true,
+  target?: LocalDate
 ): boolean => {
-  // If we don't have a date to match against, then all tasks match
-  if (typeof today === "undefined") {
+  // If this taks does not have a date, go immediately to the `showUndated`
+  // flag, no need to do anything else.
+  if (isTaskUndated(task)) {
+    if (showUndated) {
+      return true;
+    }
+    return false;
+  }
+
+  // By this point, the task must have a date. However, if there's no target
+  // date, we show the task.
+  if (typeof target === "undefined") {
     return true;
   }
+
   try {
-    if (isTaskSnoozed(task, today) || !isTaskActionableToday(task, today)) {
+    if (isTaskSnoozed(task, target) || !isTaskActionableByDate(task, target)) {
       return false;
     }
   } catch (error) {
@@ -59,6 +78,8 @@ export const doesTaskMatchTodayFilter = (
     // side of over sharing rather than hiding potentially relevant tasks.
     return true;
   }
+
+  // If we did not yet return then fall back on true
   return true;
 };
 
@@ -75,9 +96,16 @@ export const filterTasks = (
   root: Parent,
   filterText = "",
   today?: LocalDate,
+  showUndated = true,
   showCompleted = false
 ): Parent => {
-  if (filterText === "" && typeof today === "undefined" && showCompleted) {
+  // If we have no filters applied, then we return everything immediately
+  if (
+    filterText === "" &&
+    typeof today === "undefined" &&
+    showCompleted &&
+    showUndated
+  ) {
     return root;
   }
 
@@ -98,7 +126,7 @@ export const filterTasks = (
 
       // To match this node, we must match both the date AND text filters
       if (
-        doesTaskMatchTodayFilter(task, today) &&
+        doesTaskMatchDateFilter(task, showUndated, today) &&
         doesTaskMatchFilterText(task, filterText)
       ) {
         return task;
