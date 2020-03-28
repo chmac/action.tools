@@ -32,7 +32,7 @@ const toRehypeProcessor = unified().use(remark2rehype, {
 type Props = {
   markdown: string;
   showCompleted: boolean;
-  ignoreDates: boolean;
+  showUndated: boolean;
   filterText: string;
   setCheckedByLineNumber: SetCheckedByLineNumber;
 };
@@ -41,7 +41,7 @@ const Markdown = (props: Props) => {
   const {
     markdown,
     showCompleted,
-    ignoreDates,
+    showUndated,
     filterText,
     setCheckedByLineNumber
   } = props;
@@ -54,7 +54,8 @@ const Markdown = (props: Props) => {
     const filtered = filterTasks(
       mdast,
       filterText.toLowerCase(),
-      ignoreDates ? undefined : today(),
+      today(),
+      showUndated,
       showCompleted
     );
 
@@ -76,7 +77,7 @@ const Markdown = (props: Props) => {
   }, [
     markdown,
     showCompleted,
-    ignoreDates,
+    showUndated,
     filterText,
     setCheckedByLineNumber
   ]);

@@ -47,7 +47,7 @@ const Do = () => {
   const classes = useStyles();
   const [filter, setFilter] = useState("");
   const [fullMarkdown, setFullMarkdown] = useState("");
-  const [ignoreDates, setIgnoreDates] = useState(false);
+  const [showUndated, setShowUndated] = useState(false);
   const [showCompleted, setShowCompleted] = useState(false);
 
   const writeNewMarkdownToStorage = useCallback(
@@ -122,14 +122,14 @@ const Do = () => {
           <FormControlLabel
             control={
               <Switch
-                checked={ignoreDates}
+                checked={showUndated}
                 onChange={() => {
-                  setIgnoreDates(!ignoreDates);
+                  setShowUndated(!showUndated);
                 }}
-                value="Ignore dates"
+                value="Show undated"
               />
             }
-            label="Ignore dates"
+            label="Show undated"
           />
         </FormGroup>{" "}
         <FormGroup row>
@@ -163,7 +163,7 @@ const Do = () => {
         <Markdown
           markdown={fullMarkdown}
           showCompleted={showCompleted}
-          ignoreDates={ignoreDates}
+          showUndated={showUndated}
           filterText={filter}
           setCheckedByLineNumber={setCheckedByLineNumber}
         />
