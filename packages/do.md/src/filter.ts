@@ -8,7 +8,10 @@ import { LocalDate } from "@js-joda/core";
 import { getDateField, isTodayOrInThePast } from "./dates";
 import { AFTER, SNOOZE } from "./constants";
 
-export const doesTaskMatchFilter = (task: Task, filterText = ""): boolean => {
+export const doesTaskMatchFilterText = (
+  task: Task,
+  filterText = ""
+): boolean => {
   // Always return true for an empty filter
   if (filterText.length === 0) {
     return true;
@@ -96,7 +99,7 @@ export const filterTasks = (
       // To match this node, we must match both the date AND text filters
       if (
         doesTaskMatchTodayFilter(task, today) &&
-        doesTaskMatchFilter(task, filterText)
+        doesTaskMatchFilterText(task, filterText)
       ) {
         return task;
       }
