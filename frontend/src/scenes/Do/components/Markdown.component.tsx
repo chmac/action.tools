@@ -53,7 +53,7 @@ const Markdown = (props: Props) => {
     // Then apply our filter settings
     const filtered = filterTasks(
       mdast,
-      filterText,
+      filterText.toLowerCase(),
       ignoreDates ? undefined : today(),
       showCompleted
     );
