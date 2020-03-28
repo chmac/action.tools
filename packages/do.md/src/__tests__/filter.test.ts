@@ -179,6 +179,15 @@ describe("filter", () => {
       const task = makeTask("An example task without any dates");
       expect(doesTaskMatchDateFilter(task, false)).toEqual(false);
     });
+
+    // NOTE: This test might need to be udpated, but this is currently the
+    // expected behaviour
+    it("Returns true for a task by tomorrow #jd2F1i", () => {
+      const task = makeTask("An example task due by tomorrow", false, [
+        "by:2020-02-25"
+      ]);
+      expect(doesTaskMatchDateFilter(task, false, today)).toEqual(true);
+    });
   });
 
   describe("doesTaskHaveMatchingChildren()", () => {
@@ -255,7 +264,7 @@ describe("filter", () => {
         ])
       ]);
 
-      expect(filterTasks(tasks, "", today)).toEqual(expected);
+      expect(filterTasks(tasks, "", today.toString())).toEqual(expected);
     });
 
     it("Returns all tasks when they all match the filter #epsQL2", () => {

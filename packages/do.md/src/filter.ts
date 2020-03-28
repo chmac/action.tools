@@ -95,19 +95,24 @@ export const doesTaskHaveMatchingChildren = (task: Task): boolean => {
 export const filterTasks = (
   root: Parent,
   filterText = "",
-  today?: LocalDate,
+  filterDateString?: string,
   showUndated = true,
   showCompleted = false
 ): Parent => {
   // If we have no filters applied, then we return everything immediately
   if (
     filterText === "" &&
-    typeof today === "undefined" &&
+    typeof filterDateString === "undefined" &&
     showCompleted &&
     showUndated
   ) {
     return root;
   }
+
+  const filterDate =
+    typeof filterDateString === "undefined"
+      ? undefined
+      : LocalDate.parse(filterDateString);
 
   return reduce(root, (task: Node) => {
     if (isTask(task)) {
@@ -126,7 +131,7 @@ export const filterTasks = (
 
       // To match this node, we must match both the date AND text filters
       if (
-        doesTaskMatchDateFilter(task, showUndated, today) &&
+        doesTaskMatchDateFilter(task, showUndated, filterDate) &&
         doesTaskMatchFilterText(task, filterText)
       ) {
         return task;
