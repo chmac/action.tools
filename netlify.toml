@@ -12,4 +12,4 @@
   ignore = "git diff --quiet HEAD^ HEAD -- . ../packages"
 
 [build.environment]
-  YARN_FLAGS = --skip-integrity-check
+  YARN_FLAGS = "--skip-integrity-check"
