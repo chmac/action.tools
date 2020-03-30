@@ -14,6 +14,9 @@ import {
   InputLabel
 } from "@material-ui/core";
 import Clear from "@material-ui/icons/Clear";
+import NavigateBefore from "@material-ui/icons/NavigateBefore";
+import NavigateNext from "@material-ui/icons/NavigateNext";
+import { repeatTasks, today } from "do.md";
 
 import {
   startup,
@@ -26,7 +29,6 @@ import {
   markdownToMdast,
   mdastToMarkdown
 } from "../../services/mdast/mdast.service";
-import { repeatTasks, today } from "do.md";
 
 const markdownChecked = "- [x]";
 const markdownUnchecked = "- [ ]";
@@ -52,10 +54,26 @@ const getFilterDateString = (offset: number): undefined | string => {
     .toString();
 };
 
+const humanReadableDate = (offset: number): string => {
+  if (offset === -1) {
+    return "Yesterday";
+  }
+  if (offset === 0) {
+    return "Today";
+  }
+  if (offset === 1) {
+    return "Tomorrow";
+  }
+  return today()
+    .plusDays(offset)
+    .toString();
+};
+
 const Do = () => {
   const classes = useStyles();
   const [filter, setFilter] = useState("");
   const [fullMarkdown, setFullMarkdown] = useState("");
+  const [filterByDate, setFilterByDate] = useState(true);
   const [dateFilterOffsetDays, setDateFilterOffsetDays] = useState(0);
   const [showUndated, setShowUndated] = useState(false);
   const [showCompleted, setShowCompleted] = useState(false);
@@ -143,50 +161,45 @@ const Do = () => {
           ></Input>
         </FormControl>
         <FormGroup row>
-          <Button
-            variant="contained"
-            onClick={() => {
-              setDateFilterOffsetDays(0);
-            }}
-            className={`${classes.buttonFirst} ${
-              dateFilterOffsetDays === 0 ? classes.buttonActive : ""
-            }`}
-          >
-            Today
-          </Button>
-          <Button
-            variant="contained"
-            onClick={() => {
-              setDateFilterOffsetDays(7);
-            }}
-            className={`${classes.buttonRow} ${
-              dateFilterOffsetDays === 7 ? classes.buttonActive : ""
-            }`}
-          >
-            This week
-          </Button>
-          <Button
-            variant="contained"
-            onClick={() => {
-              setDateFilterOffsetDays(31);
-            }}
-            className={`${classes.buttonRow} ${
-              dateFilterOffsetDays === 31 ? classes.buttonActive : ""
-            }`}
-          >
-            This month
-          </Button>
-          <Button
-            variant="contained"
-            onClick={() => {
-              setDateFilterOffsetDays(-1);
-            }}
-            className={`${classes.buttonRow} ${
-              dateFilterOffsetDays === -1 ? classes.buttonActive : ""
-            }`}
-          >
-            All
-          </Button>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={filterByDate}
+                onChange={() => {
+                  setFilterByDate(!filterByDate);
+                }}
+                value="Filter by date"
+              />
+            }
+            label="Date"
+          />
+          {filterByDate ? (
+            <>
+              <IconButton
+                aria-label="Backwards by a day"
+                onClick={() => {
+                  setDateFilterOffsetDays(dateFilterOffsetDays - 1);
+                }}
+              >
+                <NavigateBefore />
+              </IconButton>
+              <Button
+                onClick={() => {
+                  setDateFilterOffsetDays(0);
+                }}
+              >
+                {humanReadableDate(dateFilterOffsetDays)}
+              </Button>
+              <IconButton
+                aria-label="Forwards by a day"
+                onClick={() => {
+                  setDateFilterOffsetDays(dateFilterOffsetDays + 1);
+                }}
+              >
+                <NavigateNext />
+              </IconButton>
+            </>
+          ) : null}
         </FormGroup>
         <FormGroup row>
           <FormControlLabel
@@ -201,7 +214,7 @@ const Do = () => {
             }
             label="Show undated"
           />
-        </FormGroup>{" "}
+        </FormGroup>
         <FormGroup row>
           <FormControlLabel
             control={
@@ -232,7 +245,9 @@ const Do = () => {
       <Typography component="div">
         <Markdown
           markdown={fullMarkdown}
-          filterDateString={getFilterDateString(dateFilterOffsetDays)}
+          filterDateString={
+            filterByDate ? getFilterDateString(dateFilterOffsetDays) : undefined
+          }
           showCompleted={showCompleted}
           showUndated={showUndated}
           filterText={filter}
@@ -271,16 +286,6 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     padding: theme.spacing(2)
-  },
-  buttonFirst: {
-    marginRight: theme.spacing(1)
-  },
-  buttonRow: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1)
-  },
-  buttonActive: {
-    backgroundColor: "green"
   },
   bottomActions: {
     marginTop: "100vh",
