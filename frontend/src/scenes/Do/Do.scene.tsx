@@ -60,6 +60,20 @@ const Do = () => {
   const [showUndated, setShowUndated] = useState(false);
   const [showCompleted, setShowCompleted] = useState(false);
 
+  useEffect(() => {
+    const original = window.onbeforeunload;
+
+    const cleanup = () => {
+      window.onbeforeunload = original;
+    };
+
+    window.onbeforeunload = () => {
+      window.scrollTo(0, 0);
+    };
+
+    return cleanup;
+  }, []);
+
   const writeNewMarkdownToStorage = useCallback(
     async (input: string) => {
       const markdown = await applyMarkdownTransforms(input);
