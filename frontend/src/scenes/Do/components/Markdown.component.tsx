@@ -14,8 +14,6 @@ import TaskFactory, { SetCheckedByLineNumber } from "./Task.component";
 import DataFactory from "./Data.component";
 import { Filter } from "do.md/dist/filter";
 
-type H = (node: any, tagName: string, props: {}, children: Node[]) => Node;
-
 const toRehypeProcessor = unified().use(remark2rehype, {
   handlers: {
     list: (h: any, node: Node, parent: Parent) => {
