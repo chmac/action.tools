@@ -155,6 +155,9 @@ const Do = () => {
             id="filter-text"
             value={filter}
             onChange={event => {
+              if (showEverything) {
+                setShowEverything(false);
+              }
               setFilter(event.target.value);
             }}
             endAdornment={
@@ -223,6 +226,7 @@ const Do = () => {
                 onChange={() => {
                   if (!showEverything) {
                     setFilterByDate(false);
+                    setFilter("");
                   }
                   setShowEverything(!showEverything);
                 }}
