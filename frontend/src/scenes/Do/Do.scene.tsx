@@ -29,6 +29,7 @@ import {
   markdownToMdast,
   mdastToMarkdown
 } from "../../services/mdast/mdast.service";
+import { Filter } from "do.md/dist/filter";
 
 const markdownChecked = "- [x]";
 const markdownUnchecked = "- [ ]";
@@ -75,8 +76,7 @@ const Do = () => {
   const [fullMarkdown, setFullMarkdown] = useState("");
   const [filterByDate, setFilterByDate] = useState(true);
   const [dateFilterOffsetDays, setDateFilterOffsetDays] = useState(0);
-  const [showUndated, setShowUndated] = useState(false);
-  const [showCompleted, setShowCompleted] = useState(false);
+  const [showEverything, setShowEverything] = useState(false);
 
   useEffect(() => {
     const original = window.onbeforeunload;
@@ -133,6 +133,27 @@ const Do = () => {
       });
     });
   }, [setFullMarkdown]);
+
+  const getFilterParams = useCallback((): Filter => {
+    if (showEverything) {
+      return {};
+    }
+
+    if (filterByDate) {
+      return {
+        exactDate: today()
+          .plusDays(dateFilterOffsetDays)
+          .toString(),
+        showUndated: false,
+        text: filter
+      };
+    }
+
+    return {
+      today: today().toString(),
+      text: filter
+    };
+  }, [showEverything, filterByDate, dateFilterOffsetDays, filter]);
 
   return (
     <div className={classes.page}>
@@ -204,28 +225,17 @@ const Do = () => {
           <FormControlLabel
             control={
               <Switch
-                checked={showUndated}
+                checked={showEverything}
                 onChange={() => {
-                  setShowUndated(!showUndated);
+                  if (!showEverything) {
+                    setFilterByDate(false);
+                  }
+                  setShowEverything(!showEverything);
                 }}
-                value="Show undated"
+                value="Show everything"
               />
             }
-            label="Show undated"
-          />
-        </FormGroup>
-        <FormGroup row>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={showCompleted}
-                onChange={() => {
-                  setShowCompleted(!showCompleted);
-                }}
-                value="Show completed"
-              />
-            }
-            label="Show completed"
+            label="Show everything"
           />
         </FormGroup>
         <Button
@@ -244,12 +254,7 @@ const Do = () => {
       <Typography component="div">
         <Markdown
           markdown={fullMarkdown}
-          filterDateString={
-            filterByDate ? getFilterDateString(dateFilterOffsetDays) : undefined
-          }
-          showCompleted={showCompleted}
-          showUndated={showUndated}
-          filterText={filter}
+          filter={getFilterParams()}
           setCheckedByLineNumber={setCheckedByLineNumber}
         />
       </Typography>

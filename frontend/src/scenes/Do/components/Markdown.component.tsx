@@ -10,6 +10,7 @@ import { isTask } from "do.md/dist/utils";
 import { markdownToMdast } from "../../../services/mdast/mdast.service";
 import TaskFactory, { SetCheckedByLineNumber } from "./Task.component";
 import DataFactory from "./Data.component";
+import { Filter } from "do.md/dist/filter";
 
 type H = (node: any, tagName: string, props: {}, children: Node[]) => Node;
 
@@ -31,34 +32,19 @@ const toRehypeProcessor = unified().use(remark2rehype, {
 
 type Props = {
   markdown: string;
-  filterDateString?: string;
-  showCompleted: boolean;
-  showUndated: boolean;
-  filterText: string;
+  filter: Filter;
   setCheckedByLineNumber: SetCheckedByLineNumber;
 };
 
 const Markdown = (props: Props) => {
-  const {
-    markdown,
-    filterDateString,
-    showCompleted,
-    showUndated,
-    filterText,
-    setCheckedByLineNumber
-  } = props;
+  const { markdown, filter, setCheckedByLineNumber } = props;
 
   const getReact = useCallback(() => {
     // First convert the text markdown into an mdast
     const mdast = markdownToMdast(markdown);
 
     // Then apply our filter settings
-    const filtered = filterTasks(mdast, {
-      text: filterText.toLowerCase(),
-      date: filterDateString,
-      showUndated,
-      showCompleted
-    });
+    const filtered = filterTasks(mdast, filter);
 
     // Now we convert the mdast into an hast
     const hast = toRehypeProcessor.runSync(filtered);
@@ -75,14 +61,7 @@ const Markdown = (props: Props) => {
       .stringify(hast);
 
     return elements;
-  }, [
-    markdown,
-    filterText,
-    filterDateString,
-    showCompleted,
-    showUndated,
-    setCheckedByLineNumber
-  ]);
+  }, [markdown, filter, setCheckedByLineNumber]);
 
   return <div>{getReact()}</div>;
 };
