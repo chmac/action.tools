@@ -1,3 +1,4 @@
+import * as R from "remeda";
 import { Node, Parent } from "unist";
 import reduce from "unist-util-reduce";
 import { selectAll } from "unist-util-select";
@@ -48,39 +49,32 @@ export const isTaskActionableByDate = (
   return isTodayOrInThePast(after, target);
 };
 
-export const doesTaskMatchDateFilter = (
+export const doesTaskMatchExactDate = (
   task: Task,
-  showUndated = true,
-  target?: LocalDate
+  target: LocalDate
 ): boolean => {
-  // If this taks does not have a date, go immediately to the `showUndated`
-  // flag, no need to do anything else.
-  if (isTaskUndated(task)) {
-    if (showUndated) {
-      return true;
-    }
+  const hasAfter = hasKeyValue(AFTER, task);
+  const hasBy = hasKeyValue(BY, task);
+
+  // if (!hasAfter && !hasBy && !hasSnooze) {
+  //   return false
+  // }
+
+  if (isTaskSnoozed(task, target)) {
     return false;
   }
 
-  // By this point, the task must have a date. However, if there's no target
-  // date, we show the task.
-  if (typeof target === "undefined") {
-    return true;
+  if (hasBy) {
+    const by = getDateField(BY, task);
+    return by.isEqual(target);
   }
 
-  try {
-    if (isTaskSnoozed(task, target) || !isTaskActionableByDate(task, target)) {
-      return false;
-    }
-  } catch (error) {
-    // If the tests threw, then we say the task DID match. This ensures that
-    // whatever we cannot parse gets displayed to the user. Better to err on the
-    // side of over sharing rather than hiding potentially relevant tasks.
-    return true;
+  if (hasAfter) {
+    const after = getDateField(AFTER, task);
+    return after.isEqual(target);
   }
 
-  // If we did not yet return then fall back on true
-  return true;
+  return false;
 };
 
 // The `reduce()` runs depth first, starting from the deepest nodes and working
@@ -94,25 +88,37 @@ export const doesTaskHaveMatchingChildren = (task: Task): boolean => {
 
 export type Filter = {
   text?: string;
-  date?: string;
+  exactDate?: string;
+  today?: string;
   showUndated?: boolean;
   showCompleted?: boolean;
 };
 
 export const filterTasks = (root: Parent, filter: Filter): Parent => {
+  const defaults = {
+    text: "",
+    exactDate: "",
+    today: "",
+    showUndated: true,
+    showCompleted: false
+  };
+  const empty = {
+    ...defaults,
+    showCompleted: true
+  };
+  const actual = { ...defaults, ...filter };
+  const { text, exactDate, today, showUndated, showCompleted } = actual;
+
   // If we have no filters applied, then we return everything immediately
-  if (Object.values(filter).every(val => typeof val === "undefined")) {
+  if (
+    Object.values(filter).every(val => typeof val === "undefined") ||
+    R.equals(actual, empty)
+  ) {
     return root;
   }
 
-  const {
-    text = "",
-    date = "",
-    showUndated = true,
-    showCompleted = false
-  } = filter;
-
-  const dateLocalDate = date === "" ? undefined : LocalDate.parse(date);
+  const isFilterForExactDate = exactDate !== "";
+  const isFilterForToday = !isFilterForExactDate && today !== "";
 
   return reduce(root, (task: Node) => {
     if (isTask(task)) {
@@ -129,15 +135,48 @@ export const filterTasks = (root: Parent, filter: Filter): Parent => {
         return [];
       }
 
-      // To match this node, we must match both the date AND text filters
-      if (
-        doesTaskMatchDateFilter(task, showUndated, dateLocalDate) &&
-        doesTaskMatchFilterText(task, text)
-      ) {
-        return task;
+      // If the task fails the text filter, then skip it
+      if (!doesTaskMatchFilterText(task, text)) {
+        return [];
       }
 
-      return [];
+      // If this task is undated and we are showing undated tasks
+      if (isTaskUndated(task)) {
+        return showUndated ? task : [];
+      }
+
+      if (isFilterForExactDate) {
+        const exactDateLocalDate = LocalDate.parse(exactDate);
+
+        // Ignore all tasks which are snoozed
+        if (isTaskSnoozed(task, exactDateLocalDate)) {
+          return [];
+        }
+
+        if (doesTaskMatchExactDate(task, exactDateLocalDate)) {
+          return task;
+        }
+
+        return [];
+      }
+
+      if (isFilterForToday) {
+        const todayLocalDate = LocalDate.parse(today);
+
+        // Ignore all tasks which are snoozed
+        if (isTaskSnoozed(task, todayLocalDate)) {
+          return [];
+        }
+
+        if (isTaskActionableByDate(task, todayLocalDate)) {
+          return task;
+        }
+
+        return [];
+      }
+
+      // If no other filters have executed by this point, return the task
+      return task;
     }
     return task;
   });
