@@ -11,3 +11,5 @@ A frontend for the `do.md` file format.
   - Undated
 - Show me the whole list, including all closed, future, etc
   - Ignore all filters
+
+More info coming soon...
