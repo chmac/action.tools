@@ -53,13 +53,12 @@ const Markdown = (props: Props) => {
     const mdast = markdownToMdast(markdown);
 
     // Then apply our filter settings
-    const filtered = filterTasks(
-      mdast,
-      filterText.toLowerCase(),
-      filterDateString,
+    const filtered = filterTasks(mdast, {
+      text: filterText.toLowerCase(),
+      date: filterDateString,
       showUndated,
       showCompleted
-    );
+    });
 
     // Now we convert the mdast into an hast
     const hast = toRehypeProcessor.runSync(filtered);

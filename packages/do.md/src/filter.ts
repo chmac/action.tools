@@ -92,27 +92,27 @@ export const doesTaskHaveMatchingChildren = (task: Task): boolean => {
   return Boolean(childTasks.find(isTask));
 };
 
-export const filterTasks = (
-  root: Parent,
-  filterText = "",
-  filterDateString?: string,
-  showUndated = true,
-  showCompleted = false
-): Parent => {
+export type Filter = {
+  text?: string;
+  date?: string;
+  showUndated?: boolean;
+  showCompleted?: boolean;
+};
+
+export const filterTasks = (root: Parent, filter: Filter): Parent => {
   // If we have no filters applied, then we return everything immediately
-  if (
-    filterText === "" &&
-    typeof filterDateString === "undefined" &&
-    showCompleted &&
-    showUndated
-  ) {
+  if (Object.values(filter).every(val => typeof val === "undefined")) {
     return root;
   }
 
-  const filterDate =
-    typeof filterDateString === "undefined"
-      ? undefined
-      : LocalDate.parse(filterDateString);
+  const {
+    text = "",
+    date = "",
+    showUndated = true,
+    showCompleted = false
+  } = filter;
+
+  const dateLocalDate = date === "" ? undefined : LocalDate.parse(date);
 
   return reduce(root, (task: Node) => {
     if (isTask(task)) {
@@ -131,8 +131,8 @@ export const filterTasks = (
 
       // To match this node, we must match both the date AND text filters
       if (
-        doesTaskMatchDateFilter(task, showUndated, filterDate) &&
-        doesTaskMatchFilterText(task, filterText)
+        doesTaskMatchDateFilter(task, showUndated, dateLocalDate) &&
+        doesTaskMatchFilterText(task, text)
       ) {
         return task;
       }
