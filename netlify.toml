@@ -8,5 +8,8 @@
 [build]
   base = "frontend"
   publish = "build/"
-  command = "rm node_modules/.yarn-integrity && yarn build"
+  command = "yarn build"
   ignore = "git diff --quiet HEAD^ HEAD -- . ../packages"
+
+[build.environment]
+  YARN_FLAGS = --skip-integrity-check
