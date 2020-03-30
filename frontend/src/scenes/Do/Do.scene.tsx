@@ -46,15 +46,6 @@ const applyMarkdownTransforms = async (input: string): Promise<string> => {
   }
 };
 
-const getFilterDateString = (offset: number): undefined | string => {
-  if (offset === -1) {
-    return;
-  }
-  return today()
-    .plusDays(offset)
-    .toString();
-};
-
 const humanReadableDate = (offset: number): string => {
   if (offset === -1) {
     return "Yesterday";
@@ -188,10 +179,10 @@ const Do = () => {
                 onChange={() => {
                   setFilterByDate(!filterByDate);
                 }}
-                value="Filter by date"
+                value="Filter by exact date"
               />
             }
-            label="Date"
+            label="Exact date"
           />
           {filterByDate ? (
             <>
