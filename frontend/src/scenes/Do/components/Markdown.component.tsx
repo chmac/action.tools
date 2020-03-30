@@ -5,13 +5,13 @@ import rehype2react from "rehype-react";
 import { filterTasks, today, countTasks } from "do.md";
 import { Node, Parent } from "unist";
 import listItemDefault from "mdast-util-to-hast/lib/handlers/list-item";
+import { Typography, Paper, makeStyles } from "@material-ui/core";
 import { isTask } from "do.md/dist/utils";
 
 import { markdownToMdast } from "../../../services/mdast/mdast.service";
 import TaskFactory, { SetCheckedByLineNumber } from "./Task.component";
 import DataFactory from "./Data.component";
 import { Filter } from "do.md/dist/filter";
-import { Typography } from "@material-ui/core";
 
 type H = (node: any, tagName: string, props: {}, children: Node[]) => Node;
 
@@ -38,6 +38,7 @@ type Props = {
 };
 
 const Markdown = (props: Props) => {
+  const classes = useStyles(props);
   const { markdown, filter, setCheckedByLineNumber } = props;
 
   const getReact = useCallback(() => {
@@ -57,14 +58,28 @@ const Markdown = (props: Props) => {
       .use(rehype2react, {
         createElement: React.createElement,
         components: {
+          h1: (props: any) => <Typography variant="h1" {...props} />,
+          h2: (props: any) => <Typography variant="h2" {...props} />,
+          h3: (props: any) => <Typography variant="h3" {...props} />,
+          h4: (props: any) => <Typography variant="h4" {...props} />,
           code: DataFactory(today()),
+          ul: (props: any) => {
+            if (props.children[0] === "\n" && props.children.length === 1) {
+              return null;
+            }
+            return (
+              <Paper className={classes.paper}>
+                <ul {...props} />
+              </Paper>
+            );
+          },
           li: TaskFactory(setCheckedByLineNumber)
         }
       })
       .stringify(hast);
 
     return { count, elements };
-  }, [markdown, filter, setCheckedByLineNumber]);
+  }, [markdown, filter, setCheckedByLineNumber, classes]);
 
   const { count, elements } = getReact();
 
@@ -77,3 +92,20 @@ const Markdown = (props: Props) => {
 };
 
 export default Markdown;
+
+const useStyles = makeStyles(theme => ({
+  page: {
+    paddingTop: 20,
+    paddingBottom: 100
+  },
+  paper: {
+    padding: theme.spacing(2)
+  },
+  markdown: {
+    minHeight: "100vh"
+  },
+  bottomActions: {
+    marginTop: 100,
+    padding: theme.spacing(2)
+  }
+}));
