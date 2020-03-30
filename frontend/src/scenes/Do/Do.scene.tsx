@@ -43,11 +43,21 @@ const applyMarkdownTransforms = async (input: string): Promise<string> => {
   }
 };
 
+const getFilterDateString = (offset: number): undefined | string => {
+  if (offset === -1) {
+    return;
+  }
+  return today()
+    .plusDays(offset)
+    .toString();
+};
+
 const Do = () => {
   const classes = useStyles();
   const [filter, setFilter] = useState("");
   const [fullMarkdown, setFullMarkdown] = useState("");
-  const [ignoreDates, setIgnoreDates] = useState(false);
+  const [dateFilterOffsetDays, setDateFilterOffsetDays] = useState(0);
+  const [showUndated, setShowUndated] = useState(false);
   const [showCompleted, setShowCompleted] = useState(false);
 
   const writeNewMarkdownToStorage = useCallback(
@@ -119,17 +129,63 @@ const Do = () => {
           ></Input>
         </FormControl>
         <FormGroup row>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setDateFilterOffsetDays(0);
+            }}
+            className={`${classes.buttonFirst} ${
+              dateFilterOffsetDays === 0 ? classes.buttonActive : ""
+            }`}
+          >
+            Today
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setDateFilterOffsetDays(7);
+            }}
+            className={`${classes.buttonRow} ${
+              dateFilterOffsetDays === 7 ? classes.buttonActive : ""
+            }`}
+          >
+            This week
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setDateFilterOffsetDays(31);
+            }}
+            className={`${classes.buttonRow} ${
+              dateFilterOffsetDays === 31 ? classes.buttonActive : ""
+            }`}
+          >
+            This month
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setDateFilterOffsetDays(-1);
+            }}
+            className={`${classes.buttonRow} ${
+              dateFilterOffsetDays === -1 ? classes.buttonActive : ""
+            }`}
+          >
+            All
+          </Button>
+        </FormGroup>
+        <FormGroup row>
           <FormControlLabel
             control={
               <Switch
-                checked={ignoreDates}
+                checked={showUndated}
                 onChange={() => {
-                  setIgnoreDates(!ignoreDates);
+                  setShowUndated(!showUndated);
                 }}
-                value="Ignore dates"
+                value="Show undated"
               />
             }
-            label="Ignore dates"
+            label="Show undated"
           />
         </FormGroup>{" "}
         <FormGroup row>
@@ -162,8 +218,9 @@ const Do = () => {
       <Typography component="div">
         <Markdown
           markdown={fullMarkdown}
+          filterDateString={getFilterDateString(dateFilterOffsetDays)}
           showCompleted={showCompleted}
-          ignoreDates={ignoreDates}
+          showUndated={showUndated}
           filterText={filter}
           setCheckedByLineNumber={setCheckedByLineNumber}
         />
@@ -200,6 +257,16 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     padding: theme.spacing(2)
+  },
+  buttonFirst: {
+    marginRight: theme.spacing(1)
+  },
+  buttonRow: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1)
+  },
+  buttonActive: {
+    backgroundColor: "green"
   },
   bottomActions: {
     marginTop: "100vh",

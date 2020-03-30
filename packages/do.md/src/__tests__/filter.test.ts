@@ -3,10 +3,11 @@
 import * as u from "unist-builder";
 
 import {
-  doesTaskMatchFilter,
+  doesTaskMatchFilterText,
   isTaskSnoozed,
-  isTaskActionableToday,
-  doesTaskMatchTodayFilter,
+  isTaskUndated,
+  isTaskActionableByDate,
+  doesTaskMatchDateFilter,
   doesTaskHaveMatchingChildren,
   filterTasks
 } from "../filter";
@@ -18,17 +19,17 @@ describe("filter", () => {
   describe("doesTaskMatchFilter()", () => {
     it("Matches foo #HlHWvd", () => {
       const task = makeTask("This is a foo task");
-      expect(doesTaskMatchFilter(task, "foo")).toEqual(true);
+      expect(doesTaskMatchFilterText(task, "foo")).toEqual(true);
     });
 
     it("Matches FOO #GGCt81", () => {
       const task = makeTask("This is a FOO task");
-      expect(doesTaskMatchFilter(task, "foo")).toEqual(true);
+      expect(doesTaskMatchFilterText(task, "foo")).toEqual(true);
     });
 
     it("Does not match FOO as a filter #Zs6AQ1", () => {
       const task = makeTask("This is a FOO task");
-      expect(doesTaskMatchFilter(task, "FOO")).toEqual(false);
+      expect(doesTaskMatchFilterText(task, "FOO")).toEqual(false);
     });
   });
 
@@ -51,55 +52,94 @@ describe("filter", () => {
     });
   });
 
-  describe("isTaskActionableToday()", () => {
+  describe("isTaskUndated()", () => {
+    it("Returns true for a task without any key value pairs #vG09hI", () => {
+      const task = makeTask("An example task without any dates");
+      expect(isTaskUndated(task)).toEqual(true);
+    });
+
+    it("Returns false for a task with a by date #MvFWSL", () => {
+      const task = makeTask("An example task with a by date of today", false, [
+        "by:2020-02-24"
+      ]);
+      expect(isTaskUndated(task)).toEqual(false);
+    });
+
+    it("Returns false for a task with an after date #26LP05", () => {
+      const task = makeTask(
+        "An example task with an after date of today",
+        false,
+        ["after:2020-02-24"]
+      );
+      expect(isTaskUndated(task)).toEqual(false);
+    });
+
+    it("Returns false for a task with both a by and after date #VRvC4t", () => {
+      const task = makeTask(
+        "An example task with an after date of yesterday and a by date of today",
+        false,
+        ["after:2020-02-23", "by:2020-02-24"]
+      );
+      expect(isTaskUndated(task)).toEqual(false);
+    });
+  });
+
+  describe("isTaskActionableByDate()", () => {
     it("Returns true for a task with no after date #TOn1Vq", () => {
       const task = makeTask("An example task");
-      expect(isTaskActionableToday(task, today)).toEqual(true);
+      expect(isTaskActionableByDate(task, today)).toEqual(true);
     });
 
     it("Returns true for a task with after:yesterday #sunNU9", () => {
       const task = makeTask("An example task", false, ["after:2020-02-23"]);
-      expect(isTaskActionableToday(task, today)).toEqual(true);
+      expect(isTaskActionableByDate(task, today)).toEqual(true);
     });
 
     it("Returns true for a task with after:today #lcAaiu", () => {
       const task = makeTask("An example task", false, ["after:2020-02-24"]);
-      expect(isTaskActionableToday(task, today)).toEqual(true);
+      expect(isTaskActionableByDate(task, today)).toEqual(true);
     });
 
     it("Returns false for a task with after:tomorrow #jAcnoR", () => {
       const task = makeTask("An example task", false, ["after:2020-02-25"]);
-      expect(isTaskActionableToday(task, today)).toEqual(false);
+      expect(isTaskActionableByDate(task, today)).toEqual(false);
     });
   });
 
-  describe("doesTaskMatchTodayFilter()", () => {
+  describe("doesTaskMatchDateFilter()", () => {
     it("Returns true for a task with only an after date in the past #3cDKiv", () => {
       const task = makeTask("A task after yesterday", false, [
         "after:2020-02-23"
       ]);
-      expect(doesTaskMatchTodayFilter(task, today)).toEqual(true);
+      expect(doesTaskMatchDateFilter(task, true, today)).toEqual(true);
+    });
+
+    it("Returns true for a task with only an after date in the past even with showUndated=false #LPjlHZ", () => {
+      const task = makeTask("A task after yesterday", false, [
+        "after:2020-02-23"
+      ]);
+      expect(doesTaskMatchDateFilter(task, false, today)).toEqual(true);
     });
 
     it("Returns true for a task with only an after date in the future #tIHF4S", () => {
       const task = makeTask("A task after tomorrow", false, [
         "after:2020-02-25"
       ]);
-      expect(doesTaskMatchTodayFilter(task, today)).toEqual(false);
+      expect(doesTaskMatchDateFilter(task, true, today)).toEqual(false);
     });
 
     it("Returns true for a task with only a snooze date in the past #a5mD3U", () => {
       const task = makeTask("A task snoozed until yesterday", false, [
         "snooze:2020-02-23"
       ]);
-      expect(doesTaskMatchTodayFilter(task, today)).toEqual(true);
+      expect(doesTaskMatchDateFilter(task, true, today)).toEqual(true);
     });
 
     it("Returns false for a task with only a snooze date in the future #sxrw7K", () => {
       const task = makeTask("A task after tomorrow", false, [
         "after:2020-02-23"
       ]);
-      expect(doesTaskMatchTodayFilter(task, today)).toEqual(true);
+      expect(doesTaskMatchDateFilter(task, true, today)).toEqual(true);
     });
 
     it("Returns false for a task with a snooze date in the future and an after date in the past #w9I4Hr", () => {
@@ -108,7 +148,7 @@ describe("filter", () => {
         false,
         ["after:2020-02-23", "snooze:2020-02-25"]
       );
-      expect(doesTaskMatchTodayFilter(task, today)).toEqual(false);
+      expect(doesTaskMatchDateFilter(task, true, today)).toEqual(false);
     });
 
     it("Returns false for a task with a snooze date in the past and an after date in the past #v1lmpS", () => {
@@ -117,7 +157,36 @@ describe("filter", () => {
         false,
         ["after:2020-02-22", "snooze:2020-02-23"]
       );
-      expect(doesTaskMatchTodayFilter(task, today)).toEqual(true);
+      expect(doesTaskMatchDateFilter(task, true, today)).toEqual(true);
+    });
+
+    it("Returns true for a task without dates when showUndated is true #DKDgPD", () => {
+      const task = makeTask("An example task without any dates");
+      expect(doesTaskMatchDateFilter(task, true, today)).toEqual(true);
+    });
+
+    it("Returns false for a task without dates when showUndated is false #RxCvjD", () => {
+      const task = makeTask("An example task without any dates");
+      expect(doesTaskMatchDateFilter(task, false, today)).toEqual(false);
+    });
+
+    it("Returns true for a task without dates when showUndated is true without date #FuLWJX", () => {
+      const task = makeTask("An example task without any dates");
+      expect(doesTaskMatchDateFilter(task, true)).toEqual(true);
+    });
+
+    it("Returns false for a task without dates when showUndated is false without date #QYNt5q", () => {
+      const task = makeTask("An example task without any dates");
+      expect(doesTaskMatchDateFilter(task, false)).toEqual(false);
+    });
+
+    // NOTE: This test might need to be udpated, but this is currently the
+    // expected behaviour
+    it("Returns true for a task by tomorrow #jd2F1i", () => {
+      const task = makeTask("An example task due by tomorrow", false, [
+        "by:2020-02-25"
+      ]);
+      expect(doesTaskMatchDateFilter(task, false, today)).toEqual(true);
     });
   });
 
@@ -195,7 +264,7 @@ describe("filter", () => {
         ])
       ]);
 
-      expect(filterTasks(tasks, "", today)).toEqual(expected);
+      expect(filterTasks(tasks, "", today.toString())).toEqual(expected);
     });
 
     it("Returns all tasks when they all match the filter #epsQL2", () => {
@@ -268,7 +337,9 @@ describe("filter", () => {
         ])
       ]);
 
-      expect(filterTasks(tasks, "baz", undefined, false)).toEqual(expected);
+      expect(filterTasks(tasks, "baz", undefined, true, false)).toEqual(
+        expected
+      );
     });
 
     it("Shows completed tasks if showCompleted is true #Vj0f2b", () => {
@@ -303,7 +374,9 @@ describe("filter", () => {
         ])
       ]);
 
-      expect(filterTasks(tasks, "baz", undefined, true)).toEqual(expected);
+      expect(filterTasks(tasks, "baz", undefined, true, true)).toEqual(
+        expected
+      );
     });
 
     it("Does not show completed tasks when ignoring dates #XHI21O", () => {
@@ -325,7 +398,7 @@ describe("filter", () => {
         ])
       ]);
 
-      expect(filterTasks(tasks, "", undefined, false)).toEqual(expected);
+      expect(filterTasks(tasks, "", undefined, true, false)).toEqual(expected);
     });
   });
 });
