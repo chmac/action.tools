@@ -21,9 +21,13 @@ const toRehypeProcessor = unified().use(remark2rehype, {
       const { properties, ...rest } = hast;
       return {
         ...rest,
-        // Add a `rootLevel: boolean` prop, `true` if this is a root level list,
-        // and false if this is a nested list.
-        properties: { ...properties, isRootList: parent.type === "root" }
+        // Add a `isRootList: boolean` prop, `"true"` if this is a root level
+        // list, and `"false"` if this is a nested list.
+        // NOTE: The value here is a string, not a boolean, to keep React happy
+        properties: {
+          ...properties,
+          isRootList: parent.type === "root" ? "true" : "false"
+        }
       };
     },
     listItem: (h: any, node: Node, parent: Parent) => {
@@ -73,6 +77,8 @@ const Markdown = (props: Props) => {
           h4: (props: any) => <Typography variant="h4" {...props} />,
           code: DataFactory(today()),
           ul: (props: any) => {
+            const { isRootList, ...otherProps } = props;
+
             // If this list does not contain any items, then do not render it at
             // all. Empty lists contain a single element which is a newline
             // character.
@@ -84,15 +90,15 @@ const Markdown = (props: Props) => {
             // then render it wrapped in a `<Paper` element. We do not want to
             // nest `<Paper` elements which is why we apply this only to the
             // root level lists.
-            if (props.isRootList) {
+            if (props.isRootList === "true") {
               return (
                 <Paper className={classes.paper}>
-                  <ul {...props} />
+                  <ul {...otherProps} />
                 </Paper>
               );
             }
 
-            return <ul {...props} />;
+            return <ul {...otherProps} />;
           },
           li: TaskFactory(setCheckedByLineNumber)
         }
