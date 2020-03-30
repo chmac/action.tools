@@ -12,4 +12,4 @@ A frontend for the `do.md` file format.
 - Show me the whole list, including all closed, future, etc
   - Ignore all filters
 
-More info coming soon...
+More info coming soon - Apr 2020
