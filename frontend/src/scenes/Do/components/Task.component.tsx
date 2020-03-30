@@ -67,6 +67,11 @@ const TaskFactory = (setCheckedByLineNumber: SetCheckedByLineNumber) => {
           setCheckedByLineNumber(position.start.line, checked);
         }}
         style={{
+          fontSize: "1.2rem",
+          marginTop: 2,
+          marginBottom: 2,
+          paddingTop: 4,
+          paddingBottom: 4,
           opacity: checked ? 0.5 : 1,
           backgroundColor: titleToBackgroundColor(title)
         }}
