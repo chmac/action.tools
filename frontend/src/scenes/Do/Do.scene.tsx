@@ -177,6 +177,9 @@ const Do = () => {
               <Switch
                 checked={filterByDate}
                 onChange={() => {
+                  if (!filterByDate && showEverything) {
+                    setShowEverything(false);
+                  }
                   setFilterByDate(!filterByDate);
                 }}
                 value="Filter by exact date"
