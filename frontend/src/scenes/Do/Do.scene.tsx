@@ -137,7 +137,6 @@ const Do = () => {
   return (
     <div className={classes.page}>
       <Paper elevation={1} className={classes.paper}>
-        <Typography>Enter a filter here:</Typography>
         <FormControl>
           <InputLabel htmlFor="filter-text">Filter</InputLabel>
           <Input
