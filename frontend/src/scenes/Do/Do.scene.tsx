@@ -242,7 +242,7 @@ const Do = () => {
           Create new task
         </Button>
       </Paper>
-      <Typography component="div">
+      <Typography component="div" className={classes.markdown}>
         <Markdown
           markdown={fullMarkdown}
           filter={getFilterParams()}
@@ -282,8 +282,11 @@ const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2)
   },
+  markdown: {
+    minHeight: "100vh"
+  },
   bottomActions: {
-    marginTop: "100vh",
+    marginTop: 100,
     padding: theme.spacing(2)
   }
 }));
