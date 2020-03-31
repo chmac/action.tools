@@ -93,7 +93,6 @@ export const ensureDir = async (dir: string) => {
 };
 
 export const startup = async () => {
-  snackbarService.showSnackbar("Here is a startup message", "info");
   const name = localStorage.getItem(NAME_KEY) || "";
   const email = localStorage.getItem(EMAIL_KEY) || "";
   const repo = localStorage.getItem(REPO_KEY) || "";
