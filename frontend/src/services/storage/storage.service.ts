@@ -194,7 +194,7 @@ export const setMarkdown = async (
 
     await git.push(addBaseParams({}));
 
-    snackbarService.showSnackbar("Successfully saved and pushd #AIp4wO");
+    snackbarService.showSnackbar("Successfully saved and pushed #AIp4wO");
   } catch (error) {
     debugger;
   }
