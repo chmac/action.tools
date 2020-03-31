@@ -16,6 +16,7 @@ import {
 import Clear from "@material-ui/icons/Clear";
 import NavigateBefore from "@material-ui/icons/NavigateBefore";
 import NavigateNext from "@material-ui/icons/NavigateNext";
+import { snackbarService } from "uno-material-ui";
 import { repeatTasks, today } from "do.md";
 
 import {
@@ -41,7 +42,10 @@ const applyMarkdownTransforms = async (input: string): Promise<string> => {
     const markdown = await mdastToMarkdown(repeated);
     return markdown;
   } catch (err) {
-    alert(`Error in transforming markdown #6V1BOv: ${err.message}`);
+    snackbarService.showSnackbar(
+      `Error in transforming markdown #6V1BOv: ${err.message}`,
+      "error"
+    );
     throw err;
   }
 };

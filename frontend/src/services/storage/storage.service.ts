@@ -2,6 +2,7 @@ import * as git from "isomorphic-git";
 import * as LightningFS from "@isomorphic-git/lightning-fs";
 import http from "isomorphic-git/http/web";
 import * as path from "path";
+import { snackbarService } from "uno-material-ui";
 
 const DIR = "/domd";
 const FILE = "do.md";
@@ -92,6 +93,7 @@ export const ensureDir = async (dir: string) => {
 };
 
 export const startup = async () => {
+  snackbarService.showSnackbar("Here is a startup message", "info");
   const name = localStorage.getItem(NAME_KEY) || "";
   const email = localStorage.getItem(EMAIL_KEY) || "";
   const repo = localStorage.getItem(REPO_KEY) || "";
@@ -133,7 +135,10 @@ export const startup = async () => {
   } catch (error) {
     // Clones might fail if it has already succeeded, so these errors can be
     // swallowed. Surface them to the user just because...
-    alert(`Git clone error. #SWAnZr\n${error.message}`);
+    snackbarService.showSnackbar(
+      `Git clone error. #SWAnZr\n${error.message}`,
+      "error"
+    );
   }
 
   await git.pull(
@@ -157,7 +162,7 @@ export const setMarkdown = async (
   markdown: string,
   filepath: string = FILEPATH
 ) => {
-  alert("Starting save to Git #YpHeKm");
+  snackbarService.showSnackbar("Starting save to Git #YpHeKm");
   try {
     await fs.promises.writeFile(filepath, markdown, { encoding: "utf8" });
   } catch (error) {
@@ -189,7 +194,7 @@ export const setMarkdown = async (
 
     await git.push(addBaseParams({}));
 
-    alert("Successfully saved and pushd #AIp4wO");
+    snackbarService.showSnackbar("Successfully saved and pushd #AIp4wO");
   } catch (error) {
     debugger;
   }

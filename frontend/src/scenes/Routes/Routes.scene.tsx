@@ -6,6 +6,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import { responsiveFontSizes, makeStyles } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
+import { SnackbarContainer } from "uno-material-ui";
 
 import Bar from "../Bar/Bar.scene";
 import Home from "../Home/Home.scene";
@@ -22,6 +23,7 @@ const Routes: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <SnackbarContainer />
       <Router history={history}>
         <Bar />
         <CssBaseline />
