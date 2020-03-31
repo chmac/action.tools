@@ -108,6 +108,8 @@ export const startup = async () => {
     window.localStorage.setItem(REPO_KEY, repo);
   }
 
+  snackbarService.showSnackbar("Starting git fetch", "info");
+
   await ensureDir(DIR);
 
   // await git.setConfig(
@@ -161,7 +163,7 @@ export const setMarkdown = async (
   markdown: string,
   filepath: string = FILEPATH
 ) => {
-  snackbarService.showSnackbar("Starting save to Git #YpHeKm");
+  snackbarService.showSnackbar("Starting save to Git #YpHeKm", "info");
   try {
     await fs.promises.writeFile(filepath, markdown, { encoding: "utf8" });
   } catch (error) {
@@ -193,7 +195,10 @@ export const setMarkdown = async (
 
     await git.push(addBaseParams({}));
 
-    snackbarService.showSnackbar("Successfully saved and pushed #AIp4wO");
+    snackbarService.showSnackbar(
+      "Successfully saved and pushed #AIp4wO",
+      "success"
+    );
   } catch (error) {
     debugger;
   }
