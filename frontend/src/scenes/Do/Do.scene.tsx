@@ -11,7 +11,8 @@ import {
   IconButton,
   FormControl,
   Input,
-  InputLabel
+  InputLabel,
+  Modal,
 } from "@material-ui/core";
 import Clear from "@material-ui/icons/Clear";
 import NavigateBefore from "@material-ui/icons/NavigateBefore";
@@ -23,12 +24,12 @@ import {
   startup,
   getMarkdown,
   setMarkdown,
-  wipe
+  wipe,
 } from "../../services/storage/storage.service";
 import Markdown from "./components/Markdown.component";
 import {
   markdownToMdast,
-  mdastToMarkdown
+  mdastToMarkdown,
 } from "../../services/mdast/mdast.service";
 import { Filter } from "do.md/dist/filter";
 
@@ -60,9 +61,7 @@ const humanReadableDate = (offset: number): string => {
   if (offset === 1) {
     return "Tomorrow";
   }
-  return today()
-    .plusDays(offset)
-    .toString();
+  return today().plusDays(offset).toString();
 };
 
 const Do = () => {
@@ -123,7 +122,7 @@ const Do = () => {
 
   useEffect(() => {
     startup().then(() => {
-      getMarkdown().then(markdown => {
+      getMarkdown().then((markdown) => {
         setFullMarkdown(markdown);
       });
     });
@@ -136,17 +135,15 @@ const Do = () => {
 
     if (filterByDate) {
       return {
-        exactDate: today()
-          .plusDays(dateFilterOffsetDays)
-          .toString(),
+        exactDate: today().plusDays(dateFilterOffsetDays).toString(),
         showUndated: false,
-        text: filter
+        text: filter,
       };
     }
 
     return {
       today: today().toString(),
-      text: filter
+      text: filter,
     };
   }, [showEverything, filterByDate, dateFilterOffsetDays, filter]);
 
@@ -158,7 +155,7 @@ const Do = () => {
           <Input
             id="filter-text"
             value={filter}
-            onChange={event => {
+            onChange={(event) => {
               if (showEverything) {
                 setShowEverything(false);
               }
@@ -285,19 +282,19 @@ const Do = () => {
 
 export default Do;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   page: {
     paddingTop: 20,
-    paddingBottom: 100
+    paddingBottom: 100,
   },
   paper: {
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
   },
   markdown: {
-    minHeight: "100vh"
+    minHeight: "100vh",
   },
   bottomActions: {
     marginTop: 100,
-    padding: theme.spacing(2)
-  }
+    padding: theme.spacing(2),
+  },
 }));
