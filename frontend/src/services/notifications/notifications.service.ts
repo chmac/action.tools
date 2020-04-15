@@ -4,6 +4,12 @@ import { snackbarService } from "uno-material-ui";
 // https://github.com/unosquare/uno-material-ui/pull/294
 type MessageType = "success" | "error" | "warning" | "info";
 
+type Message = {
+  message: string;
+  type: MessageType;
+};
+const stack: Message[] = [];
+
 export const push = ({
   message,
   type = "info",
@@ -11,6 +17,7 @@ export const push = ({
   message: string;
   type?: MessageType;
 }) => {
+  stack.push({ message, type });
   snackbarService.showSnackbar(message, type);
 };
 
