@@ -2,7 +2,7 @@ import * as git from "isomorphic-git";
 import * as LightningFS from "@isomorphic-git/lightning-fs";
 import http from "isomorphic-git/http/web";
 import * as path from "path";
-import { snackbarService } from "uno-material-ui";
+import { push, pushError } from "../notifications/notifications.service";
 
 const DIR = "/domd";
 const FILE = "do.md";
@@ -74,9 +74,9 @@ export const addBaseParams = <T extends object>(
     dir: DIR,
     author: {
       name: localStorage.getItem(NAME_KEY) || "",
-      email: localStorage.getItem(EMAIL_KEY) || ""
+      email: localStorage.getItem(EMAIL_KEY) || "",
     },
-    onAuth
+    onAuth,
   };
 };
 
@@ -108,7 +108,7 @@ export const startup = async () => {
     window.localStorage.setItem(REPO_KEY, repo);
   }
 
-  snackbarService.showSnackbar("Starting git fetch", "info");
+  push({ message: "Starting git fetch", type: "info" });
 
   await ensureDir(DIR);
 
@@ -130,21 +130,21 @@ export const startup = async () => {
       addBaseParams({
         url: localStorage.getItem(REPO_KEY) || "",
         ref: "master",
-        singleBranch: false
+        singleBranch: false,
       })
     );
   } catch (error) {
     // Clones might fail if it has already succeeded, so these errors can be
     // swallowed. Surface them to the user just because...
-    snackbarService.showSnackbar(
-      `Git clone error. #SWAnZr\n${error.message}`,
-      "error"
-    );
+    pushError({
+      message: `Git clone error. #SWAnZr`,
+      error,
+    });
   }
 
   await git.pull(
     addBaseParams({
-      ref: "master"
+      ref: "master",
     })
   );
 };
@@ -163,7 +163,7 @@ export const setMarkdown = async (
   markdown: string,
   filepath: string = FILEPATH
 ) => {
-  snackbarService.showSnackbar("Starting save to Git #YpHeKm", "info");
+  push({ message: "Starting save to Git #YpHeKm", type: "info" });
   try {
     await fs.promises.writeFile(filepath, markdown, { encoding: "utf8" });
   } catch (error) {
@@ -173,7 +173,7 @@ export const setMarkdown = async (
   try {
     const status = await git.status(
       addBaseParams({
-        filepath: FILE
+        filepath: FILE,
       })
     );
 
@@ -183,22 +183,22 @@ export const setMarkdown = async (
 
     await git.add(
       addBaseParams({
-        filepath: FILE
+        filepath: FILE,
       })
     );
 
     await git.commit(
       addBaseParams({
-        message: "Adding an update from the web"
+        message: "Adding an update from the web",
       })
     );
 
     await git.push(addBaseParams({}));
 
-    snackbarService.showSnackbar(
-      "Successfully saved and pushed #AIp4wO",
-      "success"
-    );
+    push({
+      message: "Successfully saved and pushed #AIp4wO",
+      type: "success",
+    });
   } catch (error) {
     debugger;
   }
