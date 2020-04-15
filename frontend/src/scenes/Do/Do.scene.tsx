@@ -26,7 +26,7 @@ import {
   setMarkdown,
   wipe,
 } from "../../services/storage/storage.service";
-import { pushError } from "../../services/notifications/notifications.service
+import { pushError } from "../../services/notifications/notifications.service";
 import Markdown from "./components/Markdown.component";
 import {
   markdownToMdast,
