@@ -256,6 +256,9 @@ const Do = () => {
       </Typography>
       <Paper className={classes.bottomActions}>
         <Typography variant="h2">Danger</Typography>
+        <Typography>
+          Version: {process.env.REACT_APP_VERSION_GIT || "dev"}
+        </Typography>
         <Button
           size="small"
           onClick={() => {
