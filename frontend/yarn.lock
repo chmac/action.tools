@@ -11483,20 +11483,20 @@ uno-js@^0.7.7:
   resolved "https://registry.yarnpkg.com/uno-js/-/uno-js-0.7.7.tgz#c4d93515014705a5df7a3d98cc1cf2b09ec9c739"
   integrity sha512-vi0WThJdjhqyggLeXC4hqLNceAHfSckANPgHr4ac/IoaweSRW8DzaMVrm6Iw/Pfh8B8vfjZWfixVaLWkndRESA==
 
-uno-material-ui@^1.7.45:
-  version "1.7.45"
-  resolved "https://registry.yarnpkg.com/uno-material-ui/-/uno-material-ui-1.7.45.tgz#b5917591ac07929ea974471bb4746097334c24c4"
-  integrity sha512-MMT1eN9iFvc80Nsy/LxiqgQLey5WBxTjjwuKfVc3Shr/U+Q0O6Vsbo82xj/riukGJUWPMTjvASmnR17HtTlQwg==
+uno-material-ui@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/uno-material-ui/-/uno-material-ui-2.0.0.tgz#7f4c841b05d4706c39b92a25c147df29034c7d65"
+  integrity sha512-IIqUDCbnXMHD0cAD9iNTMwMkbK+FW5+tRGo4xVKXXaUIUwgcF7DRjKNQIYvdkkLuz1tFM6yFyObK2eOEXp002Q==
   dependencies:
     "@material-ui/core" "^4.9.8"
     "@material-ui/icons" "^4.9.1"
     react-form-validator-core "^0.6.5"
-    uno-react "^0.15.3"
+    uno-react "^0.15.4"
 
-uno-react@^0.15.3:
-  version "0.15.4"
-  resolved "https://registry.yarnpkg.com/uno-react/-/uno-react-0.15.4.tgz#390fbf18f5ad3e4ba58eecbec829f73c618787c5"
-  integrity sha512-7EEIAgmkhFZwDFQsjNdasS09yC7M0nV00WVDCmprKHBpT5uo9mMFUqk8A46DlM3x01Aa8ZytOwglzA5KAwdknQ==
+uno-react@^0.15.4:
+  version "0.15.5"
+  resolved "https://registry.yarnpkg.com/uno-react/-/uno-react-0.15.5.tgz#e8515e5c79ef15b9ccfa66c81a7c1ed3919da876"
+  integrity sha512-oTdAMbAzNA8UlXVXniZ7jn4HDxFNzyTHMU+ZIrKQcRQtNZCKHjshjLvBWqq9xmpI9uxduoyur9GS1kGufgEW0Q==
   dependencies:
     react-form-validator-core "^0.6.5"
     uno-js "^0.7.7"
