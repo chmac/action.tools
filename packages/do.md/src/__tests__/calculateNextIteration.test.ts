@@ -141,6 +141,36 @@ describe("calculateNextIteration", () => {
         )
       ).toEqual(tomorrow);
     });
+
+    it("Adds 1 month to a by date 10 days in teh past #Mm433A", () => {
+      expect(
+        nextDateOfIterationAfterToday(
+          {
+            type: "simple",
+            repeat: "every",
+            count: 1,
+            unit: "month",
+          },
+          LocalDate.of(2020, 2, 14),
+          today
+        )
+      ).toEqual(LocalDate.of(2020, 3, 14));
+    });
+
+    it("Adds 2 months to a by date 1 month and 10 days in the past #wu73J7", () => {
+      expect(
+        nextDateOfIterationAfterToday(
+          {
+            type: "simple",
+            repeat: "every",
+            count: 1,
+            unit: "month",
+          },
+          LocalDate.of(2020, 1, 14),
+          today
+        )
+      ).toEqual(LocalDate.of(2020, 3, 14));
+    });
   });
 
   describe("setNextByAndAfterDates()", () => {
