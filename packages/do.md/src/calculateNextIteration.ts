@@ -177,7 +177,7 @@ export const setNextByAndAfterDates = (task: Task, today: LocalDate): Task => {
   const afterDate = getDateField(AFTER, task);
   const daysBetweenAfterAndBy = afterDate.until(byDate);
   const nextAfterDate = nextByDate.minus(daysBetweenAfterAndBy);
-  return setDateField(AFTER, nextAfterDate, task);
+  return setDateField(AFTER, nextAfterDate, withNextByDate);
 };
 
 export const createNextRepetitionTask = (

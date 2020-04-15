@@ -238,6 +238,34 @@ describe("calculateNextIteration", () => {
       expect(setNextByAndAfterDates(task, today)).toEqual(expected);
     });
 
+    it("Correctly adds 1 month to both by and after dates #mVwp7v", () => {
+      const task = makeTask("An example task", true, [
+        "after:2020-02-10",
+        "by:2020-02-20",
+        "repeat:every1month",
+      ]);
+      const expected = makeTask("An example task", true, [
+        "after:2020-03-10",
+        "by:2020-03-20",
+        "repeat:every1month",
+      ]);
+      expect(setNextByAndAfterDates(task, today)).toEqual(expected);
+    });
+
+    it("Correctly adds 3 years to by and after dates #DYtXLy", () => {
+      const task = makeTask("An example task", true, [
+        "after:2020-02-10",
+        "by:2020-02-20",
+        "repeat:every3year",
+      ]);
+      const expected = makeTask("An example task", true, [
+        "after:2023-02-10",
+        "by:2023-02-20",
+        "repeat:every3year",
+      ]);
+      expect(setNextByAndAfterDates(task, today)).toEqual(expected);
+    });
+
     it("Throws for a task without an after or by date #Ntbyrc", () => {
       const task = makeTask("An example without a date", false, [
         "repeat:every3days",
