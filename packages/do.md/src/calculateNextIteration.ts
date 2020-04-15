@@ -9,10 +9,10 @@ import {
   RepeatMonthly,
 } from "./types";
 import { Rule } from "./rschedule";
-import { getRepeatParams, getRepeatFromTaskOrThrow } from "./repeat";
+import { getRepeatFromTaskOrThrow } from "./repeat";
 import { getKeyValue, removeKeyValue, hasKeyValue } from "./utils";
-import { setDateField, getDateField, isTodayOrInTheFuture } from "./dates";
-import { EVERY, AFTER, REPEAT, BY, FINISHED } from "./constants";
+import { setDateField, getDateField } from "./dates";
+import { EVERY, AFTER, BY, FINISHED } from "./constants";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const notReachable = (_x: never): never => {
@@ -121,7 +121,6 @@ export const nextDateOfIterationAfterToday = (
   }
 
   return next;
-  throw new Error("Yet to implement recursion #ORv2EF");
 };
 
 export const getRepeatFromDate = (
