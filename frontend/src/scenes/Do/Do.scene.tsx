@@ -43,7 +43,7 @@ const applyMarkdownTransforms = async (input: string): Promise<string> => {
     const markdown = await mdastToMarkdown(repeated);
     return markdown;
   } catch (error) {
-    pushError({message: 'Error in transforming markdown #6V1BOv', error})
+    pushError({ message: "Error in transforming markdown #6V1BOv", error });
     throw error;
   }
 };
