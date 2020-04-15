@@ -28,7 +28,7 @@ export const MONTHS = [
   "sep",
   "oct",
   "nov",
-  "dec"
+  "dec",
 ] as const;
 export const MONTHS_TO_NUMBER = {
   jan: 1,
@@ -42,7 +42,7 @@ export const MONTHS_TO_NUMBER = {
   sep: 9,
   oct: 10,
   nov: 11,
-  dec: 12
+  dec: 12,
 } as const;
 
 export const ProjectRegex = new RegExp("@[\\w]+", "g");
