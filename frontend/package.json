@@ -56,7 +56,7 @@
   "scripts": {
     "preinstall": "cd ../packages/do.md && yarn && yarn build",
     "start": "env-cmd -f ../.env react-scripts start",
-    "build": "react-scripts build",
+    "build": "REACT_APP_GIT_=`git rev-parse --short HEAD` react-scripts build",
     "test": "env-cmd -f ../.env react-scripts test",
     "eject": "react-scripts eject"
   },
