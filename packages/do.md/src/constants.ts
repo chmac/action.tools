@@ -14,7 +14,7 @@ export const PROJECT_PREFIX = "+" as const;
 export const KEY_VAR_REGEX_SUFFIX = `:[\\S]+`;
 export const REGEX_SUFFIX = `[\\S]+`;
 
-export const UNITS = ["month", "day", "week"] as const;
+export const UNITS = ["month", "day", "week", "year"] as const;
 export const DAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"] as const;
 export const MONTHS = [
   "jan",

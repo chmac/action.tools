@@ -6,7 +6,7 @@ import {
   Repeat,
   RepeatSimple,
   RepeatWeekly,
-  RepeatMonthly
+  RepeatMonthly,
 } from "./types";
 import { Rule } from "./rschedule";
 import { getRepeatParams, getRepeatFromTaskOrThrow } from "./repeat";
@@ -30,6 +30,8 @@ export const nextDateOfIterationSimple = (
     return start.plusWeeks(count);
   } else if (unit === "month") {
     return start.plusMonths(count);
+  } else if (unit === "year") {
+    return start.plusYears(count);
   }
   return notReachable(unit);
 };
@@ -62,7 +64,7 @@ export const nextDateOfIterationWeekly = (
   const rule = new Rule({
     frequency: "WEEKLY",
     byDayOfWeek: repeat.days,
-    start: localDateToZonedDateTime(start)
+    start: localDateToZonedDateTime(start),
   });
   return getNextOccurrenceFromRule(rule, start);
 };
@@ -75,7 +77,7 @@ export const nextDateOfIterationMonthly = (
     frequency: "YEARLY",
     byDayOfMonth: repeat.dates,
     byMonthOfYear: repeat.months,
-    start: localDateToZonedDateTime(start)
+    start: localDateToZonedDateTime(start),
   });
   return getNextOccurrenceFromRule(rule, start);
 };
@@ -185,8 +187,8 @@ export const createNextRepetitionTask = (
 ): Task => {
   return R.pipe(
     task,
-    task => removeKeyValue(FINISHED, task),
-    task => setNextByAndAfterDates(task, today),
+    (task) => removeKeyValue(FINISHED, task),
+    (task) => setNextByAndAfterDates(task, today),
     R.set("checked", false)
   );
 };
