@@ -18,6 +18,7 @@ import Clear from "@material-ui/icons/Clear";
 import NavigateBefore from "@material-ui/icons/NavigateBefore";
 import NavigateNext from "@material-ui/icons/NavigateNext";
 import { repeatTasks, today } from "do.md";
+import { Filter } from "do.md/dist/filter";
 
 import {
   startup,
@@ -31,7 +32,6 @@ import {
   markdownToMdast,
   mdastToMarkdown,
 } from "../../services/mdast/mdast.service";
-import { Filter } from "do.md/dist/filter";
 
 const markdownChecked = "- [x]";
 const markdownUnchecked = "- [ ]";
