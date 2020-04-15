@@ -51,7 +51,7 @@
     "unist-util-modify-children": "^1.1.5",
     "unist-util-select": "^3.0.0",
     "unist-util-visit": "^2.0.1",
-    "uno-material-ui": "^2.0.0"
+    "uno-material-ui": "^2.0.1"
   },
   "scripts": {
     "preinstall": "cd ../packages/do.md && yarn && yarn build",

@@ -11483,10 +11483,10 @@ uno-js@^0.7.7:
   resolved "https://registry.yarnpkg.com/uno-js/-/uno-js-0.7.7.tgz#c4d93515014705a5df7a3d98cc1cf2b09ec9c739"
   integrity sha512-vi0WThJdjhqyggLeXC4hqLNceAHfSckANPgHr4ac/IoaweSRW8DzaMVrm6Iw/Pfh8B8vfjZWfixVaLWkndRESA==
 
-uno-material-ui@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/uno-material-ui/-/uno-material-ui-2.0.0.tgz#7f4c841b05d4706c39b92a25c147df29034c7d65"
-  integrity sha512-IIqUDCbnXMHD0cAD9iNTMwMkbK+FW5+tRGo4xVKXXaUIUwgcF7DRjKNQIYvdkkLuz1tFM6yFyObK2eOEXp002Q==
+uno-material-ui@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/uno-material-ui/-/uno-material-ui-2.0.1.tgz#beb58623194ed9fe05a069ee23f79fbf38c785c5"
+  integrity sha512-RLZIMqT3K/KVY0UMXZti3wsSLOP4YiP2WzPPZ2BlckgQybQ0DqrEM7dztHwTbOv2oDwCmB7v55aTfxvFxFAkdQ==
   dependencies:
     "@material-ui/core" "^4.9.8"
     "@material-ui/icons" "^4.9.1"
