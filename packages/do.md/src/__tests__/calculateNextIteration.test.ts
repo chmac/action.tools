@@ -186,7 +186,7 @@ describe("calculateNextIteration", () => {
       expect(setNextByAndAfterDates(task, today)).toEqual(expected);
     });
 
-    it("Correctly calculates for by:2020-02-24 repeat:every3days #hWLtrb", () => {
+    it("Correctly calculates for by:2020-02-24 repeat:every3days #yhido5", () => {
       const task = makeTask("A simple task", true, [
         "by:2020-02-24",
         "repeat:every3days",
