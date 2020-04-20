@@ -12,7 +12,6 @@ import {
   FormControl,
   Input,
   InputLabel,
-  Modal,
 } from "@material-ui/core";
 import Clear from "@material-ui/icons/Clear";
 import NavigateBefore from "@material-ui/icons/NavigateBefore";
