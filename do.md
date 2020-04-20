@@ -12,4 +12,4 @@
 
 # Bugs
 
-* [ ] After dates do not match for "exact date"
+* [x] After dates do not match for "exact date"
