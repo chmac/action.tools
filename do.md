@@ -7,3 +7,7 @@
 * [ ] Add created dates to all tasks
 * [ ] Warn for `by` dates before `after` dates
 * [ ] Decide if `by date` or `by:date` makes sense
+
+# Bugs
+
+* [ ] After dates do not match for "exact date"
