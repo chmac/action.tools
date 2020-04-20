@@ -114,8 +114,29 @@ describe("filter", () => {
       expect(doesTaskMatchExactDate(task, today)).toEqual(false);
     });
 
+    it("Returns true when task is by today #cqE1DM", () => {
+      const task = makeTask("A task after today", false, ["by:2020-02-24"]);
+      expect(doesTaskMatchExactDate(task, today)).toEqual(true);
+    });
+
     it("Returns true when the task is after today #dXz77J", () => {
       const task = makeTask("A task after today", false, ["after:2020-02-24"]);
+      expect(doesTaskMatchExactDate(task, today)).toEqual(true);
+    });
+
+    it("Returns true when task is after yesterday and by today #VrH0UL", () => {
+      const task = makeTask("A task after today", false, [
+        "after:2020-02-23",
+        "by:2020-02-24",
+      ]);
+      expect(doesTaskMatchExactDate(task, today)).toEqual(true);
+    });
+
+    it("Returns true when task is after today and by tomorrow #7WKTmb", () => {
+      const task = makeTask("A task after today", false, [
+        "after:2020-02-24",
+        "by:2020-02-25",
+      ]);
       expect(doesTaskMatchExactDate(task, today)).toEqual(true);
     });
   });
