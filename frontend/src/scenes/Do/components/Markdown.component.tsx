@@ -4,6 +4,7 @@ import remark2rehype from "remark-rehype";
 import rehype2react from "rehype-react";
 import { filterTasks, today, countTasks } from "do.md";
 import { Node, Parent } from "unist";
+import u from "unist-builder";
 import reduce from "unist-util-reduce";
 import unistFilter from "unist-util-filter";
 import listItemDefault from "mdast-util-to-hast/lib/handlers/list-item";
@@ -73,7 +74,7 @@ const Markdown = (props: Props) => {
 
     // Trim off any headings which don't contain tasks
     // const filteredWithoutHeadings = visit
-    const filteredWithoutHeadings = unistFilter<Parent>(
+    const filteredWithoutHeadingsMaybe = unistFilter<Parent>(
       filteredWithoutChildren,
       (
         node,
@@ -83,6 +84,28 @@ const Markdown = (props: Props) => {
         // NOTE: `parent.children[index] === node`
         if (typeof index === "undefined" || typeof parent === "undefined") {
           throw new Error("Unknown heading filtering error #oAFAm8");
+        }
+
+        if ((node as Node).type === "paragraph") {
+          const followingSiblings = parent.children.slice(index + 1);
+          const foundSibling = followingSiblings.find((node) => {
+            // If this is a heading AND matches the same depth
+            if (node.type === "list") {
+              return true;
+            }
+            return false;
+          });
+
+          if (typeof foundSibling === "undefined") {
+            return false;
+          }
+
+          // If we found a list, then this node is needed, return true
+          if (foundSibling.type === "list") {
+            return true;
+          }
+
+          return true;
         }
 
         if ((node as Node).type === "heading") {
@@ -125,7 +148,10 @@ const Markdown = (props: Props) => {
       }
     );
 
-    const count = countTasks(filteredWithoutHeadings!);
+    const filteredWithoutHeadings =
+      filteredWithoutHeadingsMaybe || u("root", []);
+
+    const count = countTasks(filteredWithoutHeadings);
 
     // Now we convert the mdast into an hast
     const hast = toRehypeProcessor.runSync(filteredWithoutHeadings!);
