@@ -26,8 +26,8 @@ const toRehypeProcessor = unified().use(remark2rehype, {
         // NOTE: The value here is a string, not a boolean, to keep React happy
         properties: {
           ...properties,
-          isRootList: parent.type === "root" ? "true" : "false"
-        }
+          isRootList: parent.type === "root" ? "true" : "false",
+        },
       };
     },
     listItem: (h: any, node: Node, parent: Parent) => {
@@ -40,8 +40,8 @@ const toRehypeProcessor = unified().use(remark2rehype, {
       const { position, checked } = node;
       const { properties, ...rest } = hast;
       return { ...rest, properties: { ...properties, position, checked } };
-    }
-  }
+    },
+  },
 });
 
 type Props = {
@@ -100,8 +100,8 @@ const Markdown = (props: Props) => {
 
             return <ul {...otherProps} />;
           },
-          li: TaskFactory(setCheckedByLineNumber)
-        }
+          li: TaskFactory(setCheckedByLineNumber),
+        },
       })
       .stringify(hast);
 
@@ -120,19 +120,19 @@ const Markdown = (props: Props) => {
 
 export default Markdown;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   page: {
     paddingTop: 20,
-    paddingBottom: 100
+    paddingBottom: 100,
   },
   paper: {
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
   },
   markdown: {
-    minHeight: "100vh"
+    minHeight: "100vh",
   },
   bottomActions: {
     marginTop: 100,
-    padding: theme.spacing(2)
-  }
+    padding: theme.spacing(2),
+  },
 }));
