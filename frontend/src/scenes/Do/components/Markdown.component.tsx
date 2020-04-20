@@ -47,6 +47,20 @@ const toRehypeProcessor = unified().use(remark2rehype, {
   },
 });
 
+const doesListContainTasks = (node: Parent): boolean => {
+  const foundTask = node.children.find((node) => {
+    if (node.type === "listItem" && typeof node.checked === "boolean") {
+      return true;
+    }
+    return false;
+  });
+
+  if (typeof foundTask === "undefined") {
+    return false;
+  }
+  return true;
+};
+
 type Props = {
   markdown: string;
   filter: Filter;
@@ -92,7 +106,9 @@ const Markdown = (props: Props) => {
           return true;
         }
 
-        if ((node as Node).type === "paragraph") {
+        const { type } = node as Node;
+
+        if (type === "paragraph") {
           const followingSiblings = parent.children.slice(index + 1);
           const foundSibling = followingSiblings.find((node) => {
             // If this is a heading AND matches the same depth
@@ -106,15 +122,17 @@ const Markdown = (props: Props) => {
             return false;
           }
 
-          // If we found a list, then this node is needed, return true
           if (foundSibling.type === "list") {
-            return true;
+            if (doesListContainTasks(foundSibling as Parent)) {
+              return true;
+            }
+            return false;
           }
 
           return true;
         }
 
-        if ((node as Node).type === "heading") {
+        if (type === "heading") {
           const { depth } = node as { depth: number };
           // We want to test, if this is an `h1`, are there any `list` elements
           // between our position and the next `h1`, or the end of the array
@@ -143,13 +161,23 @@ const Markdown = (props: Props) => {
             return false;
           }
 
-          // If we found a list, then this node is needed, return true
           if (foundSibling.type === "list") {
-            return true;
+            if (doesListContainTasks(foundSibling as Parent)) {
+              return true;
+            }
+            return false;
           }
 
           return true;
         }
+
+        if (type === "list") {
+          if (doesListContainTasks(node as Parent)) {
+            return true;
+          }
+          return false;
+        }
+
         return true;
       }
     );
