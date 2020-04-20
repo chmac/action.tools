@@ -100,18 +100,18 @@ export const filterTasks = (root: Parent, filter: Filter): Parent => {
     exactDate: "",
     today: "",
     showUndated: true,
-    showCompleted: false
+    showCompleted: false,
   };
   const empty = {
     ...defaults,
-    showCompleted: true
+    showCompleted: true,
   };
   const actual = { ...defaults, ...filter };
   const { text, exactDate, today, showUndated, showCompleted } = actual;
 
   // If we have no filters applied, then we return everything immediately
   if (
-    Object.values(filter).every(val => typeof val === "undefined") ||
+    Object.values(filter).every((val) => typeof val === "undefined") ||
     R.equals(actual, empty)
   ) {
     return root;
