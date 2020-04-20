@@ -11,6 +11,12 @@
 * [ ] Decide if `by date` or `by:date` makes sense
 * [ ] Consider adding a unique (to the file) ID to each task
 
+# Big picture
+
+* [ ] Implement the doast
+  - Needs `mdast-to-doast` and `doast-to-mdast`
+  - [ ] Move filtering onto the doast
+
 # Bugs
 
 * [x] After dates do not match for "exact date"
