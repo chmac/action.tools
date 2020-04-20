@@ -4,3 +4,4 @@
 * [ ] Add a view / edit single task scene
   - Title, after, by, priroity, repeat, context, snooze
 * [ ] Hide empty sections when filtering
+* [ ] Add created dates to all tasks
