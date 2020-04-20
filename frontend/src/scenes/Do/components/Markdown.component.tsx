@@ -100,6 +100,30 @@ const Markdown = (props: Props) => {
 
             return <ul {...otherProps} />;
           },
+          ol: (props: any) => {
+            const { isRootList, ...otherProps } = props;
+
+            // If this list does not contain any items, then do not render it at
+            // all. Empty lists contain a single element which is a newline
+            // character.
+            if (props.children[0] === "\n" && props.children.length === 1) {
+              return null;
+            }
+
+            // If this list contains the `rootLevel` prop, which we set above,
+            // then render it wrapped in a `<Paper` element. We do not want to
+            // nest `<Paper` elements which is why we apply this only to the
+            // root level lists.
+            if (props.isRootList === "true") {
+              return (
+                <Paper className={classes.paper}>
+                  <ol {...otherProps} />
+                </Paper>
+              );
+            }
+
+            return <ol {...otherProps} />;
+          },
           li: TaskFactory(setCheckedByLineNumber),
         },
       })
