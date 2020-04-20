@@ -87,6 +87,12 @@ const Markdown = (props: Props) => {
         }
 
         if ((node as Node).type === "paragraph") {
+          // We only filter for root level paragraph tags, all others are
+          // allowed to stay
+          if (parent.type !== "root") {
+            return true;
+          }
+
           const followingSiblings = parent.children.slice(index + 1);
           const foundSibling = followingSiblings.find((node) => {
             // If this is a heading AND matches the same depth
