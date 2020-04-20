@@ -5,3 +5,5 @@
   - Title, after, by, priroity, repeat, context, snooze
 * [ ] Hide empty sections when filtering
 * [ ] Add created dates to all tasks
+* [ ] Warn for `by` dates before `after` dates
+* [ ] Decide if `by date` or `by:date` makes sense
