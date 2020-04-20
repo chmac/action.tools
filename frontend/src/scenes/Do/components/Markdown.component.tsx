@@ -61,6 +61,114 @@ const doesListContainTasks = (node: Parent): boolean => {
   return true;
 };
 
+const removeHeadingsWithoutTasks = (input: Parent): Parent => {
+  // Remove empty `list` nodes
+  const filteredWithoutChildren = reduce(input, (node, path, root) => {
+    if (node.type === "list" && (node as Parent).children.length === 0) {
+      return [];
+    }
+    return node;
+  });
+
+  // Trim off any headings which don't contain tasks
+  // const filteredWithoutHeadings = visit
+  const filteredWithoutHeadingsMaybe = unistFilter<Parent>(
+    filteredWithoutChildren,
+    (
+      node,
+      index: number | undefined,
+      parent: Parent | undefined
+    ): node is Parent => {
+      // NOTE: `parent.children[index] === node`
+      if (typeof index === "undefined" || typeof parent === "undefined") {
+        throw new Error("Unknown heading filtering error #oAFAm8");
+      }
+
+      // We only filter for root level paragraph tags, all others are
+      // allowed to stay.
+      if (parent === null || parent.type !== "root") {
+        return true;
+      }
+
+      const { type } = node as Node;
+
+      if (type === "paragraph") {
+        const followingSiblings = parent.children.slice(index + 1);
+        const foundSibling = followingSiblings.find((node) => {
+          // If this is a heading AND matches the same depth
+          if (node.type === "list") {
+            return true;
+          }
+          return false;
+        });
+
+        if (typeof foundSibling === "undefined") {
+          return false;
+        }
+
+        if (foundSibling.type === "list") {
+          if (doesListContainTasks(foundSibling as Parent)) {
+            return true;
+          }
+          return false;
+        }
+
+        return true;
+      }
+
+      if (type === "heading") {
+        const { depth } = node as { depth: number };
+        // We want to test, if this is an `h1`, are there any `list` elements
+        // between our position and the next `h1`, or the end of the array
+        const followingSiblings = parent.children.slice(index + 1);
+        const foundSibling = followingSiblings.find((node) => {
+          // If this is a heading AND matches the same depth
+          if (
+            node.type === "heading" &&
+            ((node as unknown) as { depth: number }).depth === depth
+          ) {
+            return true;
+          } else if (node.type === "list") {
+            return true;
+          }
+          return false;
+        });
+
+        // If we found no matching nodes, then we did not find a list, so this
+        // heading can be removed
+        if (typeof foundSibling === "undefined") {
+          return false;
+        }
+
+        // If we found a matching heading, then this node is unnecessary
+        if (foundSibling.type === "heading") {
+          return false;
+        }
+
+        if (foundSibling.type === "list") {
+          if (doesListContainTasks(foundSibling as Parent)) {
+            return true;
+          }
+          return false;
+        }
+
+        return true;
+      }
+
+      if (type === "list") {
+        if (doesListContainTasks(node as Parent)) {
+          return true;
+        }
+        return false;
+      }
+
+      return true;
+    }
+  );
+
+  return filteredWithoutHeadingsMaybe || u("root", []);
+};
+
 type Props = {
   markdown: string;
   filter: Filter;
@@ -78,117 +186,16 @@ const Markdown = (props: Props) => {
     // Then apply our filter settings
     const filtered = filterTasks(mdast, filter);
 
-    // Remove empty `list` nodes
-    const filteredWithoutChildren = reduce(filtered, (node, path, root) => {
-      if (node.type === "list" && (node as Parent).children.length === 0) {
-        return [];
-      }
-      return node;
-    });
+    const areFiltersEmpty = filtered === mdast;
 
-    // Trim off any headings which don't contain tasks
-    // const filteredWithoutHeadings = visit
-    const filteredWithoutHeadingsMaybe = unistFilter<Parent>(
-      filteredWithoutChildren,
-      (
-        node,
-        index: number | undefined,
-        parent: Parent | undefined
-      ): node is Parent => {
-        // NOTE: `parent.children[index] === node`
-        if (typeof index === "undefined" || typeof parent === "undefined") {
-          throw new Error("Unknown heading filtering error #oAFAm8");
-        }
+    const pruned = areFiltersEmpty
+      ? mdast
+      : removeHeadingsWithoutTasks(filtered);
 
-        // We only filter for root level paragraph tags, all others are
-        // allowed to stay.
-        if (parent === null || parent.type !== "root") {
-          return true;
-        }
-
-        const { type } = node as Node;
-
-        if (type === "paragraph") {
-          const followingSiblings = parent.children.slice(index + 1);
-          const foundSibling = followingSiblings.find((node) => {
-            // If this is a heading AND matches the same depth
-            if (node.type === "list") {
-              return true;
-            }
-            return false;
-          });
-
-          if (typeof foundSibling === "undefined") {
-            return false;
-          }
-
-          if (foundSibling.type === "list") {
-            if (doesListContainTasks(foundSibling as Parent)) {
-              return true;
-            }
-            return false;
-          }
-
-          return true;
-        }
-
-        if (type === "heading") {
-          const { depth } = node as { depth: number };
-          // We want to test, if this is an `h1`, are there any `list` elements
-          // between our position and the next `h1`, or the end of the array
-          const followingSiblings = parent.children.slice(index + 1);
-          const foundSibling = followingSiblings.find((node) => {
-            // If this is a heading AND matches the same depth
-            if (
-              node.type === "heading" &&
-              ((node as unknown) as { depth: number }).depth === depth
-            ) {
-              return true;
-            } else if (node.type === "list") {
-              return true;
-            }
-            return false;
-          });
-
-          // If we found no matching nodes, then we did not find a list, so this
-          // heading can be removed
-          if (typeof foundSibling === "undefined") {
-            return false;
-          }
-
-          // If we found a matching heading, then this node is unnecessary
-          if (foundSibling.type === "heading") {
-            return false;
-          }
-
-          if (foundSibling.type === "list") {
-            if (doesListContainTasks(foundSibling as Parent)) {
-              return true;
-            }
-            return false;
-          }
-
-          return true;
-        }
-
-        if (type === "list") {
-          if (doesListContainTasks(node as Parent)) {
-            return true;
-          }
-          return false;
-        }
-
-        return true;
-      }
-    );
-
-    const filteredWithoutHeadings =
-      filteredWithoutHeadingsMaybe || u("root", []);
-
-    const count = countTasks(filteredWithoutHeadings);
+    const count = countTasks(pruned);
 
     // Now we convert the mdast into an hast
-    const hast = toRehypeProcessor.runSync(filteredWithoutHeadings!);
+    const hast = toRehypeProcessor.runSync(pruned);
 
     // We convert the hast into `createElement()` calls
     const elements = unified()
