@@ -14,4 +14,4 @@
 # Bugs
 
 * [x] After dates do not match for "exact date"
-* [ ] Git revision does not land in UI on netlify
+* [x] Git revision does not land in UI on netlify
