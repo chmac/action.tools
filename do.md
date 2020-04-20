@@ -16,6 +16,10 @@
 - [ ] Implement the doast
   - Needs `mdast-to-doast` and `doast-to-mdast`
   - [ ] Move filtering onto the doast
+- [ ] Better automation
+  - `after:today`, maybe even `after:tod` etc
+  - Adding `created` dates
+  - Potentially adding `id` fields
 
 # Bugs
 
