@@ -92,11 +92,20 @@ const removeHeadingsWithoutTasks = (input: Parent): Parent => {
 
       const { type } = node as Node;
 
-      if (type === "paragraph") {
+      if (type === "list") {
+        if (doesListContainTasks(node as Parent)) {
+          return true;
+        }
+      }
+
+      if (type === "paragraph" || type === "list") {
         const followingSiblings = parent.children.slice(index + 1);
-        const foundSibling = followingSiblings.find((node) => {
+        const foundSibling = followingSiblings.find((sibling) => {
           // If this is a heading AND matches the same depth
-          if (node.type === "list") {
+          if (
+            sibling.type === "list" &&
+            doesListContainTasks(sibling as Parent)
+          ) {
             return true;
           }
           return false;
@@ -107,10 +116,7 @@ const removeHeadingsWithoutTasks = (input: Parent): Parent => {
         }
 
         if (foundSibling.type === "list") {
-          if (doesListContainTasks(foundSibling as Parent)) {
-            return true;
-          }
-          return false;
+          return true;
         }
 
         return true;
@@ -121,16 +127,25 @@ const removeHeadingsWithoutTasks = (input: Parent): Parent => {
         // We want to test, if this is an `h1`, are there any `list` elements
         // between our position and the next `h1`, or the end of the array
         const followingSiblings = parent.children.slice(index + 1);
-        const foundSibling = followingSiblings.find((node) => {
-          // If this is a heading AND matches the same depth
+        const foundSibling = followingSiblings.find((sibling) => {
+          // If this is a heading AND it is of equal or lower depth. As in, if
+          // we're currently scanning from an `h1`, then we ignore `h2` (2 <=
+          // 1), but we stop on an `h1`. If we're scanning from an `h2` then we
+          // stop on an `h1` (1 <= 2).
           if (
-            node.type === "heading" &&
-            ((node as unknown) as { depth: number }).depth === depth
+            sibling.type === "heading" &&
+            ((sibling as unknown) as { depth: number }).depth <= depth
           ) {
             return true;
-          } else if (node.type === "list") {
+          }
+
+          if (
+            sibling.type === "list" &&
+            doesListContainTasks(sibling as Parent)
+          ) {
             return true;
           }
+
           return false;
         });
 
@@ -146,20 +161,10 @@ const removeHeadingsWithoutTasks = (input: Parent): Parent => {
         }
 
         if (foundSibling.type === "list") {
-          if (doesListContainTasks(foundSibling as Parent)) {
-            return true;
-          }
-          return false;
+          return true;
         }
 
         return true;
-      }
-
-      if (type === "list") {
-        if (doesListContainTasks(node as Parent)) {
-          return true;
-        }
-        return false;
       }
 
       return true;
