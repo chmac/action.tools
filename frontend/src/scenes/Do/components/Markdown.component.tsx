@@ -86,13 +86,13 @@ const Markdown = (props: Props) => {
           throw new Error("Unknown heading filtering error #oAFAm8");
         }
 
-        if ((node as Node).type === "paragraph") {
-          // We only filter for root level paragraph tags, all others are
-          // allowed to stay
-          if (parent.type !== "root") {
-            return true;
-          }
+        // We only filter for root level paragraph tags, all others are
+        // allowed to stay.
+        if (parent === null || parent.type !== "root") {
+          return true;
+        }
 
+        if ((node as Node).type === "paragraph") {
           const followingSiblings = parent.children.slice(index + 1);
           const foundSibling = followingSiblings.find((node) => {
             // If this is a heading AND matches the same depth
