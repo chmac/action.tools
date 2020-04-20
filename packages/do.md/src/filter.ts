@@ -64,14 +64,21 @@ export const doesTaskMatchExactDate = (
     return false;
   }
 
-  if (hasBy) {
-    const by = getDateField(BY, task);
-    return by.isEqual(target);
-  }
-
+  // NOTE: We check the after date BEFORE the by date, because if our task has
+  // both, then we DO want to match this task on its after date. We assume that
+  // after dates are always before by dates.
   if (hasAfter) {
     const after = getDateField(AFTER, task);
-    return after.isEqual(target);
+    if (after.isEqual(target)) {
+      return true;
+    }
+  }
+
+  if (hasBy) {
+    const by = getDateField(BY, task);
+    if (by.isEqual(target)) {
+      return true;
+    }
   }
 
   return false;
