@@ -9,7 +9,9 @@
 * [ ] Add created dates to all tasks
 * [ ] Warn for `by` dates before `after` dates
 * [ ] Decide if `by date` or `by:date` makes sense
+* [ ] Consider adding a unique (to the file) ID to each task
 
 # Bugs
 
 * [x] After dates do not match for "exact date"
+* [ ] Git revision does not land in UI on netlify
