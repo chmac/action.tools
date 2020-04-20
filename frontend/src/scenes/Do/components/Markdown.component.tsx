@@ -4,15 +4,18 @@ import remark2rehype from "remark-rehype";
 import rehype2react from "rehype-react";
 import { filterTasks, today, countTasks } from "do.md";
 import { Node, Parent } from "unist";
+import u from "unist-builder";
+import reduce from "unist-util-reduce";
+import unistFilter from "unist-util-filter";
 import listItemDefault from "mdast-util-to-hast/lib/handlers/list-item";
 import listDefault from "mdast-util-to-hast/lib/handlers/list";
 import { Typography, Paper, makeStyles } from "@material-ui/core";
 import { isTask } from "do.md/dist/utils";
+import { Filter } from "do.md/dist/filter";
 
 import { markdownToMdast } from "../../../services/mdast/mdast.service";
 import TaskFactory, { SetCheckedByLineNumber } from "./Task.component";
 import DataFactory from "./Data.component";
-import { Filter } from "do.md/dist/filter";
 
 const toRehypeProcessor = unified().use(remark2rehype, {
   handlers: {
@@ -61,10 +64,103 @@ const Markdown = (props: Props) => {
     // Then apply our filter settings
     const filtered = filterTasks(mdast, filter);
 
-    const count = countTasks(filtered);
+    // Remove empty `list` nodes
+    const filteredWithoutChildren = reduce(filtered, (node, path, root) => {
+      if (node.type === "list" && (node as Parent).children.length === 0) {
+        return [];
+      }
+      return node;
+    });
+
+    // Trim off any headings which don't contain tasks
+    // const filteredWithoutHeadings = visit
+    const filteredWithoutHeadingsMaybe = unistFilter<Parent>(
+      filteredWithoutChildren,
+      (
+        node,
+        index: number | undefined,
+        parent: Parent | undefined
+      ): node is Parent => {
+        // NOTE: `parent.children[index] === node`
+        if (typeof index === "undefined" || typeof parent === "undefined") {
+          throw new Error("Unknown heading filtering error #oAFAm8");
+        }
+
+        // We only filter for root level paragraph tags, all others are
+        // allowed to stay.
+        if (parent === null || parent.type !== "root") {
+          return true;
+        }
+
+        if ((node as Node).type === "paragraph") {
+          const followingSiblings = parent.children.slice(index + 1);
+          const foundSibling = followingSiblings.find((node) => {
+            // If this is a heading AND matches the same depth
+            if (node.type === "list") {
+              return true;
+            }
+            return false;
+          });
+
+          if (typeof foundSibling === "undefined") {
+            return false;
+          }
+
+          // If we found a list, then this node is needed, return true
+          if (foundSibling.type === "list") {
+            return true;
+          }
+
+          return true;
+        }
+
+        if ((node as Node).type === "heading") {
+          const { depth } = node as { depth: number };
+          // We want to test, if this is an `h1`, are there any `list` elements
+          // between our position and the next `h1`, or the end of the array
+          const followingSiblings = parent.children.slice(index + 1);
+          const foundSibling = followingSiblings.find((node) => {
+            // If this is a heading AND matches the same depth
+            if (
+              node.type === "heading" &&
+              ((node as unknown) as { depth: number }).depth === depth
+            ) {
+              return true;
+            } else if (node.type === "list") {
+              return true;
+            }
+            return false;
+          });
+
+          // If we found no matching nodes, then we did not find a list, so this
+          // heading can be removed
+          if (typeof foundSibling === "undefined") {
+            return false;
+          }
+
+          // If we found a matching heading, then this node is unnecessary
+          if (foundSibling.type === "heading") {
+            return false;
+          }
+
+          // If we found a list, then this node is needed, return true
+          if (foundSibling.type === "list") {
+            return true;
+          }
+
+          return true;
+        }
+        return true;
+      }
+    );
+
+    const filteredWithoutHeadings =
+      filteredWithoutHeadingsMaybe || u("root", []);
+
+    const count = countTasks(filteredWithoutHeadings);
 
     // Now we convert the mdast into an hast
-    const hast = toRehypeProcessor.runSync(filtered);
+    const hast = toRehypeProcessor.runSync(filteredWithoutHeadings!);
 
     // We convert the hast into `createElement()` calls
     const elements = unified()
