@@ -115,7 +115,7 @@ const DataFactory = (today: LocalDate) => (props: any) => {
         <span
           style={{
             padding: 3,
-            backgroundColor: periodToColour(until, red)
+            backgroundColor: periodToColour(until, red),
           }}
         >
           BY {formatPeriod(until)} ({value})
