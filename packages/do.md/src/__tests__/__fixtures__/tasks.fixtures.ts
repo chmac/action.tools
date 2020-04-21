@@ -195,3 +195,67 @@ export const treeWithEmptyHeadings = u("root", [
     }),
   ]),
 ]);
+
+export const treeWithEmptyHeadingsTrimmed = u("root", [
+  u("list", { ordered: false, spread: false, start: null }, [
+    u("listItem", { checked: false, spread: false }, [
+      u("paragraph", [
+        u("text", { value: "This is a task which is unchecked #Gf6a8R" }),
+      ]),
+    ]),
+    u("listItem", { checked: false, spread: false }, [
+      u("paragraph", [
+        u("text", { value: "This is another task also unchecked #IcL6qn" }),
+      ]),
+    ]),
+    u("listItem", { checked: null, spread: false }, [
+      u("paragraph", [
+        u("text", { value: "This is another task also unchecked #IcL6qn" }),
+      ]),
+    ]),
+  ]),
+  u("heading", { depth: 1 }, [u("text", { value: "First Heading" })]),
+  u("heading", { depth: 2 }, [u("text", { value: "Second Level 2 Heading" })]),
+  u("paragraph", [
+    u("text", {
+      value: "This is a paragraph which contains a whole chunk of text",
+    }),
+  ]),
+  u("paragraph", [
+    u("text", {
+      value: "Followed by a paragraph of text",
+    }),
+  ]),
+  u("list", { ordered: false, spread: false, start: null }, [
+    // Top level task
+    u("listItem", { checked: false, spread: false }, [
+      u("paragraph", [
+        u("text", { value: "This is a top level task #xAgxB9" }),
+      ]),
+      // Nested list
+      u("list", { ordered: false, spread: false, start: null }, [
+        u("listItem", { checked: false, spread: false }, [
+          u("paragraph", [
+            u("text", { value: "This is a child task #JkmkMh" }),
+          ]),
+        ]),
+        u("listItem", { checked: false, spread: false }, [
+          u("paragraph", [u("text", { value: "Second child task #PWfUG1" })]),
+        ]),
+        u("listItem", { checked: null, spread: false }, [
+          u("paragraph", [
+            u("text", { value: "Third child level task #eHaqOJ" }),
+          ]),
+        ]),
+      ]),
+    ]),
+    u("listItem", { checked: true, spread: false }, [
+      u("paragraph", [
+        u("text", { value: "Back to a top level completed task #FVK0TU" }),
+      ]),
+    ]),
+    u("listItem", { checked: null, spread: false }, [
+      u("paragraph", [u("text", { value: "Final top level task #lJNUwz" })]),
+    ]),
+  ]),
+]);
