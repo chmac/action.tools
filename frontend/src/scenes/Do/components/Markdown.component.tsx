@@ -108,6 +108,14 @@ const removeHeadingsWithoutTasks = (input: Parent): Parent => {
           ) {
             return true;
           }
+
+          if (
+            sibling.type === "heading" &&
+            ((sibling as unknown) as { depth: number }).depth === 1
+          ) {
+            return true;
+          }
+
           return false;
         });
 
@@ -134,6 +142,7 @@ const removeHeadingsWithoutTasks = (input: Parent): Parent => {
           // stop on an `h1` (1 <= 2).
           if (
             sibling.type === "heading" &&
+            // We need to set `depth to 1`
             ((sibling as unknown) as { depth: number }).depth <= depth
           ) {
             return true;
