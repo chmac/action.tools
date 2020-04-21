@@ -129,17 +129,19 @@ const Do = () => {
       return {};
     }
 
+    const text = filter.toLowerCase();
+
     if (filterByDate) {
       return {
         exactDate: today().plusDays(dateFilterOffsetDays).toString(),
         showUndated: false,
-        text: filter,
+        text,
       };
     }
 
     return {
       today: today().toString(),
-      text: filter,
+      text,
     };
   }, [showEverything, filterByDate, dateFilterOffsetDays, filter]);
 
