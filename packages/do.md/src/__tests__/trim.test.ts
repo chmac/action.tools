@@ -74,5 +74,30 @@ describe("trim", () => {
       ]);
       expect(trim(input)).toEqual(expected);
     });
+
+    it("Removes multiple empty siblings of the first heading #jc4SSk", () => {
+      const input = u("root", [
+        u("heading", { depth: 1 }, [u("text", "Top")]),
+        u("heading", { depth: 2 }, [u("text", "First son")]),
+        u("heading", { depth: 2 }, [u("text", "Second son")]),
+        u("heading", { depth: 2 }, [u("text", "Third son")]),
+        u("heading", { depth: 2 }, [u("text", "Fourth son")]),
+        u("list", { ordered: false, spread: false, start: null }, [
+          u("listItem", { checked: false, spread: false }, [
+            u("paragraph", [u("text", "This is a child task #JkmkMh")]),
+          ]),
+        ]),
+      ]);
+      const expected = u("root", [
+        u("heading", { depth: 1 }, [u("text", "Top")]),
+        u("heading", { depth: 2 }, [u("text", "Fourth son")]),
+        u("list", { ordered: false, spread: false, start: null }, [
+          u("listItem", { checked: false, spread: false }, [
+            u("paragraph", [u("text", "This is a child task #JkmkMh")]),
+          ]),
+        ]),
+      ]);
+      expect(trim(input)).toEqual(expected);
+    });
   });
 });
