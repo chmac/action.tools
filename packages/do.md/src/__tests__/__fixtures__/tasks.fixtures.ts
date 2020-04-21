@@ -61,17 +61,17 @@ export const taskWithKeys = u("listItem", { checked: false, spread: false }, [
 
 export const tree = u("root", [
   u("list", { ordered: false, spread: false, start: null }, [
-    u("listeItem", { checked: false, spread: false }, [
+    u("listItem", { checked: false, spread: false }, [
       u("paragraph", [
         u("text", { value: "This is a task which is unchecked #Gf6a8R" }),
       ]),
     ]),
-    u("listeItem", { checked: false, spread: false }, [
+    u("listItem", { checked: false, spread: false }, [
       u("paragraph", [
         u("text", { value: "This is another task also unchecked #IcL6qn" }),
       ]),
     ]),
-    u("listeItem", { checked: null, spread: false }, [
+    u("listItem", { checked: null, spread: false }, [
       u("paragraph", [
         u("text", { value: "This is another task also unchecked #IcL6qn" }),
       ]),
@@ -91,33 +91,33 @@ export const tree = u("root", [
   ]),
   u("list", { ordered: false, spread: false, start: null }, [
     // Top level task
-    u("listeItem", { checked: false, spread: false }, [
+    u("listItem", { checked: false, spread: false }, [
       u("paragraph", [
         u("text", { value: "This is a top level task #xAgxB9" }),
       ]),
       // Nested list
       u("list", { ordered: false, spread: false, start: null }, [
-        u("listeItem", { checked: false, spread: false }, [
+        u("listItem", { checked: false, spread: false }, [
           u("paragraph", [
             u("text", { value: "This is a child task #JkmkMh" }),
           ]),
         ]),
-        u("listeItem", { checked: false, spread: false }, [
+        u("listItem", { checked: false, spread: false }, [
           u("paragraph", [u("text", { value: "Second child task #PWfUG1" })]),
         ]),
-        u("listeItem", { checked: null, spread: false }, [
+        u("listItem", { checked: null, spread: false }, [
           u("paragraph", [
             u("text", { value: "Third child level task #eHaqOJ" }),
           ]),
         ]),
       ]),
     ]),
-    u("listeItem", { checked: true, spread: false }, [
+    u("listItem", { checked: true, spread: false }, [
       u("paragraph", [
         u("text", { value: "Back to a top level completed task #FVK0TU" }),
       ]),
     ]),
-    u("listeItem", { checked: null, spread: false }, [
+    u("listItem", { checked: null, spread: false }, [
       u("paragraph", [u("text", { value: "Final top level task #lJNUwz" })]),
     ]),
   ]),
@@ -127,17 +127,17 @@ export const tree = u("root", [
 // contain no tasks
 export const treeWithEmptyHeadings = u("root", [
   u("list", { ordered: false, spread: false, start: null }, [
-    u("listeItem", { checked: false, spread: false }, [
+    u("listItem", { checked: false, spread: false }, [
       u("paragraph", [
         u("text", { value: "This is a task which is unchecked #Gf6a8R" }),
       ]),
     ]),
-    u("listeItem", { checked: false, spread: false }, [
+    u("listItem", { checked: false, spread: false }, [
       u("paragraph", [
         u("text", { value: "This is another task also unchecked #IcL6qn" }),
       ]),
     ]),
-    u("listeItem", { checked: null, spread: false }, [
+    u("listItem", { checked: null, spread: false }, [
       u("paragraph", [
         u("text", { value: "This is another task also unchecked #IcL6qn" }),
       ]),
@@ -157,33 +157,33 @@ export const treeWithEmptyHeadings = u("root", [
   ]),
   u("list", { ordered: false, spread: false, start: null }, [
     // Top level task
-    u("listeItem", { checked: false, spread: false }, [
+    u("listItem", { checked: false, spread: false }, [
       u("paragraph", [
         u("text", { value: "This is a top level task #xAgxB9" }),
       ]),
       // Nested list
       u("list", { ordered: false, spread: false, start: null }, [
-        u("listeItem", { checked: false, spread: false }, [
+        u("listItem", { checked: false, spread: false }, [
           u("paragraph", [
             u("text", { value: "This is a child task #JkmkMh" }),
           ]),
         ]),
-        u("listeItem", { checked: false, spread: false }, [
+        u("listItem", { checked: false, spread: false }, [
           u("paragraph", [u("text", { value: "Second child task #PWfUG1" })]),
         ]),
-        u("listeItem", { checked: null, spread: false }, [
+        u("listItem", { checked: null, spread: false }, [
           u("paragraph", [
             u("text", { value: "Third child level task #eHaqOJ" }),
           ]),
         ]),
       ]),
     ]),
-    u("listeItem", { checked: true, spread: false }, [
+    u("listItem", { checked: true, spread: false }, [
       u("paragraph", [
         u("text", { value: "Back to a top level completed task #FVK0TU" }),
       ]),
     ]),
-    u("listeItem", { checked: null, spread: false }, [
+    u("listItem", { checked: null, spread: false }, [
       u("paragraph", [u("text", { value: "Final top level task #lJNUwz" })]),
     ]),
   ]),
