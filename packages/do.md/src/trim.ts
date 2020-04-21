@@ -97,11 +97,16 @@ export const trim = (root: Parent): Parent => {
             row.include = true;
             // If this heading is a higher level (lower depth) than our first
             // heading, then its an "ancestor" and so we include it
-          } else if (depth <= currentHeadingDepth) {
+          } else if (depth < currentHeadingDepth) {
             row.include = true;
 
+            // We have now climbed one heading level, so we update
+            // currentHeadingDepth to make sure that we only find 1 heading at
+            // this level, and from now on, only look for higher level headings
+            currentHeadingDepth = depth;
+
             // This heading might have direct children which also need to be
-            // "kept".
+            // "kept". We include headings lower (higher number) than this one
             let nestedStopped = false;
             const timesToGoForwards = index - thisRowIndex;
             R.times(timesToGoForwards, (time) => {
