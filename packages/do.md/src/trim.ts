@@ -79,11 +79,6 @@ export const trim = (root: Parent): Parent => {
 
         const row = includeChildren[thisRowIndex];
 
-        // If this row is already marked for inclusion, there's nothing to do
-        if (row.include) {
-          return;
-        }
-
         if (isHeading(row.node)) {
           foundHeading = true;
 
