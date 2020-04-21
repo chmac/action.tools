@@ -93,6 +93,10 @@ export const doesTaskHaveMatchingChildren = (task: Task): boolean => {
   return Boolean(childTasks.find(isTask));
 };
 
+export const isTaskSomeday = (task: Task): boolean => {
+  return getTitle(task).indexOf("@someday") !== -1;
+};
+
 export type Filter = {
   text?: string;
   exactDate?: string;
@@ -142,9 +146,16 @@ export const filterTasks = (root: Parent, filter: Filter): Parent => {
         return [];
       }
 
-      // If the task fails the text filter, then skip it
-      if (!doesTaskMatchFilterText(task, text)) {
-        return [];
+      if (text.length > 0) {
+        // If the task fails the text filter, then skip it
+        if (!doesTaskMatchFilterText(task, text)) {
+          return [];
+        }
+      } else {
+        // If there is no text filter, then ignore @someday tasks
+        if (isTaskSomeday(task)) {
+          return [];
+        }
       }
 
       // If this task is undated and we are showing undated tasks
