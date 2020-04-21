@@ -3039,6 +3039,11 @@ remeda@^0.0.14:
   resolved "https://registry.yarnpkg.com/remeda/-/remeda-0.0.14.tgz#2c8e3672d2ed09d21133cd73ba8ce1301b5fd78f"
   integrity sha512-94BLgUtP0o/E0Ta7swiAstz1VRB+ngXROZ7NYiq0AgqNt4EaLkZdIxJ8IYaqn9Dd4DRiCUe7eVZaRB7wmqzBxA==
 
+remeda@^0.0.19:
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/remeda/-/remeda-0.0.19.tgz#7bc08b0009a3ecc231f84552ed8a7f386a15a77d"
+  integrity sha512-1UqWH2rOC7mdjop8+5ei1ozBY77B8hQmgeE1nsFUDLrDvw/rHTlHxOboaZUcRBh6Tp73KL4mPMKPk26NY+2UWw==
+
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/remove-trailing-separator/-/remove-trailing-separator-1.1.0.tgz#c24bce2a283adad5bc3f58e0d48249b92379d8ef"
