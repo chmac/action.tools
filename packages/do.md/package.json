@@ -37,6 +37,7 @@
     "@js-joda/core": "^2.0.0",
     "@rschedule/core": "^1.0.2",
     "@rschedule/joda-date-adapter": "^1.0.2",
+    "mdast-util-heading-range": "^2.1.4",
     "remeda": "^0.0.19",
     "unist-util-reduce": "^0.2.1",
     "unist-util-select": "^3.0.1",
