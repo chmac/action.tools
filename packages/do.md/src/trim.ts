@@ -1,6 +1,6 @@
 import * as R from "remeda";
 import { Node, Parent } from "unist";
-import { List, Heading, Paragraph } from "mdast";
+import { List, Heading, Paragraph, BlockContent } from "mdast";
 
 export const isList = (node: Node): node is List => {
   return node.type === "list";
@@ -12,6 +12,21 @@ export const isHeading = (node: Node): node is Heading => {
 
 export const isParagraph = (node: Node): node is Paragraph => {
   return node.type === "paragraph";
+};
+
+export const isBlockContent = (node: Node): node is BlockContent => {
+  return (
+    [
+      "paragraph",
+      "heading",
+      "thematicBreak",
+      "blockquote",
+      "list",
+      "table",
+      "html",
+      "code",
+    ].indexOf(node.type) !== -1
+  );
 };
 
 export const doesListContainTasks = (node: List): boolean => {
@@ -84,6 +99,23 @@ export const trim = (root: Parent): Parent => {
             // heading, then its an "ancestor" and so we include it
           } else if (depth <= currentHeadingDepth) {
             row.include = true;
+
+            // This heading might have direct children which also need to be
+            // "kept".
+            let nestedStopped = false;
+            const timesToGoForwards = index - thisRowIndex;
+            R.times(timesToGoForwards, (time) => {
+              if (nestedStopped) {
+                return;
+              }
+              const nextChild = includeChildren[thisRowIndex + time + 1];
+              if (isHeading(nextChild.node)) {
+                nestedStopped = true;
+                return;
+              } else if (isBlockContent(nextChild.node)) {
+                nextChild.include = true;
+              }
+            });
           }
 
           // If we reach an h1, then we stop navigating further up the tree,
@@ -96,7 +128,7 @@ export const trim = (root: Parent): Parent => {
 
         // Any paragraphs or lists directly above this list, without a heading
         // in between, are included
-        if (!foundHeading && (isParagraph(row.node) || isList(row.node))) {
+        if (!foundHeading && isBlockContent(row.node)) {
           row.include = true;
         }
       });
