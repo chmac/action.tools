@@ -26,3 +26,4 @@
 
 - [x] After dates do not match for "exact date"
 - [x] Git revision does not land in UI on netlify
+- [ ] Tasks with children get multiple finished dates
