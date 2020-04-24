@@ -67,7 +67,9 @@ export const getKeyValue = (key: string, task: Task): string => {
   }
 
   if (matches.length > 1) {
-    throw new Error("Found multiple matches for key value pair #NLqNJZ");
+    throw new Error(
+      `Found multiple matches for key value pair #NLqNJZ. Key: ${key}; Matches: ${matches.length}`
+    );
   }
 
   const keyValueString = getValueFromNode(matches[0]);
