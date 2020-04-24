@@ -5,17 +5,23 @@ import { AppState } from "../../store";
 
 type Props = {
   open: boolean;
+  onClose: () => void;
 };
 
 const Log = (props: Props) => {
-  const { open } = props;
+  const { open, onClose } = props;
   const classes = useStyles();
   const messages = useSelector(
     (state: AppState) => state.notifications.messages
   );
 
   return (
-    <Modal open={open}>
+    <Modal
+      open={open}
+      onClose={() => {
+        onClose();
+      }}
+    >
       <Paper className={classes.root}>
         <Typography variant="h1">Log</Typography>
         <ul>

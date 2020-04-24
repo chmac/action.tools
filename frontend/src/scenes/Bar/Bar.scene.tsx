@@ -10,6 +10,7 @@ import Log from "../Log/Log.scene";
 
 const Bar: React.FC = (props) => {
   const classes = useStyles();
+  const [logOpen, setLogOpen] = React.useState(false);
 
   return (
     <div className={classes.root}>
@@ -25,14 +26,19 @@ const Bar: React.FC = (props) => {
           </Typography>
           <IconButton
             onClick={() => {
-              debugger;
+              setLogOpen(true);
             }}
           >
             <Notifications />
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Log open={true} />
+      <Log
+        open={logOpen}
+        onClose={() => {
+          setLogOpen(false);
+        }}
+      />
     </div>
   );
 };
