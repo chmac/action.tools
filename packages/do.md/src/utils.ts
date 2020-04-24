@@ -85,7 +85,7 @@ export const hasKeyValue = (key: string, task: Task): boolean => {
 export const setKeyValue = (key: string, value: string, task: Task): Task => {
   // First we check that the `task` only has a single child paragraph tag, we're
   // not (yet) handling multiple paragraph tags.
-  const paragraph = selectAll("paragraph", task);
+  const paragraph = selectAll(":root > paragraph", task);
   if (paragraph.length !== 1) {
     throw new Error("Unknown Error. More than one paragraph. #riCoag");
   }
