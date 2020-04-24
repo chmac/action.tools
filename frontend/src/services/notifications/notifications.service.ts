@@ -1,6 +1,9 @@
 import { snackbarService, MessageType } from "uno-material-ui";
 
-type Message = {
+import store from "../../store";
+import { pushMessage } from "./notifications.state";
+
+export type Message = {
   message: string;
   type: MessageType;
 };
@@ -13,6 +16,7 @@ export const push = ({
   message: string;
   type?: MessageType;
 }) => {
+  store.dispatch(pushMessage({ message, type }));
   stack.push({ message, type });
   snackbarService.showSnackbar(message, type);
 };

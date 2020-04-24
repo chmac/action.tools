@@ -1,16 +1,10 @@
 import thunkMiddleware from "redux-thunk";
-import {
-  createStore,
-  combineReducers,
-  applyMiddleware,
-  compose,
-  AnyAction
-} from "redux";
+import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 
-const empty = (state = { empty: true }, action: AnyAction) => state;
+import notifications from "./services/notifications/notifications.state";
 
 const reducer = combineReducers({
-  empty
+  notifications,
 });
 
 export type AppState = ReturnType<typeof reducer>;
