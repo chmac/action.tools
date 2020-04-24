@@ -108,7 +108,7 @@ export const startup = async () => {
     window.localStorage.setItem(REPO_KEY, repo);
   }
 
-  push({ message: "Starting git fetch", type: "info" });
+  push({ message: "Starting git fetch #l16Pys", type: "info" });
 
   await ensureDir(DIR);
 
@@ -147,6 +147,8 @@ export const startup = async () => {
       ref: "master",
     })
   );
+
+  push({ message: "Finished git fetch #0zDbhW", type: "success" });
 };
 
 export const getMarkdown = async (filepath: string = FILEPATH) => {

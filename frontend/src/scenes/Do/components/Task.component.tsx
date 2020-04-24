@@ -58,7 +58,7 @@ const TaskFactory = (setCheckedByLineNumber: SetCheckedByLineNumber) => {
     return (
       <li
         {...rest}
-        onClick={event => {
+        onClick={(event) => {
           // Descendant (child / grandchild / etc) tasks are nested inside other
           // tasks, so we need to stop the event propagating up the tree,
           // otherwise we end up with a click event on each of the ancestors of
@@ -73,7 +73,7 @@ const TaskFactory = (setCheckedByLineNumber: SetCheckedByLineNumber) => {
           paddingTop: 4,
           paddingBottom: 4,
           opacity: checked ? 0.5 : 1,
-          backgroundColor: titleToBackgroundColor(title)
+          backgroundColor: titleToBackgroundColor(title),
         }}
       >
         {children}

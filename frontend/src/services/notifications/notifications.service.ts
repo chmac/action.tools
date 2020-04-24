@@ -1,8 +1,4 @@
-import { snackbarService } from "uno-material-ui";
-
-// TODO Hopefully this can be imported from `uno-material-ui`
-// https://github.com/unosquare/uno-material-ui/pull/294
-type MessageType = "success" | "error" | "warning" | "info";
+import { snackbarService, MessageType } from "uno-material-ui";
 
 type Message = {
   message: string;

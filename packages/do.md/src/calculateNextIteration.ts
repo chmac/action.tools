@@ -6,13 +6,13 @@ import {
   Repeat,
   RepeatSimple,
   RepeatWeekly,
-  RepeatMonthly
+  RepeatMonthly,
 } from "./types";
 import { Rule } from "./rschedule";
-import { getRepeatParams, getRepeatFromTaskOrThrow } from "./repeat";
+import { getRepeatFromTaskOrThrow } from "./repeat";
 import { getKeyValue, removeKeyValue, hasKeyValue } from "./utils";
-import { setDateField, getDateField, isTodayOrInTheFuture } from "./dates";
-import { EVERY, AFTER, REPEAT, BY, FINISHED } from "./constants";
+import { setDateField, getDateField } from "./dates";
+import { EVERY, AFTER, BY, FINISHED } from "./constants";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const notReachable = (_x: never): never => {
@@ -30,6 +30,8 @@ export const nextDateOfIterationSimple = (
     return start.plusWeeks(count);
   } else if (unit === "month") {
     return start.plusMonths(count);
+  } else if (unit === "year") {
+    return start.plusYears(count);
   }
   return notReachable(unit);
 };
@@ -62,7 +64,7 @@ export const nextDateOfIterationWeekly = (
   const rule = new Rule({
     frequency: "WEEKLY",
     byDayOfWeek: repeat.days,
-    start: localDateToZonedDateTime(start)
+    start: localDateToZonedDateTime(start),
   });
   return getNextOccurrenceFromRule(rule, start);
 };
@@ -75,7 +77,7 @@ export const nextDateOfIterationMonthly = (
     frequency: "YEARLY",
     byDayOfMonth: repeat.dates,
     byMonthOfYear: repeat.months,
-    start: localDateToZonedDateTime(start)
+    start: localDateToZonedDateTime(start),
   });
   return getNextOccurrenceFromRule(rule, start);
 };
@@ -119,7 +121,6 @@ export const nextDateOfIterationAfterToday = (
   }
 
   return next;
-  throw new Error("Yet to implement recursion #ORv2EF");
 };
 
 export const getRepeatFromDate = (
@@ -176,7 +177,7 @@ export const setNextByAndAfterDates = (task: Task, today: LocalDate): Task => {
   const afterDate = getDateField(AFTER, task);
   const daysBetweenAfterAndBy = afterDate.until(byDate);
   const nextAfterDate = nextByDate.minus(daysBetweenAfterAndBy);
-  return setDateField(AFTER, nextAfterDate, task);
+  return setDateField(AFTER, nextAfterDate, withNextByDate);
 };
 
 export const createNextRepetitionTask = (
@@ -185,8 +186,8 @@ export const createNextRepetitionTask = (
 ): Task => {
   return R.pipe(
     task,
-    task => removeKeyValue(FINISHED, task),
-    task => setNextByAndAfterDates(task, today),
+    (task) => removeKeyValue(FINISHED, task),
+    (task) => setNextByAndAfterDates(task, today),
     R.set("checked", false)
   );
 };

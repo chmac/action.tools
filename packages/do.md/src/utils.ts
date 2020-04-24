@@ -8,7 +8,7 @@ import { Task } from "./types";
 import {
   REGEX_SUFFIX,
   KEY_VALUE_SEPARATOR,
-  KEY_VAR_REGEX_SUFFIX
+  KEY_VAR_REGEX_SUFFIX,
 } from "./constants";
 
 export const getKeyValueRegExp = (key: string): RegExp => {
@@ -55,7 +55,7 @@ export const getKeyValue = (key: string, task: Task): string => {
   }
 
   // Check the tasks direct children to see if we find an `inlineCode`
-  const matches = inlineCodes.filter(node => {
+  const matches = inlineCodes.filter((node) => {
     if (startsWith(`${key}${KEY_VALUE_SEPARATOR}`, getValueFromNode(node))) {
       return true;
     }
@@ -85,14 +85,14 @@ export const hasKeyValue = (key: string, task: Task): boolean => {
 export const setKeyValue = (key: string, value: string, task: Task): Task => {
   // First we check that the `task` only has a single child paragraph tag, we're
   // not (yet) handling multiple paragraph tags.
-  const paragraph = selectAll("paragraph", task);
+  const paragraph = selectAll(":root > paragraph", task);
   if (paragraph.length !== 1) {
     throw new Error("Unknown Error. More than one paragraph. #riCoag");
   }
 
   let foundMatch = false;
 
-  return reduce(task, node => {
+  return reduce(task, (node) => {
     const valueString = `${key}${KEY_VALUE_SEPARATOR}${value}`;
     if (
       node.type === "inlineCode" &&
@@ -105,7 +105,7 @@ export const setKeyValue = (key: string, value: string, task: Task): Task => {
     if (node.type === "paragraph" && !foundMatch) {
       const newChildren = [
         u("text", { value: " " }),
-        u("inlineCode", { value: valueString })
+        u("inlineCode", { value: valueString }),
       ];
       const { children, ...rest } = node as Parent;
       return { ...rest, children: children.concat(newChildren) };
@@ -116,7 +116,7 @@ export const setKeyValue = (key: string, value: string, task: Task): Task => {
 };
 
 export const removeKeyValue = (key: string, task: Task): Task => {
-  return reduce(task, node => {
+  return reduce(task, (node) => {
     if (node.type === "inlineCode") {
       const value = getValueFromNode(node);
       if (startsWith(`${key}${KEY_VALUE_SEPARATOR}`, value)) {

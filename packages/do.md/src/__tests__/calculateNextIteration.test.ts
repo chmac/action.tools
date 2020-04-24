@@ -10,7 +10,7 @@ import {
   nextDateOfIteration,
   nextDateOfIterationAfterToday,
   setNextByAndAfterDates,
-  createNextRepetitionTask
+  createNextRepetitionTask,
 } from "../calculateNextIteration";
 import { makeTask } from "./__fixtures__/tasks.fixtures";
 import { today, tomorrow } from "./__fixtures__/dates.fixtures";
@@ -31,7 +31,7 @@ describe("calculateNextIteration", () => {
             type: "simple",
             repeat: "every",
             count: 3,
-            unit: "day"
+            unit: "day",
           },
           LocalDate.of(2020, 2, 13)
         )
@@ -45,7 +45,7 @@ describe("calculateNextIteration", () => {
             type: "simple",
             repeat: "every",
             count: 3,
-            unit: "week"
+            unit: "week",
           },
           LocalDate.of(2020, 2, 13)
         )
@@ -59,12 +59,27 @@ describe("calculateNextIteration", () => {
             type: "simple",
             repeat: "every",
             count: 3,
-            unit: "month"
+            unit: "month",
           },
           // NOTE: This is a leap year
           LocalDate.of(2020, 2, 13)
         )
       ).toEqual(LocalDate.of(2020, 5, 13));
+    });
+
+    it("Correctly adds 3 years #itMM7s", () => {
+      expect(
+        nextDateOfIterationSimple(
+          {
+            type: "simple",
+            repeat: "every",
+            count: 3,
+            unit: "year",
+          },
+          // NOTE: This is a leap year
+          LocalDate.of(2020, 2, 13)
+        )
+      ).toEqual(LocalDate.of(2023, 2, 13));
     });
   });
 
@@ -87,7 +102,7 @@ describe("calculateNextIteration", () => {
             type: "monthly",
             repeat: "every",
             dates: [1, 4, 19, 22],
-            months: [1, 4, 7, 10]
+            months: [1, 4, 7, 10],
           },
           LocalDate.of(2020, 2, 13)
         )
@@ -103,7 +118,7 @@ describe("calculateNextIteration", () => {
             type: "simple",
             repeat: "every",
             count: 1,
-            unit: "day"
+            unit: "day",
           },
           LocalDate.of(2020, 1, 1)
         )
@@ -119,12 +134,42 @@ describe("calculateNextIteration", () => {
             type: "simple",
             repeat: "every",
             count: 1,
-            unit: "day"
+            unit: "day",
           },
           LocalDate.of(2020, 1, 1),
           today
         )
       ).toEqual(tomorrow);
+    });
+
+    it("Adds 1 month to a by date 10 days in teh past #Mm433A", () => {
+      expect(
+        nextDateOfIterationAfterToday(
+          {
+            type: "simple",
+            repeat: "every",
+            count: 1,
+            unit: "month",
+          },
+          LocalDate.of(2020, 2, 14),
+          today
+        )
+      ).toEqual(LocalDate.of(2020, 3, 14));
+    });
+
+    it("Adds 2 months to a by date 1 month and 10 days in the past #wu73J7", () => {
+      expect(
+        nextDateOfIterationAfterToday(
+          {
+            type: "simple",
+            repeat: "every",
+            count: 1,
+            unit: "month",
+          },
+          LocalDate.of(2020, 1, 14),
+          today
+        )
+      ).toEqual(LocalDate.of(2020, 3, 14));
     });
   });
 
@@ -132,23 +177,23 @@ describe("calculateNextIteration", () => {
     it("Correctly calculates for by:2020-02-21 repeat:after3days #hWLtrb", () => {
       const task = makeTask("A simple task", true, [
         "by:2020-02-21",
-        "repeat:after3days"
+        "repeat:after3days",
       ]);
       const expected = makeTask("A simple task", true, [
         "by:2020-02-27",
-        "repeat:after3days"
+        "repeat:after3days",
       ]);
       expect(setNextByAndAfterDates(task, today)).toEqual(expected);
     });
 
-    it("Correctly calculates for by:2020-02-24 repeat:every3days #hWLtrb", () => {
+    it("Correctly calculates for by:2020-02-24 repeat:every3days #yhido5", () => {
       const task = makeTask("A simple task", true, [
         "by:2020-02-24",
-        "repeat:every3days"
+        "repeat:every3days",
       ]);
       const expected = makeTask("A simple task", true, [
         "by:2020-02-27",
-        "repeat:every3days"
+        "repeat:every3days",
       ]);
       expect(setNextByAndAfterDates(task, today)).toEqual(expected);
     });
@@ -184,18 +229,46 @@ describe("calculateNextIteration", () => {
     it("Correctly calculates for after:2020-02-24 repeat:every3days without a by date #b3qWvU", () => {
       const task = makeTask("A simple task", true, [
         "after:2020-02-24",
-        "repeat:every3days"
+        "repeat:every3days",
       ]);
       const expected = makeTask("A simple task", true, [
         "after:2020-02-27",
-        "repeat:every3days"
+        "repeat:every3days",
+      ]);
+      expect(setNextByAndAfterDates(task, today)).toEqual(expected);
+    });
+
+    it("Correctly adds 1 month to both by and after dates #mVwp7v", () => {
+      const task = makeTask("An example task", true, [
+        "after:2020-02-10",
+        "by:2020-02-20",
+        "repeat:every1month",
+      ]);
+      const expected = makeTask("An example task", true, [
+        "after:2020-03-10",
+        "by:2020-03-20",
+        "repeat:every1month",
+      ]);
+      expect(setNextByAndAfterDates(task, today)).toEqual(expected);
+    });
+
+    it("Correctly adds 3 years to by and after dates #DYtXLy", () => {
+      const task = makeTask("An example task", true, [
+        "after:2020-02-10",
+        "by:2020-02-20",
+        "repeat:every3year",
+      ]);
+      const expected = makeTask("An example task", true, [
+        "after:2023-02-10",
+        "by:2023-02-20",
+        "repeat:every3year",
       ]);
       expect(setNextByAndAfterDates(task, today)).toEqual(expected);
     });
 
     it("Throws for a task without an after or by date #Ntbyrc", () => {
       const task = makeTask("An example without a date", false, [
-        "repeat:every3days"
+        "repeat:every3days",
       ]);
       expect(() => setNextByAndAfterDates(task, today)).toThrow();
     });
@@ -205,11 +278,11 @@ describe("calculateNextIteration", () => {
     it("Correctly calculates for by:2020-02-21 repeat:after3days #b2mYm5", () => {
       const task = makeTask("A simple task", true, [
         "by:2020-02-21",
-        "repeat:after3days"
+        "repeat:after3days",
       ]);
       const expected = makeTask("A simple task", false, [
         "by:2020-02-27",
-        "repeat:after3days"
+        "repeat:after3days",
       ]);
       expect(createNextRepetitionTask(task, today)).toEqual(expected);
     });
@@ -217,11 +290,11 @@ describe("calculateNextIteration", () => {
     it("Correctly calculates for by:2020-02-24 repeat:every3days #7jfVa5", () => {
       const task = makeTask("A simple task", true, [
         "by:2020-02-24",
-        "repeat:every3days"
+        "repeat:every3days",
       ]);
       const expected = makeTask("A simple task", false, [
         "by:2020-02-27",
-        "repeat:every3days"
+        "repeat:every3days",
       ]);
       expect(createNextRepetitionTask(task, today)).toEqual(expected);
     });
@@ -230,11 +303,11 @@ describe("calculateNextIteration", () => {
       const task = makeTask("A simple task", true, [
         "by:2020-02-21",
         "repeat:after3days",
-        "finished:2020-02-24"
+        "finished:2020-02-24",
       ]);
       const expected = makeTask("A simple task", false, [
         "by:2020-02-27",
-        "repeat:after3days"
+        "repeat:after3days",
       ]);
       expect(createNextRepetitionTask(task, today)).toEqual(expected);
     });

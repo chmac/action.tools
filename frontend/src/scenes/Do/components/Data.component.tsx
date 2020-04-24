@@ -89,14 +89,17 @@ const DataFactory = (today: LocalDate) => (props: any) => {
     if (key === AFTER) {
       const after = LocalDate.parse(value);
       const until = LocalDate.now().until(after);
+      const isAfterDateTodayOrInTheFuture = !until.isNegative();
       return (
         <span
           style={{
             padding: 3,
-            backgroundColor: lightBlue[100]
+            backgroundColor: isAfterDateTodayOrInTheFuture
+              ? lightBlue[200]
+              : lightBlue[50],
           }}
         >
-          {!until.isNegative() && !until.isZero() ? (
+          {isAfterDateTodayOrInTheFuture ? (
             `after ${formatPeriod(until)} (${value})`
           ) : (
             <code>{content}</code>
@@ -112,7 +115,7 @@ const DataFactory = (today: LocalDate) => (props: any) => {
         <span
           style={{
             padding: 3,
-            backgroundColor: periodToColour(until, red)
+            backgroundColor: periodToColour(until, red),
           }}
         >
           BY {formatPeriod(until)} ({value})

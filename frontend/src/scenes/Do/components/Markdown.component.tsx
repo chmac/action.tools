@@ -2,17 +2,17 @@ import React, { useCallback } from "react";
 import unified from "unified";
 import remark2rehype from "remark-rehype";
 import rehype2react from "rehype-react";
-import { filterTasks, today, countTasks } from "do.md";
+import { filterTasks, today, countTasks, trim } from "do.md";
 import { Node, Parent } from "unist";
 import listItemDefault from "mdast-util-to-hast/lib/handlers/list-item";
 import listDefault from "mdast-util-to-hast/lib/handlers/list";
 import { Typography, Paper, makeStyles } from "@material-ui/core";
 import { isTask } from "do.md/dist/utils";
+import { Filter } from "do.md/dist/filter";
 
 import { markdownToMdast } from "../../../services/mdast/mdast.service";
 import TaskFactory, { SetCheckedByLineNumber } from "./Task.component";
 import DataFactory from "./Data.component";
-import { Filter } from "do.md/dist/filter";
 
 const toRehypeProcessor = unified().use(remark2rehype, {
   handlers: {
@@ -26,8 +26,8 @@ const toRehypeProcessor = unified().use(remark2rehype, {
         // NOTE: The value here is a string, not a boolean, to keep React happy
         properties: {
           ...properties,
-          isRootList: parent.type === "root" ? "true" : "false"
-        }
+          isRootList: parent.type === "root" ? "true" : "false",
+        },
       };
     },
     listItem: (h: any, node: Node, parent: Parent) => {
@@ -40,8 +40,8 @@ const toRehypeProcessor = unified().use(remark2rehype, {
       const { position, checked } = node;
       const { properties, ...rest } = hast;
       return { ...rest, properties: { ...properties, position, checked } };
-    }
-  }
+    },
+  },
 });
 
 type Props = {
@@ -61,10 +61,15 @@ const Markdown = (props: Props) => {
     // Then apply our filter settings
     const filtered = filterTasks(mdast, filter);
 
-    const count = countTasks(filtered);
+    const areFiltersEmpty = filtered === mdast;
+
+    // Skip the trim() call if there are no filters
+    const pruned = areFiltersEmpty ? mdast : trim(filtered);
+
+    const count = countTasks(pruned);
 
     // Now we convert the mdast into an hast
-    const hast = toRehypeProcessor.runSync(filtered);
+    const hast = toRehypeProcessor.runSync(pruned);
 
     // We convert the hast into `createElement()` calls
     const elements = unified()
@@ -100,8 +105,32 @@ const Markdown = (props: Props) => {
 
             return <ul {...otherProps} />;
           },
-          li: TaskFactory(setCheckedByLineNumber)
-        }
+          ol: (props: any) => {
+            const { isRootList, ...otherProps } = props;
+
+            // If this list does not contain any items, then do not render it at
+            // all. Empty lists contain a single element which is a newline
+            // character.
+            if (props.children[0] === "\n" && props.children.length === 1) {
+              return null;
+            }
+
+            // If this list contains the `rootLevel` prop, which we set above,
+            // then render it wrapped in a `<Paper` element. We do not want to
+            // nest `<Paper` elements which is why we apply this only to the
+            // root level lists.
+            if (props.isRootList === "true") {
+              return (
+                <Paper className={classes.paper}>
+                  <ol {...otherProps} />
+                </Paper>
+              );
+            }
+
+            return <ol {...otherProps} />;
+          },
+          li: TaskFactory(setCheckedByLineNumber),
+        },
       })
       .stringify(hast);
 
@@ -120,19 +149,19 @@ const Markdown = (props: Props) => {
 
 export default Markdown;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   page: {
     paddingTop: 20,
-    paddingBottom: 100
+    paddingBottom: 100,
   },
   paper: {
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
   },
   markdown: {
-    minHeight: "100vh"
+    minHeight: "100vh",
   },
   bottomActions: {
     marginTop: 100,
-    padding: theme.spacing(2)
-  }
+    padding: theme.spacing(2),
+  },
 }));

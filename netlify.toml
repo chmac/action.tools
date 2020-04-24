@@ -9,7 +9,8 @@
   base = "frontend"
   publish = "build/"
   command = "yarn build"
-  ignore = "git diff --quiet HEAD^ HEAD -- . ../packages"
+  # ignore = "git diff --quiet HEAD^ HEAD -- . ../packages"
+  ignore = "echo true"
 
 [build.environment]
   YARN_FLAGS = "--skip-integrity-check"

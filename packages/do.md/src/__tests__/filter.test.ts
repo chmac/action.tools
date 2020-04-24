@@ -9,7 +9,7 @@ import {
   isTaskActionableByDate,
   doesTaskMatchExactDate,
   doesTaskHaveMatchingChildren,
-  filterTasks
+  filterTasks,
 } from "../filter";
 
 import { makeTask } from "./__fixtures__/tasks.fixtures";
@@ -46,7 +46,7 @@ describe("filter", () => {
 
     it("Returns true for a task snoozed until tomorrow #hKy1hc", () => {
       const task = makeTask("A snoozed until yesterday task", false, [
-        "snooze:2020-02-25"
+        "snooze:2020-02-25",
       ]);
       expect(isTaskSnoozed(task, today)).toEqual(true);
     });
@@ -60,7 +60,7 @@ describe("filter", () => {
 
     it("Returns false for a task with a by date #MvFWSL", () => {
       const task = makeTask("An example task with a by date of today", false, [
-        "by:2020-02-24"
+        "by:2020-02-24",
       ]);
       expect(isTaskUndated(task)).toEqual(false);
     });
@@ -109,13 +109,34 @@ describe("filter", () => {
   describe("doesTaskMatchExactDate()", () => {
     it("Returns false when task is snoozed #Kn9nzp", () => {
       const task = makeTask("A task snoozed until tomorrow", false, [
-        "snooze:2020-02-25"
+        "snooze:2020-02-25",
       ]);
       expect(doesTaskMatchExactDate(task, today)).toEqual(false);
     });
 
+    it("Returns true when task is by today #cqE1DM", () => {
+      const task = makeTask("A task after today", false, ["by:2020-02-24"]);
+      expect(doesTaskMatchExactDate(task, today)).toEqual(true);
+    });
+
     it("Returns true when the task is after today #dXz77J", () => {
       const task = makeTask("A task after today", false, ["after:2020-02-24"]);
+      expect(doesTaskMatchExactDate(task, today)).toEqual(true);
+    });
+
+    it("Returns true when task is after yesterday and by today #VrH0UL", () => {
+      const task = makeTask("A task after today", false, [
+        "after:2020-02-23",
+        "by:2020-02-24",
+      ]);
+      expect(doesTaskMatchExactDate(task, today)).toEqual(true);
+    });
+
+    it("Returns true when task is after today and by tomorrow #7WKTmb", () => {
+      const task = makeTask("A task after today", false, [
+        "after:2020-02-24",
+        "by:2020-02-25",
+      ]);
       expect(doesTaskMatchExactDate(task, today)).toEqual(true);
     });
   });
@@ -129,9 +150,9 @@ describe("filter", () => {
     it("Returns true for a task with a child #Ee2hBO", () => {
       const task = u("listItem", { checked: false, spread: false }, [
         u("paragraph", [
-          u("text", { value: "This is a task which does have a child" })
+          u("text", { value: "This is a task which does have a child" }),
         ]),
-        u("list", [makeTask("This is a child task")])
+        u("list", [makeTask("This is a child task")]),
       ]);
       expect(doesTaskHaveMatchingChildren(task)).toEqual(true);
     });
@@ -139,13 +160,13 @@ describe("filter", () => {
     it("Returns false for a task with a child list that does not contain tasks #xWWKMo", () => {
       const task = u("listItem", { checked: false, spread: false }, [
         u("paragraph", [
-          u("text", { value: "This is a task which does have a child" })
+          u("text", { value: "This is a task which does have a child" }),
         ]),
         u("list", [
           u("listItem", [
-            u("paragraph", [u("text", { value: "This is not a task" })])
-          ])
-        ])
+            u("paragraph", [u("text", { value: "This is not a task" })]),
+          ]),
+        ]),
       ]);
       expect(doesTaskHaveMatchingChildren(task)).toEqual(false);
     });
@@ -153,14 +174,14 @@ describe("filter", () => {
     it("Returns true for a task with a grand child task #NF0w9O", () => {
       const task = u("listItem", { checked: false, spread: false }, [
         u("paragraph", [
-          u("text", { value: "This is a task which does have a child" })
+          u("text", { value: "This is a task which does have a child" }),
         ]),
         u("list", [
           u("listItem", [
             u("paragraph", [u("text", { value: "This is not a task" })]),
-            u("list", [makeTask("This is a grandchild task")])
-          ])
-        ])
+            u("list", [makeTask("This is a grandchild task")]),
+          ]),
+        ]),
       ]);
       expect(doesTaskHaveMatchingChildren(task)).toEqual(true);
     });
@@ -172,8 +193,8 @@ describe("filter", () => {
         u("list", [
           makeTask("A task with foo and bar"),
           makeTask("A task with foo and bar"),
-          makeTask("A task with foo and bar")
-        ])
+          makeTask("A task with foo and bar"),
+        ]),
       ]);
 
       expect(filterTasks(tasks, {})).toEqual(tasks);
@@ -184,14 +205,14 @@ describe("filter", () => {
         u("list", [
           makeTask("A task with foo and bar"),
           makeTask("A task after tomorrow", false, ["after:2020-02-25"]),
-          makeTask("A task with foo and bar")
-        ])
+          makeTask("A task with foo and bar"),
+        ]),
       ]);
       const expected = u("root", [
         u("list", [
           makeTask("A task with foo and bar"),
-          makeTask("A task with foo and bar")
-        ])
+          makeTask("A task with foo and bar"),
+        ]),
       ]);
 
       expect(filterTasks(tasks, { today: today.toString() })).toEqual(expected);
@@ -202,8 +223,8 @@ describe("filter", () => {
         u("list", [
           makeTask("A task with foo and bar"),
           makeTask("A task with foo and bar"),
-          makeTask("A task with foo and bar")
-        ])
+          makeTask("A task with foo and bar"),
+        ]),
       ]);
 
       expect(filterTasks(tasks, { text: "foo" })).toEqual(tasks);
@@ -214,11 +235,11 @@ describe("filter", () => {
         u("list", [
           makeTask("A task with foo and bar"),
           makeTask("A task with foo and bar and baz"),
-          makeTask("A task with foo and bar")
-        ])
+          makeTask("A task with foo and bar"),
+        ]),
       ]);
       const expected = u("root", [
-        u("list", [makeTask("A task with foo and bar and baz")])
+        u("list", [makeTask("A task with foo and bar and baz")]),
       ]);
 
       expect(filterTasks(tasks, { text: "baz" })).toEqual(expected);
@@ -229,17 +250,17 @@ describe("filter", () => {
         u("list", [
           makeTask("A task with foo and bar"),
           u("listItem", { checked: false, spread: false }, [
-            u("list", [makeTask("A task with foo and bar and baz")])
+            u("list", [makeTask("A task with foo and bar and baz")]),
           ]),
-          makeTask("A task with foo and bar")
-        ])
+          makeTask("A task with foo and bar"),
+        ]),
       ]);
       const expected = u("root", [
         u("list", [
           u("listItem", { checked: false, spread: false }, [
-            u("list", [makeTask("A task with foo and bar and baz")])
-          ])
-        ])
+            u("list", [makeTask("A task with foo and bar and baz")]),
+          ]),
+        ]),
       ]);
 
       expect(filterTasks(tasks, { text: "baz" })).toEqual(expected);
@@ -253,25 +274,25 @@ describe("filter", () => {
             u("list", [
               makeTask("A task with foo and bar and baz"),
               makeTask("A finished task", true),
-              makeTask("A COMPLETED task to be hidden", true)
-            ])
+              makeTask("A COMPLETED task to be hidden", true),
+            ]),
           ]),
-          makeTask("A task with foo and bar")
-        ])
+          makeTask("A task with foo and bar"),
+        ]),
       ]);
       const expected = u("root", [
         u("list", [
           u("listItem", { checked: false, spread: false }, [
-            u("list", [makeTask("A task with foo and bar and baz")])
-          ])
-        ])
+            u("list", [makeTask("A task with foo and bar and baz")]),
+          ]),
+        ]),
       ]);
 
       expect(
         filterTasks(tasks, {
           text: "baz",
           showUndated: true,
-          showCompleted: false
+          showCompleted: false,
         })
       ).toEqual(expected);
     });
@@ -287,11 +308,11 @@ describe("filter", () => {
               makeTask(
                 "A COMPLETED task to be hidden also with foo bar and baz",
                 true
-              )
-            ])
+              ),
+            ]),
           ]),
-          makeTask("A task with foo and bar")
-        ])
+          makeTask("A task with foo and bar"),
+        ]),
       ]);
       const expected = u("root", [
         u("list", [
@@ -302,17 +323,17 @@ describe("filter", () => {
               makeTask(
                 "A COMPLETED task to be hidden also with foo bar and baz",
                 true
-              )
-            ])
-          ])
-        ])
+              ),
+            ]),
+          ]),
+        ]),
       ]);
 
       expect(
         filterTasks(tasks, {
           text: "baz",
           showUndated: true,
-          showCompleted: true
+          showCompleted: true,
         })
       ).toEqual(expected);
     });
@@ -322,18 +343,18 @@ describe("filter", () => {
         u("list", [
           makeTask("An example task"),
           makeTask("An example with a future after date", false, [
-            "after:2020-02-28"
+            "after:2020-02-28",
           ]),
-          makeTask("A completed task", true)
-        ])
+          makeTask("A completed task", true),
+        ]),
       ]);
       const expected = u("root", [
         u("list", [
           makeTask("An example task"),
           makeTask("An example with a future after date", false, [
-            "after:2020-02-28"
-          ])
-        ])
+            "after:2020-02-28",
+          ]),
+        ]),
       ]);
 
       expect(

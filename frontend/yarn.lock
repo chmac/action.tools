@@ -3962,7 +3962,8 @@ do.md@../packages/do.md:
     "@js-joda/core" "^2.0.0"
     "@rschedule/core" "^1.0.2"
     "@rschedule/joda-date-adapter" "^1.0.2"
-    remeda "^0.0.14"
+    "@types/mdast" "^3.0.3"
+    remeda "^0.0.19"
     unist-util-reduce "^0.2.1"
     unist-util-select "^3.0.1"
     unist-util-visit "^2.0.1"
@@ -9852,6 +9853,11 @@ remeda@^0.0.14:
   resolved "https://registry.yarnpkg.com/remeda/-/remeda-0.0.14.tgz#2c8e3672d2ed09d21133cd73ba8ce1301b5fd78f"
   integrity sha512-94BLgUtP0o/E0Ta7swiAstz1VRB+ngXROZ7NYiq0AgqNt4EaLkZdIxJ8IYaqn9Dd4DRiCUe7eVZaRB7wmqzBxA==
 
+remeda@^0.0.19:
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/remeda/-/remeda-0.0.19.tgz#7bc08b0009a3ecc231f84552ed8a7f386a15a77d"
+  integrity sha512-1UqWH2rOC7mdjop8+5ei1ozBY77B8hQmgeE1nsFUDLrDvw/rHTlHxOboaZUcRBh6Tp73KL4mPMKPk26NY+2UWw==
+
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/remove-trailing-separator/-/remove-trailing-separator-1.1.0.tgz#c24bce2a283adad5bc3f58e0d48249b92379d8ef"
@@ -11483,10 +11489,10 @@ uno-js@^0.7.7:
   resolved "https://registry.yarnpkg.com/uno-js/-/uno-js-0.7.7.tgz#c4d93515014705a5df7a3d98cc1cf2b09ec9c739"
   integrity sha512-vi0WThJdjhqyggLeXC4hqLNceAHfSckANPgHr4ac/IoaweSRW8DzaMVrm6Iw/Pfh8B8vfjZWfixVaLWkndRESA==
 
-uno-material-ui@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/uno-material-ui/-/uno-material-ui-2.0.0.tgz#7f4c841b05d4706c39b92a25c147df29034c7d65"
-  integrity sha512-IIqUDCbnXMHD0cAD9iNTMwMkbK+FW5+tRGo4xVKXXaUIUwgcF7DRjKNQIYvdkkLuz1tFM6yFyObK2eOEXp002Q==
+uno-material-ui@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/uno-material-ui/-/uno-material-ui-2.0.1.tgz#beb58623194ed9fe05a069ee23f79fbf38c785c5"
+  integrity sha512-RLZIMqT3K/KVY0UMXZti3wsSLOP4YiP2WzPPZ2BlckgQybQ0DqrEM7dztHwTbOv2oDwCmB7v55aTfxvFxFAkdQ==
   dependencies:
     "@material-ui/core" "^4.9.8"
     "@material-ui/icons" "^4.9.1"

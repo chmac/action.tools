@@ -12,7 +12,6 @@ import {
   FormControl,
   Input,
   InputLabel,
-  Modal,
 } from "@material-ui/core";
 import Clear from "@material-ui/icons/Clear";
 import NavigateBefore from "@material-ui/icons/NavigateBefore";
@@ -130,17 +129,19 @@ const Do = () => {
       return {};
     }
 
+    const text = filter.toLowerCase();
+
     if (filterByDate) {
       return {
         exactDate: today().plusDays(dateFilterOffsetDays).toString(),
         showUndated: false,
-        text: filter,
+        text,
       };
     }
 
     return {
       today: today().toString(),
-      text: filter,
+      text,
     };
   }, [showEverything, filterByDate, dateFilterOffsetDays, filter]);
 
@@ -256,6 +257,10 @@ const Do = () => {
       </Typography>
       <Paper className={classes.bottomActions}>
         <Typography variant="h2">Danger</Typography>
+        <Typography>
+          Version: {process.env.REACT_APP_VERSION_GIT || "dev"} built at{" "}
+          {process.env.REACT_APP_BUILD_TIME || "now"}
+        </Typography>
         <Button
           size="small"
           onClick={() => {
