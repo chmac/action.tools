@@ -258,7 +258,8 @@ const Do = () => {
       <Paper className={classes.bottomActions}>
         <Typography variant="h2">Danger</Typography>
         <Typography>
-          Version: {process.env.REACT_APP_VERSION_GIT || "dev"}
+          Version: {process.env.REACT_APP_VERSION_GIT || "dev"} built at{" "}
+          {process.env.REACT_APP_BUILD_TIME || "now"}
         </Typography>
         <Button
           size="small"
