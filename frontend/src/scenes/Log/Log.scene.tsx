@@ -8,12 +8,15 @@ type Props = {
   onClose: () => void;
 };
 
+const formatTimestamp = (time: number): string => {
+  const d = new Date(time * 1e3);
+  return `${d.getHours()}:${d.getMinutes()}`;
+};
+
 const Log = (props: Props) => {
   const { open, onClose } = props;
   const classes = useStyles();
-  const messages = useSelector(
-    (state: AppState) => state.notifications.messages
-  );
+  const messages = useSelector((state: AppState) => state.notifications.log);
 
   return (
     <Modal
@@ -25,10 +28,10 @@ const Log = (props: Props) => {
       <Paper className={classes.root}>
         <Typography variant="h1">Log</Typography>
         <ul>
-          {messages.map(({ message, type }, i) => (
-            <li key={i}>
-              {type}: {message}
-            </li>
+          {messages.map(({ message: { message, type }, time }, i) => (
+            <Typography component="li" key={i}>
+              {formatTimestamp(time)} - {type}: {message}
+            </Typography>
           ))}
         </ul>
       </Paper>

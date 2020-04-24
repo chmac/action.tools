@@ -2,12 +2,18 @@ import { AppState } from "../../store";
 import { Message } from "./notifications.service";
 import { Action } from "redux";
 
+type LogMessage = {
+  message: Message;
+  time: number;
+};
+
 const getState = (state: AppState) => state.notifications;
 
 const PUSH_MESSAGE = `app/notifications/PUSH_MESSAGE`;
 interface PushMessageAction extends Action<typeof PUSH_MESSAGE> {
   payload: {
     message: Message;
+    time: number;
   };
 }
 export const pushMessage = (message: Message): PushMessageAction => {
@@ -15,6 +21,7 @@ export const pushMessage = (message: Message): PushMessageAction => {
     type: PUSH_MESSAGE,
     payload: {
       message,
+      time: Math.round(Date.now() / 1e3),
     },
   };
 };
@@ -33,11 +40,11 @@ export const reset = (): ResetAction => {
 type NotificationActions = PushMessageAction | ResetAction;
 
 type State = {
-  messages: Message[];
+  log: LogMessage[];
 };
 
 const empty = {
-  messages: [],
+  log: [],
 };
 
 const reducer = (state: State = empty, action: NotificationActions): State => {
@@ -46,7 +53,7 @@ const reducer = (state: State = empty, action: NotificationActions): State => {
       console.log(action);
       return {
         ...state,
-        messages: state.messages.concat(action.payload.message),
+        log: state.log.concat(action.payload),
       };
     }
 
