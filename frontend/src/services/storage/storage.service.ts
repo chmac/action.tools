@@ -84,10 +84,14 @@ export const ensureDir = async (dir: string) => {
   try {
     await fs.promises.stat(dir);
   } catch (e) {
-    try {
-      await fs.promises.mkdir(DIR);
-    } catch (error) {
-      throw error;
+    if (e.code === "ENOENT" || e.code === "ENOTDIR") {
+      try {
+        await fs.promises.mkdir(DIR);
+      } catch (error) {
+        throw error;
+      }
+    } else {
+      throw e;
     }
   }
 };
