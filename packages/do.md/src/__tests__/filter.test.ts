@@ -82,6 +82,13 @@ describe("filter", () => {
       );
       expect(isTaskUndated(task)).toEqual(false);
     });
+
+    it("Returns false for a task which has a snooze date #N0TvuO", () => {
+      const task = makeTask("An action with a snooze date of tomorrow", false, [
+        "snooze:2020-02-25"
+      ]);
+      expect(isTaskUndated(task)).toEqual(false);
+    });
   });
 
   describe("isTaskActionableByDate()", () => {
