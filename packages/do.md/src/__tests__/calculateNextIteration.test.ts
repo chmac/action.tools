@@ -186,6 +186,42 @@ describe("calculateNextIteration", () => {
       expect(setNextByAndAfterDates(task, today)).toEqual(expected);
     });
 
+    it("Correctly calculates for by:2020-02-10 repeat:after3days #CmAzDb", () => {
+      const task = makeTask("A simple task", true, [
+        "by:2020-02-10",
+        "repeat:after3days",
+      ]);
+      const expected = makeTask("A simple task", true, [
+        "by:2020-02-27",
+        "repeat:after3days",
+      ]);
+      expect(setNextByAndAfterDates(task, today)).toEqual(expected);
+    });
+
+    it("Correctly calculates for after:2020-02-21 repeat:after3days #36jgOl", () => {
+      const task = makeTask("A simple task", true, [
+        "after:2020-02-21",
+        "repeat:after3days",
+      ]);
+      const expected = makeTask("A simple task", true, [
+        "after:2020-02-27",
+        "repeat:after3days",
+      ]);
+      expect(setNextByAndAfterDates(task, today)).toEqual(expected);
+    });
+
+    it("Correctly calculates for after:2020-02-10 repeat:after3days #XlMH32", () => {
+      const task = makeTask("A simple task", true, [
+        "after:2020-02-10",
+        "repeat:after3days",
+      ]);
+      const expected = makeTask("A simple task", true, [
+        "after:2020-02-27",
+        "repeat:after3days",
+      ]);
+      expect(setNextByAndAfterDates(task, today)).toEqual(expected);
+    });
+
     it("Correctly calculates for by:2020-02-24 repeat:every3days #yhido5", () => {
       const task = makeTask("A simple task", true, [
         "by:2020-02-24",
@@ -193,6 +229,18 @@ describe("calculateNextIteration", () => {
       ]);
       const expected = makeTask("A simple task", true, [
         "by:2020-02-27",
+        "repeat:every3days",
+      ]);
+      expect(setNextByAndAfterDates(task, today)).toEqual(expected);
+    });
+
+    it("Correctly calculates for after:2020-02-24 repeat:every3days #3sizA9", () => {
+      const task = makeTask("A simple task", true, [
+        "after:2020-02-24",
+        "repeat:every3days",
+      ]);
+      const expected = makeTask("A simple task", true, [
+        "after:2020-02-27",
         "repeat:every3days",
       ]);
       expect(setNextByAndAfterDates(task, today)).toEqual(expected);
