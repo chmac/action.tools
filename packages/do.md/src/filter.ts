@@ -31,7 +31,11 @@ export const isTaskSnoozed = (task: Task, today: LocalDate): boolean => {
 };
 
 export const isTaskUndated = (task: Task): boolean => {
-  if (hasKeyValue(BY, task) || hasKeyValue(AFTER, task)) {
+  if (
+    hasKeyValue(BY, task) ||
+    hasKeyValue(AFTER, task) ||
+    hasKeyValue(SNOOZE, task)
+  ) {
     return false;
   }
   return true;
