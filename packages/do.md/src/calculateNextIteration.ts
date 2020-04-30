@@ -125,12 +125,12 @@ export const nextDateOfIterationAfterToday = (
 
 export const getRepeatFromDate = (
   repeat: Repeat,
-  byDate: LocalDate,
+  taskDate: LocalDate,
   today: LocalDate
 ): LocalDate => {
   switch (repeat.repeat) {
     case EVERY: {
-      return byDate;
+      return taskDate;
     }
     case AFTER: {
       return today;
@@ -152,7 +152,12 @@ export const setNextByAndAfterDates = (task: Task, today: LocalDate): Task => {
     }
 
     const after = getDateField(AFTER, task);
-    const nextAfterDate = nextDateOfIterationAfterToday(repeat, after, today);
+    const repeatFromAfterDate = getRepeatFromDate(repeat, after, today);
+    const nextAfterDate = nextDateOfIterationAfterToday(
+      repeat,
+      repeatFromAfterDate,
+      today
+    );
     const withNextAfterDate = setDateField(AFTER, nextAfterDate, task);
 
     return withNextAfterDate;
