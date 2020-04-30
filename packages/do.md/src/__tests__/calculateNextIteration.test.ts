@@ -14,6 +14,7 @@ import {
 } from "../calculateNextIteration";
 import { makeTask } from "./__fixtures__/tasks.fixtures";
 import { today, tomorrow } from "./__fixtures__/dates.fixtures";
+import { AFTER, BY } from "../constants";
 
 describe("calculateNextIteration", () => {
   beforeAll(() => {
@@ -175,15 +176,23 @@ describe("calculateNextIteration", () => {
 
   describe("setNextByAndAfterDates()", () => {
     it.each([
-      ["by", "2020-02-21", "2020-02-27", "after3days"],
-      ["after", "2020-02-21", "2020-02-27", "after3days"],
-      ["by", "2020-02-10", "2020-02-27", "after3days"],
-      ["after", "2020-02-10", "2020-02-27", "after3days"],
-      ["by", "2020-02-24", "2020-02-27", "after3days"],
-      ["after", "2020-02-24", "2020-02-27", "after3days"],
+      ["#AWxyMB", "by", "2020-02-21", "2020-02-27", "after3days"],
+      ["#nbgEST", "after", "2020-02-21", "2020-02-27", "after3days"],
+      ["#4Of7Th", "by", "2020-02-10", "2020-02-27", "after3days"],
+      ["#DMACIr", "after", "2020-02-10", "2020-02-27", "after3days"],
+      ["#KdO06E", "by", "2020-02-24", "2020-02-27", "after3days"],
+      ["#Mqx3Nf", "after", "2020-02-24", "2020-02-27", "after3days"],
+      ["#KD5WiY", "by", "2020-01-01", "2020-04-01", "every3months"],
+      ["#BRu46f", "after", "2020-01-01", "2020-04-01", "every3months"],
+      ["#lfBQzl", "by", "2020-01-01", "2020-05-24", "after3months"],
+      ["#tcCxTc", "after", "2020-01-01", "2020-05-24", "after3months"],
+      ["#AcUeUe", "by", "2020-04-01", "2020-07-01", "every3months"],
+      ["#ptYUcG", "after", "2020-04-01", "2020-07-01", "every3months"],
+      ["#R4QTE0", "by", "2020-07-01", "2020-10-01", "every3months"],
+      ["#MsO9WQ", "after", "2020-07-01", "2020-10-01", "every3months"],
     ])(
-      "setNextByAndAfterDates type %s start %s expected %s repeat %s #oVCcNv",
-      (dateType, inputDate, expectedDate, repeatString) => {
+      "single date %s type %s start %s expected %s repeat %s #oVCcNv",
+      (_, dateType, inputDate, expectedDate, repeatString) => {
         const title = "An example task";
         const task = makeTask(title, true, [
           `${dateType}:${inputDate}`,
@@ -191,6 +200,96 @@ describe("calculateNextIteration", () => {
         ]);
         const expected = makeTask(title, true, [
           `${dateType}:${expectedDate}`,
+          `repeat:${repeatString}`,
+        ]);
+        expect(setNextByAndAfterDates(task, today)).toEqual(expected);
+      }
+    );
+
+    it.each([
+      [
+        "#OeDSVL",
+        "2020-02-12", // After a week past Wednesday
+        "2020-02-14", // By a week past Friday
+        "2020-02-26", // This Wednesday
+        "2020-02-28", // This Fridayj
+        "every1week",
+      ],
+      [
+        "#RVE3BG",
+        "2020-02-12", // After a week past Wednesday
+        "2020-02-14", // By a week past Friday
+        "2020-02-29", // One week minus 2 days from today
+        "2020-03-02", // One week from today
+        "after1week",
+      ],
+      [
+        "#pIAGl2",
+        "2020-01-01",
+        "2020-02-28", // Future
+        "2020-04-01",
+        "2020-05-28",
+        "every3months",
+      ],
+      [
+        "#aeeTEd",
+        "2020-01-01",
+        "2020-02-28", // Future
+        "2020-03-28",
+        "2020-05-24",
+        "after3months",
+      ],
+      [
+        "#zo6wo9",
+        "2020-01-01",
+        "2020-01-07", // Past
+        "2020-04-01",
+        "2020-04-07",
+        "every3months",
+      ],
+      [
+        "#W57lTF",
+        "2020-01-01",
+        "2020-01-07", // Past
+        "2020-05-18",
+        "2020-05-24",
+        "after3months",
+      ],
+      [
+        "#j5DsWo",
+        "2020-01-01",
+        "2020-02-10", // Past
+        "2020-04-01",
+        "2020-05-10",
+        "every3months",
+      ],
+      [
+        "#Q5iS36",
+        "2020-01-01",
+        "2020-02-10", // Past
+        "2020-04-15",
+        "2020-05-24",
+        "after3months",
+      ],
+    ])(
+      "by and after dates %s (after: %s, by: %s) (after: %s, by: %s) repeat: %s #oVCcNv",
+      (
+        _,
+        afterInputDate,
+        byInputDate,
+        afterExpectedDate,
+        byExpectedDate,
+        repeatString
+      ) => {
+        const title = "An example task";
+        const task = makeTask(title, true, [
+          `${AFTER}:${afterInputDate}`,
+          `${BY}:${byInputDate}`,
+          `repeat:${repeatString}`,
+        ]);
+        const expected = makeTask(title, true, [
+          `${AFTER}:${afterExpectedDate}`,
+          `${BY}:${byExpectedDate}`,
           `repeat:${repeatString}`,
         ]);
         expect(setNextByAndAfterDates(task, today)).toEqual(expected);
