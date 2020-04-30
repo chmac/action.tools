@@ -27,3 +27,4 @@
 - [x] After dates do not match for "exact date"
 - [x] Git revision does not land in UI on netlify
 - [ ] Tasks with children get multiple finished dates
+- [ ] After 1 Jan, repeat after 2 months, doesn't repeat from today, but from the after date
