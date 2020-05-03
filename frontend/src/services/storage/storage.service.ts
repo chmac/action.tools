@@ -112,7 +112,7 @@ export const startup = async () => {
     window.localStorage.setItem(REPO_KEY, repo);
   }
 
-  push({ message: "Starting git fetch #l16Pys", type: "info" });
+  push({ message: "Starting git fetch", type: "info" });
 
   await ensureDir(DIR);
 
@@ -159,7 +159,8 @@ export const getMarkdown = async (filepath: string = FILEPATH) => {
   try {
     await fs.promises.stat(filepath);
   } catch (error) {
-    debugger;
+    pushError({ message: "Error reading file. #5eY1Tt", error });
+    throw error;
   }
 
   return fs.promises.readFile(filepath, { encoding: "utf8" });
@@ -173,7 +174,8 @@ export const setMarkdown = async (
   try {
     await fs.promises.writeFile(filepath, markdown, { encoding: "utf8" });
   } catch (error) {
-    debugger;
+    pushError({ message: "Error writing file. #hdHKDu", error });
+    throw error;
   }
 
   try {
@@ -184,6 +186,7 @@ export const setMarkdown = async (
     );
 
     if (status === "unmodified") {
+      push({ message: "No changes to commit. #rA9DxX", type: "info" });
       return;
     }
 
