@@ -112,7 +112,7 @@ export const startup = async () => {
     window.localStorage.setItem(REPO_KEY, repo);
   }
 
-  push({ message: "Starting git fetch", type: "info" });
+  push({ message: "Starting git fetch #l16Pys", type: "info" });
 
   await ensureDir(DIR);
 
