@@ -29,4 +29,5 @@
 - [ ] Tasks with children get multiple finished dates
 - [x] After 1 Jan, repeat after 2 months, doesn't repeat from today, but from the after date
 - [ ] Impossible to search future dates (the show everything option disables all filters, and otherwise today's date is always applied)
-- [ ] Multiple finished dates anywhere kills adding, updating, etc
+- [x] Multiple finished dates anywhere kills adding, updating, etc
+- [ ] If a single task throw during `repeat()`, this is silently ignored, effectively repeating tasks are therefore broken if they throw, and errors are silently swallowed
