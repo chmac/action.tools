@@ -29,3 +29,4 @@
 - [ ] Tasks with children get multiple finished dates
 - [x] After 1 Jan, repeat after 2 months, doesn't repeat from today, but from the after date
 - [ ] Impossible to search future dates (the show everything option disables all filters, and otherwise today's date is always applied)
+- [ ] Multiple finished dates anywhere kills adding, updating, etc
