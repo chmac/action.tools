@@ -66,3 +66,5 @@ const reducer = (state: State = empty, action: NotificationActions): State => {
 };
 
 export default reducer;
+
+export const getLog = (state: AppState) => getState(state).log;

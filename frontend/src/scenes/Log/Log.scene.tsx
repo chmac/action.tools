@@ -1,7 +1,7 @@
 import * as React from "react";
 import { makeStyles, Modal, Paper, Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
-import { AppState } from "../../store";
+import { getLog } from "../../services/notifications/notifications.state";
 
 type Props = {
   open: boolean;
@@ -16,7 +16,7 @@ const formatTimestamp = (time: number): string => {
 const Log = (props: Props) => {
   const { open, onClose } = props;
   const classes = useStyles();
-  const messages = useSelector((state: AppState) => state.notifications.log);
+  const messages = useSelector(getLog);
 
   return (
     <Modal
