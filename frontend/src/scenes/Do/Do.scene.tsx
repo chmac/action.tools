@@ -117,11 +117,15 @@ const Do = () => {
   );
 
   useEffect(() => {
-    startup().then(() => {
-      getMarkdown().then((markdown) => {
-        setFullMarkdown(markdown);
+    startup()
+      .then(() => {
+        getMarkdown().then((markdown) => {
+          setFullMarkdown(markdown);
+        });
+      })
+      .catch((error) => {
+        pushError({ message: "Error during storage startup. #kSCkwY", error });
       });
-    });
   }, [setFullMarkdown]);
 
   const getFilterParams = useCallback((): Filter => {
