@@ -36,24 +36,25 @@ import { reset } from "../../services/notifications/notifications.state";
 const markdownChecked = "- [x]";
 const markdownUnchecked = "- [ ]";
 
-const wrapCallWithTryCatch = async (fn: () => any, message: string) => {
+const wrapAndLogError = async (fn: () => any, message: string) => {
   try {
     return await fn();
   } catch (error) {
     pushError({ message, error });
+    throw error;
   }
 };
 
 const applyMarkdownTransforms = async (input: string): Promise<string> => {
-  const mdast = await wrapCallWithTryCatch(
+  const mdast = await wrapAndLogError(
     () => markdownToMdast(input),
     "Error caught in markdownToMdast(). #3c8zEp"
   );
-  const repeated = await wrapCallWithTryCatch(
+  const repeated = await wrapAndLogError(
     () => repeatTasks(mdast, today().toString()),
     "Error caught in repeatTasks(). #aEscN1"
   );
-  const markdown = await wrapCallWithTryCatch(
+  const markdown = await wrapAndLogError(
     () => mdastToMarkdown(repeated),
     "Error caught in mdastToMarkdown(). #Y854YK"
   );
@@ -97,9 +98,14 @@ const Do = () => {
 
   const writeNewMarkdownToStorage = useCallback(
     async (input: string) => {
-      const markdown = await applyMarkdownTransforms(input);
-      setMarkdown(markdown);
-      setFullMarkdown(markdown);
+      try {
+        const markdown = await applyMarkdownTransforms(input);
+        setMarkdown(markdown);
+        setFullMarkdown(markdown);
+      } catch (error) {
+        // NOTE: We can safely ignore errors here because they have already
+        // been logged inside of any of the functions above.
+      }
     },
     [setFullMarkdown]
   );
