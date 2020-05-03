@@ -36,16 +36,28 @@ import { reset } from "../../services/notifications/notifications.state";
 const markdownChecked = "- [x]";
 const markdownUnchecked = "- [ ]";
 
-const applyMarkdownTransforms = async (input: string): Promise<string> => {
+const wrapCallWithTryCatch = async (fn: () => any, message: string) => {
   try {
-    const mdast = markdownToMdast(input);
-    const repeated = repeatTasks(mdast, today().toString());
-    const markdown = await mdastToMarkdown(repeated);
-    return markdown;
+    return await fn();
   } catch (error) {
-    pushError({ message: "Error in transforming markdown #6V1BOv", error });
-    throw error;
+    pushError({ message, error });
   }
+};
+
+const applyMarkdownTransforms = async (input: string): Promise<string> => {
+  const mdast = await wrapCallWithTryCatch(
+    () => markdownToMdast(input),
+    "Error caught in markdownToMdast(). #3c8zEp"
+  );
+  const repeated = await wrapCallWithTryCatch(
+    () => repeatTasks(mdast, today().toString()),
+    "Error caught in repeatTasks(). #aEscN1"
+  );
+  const markdown = await wrapCallWithTryCatch(
+    () => mdastToMarkdown(repeated),
+    "Error caught in mdastToMarkdown(). #Y854YK"
+  );
+  return markdown;
 };
 
 const humanReadableDate = (offset: number): string => {
