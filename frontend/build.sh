@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Ensure that the local pacakage is always up to date
+echo yarn add ../packages/do.md
+yarn add ../packages/do.md
+
 echo export REACT_APP_VERSION_GIT=`git rev-parse --short HEAD`
 export REACT_APP_VERSION_GIT=`git rev-parse --short HEAD`
 
