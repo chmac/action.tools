@@ -13,7 +13,7 @@ import {
   MONTHS_TO_NUMBER,
   UNITS,
   REPEAT,
-  FINISHED
+  FINISHED,
 } from "./constants";
 import { calculateNextIteration } from "./calculateNextIteration";
 import { isTask, hasKeyValue } from "./utils";
@@ -102,7 +102,7 @@ export const getRepeatParams = (input: string): Repeat => {
       type: "weekly",
       repeat,
       count,
-      days
+      days,
     };
   }
 
@@ -124,7 +124,7 @@ export const getRepeatParams = (input: string): Repeat => {
         type: "weekly",
         repeat,
         count,
-        days
+        days,
       };
     } else if (multpleUnits.every(isMonth)) {
       if (numbers.length === 0) {
@@ -142,7 +142,7 @@ export const getRepeatParams = (input: string): Repeat => {
         repeat,
         // TypeScript cannot infer from the `.every()` type predicate
         dates: numbers as RuleOption.ByDayOfMonth[],
-        months
+        months,
       };
     } else {
       throw new Error("Invalid repeat string #fJhZTU");
@@ -163,7 +163,7 @@ export const getRepeatParams = (input: string): Repeat => {
     type: "simple",
     repeat,
     unit: trimmedUnit,
-    count
+    count,
   };
 };
 
