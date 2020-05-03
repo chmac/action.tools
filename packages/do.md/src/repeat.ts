@@ -185,15 +185,22 @@ export const repeatTasks = (root: Parent, todayString: string): Parent => {
   const today = LocalDate.parse(todayString);
   return reduce(root, (task: Node) => {
     if (isTask(task)) {
-      if (
-        // Only repeat tasks which are closed
-        task.checked === true &&
-        // Only repeat tasks which do not have a finished date
-        !hasKeyValue(FINISHED, task) &&
-        // Only repeat tasks which do have a repeat field
-        hasKeyValue(REPEAT, task)
-      ) {
-        return calculateNextIteration(task, today);
+      try {
+        if (
+          // Only repeat tasks which are closed
+          task.checked === true &&
+          // Only repeat tasks which do not have a finished date
+          !hasKeyValue(FINISHED, task) &&
+          // Only repeat tasks which do have a repeat field
+          hasKeyValue(REPEAT, task)
+        ) {
+          return calculateNextIteration(task, today);
+        }
+      } catch (error) {
+        // Hmmm, what do we do with errors here? We can't call `pushError` as
+        // that's a frontend method and not a package specific method. For now,
+        // we'll silently skip over it, better than crashing everything.
+        // TODO Figure out how to handle errors here
       }
     }
     return task;
