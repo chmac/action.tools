@@ -26,9 +26,21 @@ if (process.env.NODE_ENV === "development") {
 }
 
 export const wipe = () => {
-  window.localStorage.clear();
   window.localStorage.setItem(WIPE_ON_START_KEY, "true");
   window.location.reload();
+};
+
+export const reset = () => {
+  if (!window.confirm("Are you sure? There is no undo. #hobOXR")) {
+    return;
+  }
+  if (
+    !window.confirm("Are you REALLY sure? There REALLY is no undo. #5xnqEH")
+  ) {
+    return;
+  }
+  window.localStorage.clear();
+  wipe();
 };
 
 export const getAuth = ():

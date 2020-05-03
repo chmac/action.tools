@@ -31,6 +31,7 @@ import {
   markdownToMdast,
   mdastToMarkdown,
 } from "../../services/mdast/mdast.service";
+import { reset } from "../../services/notifications/notifications.state";
 
 const markdownChecked = "- [x]";
 const markdownUnchecked = "- [ ]";
@@ -268,15 +269,15 @@ const Do = () => {
         <Button
           size="small"
           onClick={() => {
-            if (!window.confirm("Are you sure? There is no undo.")) {
-              return;
-            }
-            if (
-              !window.confirm("Are you REALLY sure? There REALLY is no undo.")
-            ) {
-              return;
-            }
             wipe();
+          }}
+        >
+          Wipe Storage
+        </Button>
+        <Button
+          size="small"
+          onClick={() => {
+            reset();
           }}
         >
           Reset Everything
