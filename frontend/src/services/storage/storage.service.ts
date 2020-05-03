@@ -88,9 +88,14 @@ export const ensureDir = async (dir: string) => {
       try {
         await fs.promises.mkdir(DIR);
       } catch (error) {
+        pushError({ message: "Error creating directory. #aeXYXA", error });
         throw error;
       }
     } else {
+      pushError({
+        message: "Error checking directory exists. #aGmoMT",
+        error: e,
+      });
       throw e;
     }
   }
