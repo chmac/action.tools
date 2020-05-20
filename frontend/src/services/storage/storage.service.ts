@@ -163,11 +163,18 @@ export const startup = async () => {
     });
   }
 
-  await git.pull(
-    addBaseParams({
-      ref: "master",
-    })
-  );
+  try {
+    await git.pull(
+      addBaseParams({
+        ref: "master",
+      })
+    );
+  } catch (error) {
+    pushError({
+      message: "Git pull error. #62MLop",
+      error,
+    });
+  }
 
   push({ message: "Finished git fetch #0zDbhW", type: "success" });
 };
