@@ -170,17 +170,51 @@ export const startup = async () => {
       })
     );
   } catch (error) {
+    let mergeConflictFoundAndPushed = false;
+
     if (error instanceof git.Errors.MergeNotSupportedError) {
       push({
-        message: "Caught a merge conflict error. #Ivv0MR",
+        message: "Caught a merge conflict error while pulling. #Ivv0MR",
         type: "error",
       });
+
+      // If we got a merge conflict, we push our local master to a different
+      // remote branch. Unfortunately the user will need to resolve this
+      // themselves manually.
+      try {
+        await git.push(
+          addBaseParams({
+            remoteRef: "pull-merge-error",
+          })
+        );
+
+        mergeConflictFoundAndPushed = true;
+
+        push({
+          message:
+            "There was a merge conflict error. You need to manually merge the pull-merge-error branch into your upstream master and reload.",
+          type: "warning",
+        });
+      } catch (pushError) {
+        pushError({
+          message: "Error during merge conflict push. #fkIt0c",
+          error,
+        });
+        throw pushError;
+      }
     } else {
       pushError({
         message: "Git pull error. #62MLop",
         error,
       });
     }
+
+    if (mergeConflictFoundAndPushed) {
+      throw new Error("MergeConflict");
+    }
+
+    // Rethrow so that this process is signalled failed
+    throw error;
   }
 
   push({ message: "Finished git fetch #0zDbhW", type: "success" });
