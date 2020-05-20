@@ -170,10 +170,17 @@ export const startup = async () => {
       })
     );
   } catch (error) {
-    pushError({
-      message: "Git pull error. #62MLop",
-      error,
-    });
+    if (error instanceof git.Errors.MergeNotSupportedError) {
+      push({
+        message: "Caught a merge conflict error. #Ivv0MR",
+        type: "error",
+      });
+    } else {
+      pushError({
+        message: "Git pull error. #62MLop",
+        error,
+      });
+    }
   }
 
   push({ message: "Finished git fetch #0zDbhW", type: "success" });
