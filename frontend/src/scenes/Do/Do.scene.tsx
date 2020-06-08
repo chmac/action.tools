@@ -223,6 +223,7 @@ const Do = () => {
                 <NavigateBefore />
               </IconButton>
               <Button
+                className={classes.date}
                 onClick={() => {
                   setDateFilterOffsetDays(0);
                 }}
@@ -314,6 +315,9 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
+  },
+  date: {
+    width: 100,
   },
   markdown: {
     minHeight: "100vh",
