@@ -1,4 +1,5 @@
 import { Parent } from "unist";
+import { ListItem } from "mdast";
 
 import { RuleOption } from "./rschedule";
 
@@ -8,8 +9,13 @@ import {
   UNITS,
   DAYS,
   MONTHS,
-  MONTHS_TO_NUMBER
+  MONTHS_TO_NUMBER,
+  BY,
+  REPEAT,
+  CREATED,
+  FINISHED,
 } from "./constants";
+import { LocalDate } from "@js-joda/core";
 // import { buildDataForTask } from "../../services/domd/domd.utils";
 
 export type Unit = typeof UNITS[number];
@@ -22,11 +28,15 @@ export type MonthNumber = typeof MONTHS_TO_NUMBER[Month];
 
 // export type Data = ReturnType<typeof buildDataForTask>;
 
-export interface Task extends Parent {
-  type: "listItem";
-  checked?: boolean;
-  spread?: boolean;
-  // _data: Data;
+export interface Task extends ListItem {
+  data: {
+    [AFTER]?: LocalDate;
+    [BY]?: LocalDate;
+    [REPEAT]?: LocalDate;
+    [CREATED]?: LocalDate;
+    [FINISHED]?: LocalDate;
+    id?: string;
+  };
 }
 
 export type RepeatSimple = {
