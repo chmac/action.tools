@@ -110,11 +110,7 @@ export const listItemToTask = (input: ListItem): ListItem => {
   });
   const data = Object.fromEntries(pairs);
 
-  const lastNodeIndex = reduced.children.length - 1;
-  const lastNode = reduced.children[lastNodeIndex];
-  if (lastNode.type === 'thematicBreak') {
-    reduced.children.splice(lastNodeIndex, 1);
-  }
+  // TODO Figure out how to prune unnecessary breaks here
 
   const task = { ...reduced, data };
 
