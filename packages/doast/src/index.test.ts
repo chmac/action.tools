@@ -410,5 +410,106 @@ describe('index', () => {
         output
       );
     });
+
+    it('Converts nested tasks #JP9Qgj', () => {
+      const input = u('root', [
+        u('list', [
+          u('listItem', { checked: false }, [
+            u('paragraph', [
+              u('text', 'This is a task'),
+              u('break'),
+              u('inlineCode', 'by:2020-02-24'),
+            ]),
+            u('list', [
+              u('listItem', { checked: false }, [
+                u('paragraph', [
+                  u('text', 'This is a sub task'),
+                  u('break'),
+                  u('inlineCode', 'by:2020-02-25'),
+                ]),
+              ]),
+            ]),
+          ]),
+        ]),
+      ]);
+
+      const output = u('root', [
+        u('list', [
+          u('listItem', { checked: false, data: { by: '2020-02-24' } }, [
+            u('paragraph', [u('text', 'This is a task'), u('break')]),
+            u('list', [
+              u('listItem', { checked: false, data: { by: '2020-02-25' } }, [
+                u('paragraph', [u('text', 'This is a sub task'), u('break')]),
+              ]),
+            ]),
+          ]),
+        ]),
+      ]);
+
+      expect(convertListItemsToTasks((input as unknown) as Root)).toEqual(
+        output
+      );
+    });
+
+    it('Converts nested nested (grandchild) tasks #DqRfKv', () => {
+      const input = u('root', [
+        u('list', [
+          u('listItem', { checked: false }, [
+            u('paragraph', [
+              u('text', 'This is a task'),
+              u('break'),
+              u('inlineCode', 'by:2020-02-24'),
+            ]),
+            u('list', [
+              u('listItem', { checked: false }, [
+                u('paragraph', [
+                  u('text', 'This is a sub task'),
+                  u('break'),
+                  u('inlineCode', 'by:2020-02-25'),
+                ]),
+                u('list', [
+                  u('listItem', { checked: false }, [
+                    u('paragraph', [
+                      u('text', 'This is a sub sub task'),
+                      u('break'),
+                      u('inlineCode', 'by:2020-02-26'),
+                    ]),
+                  ]),
+                ]),
+              ]),
+            ]),
+          ]),
+        ]),
+      ]);
+
+      const output = u('root', [
+        u('list', [
+          u('listItem', { checked: false, data: { by: '2020-02-24' } }, [
+            u('paragraph', [u('text', 'This is a task'), u('break')]),
+            u('list', [
+              u('listItem', { checked: false, data: { by: '2020-02-25' } }, [
+                u('paragraph', [u('text', 'This is a sub task'), u('break')]),
+                u('list', [
+                  u(
+                    'listItem',
+                    { checked: false, data: { by: '2020-02-26' } },
+                    [
+                      u('paragraph', [
+                        u('text', 'This is a sub sub task'),
+                        u('break'),
+                      ]),
+                    ]
+                  ),
+                ]),
+              ]),
+            ]),
+          ]),
+        ]),
+      ]);
+
+      expect(convertListItemsToTasks((input as unknown) as Root)).toEqual(
+        output
+      );
+    });
   });
 });
