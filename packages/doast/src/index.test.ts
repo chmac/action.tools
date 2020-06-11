@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'jest-without-globals';
 import { Root } from 'mdast';
 import u from 'unist-builder';
-import { nestContentsInsideHeadings, mdastToDoast } from './index';
+import { mdastToDoast, nestContentsInsideHeadings } from './index';
 
 describe('index', () => {
   describe('nestContentsInsideHeadings()', () => {
