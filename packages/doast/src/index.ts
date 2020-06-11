@@ -1,4 +1,13 @@
-import { Content, Heading, PhrasingContent, Root } from 'mdast';
+import {
+  Content,
+  Heading,
+  InlineCode,
+  ListItem,
+  PhrasingContent,
+  Root,
+} from 'mdast';
+import compact from 'mdast-util-compact';
+import reduce from 'unist-util-reduce';
 
 const isHeading = (node: any): node is Heading => {
   return node.type === 'heading';
@@ -67,6 +76,51 @@ export const convertNestedHeadingsToHierarchy = (root: Root): Root => {
   });
 
   return { ...root, children: output };
+};
+
+const isInlineCode = (input: any): input is InlineCode => {
+  return input.type === 'inlineCode';
+};
+
+const isListItem = (input: any): input is ListItem => {
+  return input.type === 'listItem';
+};
+
+export const listItemToTask = (input: ListItem): ListItem => {
+  const inlineCodes: InlineCode[] = [];
+
+  const reduced = reduce(input, node => {
+    if (isInlineCode(node)) {
+      inlineCodes.push(node);
+      return [];
+    }
+    return node;
+  });
+
+  const pairs = inlineCodes.map(inlineCode => {
+    const [key, ...rest] = inlineCode.value.split(':');
+    return [key, rest.join(':')];
+  });
+  const data = Object.fromEntries(pairs);
+
+  const lastNodeIndex = reduced.children.length - 1;
+  const lastNode = reduced.children[lastNodeIndex];
+  if (lastNode.type === 'thematicBreak') {
+    reduced.children.splice(lastNodeIndex, 1);
+  }
+
+  const task = { ...reduced, data };
+
+  return compact(task);
+};
+
+export const convertListItemsToTasks = (root: Root): Root => {
+  return reduce(root, node => {
+    if (isListItem(node) && typeof node.checked === 'boolean') {
+      return listItemToTask(node);
+    }
+    return node;
+  });
 };
 
 export const mdastToDoast = (root: Root): Root => {

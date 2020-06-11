@@ -1,7 +1,11 @@
 import { describe, expect, it } from 'jest-without-globals';
 import { Root } from 'mdast';
 import u from 'unist-builder';
-import { mdastToDoast, nestContentsInsideHeadings } from './index';
+import {
+  mdastToDoast,
+  nestContentsInsideHeadings,
+  convertListItemsToTasks,
+} from './index';
 
 describe('index', () => {
   describe('nestContentsInsideHeadings()', () => {
@@ -260,6 +264,95 @@ describe('index', () => {
       ]);
 
       expect(mdastToDoast(input as Root)).toEqual(output);
+    });
+  });
+
+  describe('convertListItemsToTasks()', () => {
+    it('Ignores any non listItem elements #TUcTCW', () => {
+      const input = u('root', [
+        u('paragraph', u('text', 'This is a paragraph of text')),
+        u('heading', { depth: 1 }, [u('text', 'A heading one')]),
+        u('paragraph', u('text', 'Another paragraph under a heading')),
+        u('heading', { depth: 2 }, [u('text', 'A Sub Heading')]),
+        u('paragraph', u('text', 'Even more paragraphs')),
+      ]);
+
+      const output = u('root', [
+        u('paragraph', u('text', 'This is a paragraph of text')),
+        u('heading', { depth: 1 }, [u('text', 'A heading one')]),
+        u('paragraph', u('text', 'Another paragraph under a heading')),
+        u('heading', { depth: 2 }, [u('text', 'A Sub Heading')]),
+        u('paragraph', u('text', 'Even more paragraphs')),
+      ]);
+
+      expect(convertListItemsToTasks(input as Root)).toEqual(output);
+    });
+
+    it('Converts a task without any data #hutw4M', () => {
+      const input = u('root', [
+        u('list', [
+          u('listItem', { checked: false }, [u('text', 'This is a task')]),
+        ]),
+      ]);
+
+      const output = u('root', [
+        u('list', [
+          u('listItem', { checked: false, data: {} }, [
+            u('text', 'This is a task'),
+          ]),
+        ]),
+      ]);
+
+      expect(convertListItemsToTasks((input as unknown) as Root)).toEqual(
+        output
+      );
+    });
+
+    it('Converts a task with inline data #IxHxJT', () => {
+      const input = u('root', [
+        u('list', [
+          u('listItem', { checked: false }, [
+            u('text', 'This is a task '),
+            u('inlineCode', 'by:2020-02-24'),
+          ]),
+        ]),
+      ]);
+
+      const output = u('root', [
+        u('list', [
+          u('listItem', { checked: false, data: { by: '2020-02-24' } }, [
+            u('text', 'This is a task '),
+          ]),
+        ]),
+      ]);
+
+      expect(convertListItemsToTasks((input as unknown) as Root)).toEqual(
+        output
+      );
+    });
+
+    it('Converts a task with a second line of data #VwCULw', () => {
+      const input = u('root', [
+        u('list', [
+          u('listItem', { checked: false }, [
+            u('text', 'This is a task'),
+            u('thematicBreak'),
+            u('inlineCode', 'by:2020-02-24'),
+          ]),
+        ]),
+      ]);
+
+      const output = u('root', [
+        u('list', [
+          u('listItem', { checked: false, data: { by: '2020-02-24' } }, [
+            u('text', 'This is a task'),
+          ]),
+        ]),
+      ]);
+
+      expect(convertListItemsToTasks((input as unknown) as Root)).toEqual(
+        output
+      );
     });
   });
 });
