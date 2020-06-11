@@ -8,6 +8,7 @@ import {
 } from 'mdast';
 import compact from 'mdast-util-compact';
 import reduce from 'unist-util-reduce';
+import { DATA_KEYS, KEY_VALUE_SEPARATOR } from './constants';
 
 const isHeading = (node: any): node is Heading => {
   return node.type === 'heading';
@@ -82,22 +83,28 @@ const isInlineCode = (input: any): input is InlineCode => {
   return input.type === 'inlineCode';
 };
 
+const isDataInlineCode = (input: InlineCode): boolean => {
+  const [key] = input.value.split(KEY_VALUE_SEPARATOR);
+  // NOTE: We need to coerce the type here otherwise .includes() complains
+  return DATA_KEYS.includes(key as any);
+};
+
 const isListItem = (input: any): input is ListItem => {
   return input.type === 'listItem';
 };
 
 export const listItemToTask = (input: ListItem): ListItem => {
-  const inlineCodes: InlineCode[] = [];
+  const inlineCodeDataBlocks: InlineCode[] = [];
 
   const reduced = reduce(input, node => {
-    if (isInlineCode(node)) {
-      inlineCodes.push(node);
+    if (isInlineCode(node) && isDataInlineCode(node)) {
+      inlineCodeDataBlocks.push(node);
       return [];
     }
     return node;
   });
 
-  const pairs = inlineCodes.map(inlineCode => {
+  const pairs = inlineCodeDataBlocks.map(inlineCode => {
     const [key, ...rest] = inlineCode.value.split(':');
     return [key, rest.join(':')];
   });
