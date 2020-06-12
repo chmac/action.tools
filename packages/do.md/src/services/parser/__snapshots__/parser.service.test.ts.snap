@@ -208,3 +208,378 @@ Object {
   "type": "root",
 }
 `;
+
+exports[`parser fixtures Fixtures remain consistent 2`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "checked": false,
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "position": Position {
+                    "end": Object {
+                      "column": 19,
+                      "line": 1,
+                      "offset": 18,
+                    },
+                    "indent": Array [],
+                    "start": Object {
+                      "column": 7,
+                      "line": 1,
+                      "offset": 6,
+                    },
+                  },
+                  "type": "text",
+                  "value": "A first task",
+                },
+                Object {
+                  "position": Position {
+                    "end": Object {
+                      "column": 3,
+                      "line": 2,
+                      "offset": 23,
+                    },
+                    "indent": Array [
+                      3,
+                    ],
+                    "start": Object {
+                      "column": 19,
+                      "line": 1,
+                      "offset": 18,
+                    },
+                  },
+                  "type": "break",
+                },
+                Object {
+                  "position": Position {
+                    "end": Object {
+                      "column": 29,
+                      "line": 2,
+                      "offset": 49,
+                    },
+                    "indent": Array [],
+                    "start": Object {
+                      "column": 3,
+                      "line": 2,
+                      "offset": 23,
+                    },
+                  },
+                  "type": "text",
+                  "value": "With a second line of text",
+                },
+              ],
+              "position": Position {
+                "end": Object {
+                  "column": 29,
+                  "line": 2,
+                  "offset": 49,
+                },
+                "indent": Array [
+                  3,
+                ],
+                "start": Object {
+                  "column": 7,
+                  "line": 1,
+                  "offset": 6,
+                },
+              },
+              "type": "paragraph",
+            },
+          ],
+          "position": Position {
+            "end": Object {
+              "column": 29,
+              "line": 2,
+              "offset": 49,
+            },
+            "indent": Array [
+              1,
+            ],
+            "start": Object {
+              "column": 1,
+              "line": 1,
+              "offset": 0,
+            },
+          },
+          "spread": false,
+          "type": "listItem",
+        },
+        Object {
+          "checked": false,
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "position": Position {
+                    "end": Object {
+                      "column": 42,
+                      "line": 3,
+                      "offset": 91,
+                    },
+                    "indent": Array [],
+                    "start": Object {
+                      "column": 7,
+                      "line": 3,
+                      "offset": 56,
+                    },
+                  },
+                  "type": "text",
+                  "value": "A second task without a second line",
+                },
+              ],
+              "position": Position {
+                "end": Object {
+                  "column": 42,
+                  "line": 3,
+                  "offset": 91,
+                },
+                "indent": Array [],
+                "start": Object {
+                  "column": 7,
+                  "line": 3,
+                  "offset": 56,
+                },
+              },
+              "type": "paragraph",
+            },
+          ],
+          "position": Position {
+            "end": Object {
+              "column": 42,
+              "line": 3,
+              "offset": 91,
+            },
+            "indent": Array [],
+            "start": Object {
+              "column": 1,
+              "line": 3,
+              "offset": 50,
+            },
+          },
+          "spread": false,
+          "type": "listItem",
+        },
+      ],
+      "ordered": false,
+      "position": Position {
+        "end": Object {
+          "column": 42,
+          "line": 3,
+          "offset": 91,
+        },
+        "indent": Array [
+          1,
+          1,
+        ],
+        "start": Object {
+          "column": 1,
+          "line": 1,
+          "offset": 0,
+        },
+      },
+      "spread": false,
+      "start": null,
+      "type": "list",
+    },
+  ],
+  "position": Object {
+    "end": Object {
+      "column": 42,
+      "line": 3,
+      "offset": 91,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "type": "root",
+}
+`;
+
+exports[`parser listToTasks() Converts #HetQot 1`] = `
+Array [
+  Object {
+    "checked": false,
+    "children": Array [
+      Object {
+        "children": Array [
+          Object {
+            "position": Position {
+              "end": Object {
+                "column": 20,
+                "line": 1,
+                "offset": 19,
+              },
+              "indent": Array [],
+              "start": Object {
+                "column": 7,
+                "line": 1,
+                "offset": 6,
+              },
+            },
+            "type": "text",
+            "value": "A simple task",
+          },
+        ],
+        "position": Position {
+          "end": Object {
+            "column": 20,
+            "line": 1,
+            "offset": 19,
+          },
+          "indent": Array [],
+          "start": Object {
+            "column": 7,
+            "line": 1,
+            "offset": 6,
+          },
+        },
+        "type": "paragraph",
+      },
+    ],
+    "data": Object {
+      "id": "{\\"start\\":{\\"line\\":1,\\"column\\":1,\\"offset\\":0},\\"end\\":{\\"line\\":1,\\"column\\":20,\\"offset\\":19},\\"indent\\":[]}",
+    },
+    "position": Position {
+      "end": Object {
+        "column": 20,
+        "line": 1,
+        "offset": 19,
+      },
+      "indent": Array [],
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "spread": false,
+    "text": "A simple task",
+    "type": "listItem",
+  },
+  Object {
+    "checked": false,
+    "children": Array [
+      Object {
+        "children": Array [
+          Object {
+            "position": Position {
+              "end": Object {
+                "column": 27,
+                "line": 2,
+                "offset": 46,
+              },
+              "indent": Array [],
+              "start": Object {
+                "column": 7,
+                "line": 2,
+                "offset": 26,
+              },
+            },
+            "type": "text",
+            "value": "A second simple task",
+          },
+        ],
+        "position": Position {
+          "end": Object {
+            "column": 27,
+            "line": 2,
+            "offset": 46,
+          },
+          "indent": Array [],
+          "start": Object {
+            "column": 7,
+            "line": 2,
+            "offset": 26,
+          },
+        },
+        "type": "paragraph",
+      },
+    ],
+    "data": Object {
+      "id": "{\\"start\\":{\\"line\\":2,\\"column\\":1,\\"offset\\":20},\\"end\\":{\\"line\\":2,\\"column\\":27,\\"offset\\":46},\\"indent\\":[]}",
+    },
+    "position": Position {
+      "end": Object {
+        "column": 27,
+        "line": 2,
+        "offset": 46,
+      },
+      "indent": Array [],
+      "start": Object {
+        "column": 1,
+        "line": 2,
+        "offset": 20,
+      },
+    },
+    "spread": false,
+    "text": "A second simple task",
+    "type": "listItem",
+  },
+  Object {
+    "checked": false,
+    "children": Array [
+      Object {
+        "children": Array [
+          Object {
+            "position": Position {
+              "end": Object {
+                "column": 27,
+                "line": 3,
+                "offset": 73,
+              },
+              "indent": Array [],
+              "start": Object {
+                "column": 7,
+                "line": 3,
+                "offset": 53,
+              },
+            },
+            "type": "text",
+            "value": "One more simple task",
+          },
+        ],
+        "position": Position {
+          "end": Object {
+            "column": 27,
+            "line": 3,
+            "offset": 73,
+          },
+          "indent": Array [],
+          "start": Object {
+            "column": 7,
+            "line": 3,
+            "offset": 53,
+          },
+        },
+        "type": "paragraph",
+      },
+    ],
+    "data": Object {
+      "id": "{\\"start\\":{\\"line\\":3,\\"column\\":1,\\"offset\\":47},\\"end\\":{\\"line\\":3,\\"column\\":27,\\"offset\\":73},\\"indent\\":[]}",
+    },
+    "position": Position {
+      "end": Object {
+        "column": 27,
+        "line": 3,
+        "offset": 73,
+      },
+      "indent": Array [],
+      "start": Object {
+        "column": 1,
+        "line": 3,
+        "offset": 47,
+      },
+    },
+    "spread": false,
+    "text": "One more simple task",
+    "type": "listItem",
+  },
+]
+`;
