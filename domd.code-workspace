@@ -22,5 +22,7 @@
       "path": "packages/doast-archive"
     }
   ],
-  "settings": {}
+  "settings": {
+    "prettier.prettierPath": "node_modules/prettier"
+  }
 }
