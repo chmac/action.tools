@@ -1,0 +1,12 @@
+{
+  "name": "action.tools",
+  "version": "1.0.0",
+  "private": true,
+  "repository": "git@github.com:chmac/action.tools.git",
+  "author": "Callum Macdonald <git@callum-macdonald.com>",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*",
+    "frontend/"
+  ]
+}

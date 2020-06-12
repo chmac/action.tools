@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "do.md-frontend",
   "homepage": "https://domd.netlify.com",
   "version": "0.1.0",
   "private": true,
@@ -20,10 +20,9 @@
     "@types/react-redux": "^7.1.5",
     "@types/react-router-dom": "^5.1.3",
     "@types/unist": "^2.0.3",
-    "@types/vfile": "^4.0.0",
     "apollo-boost": "^0.4.7",
     "dayjs": "^1.8.20",
-    "do.md": "../packages/do.md",
+    "do.md": "^0.1.0",
     "graphql": "^14.5.8",
     "history": "^4.10.1",
     "isomorphic-git": "^1.0.0",
@@ -54,7 +53,6 @@
     "uno-material-ui": "^2.0.1"
   },
   "scripts": {
-    "preinstall": "cd ../packages/do.md && yarn && yarn build",
     "start": "env-cmd -f ../.env react-scripts start",
     "build": "./build.sh",
     "test": "env-cmd -f ../.env react-scripts test",
