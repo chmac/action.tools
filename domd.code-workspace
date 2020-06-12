@@ -13,7 +13,13 @@
       "path": "packages/do.md"
     },
     {
+      "path": "packages/do.md-archive"
+    },
+    {
       "path": "packages/doast"
+    },
+    {
+      "path": "packages/doast-archive"
     }
   ],
   "settings": {}
