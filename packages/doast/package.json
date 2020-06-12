@@ -35,7 +35,6 @@
   "devDependencies": {
     "@types/mdast": "^3.0.3",
     "@types/unist": "^2.0.3",
-    "husky": "^4.2.5",
     "jest-without-globals": "^0.0.3",
     "tsdx": "^0.13.2",
     "tslib": "^2.0.0",
