@@ -37,10 +37,13 @@
     "@types/remote-redux-devtools": "^0.5.4",
     "jest-without-globals": "^0.0.3",
     "redux-devtools-cli": "^0.0.1-1",
+    "remark-parse": "^8.0.2",
+    "remark-stringify": "^8.1.0",
     "remote-redux-devtools": "^0.5.16",
     "tsdx": "^0.13.2",
     "tslib": "^2.0.0",
-    "typescript": "^3.9.5"
+    "typescript": "^3.9.5",
+    "unified": "^9.0.0"
   },
   "dependencies": {
     "@js-joda/core": "^2.0.0",
