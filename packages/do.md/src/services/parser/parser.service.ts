@@ -1,7 +1,3 @@
-/**
- * - given an mdast, return a data set
- */
-
 import { Content, Heading, List, ListItem, Root } from 'mdast';
 import {
   isHeading,
