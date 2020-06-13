@@ -124,55 +124,6 @@ export const _recusrseOverListItems = ({
   });
 
   return tasks;
-
-  // // Get all the tasks that are inside this list
-  // const tasks = list.children.map(listItemToTaskFactory(parentId))
-
-  // // Recurse over any nested lists
-  // const childTasks = list.children.filter(item => {
-  //   return item.children.find(content => {
-  //     return isList(content)
-  //   })
-  // }).map(
-  //   taskWithNestedTasks => {
-
-  //     return _recusrseOverListItems({list: childList, depth: depth + 1, parentId})
-  //   }
-  // )
-
-  // children.forEach(item => {
-  //   if (typeof item.checked !== 'boolean') {
-  //     // This is a regular list item and not a task inside, we're not able to
-  //     // handle this
-  //     throw new Error('Regular list inside of a task #bJ2XJp');
-  //   }
-
-  //   const data = getDataFromListItem(item);
-
-  //   const taskId = data.id || createIdForListItem(item);
-
-  //   const text = getTextFromListItem(item);
-
-  //   tasks.push({
-  //     ...item,
-  //     text,
-  //     id: taskId,
-  //     taskData: data,
-  //   });
-
-  //   // Recursively search through children and parse any nested lists
-  //   item.children.forEach(child => {
-  //     if (isList(child)) {
-  //       _recusrseOverListItems({
-  //         list: child,
-  //         depth: depth + 1,
-  //         parentIds: parentIds.concat(listId),
-  //       });
-  //     }
-  //   });
-  // });
-
-  // return tasks;
 };
 
 export const listToTasks = (list: List) => {
