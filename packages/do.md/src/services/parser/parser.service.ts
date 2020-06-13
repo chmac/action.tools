@@ -1,5 +1,5 @@
 import stringify from 'fast-json-stable-stringify';
-import { Content, Heading, List, ListItem, Root } from 'mdast';
+import { Content, Heading, List, ListItem, Root, BlockContent } from 'mdast';
 import {
   isHeading,
   isInlineCode,
@@ -77,58 +77,113 @@ export const getTextFromListItem = (item: ListItem): string => {
   return texts.join(`\n`);
 };
 
+export const listItemToTaskFactory = (parentId?: string) => (
+  item: ListItem
+): Task => {
+  if (typeof item.checked === 'undefined') {
+    throw new Error('listItemToTask() called without checked field #GgmU22');
+  }
+
+  const data = getDataFromListItem(item);
+  const id = data.id || createIdForListItem(item);
+  const text = getTextFromListItem(item);
+
+  const contents = item.children.reduce<BlockContent[]>((acc, node) => {
+    if (!isList(node)) {
+      return acc.concat(node);
+    }
+    return acc;
+  }, []);
+
+  return {
+    id,
+    parentId,
+    finished: item.checked,
+    text,
+    contents,
+    data,
+  };
+};
+
 export const _recusrseOverListItems = ({
   list,
   depth,
-  parentIds,
+  parentId,
 }: {
   list: List;
   depth: number;
-  parentIds: string[];
-}) => {
-  const { children } = list;
+  parentId: string;
+}): Task[] => {
+  const tasks = list.children.flatMap(listItem => {
+    const task = listItemToTaskFactory(parentId)(listItem);
 
-  const listId = getIdFromList(list);
+    const taskId = task.id;
 
-  const tasks: Task[] = [];
-
-  children.forEach(item => {
-    if (typeof item.checked !== 'boolean') {
-      // This is a regular list item and not a task inside, we're not able to
-      // handle this
-      throw new Error('Regular list inside of a task #bJ2XJp');
-    }
-
-    const data = getDataFromListItem(item);
-
-    const taskId = data.id || createIdForListItem(item);
-
-    const text = getTextFromListItem(item);
-
-    tasks.push({
-      ...item,
-      text,
-      id: taskId,
-      taskData: data,
+    const nestedTasks = listItem.children.filter(isList).flatMap(list => {
+      return _recusrseOverListItems({
+        list,
+        depth: depth + 1,
+        parentId: taskId,
+      });
     });
 
-    // Recursively search through children and parse any nested lists
-    item.children.forEach(child => {
-      if (isList(child)) {
-        _recusrseOverListItems({
-          list: child,
-          depth: depth + 1,
-          parentIds: parentIds.concat(listId),
-        });
-      }
-    });
+    return [task].concat(nestedTasks);
   });
 
   return tasks;
+
+  // // Get all the tasks that are inside this list
+  // const tasks = list.children.map(listItemToTaskFactory(parentId))
+
+  // // Recurse over any nested lists
+  // const childTasks = list.children.filter(item => {
+  //   return item.children.find(content => {
+  //     return isList(content)
+  //   })
+  // }).map(
+  //   taskWithNestedTasks => {
+
+  //     return _recusrseOverListItems({list: childList, depth: depth + 1, parentId})
+  //   }
+  // )
+
+  // children.forEach(item => {
+  //   if (typeof item.checked !== 'boolean') {
+  //     // This is a regular list item and not a task inside, we're not able to
+  //     // handle this
+  //     throw new Error('Regular list inside of a task #bJ2XJp');
+  //   }
+
+  //   const data = getDataFromListItem(item);
+
+  //   const taskId = data.id || createIdForListItem(item);
+
+  //   const text = getTextFromListItem(item);
+
+  //   tasks.push({
+  //     ...item,
+  //     text,
+  //     id: taskId,
+  //     taskData: data,
+  //   });
+
+  //   // Recursively search through children and parse any nested lists
+  //   item.children.forEach(child => {
+  //     if (isList(child)) {
+  //       _recusrseOverListItems({
+  //         list: child,
+  //         depth: depth + 1,
+  //         parentIds: parentIds.concat(listId),
+  //       });
+  //     }
+  //   });
+  // });
+
+  // return tasks;
 };
 
 export const listToTasks = (list: List) => {
-  return _recusrseOverListItems({ list, depth: 0, parentIds: [] });
+  return _recusrseOverListItems({ list, depth: 0, parentId: '' });
 };
 
 type FoundSection = {

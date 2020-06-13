@@ -1,5 +1,5 @@
 import { LocalDate } from '@js-joda/core';
-import { ListItem } from 'mdast';
+import { ListItem, BlockContent } from 'mdast';
 import {
   AFTER,
   BY,
@@ -30,11 +30,22 @@ export interface TaskData {
   [REPEAT]?: LocalDate;
   [CREATED]?: LocalDate;
   [FINISHED]?: LocalDate;
+  /** This is only set if the markdown contains an ID field */
   [ID]?: string;
 }
 
-export interface Task extends ListItem {
-  taskData: TaskData;
+export interface Task {
+  /** Every task must have an ID, generated if necessary */
+  id: string;
+  parentId?: string;
+  finished: boolean;
+  /** A string representation of the text of the task, can contain newlines */
+  text: string;
+  data: TaskData;
+  /**
+   * This contains the direct descendents of the listItem element, excluding any
+   * nested list elements */
+  contents: BlockContent[];
 }
 
 export type RepeatSimple = {

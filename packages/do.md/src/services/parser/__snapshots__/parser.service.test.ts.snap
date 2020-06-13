@@ -640,8 +640,7 @@ Object {
 exports[`parser listToTasks() Generates tasks #HetQot 1`] = `
 Array [
   Object {
-    "checked": false,
-    "children": Array [
+    "contents": Array [
       Object {
         "children": Array [
           Object {
@@ -678,28 +677,14 @@ Array [
         "type": "paragraph",
       },
     ],
+    "data": Object {},
+    "finished": false,
     "id": "{\\"start\\":{\\"line\\":1,\\"column\\":1,\\"offset\\":0},\\"end\\":{\\"line\\":1,\\"column\\":20,\\"offset\\":19},\\"indent\\":[]}",
-    "position": Position {
-      "end": Object {
-        "column": 20,
-        "line": 1,
-        "offset": 19,
-      },
-      "indent": Array [],
-      "start": Object {
-        "column": 1,
-        "line": 1,
-        "offset": 0,
-      },
-    },
-    "spread": false,
-    "taskData": Object {},
+    "parentId": "",
     "text": "A simple task",
-    "type": "listItem",
   },
   Object {
-    "checked": false,
-    "children": Array [
+    "contents": Array [
       Object {
         "children": Array [
           Object {
@@ -736,28 +721,14 @@ Array [
         "type": "paragraph",
       },
     ],
+    "data": Object {},
+    "finished": false,
     "id": "{\\"start\\":{\\"line\\":2,\\"column\\":1,\\"offset\\":20},\\"end\\":{\\"line\\":2,\\"column\\":27,\\"offset\\":46},\\"indent\\":[]}",
-    "position": Position {
-      "end": Object {
-        "column": 27,
-        "line": 2,
-        "offset": 46,
-      },
-      "indent": Array [],
-      "start": Object {
-        "column": 1,
-        "line": 2,
-        "offset": 20,
-      },
-    },
-    "spread": false,
-    "taskData": Object {},
+    "parentId": "",
     "text": "A second simple task",
-    "type": "listItem",
   },
   Object {
-    "checked": false,
-    "children": Array [
+    "contents": Array [
       Object {
         "children": Array [
           Object {
@@ -794,24 +765,11 @@ Array [
         "type": "paragraph",
       },
     ],
+    "data": Object {},
+    "finished": false,
     "id": "{\\"start\\":{\\"line\\":3,\\"column\\":1,\\"offset\\":47},\\"end\\":{\\"line\\":3,\\"column\\":27,\\"offset\\":73},\\"indent\\":[]}",
-    "position": Position {
-      "end": Object {
-        "column": 27,
-        "line": 3,
-        "offset": 73,
-      },
-      "indent": Array [],
-      "start": Object {
-        "column": 1,
-        "line": 3,
-        "offset": 47,
-      },
-    },
-    "spread": false,
-    "taskData": Object {},
+    "parentId": "",
     "text": "One more simple task",
-    "type": "listItem",
   },
 ]
 `;
@@ -867,8 +825,7 @@ Array [
     "sequence": 1,
     "tasks": Array [
       Object {
-        "checked": false,
-        "children": Array [
+        "contents": Array [
           Object {
             "children": Array [
               Object {
@@ -1010,34 +967,18 @@ Array [
             "type": "paragraph",
           },
         ],
-        "id": "abc123",
-        "position": Position {
-          "end": Object {
-            "column": 49,
-            "line": 4,
-            "offset": 90,
-          },
-          "indent": Array [
-            1,
-          ],
-          "start": Object {
-            "column": 1,
-            "line": 3,
-            "offset": 17,
-          },
-        },
-        "spread": false,
-        "taskData": Object {
+        "data": Object {
           "after": "2020-02-23",
           "by": "2020-02-24",
           "id": "abc123",
         },
+        "finished": false,
+        "id": "abc123",
+        "parentId": "",
         "text": "A top level task",
-        "type": "listItem",
       },
       Object {
-        "checked": false,
-        "children": Array [
+        "contents": Array [
           Object {
             "children": Array [
               Object {
@@ -1145,29 +1086,14 @@ Array [
             "type": "paragraph",
           },
         ],
-        "id": "{\\"start\\":{\\"line\\":5,\\"column\\":1,\\"offset\\":91},\\"end\\":{\\"line\\":6,\\"column\\":37,\\"offset\\":149},\\"indent\\":[1]}",
-        "position": Position {
-          "end": Object {
-            "column": 37,
-            "line": 6,
-            "offset": 149,
-          },
-          "indent": Array [
-            1,
-          ],
-          "start": Object {
-            "column": 1,
-            "line": 5,
-            "offset": 91,
-          },
-        },
-        "spread": false,
-        "taskData": Object {
+        "data": Object {
           "after": "2020-01-01",
           "by": "2020-02-25",
         },
+        "finished": false,
+        "id": "{\\"start\\":{\\"line\\":5,\\"column\\":1,\\"offset\\":91},\\"end\\":{\\"line\\":6,\\"column\\":37,\\"offset\\":149},\\"indent\\":[1]}",
+        "parentId": "",
         "text": "A second task",
-        "type": "listItem",
       },
     ],
   },
@@ -1249,8 +1175,7 @@ Array [
     "sequence": 2,
     "tasks": Array [
       Object {
-        "checked": false,
-        "children": Array [
+        "contents": Array [
           Object {
             "children": Array [
               Object {
@@ -1358,33 +1283,17 @@ Array [
             "type": "paragraph",
           },
         ],
-        "id": "{\\"start\\":{\\"line\\":12,\\"column\\":1,\\"offset\\":204},\\"end\\":{\\"line\\":13,\\"column\\":37,\\"offset\\":259},\\"indent\\":[1]}",
-        "position": Position {
-          "end": Object {
-            "column": 37,
-            "line": 13,
-            "offset": 259,
-          },
-          "indent": Array [
-            1,
-          ],
-          "start": Object {
-            "column": 1,
-            "line": 12,
-            "offset": 204,
-          },
-        },
-        "spread": false,
-        "taskData": Object {
+        "data": Object {
           "after": "2020-02-23",
           "by": "2020-02-25",
         },
+        "finished": false,
+        "id": "{\\"start\\":{\\"line\\":12,\\"column\\":1,\\"offset\\":204},\\"end\\":{\\"line\\":13,\\"column\\":37,\\"offset\\":259},\\"indent\\":[1]}",
+        "parentId": "",
         "text": "Third task",
-        "type": "listItem",
       },
       Object {
-        "checked": false,
-        "children": Array [
+        "contents": Array [
           Object {
             "children": Array [
               Object {
@@ -1491,47 +1400,21 @@ Array [
             },
             "type": "paragraph",
           },
+        ],
+        "data": Object {
+          "after": "2020-01-01",
+          "by": "2020-02-24",
+        },
+        "finished": false,
+        "id": "{\\"start\\":{\\"line\\":14,\\"column\\":1,\\"offset\\":260},\\"end\\":{\\"line\\":17,\\"column\\":27,\\"offset\\":381},\\"indent\\":[1,1,1]}",
+        "parentId": "",
+        "text": "Fourth task on the list",
+      },
+      Object {
+        "contents": Array [
           Object {
             "children": Array [
               Object {
-                "checked": false,
-                "children": Array [
-                  Object {
-                    "children": Array [
-                      Object {
-                        "position": Position {
-                          "end": Object {
-                            "column": 26,
-                            "line": 16,
-                            "offset": 354,
-                          },
-                          "indent": Array [],
-                          "start": Object {
-                            "column": 9,
-                            "line": 16,
-                            "offset": 337,
-                          },
-                        },
-                        "type": "text",
-                        "value": "Nested task first",
-                      },
-                    ],
-                    "position": Position {
-                      "end": Object {
-                        "column": 26,
-                        "line": 16,
-                        "offset": 354,
-                      },
-                      "indent": Array [],
-                      "start": Object {
-                        "column": 9,
-                        "line": 16,
-                        "offset": 337,
-                      },
-                    },
-                    "type": "paragraph",
-                  },
-                ],
                 "position": Position {
                   "end": Object {
                     "column": 26,
@@ -1540,53 +1423,42 @@ Array [
                   },
                   "indent": Array [],
                   "start": Object {
-                    "column": 3,
+                    "column": 9,
                     "line": 16,
-                    "offset": 331,
+                    "offset": 337,
                   },
                 },
-                "spread": false,
-                "type": "listItem",
+                "type": "text",
+                "value": "Nested task first",
               },
+            ],
+            "position": Position {
+              "end": Object {
+                "column": 26,
+                "line": 16,
+                "offset": 354,
+              },
+              "indent": Array [],
+              "start": Object {
+                "column": 9,
+                "line": 16,
+                "offset": 337,
+              },
+            },
+            "type": "paragraph",
+          },
+        ],
+        "data": Object {},
+        "finished": false,
+        "id": "{\\"start\\":{\\"line\\":16,\\"column\\":3,\\"offset\\":331},\\"end\\":{\\"line\\":16,\\"column\\":26,\\"offset\\":354},\\"indent\\":[]}",
+        "parentId": "{\\"start\\":{\\"line\\":14,\\"column\\":1,\\"offset\\":260},\\"end\\":{\\"line\\":17,\\"column\\":27,\\"offset\\":381},\\"indent\\":[1,1,1]}",
+        "text": "Nested task first",
+      },
+      Object {
+        "contents": Array [
+          Object {
+            "children": Array [
               Object {
-                "checked": false,
-                "children": Array [
-                  Object {
-                    "children": Array [
-                      Object {
-                        "position": Position {
-                          "end": Object {
-                            "column": 27,
-                            "line": 17,
-                            "offset": 381,
-                          },
-                          "indent": Array [],
-                          "start": Object {
-                            "column": 9,
-                            "line": 17,
-                            "offset": 363,
-                          },
-                        },
-                        "type": "text",
-                        "value": "Second nested task",
-                      },
-                    ],
-                    "position": Position {
-                      "end": Object {
-                        "column": 27,
-                        "line": 17,
-                        "offset": 381,
-                      },
-                      "indent": Array [],
-                      "start": Object {
-                        "column": 9,
-                        "line": 17,
-                        "offset": 363,
-                      },
-                    },
-                    "type": "paragraph",
-                  },
-                ],
                 "position": Position {
                   "end": Object {
                     "column": 27,
@@ -1595,61 +1467,36 @@ Array [
                   },
                   "indent": Array [],
                   "start": Object {
-                    "column": 3,
+                    "column": 9,
                     "line": 17,
-                    "offset": 357,
+                    "offset": 363,
                   },
                 },
-                "spread": false,
-                "type": "listItem",
+                "type": "text",
+                "value": "Second nested task",
               },
             ],
-            "ordered": false,
             "position": Position {
               "end": Object {
                 "column": 27,
                 "line": 17,
                 "offset": 381,
               },
-              "indent": Array [
-                3,
-              ],
+              "indent": Array [],
               "start": Object {
-                "column": 3,
-                "line": 16,
-                "offset": 331,
+                "column": 9,
+                "line": 17,
+                "offset": 363,
               },
             },
-            "spread": false,
-            "start": null,
-            "type": "list",
+            "type": "paragraph",
           },
         ],
-        "id": "{\\"start\\":{\\"line\\":14,\\"column\\":1,\\"offset\\":260},\\"end\\":{\\"line\\":17,\\"column\\":27,\\"offset\\":381},\\"indent\\":[1,1,1]}",
-        "position": Position {
-          "end": Object {
-            "column": 27,
-            "line": 17,
-            "offset": 381,
-          },
-          "indent": Array [
-            1,
-            1,
-            1,
-          ],
-          "start": Object {
-            "column": 1,
-            "line": 14,
-            "offset": 260,
-          },
-        },
-        "spread": false,
-        "taskData": Object {
-          "after": "2020-01-01",
-          "by": "2020-02-24",
-        },
-        "text": "Fourth task on the list",
-        "type": "listItem",
+        "data": Object {},
+        "finished": false,
+        "id": "{\\"start\\":{\\"line\\":17,\\"column\\":3,\\"offset\\":357},\\"end\\":{\\"line\\":17,\\"column\\":27,\\"offset\\":381},\\"indent\\":[]}",
+        "parentId": "{\\"start\\":{\\"line\\":14,\\"column\\":1,\\"offset\\":260},\\"end\\":{\\"line\\":17,\\"column\\":27,\\"offset\\":381},\\"indent\\":[1,1,1]}",
+        "text": "Second nested task",
       },
     ],
   },
