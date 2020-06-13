@@ -24,8 +24,15 @@ export const getIdFromList = (list: List): string => {
 // NOTE: We use a separate function in case we want to change implementation
 // later. We use a type coercion so the two functions use the same
 // implementation but different input types.
-export const getIdFromListItem = (item: ListItem) =>
-  getIdFromList((item as unknown) as List);
+export const createIdForListItem = (item: ListItem) => {
+  // If we have position information, this will uniquely identify the list
+  if (typeof item.position !== 'undefined') {
+    return JSON.stringify(item.position);
+  }
+
+  // Otherwise, generate a random ID
+  return nanoid();
+};
 
 export const getDataFromListItem = (item: ListItem): TaskData => {
   const dataPairs: string[][] = [];
@@ -91,9 +98,9 @@ export const _recusrseOverListItems = ({
       throw new Error('Regular list inside of a task #bJ2XJp');
     }
 
-    const taskId = getIdFromListItem(item);
-
     const data = getDataFromListItem(item);
+
+    const taskId = data.id || createIdForListItem(item);
 
     const text = getTextFromListItem(item);
 
@@ -130,6 +137,7 @@ type FoundSection = {
   depth: number;
   heading?: Heading;
   contents: Content[];
+  tasks: Task[];
 };
 
 const getEmptySection = (): FoundSection => {
@@ -137,6 +145,7 @@ const getEmptySection = (): FoundSection => {
     depth: 0,
     heading: undefined,
     contents: [],
+    tasks: [],
   };
 };
 
@@ -165,8 +174,11 @@ export const parseMdast = (root: Root) => {
         currentSection.heading = node;
       }
     } else {
-      // We found a List
-      // TODO - What do we do with lists?
+      currentSection.tasks = listToTasks(node);
     }
   });
+
+  sections.push(currentSection);
+
+  return sections;
 };

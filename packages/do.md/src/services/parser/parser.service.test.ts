@@ -1,17 +1,23 @@
 import { List } from 'mdast';
 import {
+  complexTaskListMarkdown,
   getFirstTaskFromMdast,
   markdownToMdast,
-  taskListOnly,
-  tasksWithSecondLine,
+  taskListOnlyMarkdown,
+  tasksWithSecondLineMarkdown,
 } from '../../__fixtures__/markdown.fixtures';
-import { getTextFromListItem, listToTasks } from './parser.service';
+import {
+  getDataFromListItem,
+  getTextFromListItem,
+  listToTasks,
+  parseMdast,
+} from './parser.service';
 
 describe('parser', () => {
   describe('fixtures', () => {
     it('Fixtures remain consistent', () => {
-      expect(markdownToMdast(taskListOnly)).toMatchSnapshot();
-      expect(markdownToMdast(tasksWithSecondLine)).toMatchSnapshot();
+      expect(markdownToMdast(taskListOnlyMarkdown)).toMatchSnapshot();
+      expect(markdownToMdast(tasksWithSecondLineMarkdown)).toMatchSnapshot();
     });
   });
 
@@ -47,10 +53,46 @@ describe('parser', () => {
     });
   });
 
+  describe('getDataFromListItem()', () => {
+    it('Returns empty object for task with no data #szIeqo', () => {
+      expect(
+        getDataFromListItem(
+          getFirstTaskFromMdast(
+            markdownToMdast(`- [ ] A simple task without any data`)
+          )
+        )
+      ).toEqual({});
+    });
+
+    it('Fetches data correctly #szIeqo', () => {
+      expect(
+        getDataFromListItem(
+          getFirstTaskFromMdast(
+            markdownToMdast(
+              '- [ ] A simple task without any data `after:2020-02-01` `by:2020-02-24` `id:def12`'
+            )
+          )
+        )
+      ).toEqual({
+        after: '2020-02-01',
+        by: '2020-02-24',
+        id: 'def12',
+      });
+    });
+  });
+
   describe('listToTasks()', () => {
     it('Converts #HetQot', () => {
-      const root = markdownToMdast(taskListOnly);
+      const root = markdownToMdast(taskListOnlyMarkdown);
       expect(listToTasks(root.children[0] as List)).toMatchSnapshot();
+    });
+  });
+
+  describe('parseMdast()', () => {
+    it('work in progress #otm70r', () => {
+      expect(
+        parseMdast(markdownToMdast(complexTaskListMarkdown))
+      ).toMatchSnapshot();
     });
   });
 });
