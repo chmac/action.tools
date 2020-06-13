@@ -402,7 +402,7 @@ Object {
 }
 `;
 
-exports[`parser listToTasks() Converts #HetQot 1`] = `
+exports[`parser listToTasks() Generates tasks #HetQot 1`] = `
 Array [
   Object {
     "checked": false,
@@ -584,7 +584,7 @@ Array [
 ]
 `;
 
-exports[`parser parseMdast() work in progress #otm70r 1`] = `
+exports[`parser parseMdast() Generates sections with tasks #otm70r 1`] = `
 Array [
   Object {
     "contents": Array [],

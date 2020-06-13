@@ -82,14 +82,14 @@ describe('parser', () => {
   });
 
   describe('listToTasks()', () => {
-    it('Converts #HetQot', () => {
+    it('Generates tasks #HetQot', () => {
       const root = markdownToMdast(taskListOnlyMarkdown);
       expect(listToTasks(root.children[0] as List)).toMatchSnapshot();
     });
   });
 
   describe('parseMdast()', () => {
-    it('work in progress #otm70r', () => {
+    it('Generates sections with tasks #otm70r', () => {
       expect(
         parseMdast(markdownToMdast(complexTaskListMarkdown))
       ).toMatchSnapshot();
