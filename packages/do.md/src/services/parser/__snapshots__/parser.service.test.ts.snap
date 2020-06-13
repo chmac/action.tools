@@ -402,6 +402,241 @@ Object {
 }
 `;
 
+exports[`parser fixtures Fixtures remain consistent 3`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "checked": false,
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "position": Position {
+                    "end": Object {
+                      "column": 24,
+                      "line": 1,
+                      "offset": 23,
+                    },
+                    "indent": Array [],
+                    "start": Object {
+                      "column": 9,
+                      "line": 1,
+                      "offset": 8,
+                    },
+                  },
+                  "type": "text",
+                  "value": "Can we heading?",
+                },
+              ],
+              "depth": 1,
+              "position": Position {
+                "end": Object {
+                  "column": 24,
+                  "line": 1,
+                  "offset": 23,
+                },
+                "indent": Array [],
+                "start": Object {
+                  "column": 7,
+                  "line": 1,
+                  "offset": 6,
+                },
+              },
+              "type": "heading",
+            },
+          ],
+          "position": Position {
+            "end": Object {
+              "column": 24,
+              "line": 1,
+              "offset": 23,
+            },
+            "indent": Array [],
+            "start": Object {
+              "column": 1,
+              "line": 1,
+              "offset": 0,
+            },
+          },
+          "spread": false,
+          "type": "listItem",
+        },
+      ],
+      "ordered": false,
+      "position": Position {
+        "end": Object {
+          "column": 24,
+          "line": 1,
+          "offset": 23,
+        },
+        "indent": Array [],
+        "start": Object {
+          "column": 1,
+          "line": 1,
+          "offset": 0,
+        },
+      },
+      "spread": false,
+      "start": null,
+      "type": "list",
+    },
+  ],
+  "position": Object {
+    "end": Object {
+      "column": 24,
+      "line": 1,
+      "offset": 23,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "type": "root",
+}
+`;
+
+exports[`parser fixtures Fixtures remain consistent 4`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "checked": false,
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "position": Position {
+                    "end": Object {
+                      "column": 33,
+                      "line": 1,
+                      "offset": 32,
+                    },
+                    "indent": Array [],
+                    "start": Object {
+                      "column": 9,
+                      "line": 1,
+                      "offset": 8,
+                    },
+                  },
+                  "type": "text",
+                  "value": "Will a heading fit here?",
+                },
+              ],
+              "depth": 1,
+              "position": Position {
+                "end": Object {
+                  "column": 35,
+                  "line": 1,
+                  "offset": 34,
+                },
+                "indent": Array [],
+                "start": Object {
+                  "column": 7,
+                  "line": 1,
+                  "offset": 6,
+                },
+              },
+              "type": "heading",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "position": Position {
+                    "end": Object {
+                      "column": 18,
+                      "line": 3,
+                      "offset": 55,
+                    },
+                    "indent": Array [],
+                    "start": Object {
+                      "column": 3,
+                      "line": 3,
+                      "offset": 40,
+                    },
+                  },
+                  "type": "text",
+                  "value": "Multiple paras?",
+                },
+              ],
+              "position": Position {
+                "end": Object {
+                  "column": 18,
+                  "line": 3,
+                  "offset": 55,
+                },
+                "indent": Array [],
+                "start": Object {
+                  "column": 3,
+                  "line": 3,
+                  "offset": 40,
+                },
+              },
+              "type": "paragraph",
+            },
+          ],
+          "position": Position {
+            "end": Object {
+              "column": 18,
+              "line": 3,
+              "offset": 55,
+            },
+            "indent": Array [
+              1,
+              1,
+            ],
+            "start": Object {
+              "column": 1,
+              "line": 1,
+              "offset": 0,
+            },
+          },
+          "spread": true,
+          "type": "listItem",
+        },
+      ],
+      "ordered": false,
+      "position": Position {
+        "end": Object {
+          "column": 18,
+          "line": 3,
+          "offset": 55,
+        },
+        "indent": Array [
+          1,
+          1,
+        ],
+        "start": Object {
+          "column": 1,
+          "line": 1,
+          "offset": 0,
+        },
+      },
+      "spread": false,
+      "start": null,
+      "type": "list",
+    },
+  ],
+  "position": Object {
+    "end": Object {
+      "column": 18,
+      "line": 3,
+      "offset": 55,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "type": "root",
+}
+`;
+
 exports[`parser listToTasks() Generates tasks #HetQot 1`] = `
 Array [
   Object {

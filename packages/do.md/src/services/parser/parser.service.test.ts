@@ -14,10 +14,18 @@ import {
 } from './parser.service';
 
 describe('parser', () => {
+  // We test the fixtures to ensure that as we upgrade / swap the packages that
+  // convert text to mdast and back, they don't introduce changes.
   describe('fixtures', () => {
     it('Fixtures remain consistent', () => {
       expect(markdownToMdast(taskListOnlyMarkdown)).toMatchSnapshot();
       expect(markdownToMdast(tasksWithSecondLineMarkdown)).toMatchSnapshot();
+      expect(markdownToMdast(`- [ ] # Can we heading?`)).toMatchSnapshot();
+      expect(
+        markdownToMdast(`- [ ] # Will a heading fit here?  
+  
+  Multiple paras?`)
+      ).toMatchSnapshot();
     });
   });
 
