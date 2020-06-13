@@ -140,7 +140,7 @@ type FoundSection = {
   tasks: Task[];
 };
 
-type ReturnSection = FoundSection & {
+type OutputSection = FoundSection & {
   sequence: number;
 };
 
@@ -153,7 +153,7 @@ const getEmptySection = (): FoundSection => {
   };
 };
 
-export const parseMdast = (root: Root): ReturnSection[] => {
+export const parseMdast = (root: Root): OutputSection[] => {
   const { children } = root;
   /**
    * - Iterate over children
