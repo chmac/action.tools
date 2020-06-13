@@ -140,6 +140,10 @@ type FoundSection = {
   tasks: Task[];
 };
 
+type ReturnSection = FoundSection & {
+  sequence: number;
+};
+
 const getEmptySection = (): FoundSection => {
   return {
     depth: 0,
@@ -149,7 +153,7 @@ const getEmptySection = (): FoundSection => {
   };
 };
 
-export const parseMdast = (root: Root) => {
+export const parseMdast = (root: Root): ReturnSection[] => {
   const { children } = root;
   /**
    * - Iterate over children
@@ -180,5 +184,12 @@ export const parseMdast = (root: Root) => {
 
   sections.push(currentSection);
 
-  return sections;
+  const sequencedSections = sections.map((section, index) => {
+    return {
+      ...section,
+      sequence: index,
+    };
+  });
+
+  return sequencedSections;
 };

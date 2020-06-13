@@ -587,6 +587,7 @@ Array [
     "contents": Array [],
     "depth": 0,
     "heading": undefined,
+    "sequence": 0,
     "tasks": Array [],
   },
   Object {
@@ -628,6 +629,7 @@ Array [
       },
       "type": "heading",
     },
+    "sequence": 1,
     "tasks": Array [
       Object {
         "checked": false,
@@ -1009,6 +1011,7 @@ Array [
       },
       "type": "heading",
     },
+    "sequence": 2,
     "tasks": Array [
       Object {
         "checked": false,
