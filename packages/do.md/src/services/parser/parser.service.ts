@@ -1,3 +1,4 @@
+import stringify from 'fast-json-stable-stringify';
 import { Content, Heading, List, ListItem, Root } from 'mdast';
 import {
   isHeading,
@@ -14,7 +15,7 @@ import { isDataInlineCode } from '../../utils';
 export const getIdFromList = (list: List): string => {
   // If we have position information, this will uniquely identify the list
   if (typeof list.position !== 'undefined') {
-    return JSON.stringify(list.position);
+    return stringify(list.position);
   }
 
   // Otherwise, generate a random ID
