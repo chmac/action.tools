@@ -107,9 +107,9 @@ export const _recusrseOverListItems = ({
     tasks.push({
       ...item,
       text,
+      id: taskId,
       data: {
         ...data,
-        id: taskId,
       },
     });
 
