@@ -108,20 +108,17 @@ export const _recusrseOverListItems = ({
       ...item,
       text,
       id: taskId,
-      data: {
-        ...data,
-      },
+      taskData: data,
     });
 
     // Recursively search through children and parse any nested lists
     item.children.forEach(child => {
       if (isList(child)) {
-        const childTasks = _recusrseOverListItems({
+        _recusrseOverListItems({
           list: child,
           depth: depth + 1,
           parentIds: parentIds.concat(listId),
         });
-        tasks.push(...childTasks);
       }
     });
   });

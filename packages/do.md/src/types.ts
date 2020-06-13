@@ -7,6 +7,7 @@ import {
   DAYS,
   EVERY,
   FINISHED,
+  ID,
   MONTHS,
   MONTHS_TO_NUMBER,
   REPEAT,
@@ -29,11 +30,11 @@ export interface TaskData {
   [REPEAT]?: LocalDate;
   [CREATED]?: LocalDate;
   [FINISHED]?: LocalDate;
-  id?: string;
+  [ID]?: string;
 }
 
 export interface Task extends ListItem {
-  data: TaskData;
+  taskData: TaskData;
 }
 
 export type RepeatSimple = {

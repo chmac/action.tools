@@ -53,6 +53,8 @@ Some text under the second heading.
   ${data(AFTER, yesterday)} ${data(BY, tomorrow)}
 - [ ] Fourth task on the list  
   ${data(AFTER, '2020-01-01')} ${data(BY, today)}
+  - [ ] Nested task first
+  - [ ] Second nested task
 `;
 
 const singleTask = markdownToMdast(`- [ ] A single task`);
