@@ -1,6 +1,7 @@
 export const REDUX_ROOT_KEY = '__domd';
 
 export const EVERY = 'every' as const;
+export const ID = 'id' as const;
 export const AFTER = 'after' as const;
 export const BY = 'by' as const;
 export const REPEAT = 'repeat' as const;
@@ -12,7 +13,7 @@ export const TAG_PREFIX = '#' as const;
 export const CONTEXT_PREFIX = '@' as const;
 export const PROJECT_PREFIX = '+' as const;
 
-export const DATA_KEYS = [AFTER, BY, CREATED, FINISHED, SNOOZE];
+export const DATA_KEYS = [ID, AFTER, BY, CREATED, FINISHED, SNOOZE];
 
 // Combine this with the key ("created", etc) to create a RegExp
 export const KEY_VAR_REGEX_SUFFIX = `:[\\S]+`;
