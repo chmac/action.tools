@@ -130,18 +130,17 @@ export const listToTasks = (list: List) => {
   return _recusrseOverListItems({ list, depth: 0, parentId: '' });
 };
 
-type FoundSection = {
+type Section = {
   depth: number;
   heading?: Heading;
   contents: Content[];
   tasks: Task[];
-};
-
-type Section = FoundSection & {
   sequence: number;
 };
 
-const getEmptySection = (): FoundSection => {
+type UnsequencedSection = Omit<Section, 'sequence'>;
+
+const getEmptySection = (): UnsequencedSection => {
   return {
     depth: 0,
     heading: undefined,
@@ -156,7 +155,7 @@ export const parseMdast = (root: Root): Section[] => {
    * - Iterate over children
    * - Build a stack of sections
    */
-  const sections: FoundSection[] = [];
+  const sections: UnsequencedSection[] = [];
 
   let currentSection = getEmptySection();
 
