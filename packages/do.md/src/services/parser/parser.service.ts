@@ -1,5 +1,5 @@
 import stringify from 'fast-json-stable-stringify';
-import { Content, Heading, List, ListItem, Root, BlockContent } from 'mdast';
+import { BlockContent, Content, Heading, List, ListItem, Root } from 'mdast';
 import {
   isHeading,
   isInlineCode,
@@ -7,32 +7,25 @@ import {
   isParagraph,
 } from 'mdast-util-is-type';
 import toString from 'mdast-util-to-string';
-import { nanoid } from 'nanoid';
 import { DATA_KEYS, KEY_VALUE_SEPARATOR } from '../../constants';
 import { Task, TaskData } from '../../types';
 import { isDataInlineCode } from '../../utils';
 
-export const getIdFromList = (list: List): string => {
-  // If we have position information, this will uniquely identify the list
-  if (typeof list.position !== 'undefined') {
-    return stringify(list.position);
+export const createIdForTask = ({
+  data,
+  text,
+}: {
+  data: TaskData;
+  text: string;
+}): string => {
+  // Best case, get the ID from our data, this is sourced from markdown, and is
+  // guaranteed (hopefully) stable
+  if (typeof data.id === 'string') {
+    return data.id;
   }
 
-  // Otherwise, generate a random ID
-  return nanoid();
-};
-
-// NOTE: We use a separate function in case we want to change implementation
-// later. We use a type coercion so the two functions use the same
-// implementation but different input types.
-export const createIdForListItem = (item: ListItem) => {
-  // If we have position information, this will uniquely identify the list
-  if (typeof item.position !== 'undefined') {
-    return JSON.stringify(item.position);
-  }
-
-  // Otherwise, generate a random ID
-  return nanoid();
+  // Next best case, build a deterministic ID based on the content of the task
+  return stringify({ data, text });
 };
 
 export const getDataFromListItem = (item: ListItem): TaskData => {
@@ -85,8 +78,8 @@ export const listItemToTaskFactory = (parentId?: string) => (
   }
 
   const data = getDataFromListItem(item);
-  const id = data.id || createIdForListItem(item);
   const text = getTextFromListItem(item);
+  const id = createIdForTask({ data, text });
 
   const contents = item.children.reduce<BlockContent[]>((acc, node) => {
     if (!isList(node)) {
