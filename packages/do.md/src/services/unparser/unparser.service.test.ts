@@ -68,7 +68,7 @@ describe('unparser', () => {
             ],
           })
         )
-      ).toMatchSnapshot();
+      ).toEqual(`- [ ] A task\n`);
     });
   });
 });

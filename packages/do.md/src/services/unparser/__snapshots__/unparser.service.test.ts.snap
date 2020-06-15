@@ -1,10 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`unparser createMdast() Creates a task list that matches expected markdown #ARaqJE 1`] = `
-"- [ ] A task
-"
-`;
-
 exports[`unparser createMdast() Creates an empty root without content #kLjEzn 1`] = `
 Object {
   "children": Array [
