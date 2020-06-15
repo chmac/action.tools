@@ -10,7 +10,7 @@ import devToolsEnhancer, {
 import { REDUX_ROOT_KEY } from './constants';
 import data, { REDUX_KEY as dataKey } from './services/data/data.state';
 
-const reducer = combineReducers({
+export const reducer = combineReducers({
   [dataKey]: data,
 });
 

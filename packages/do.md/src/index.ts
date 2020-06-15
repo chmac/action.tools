@@ -1,4 +1,8 @@
 import './services/startup/startup.service';
+
+// Export redux
+export { REDUX_ROOT_KEY } from './constants';
+export { reducer } from './store';
 /**
  * # Update to redux based data model
  *
