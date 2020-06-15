@@ -1,12 +1,18 @@
-import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
+import {
+  Action,
+  combineReducers,
+  configureStore,
+  ThunkAction,
+} from '@reduxjs/toolkit';
 import devToolsEnhancer, {
   RemoteReduxDevToolsOptions,
 } from 'remote-redux-devtools';
 import { REDUX_ROOT_KEY } from './constants';
+import data, { REDUX_KEY as dataKey } from './services/data/data.state';
 
-const empty: { empty: boolean } = { empty: true };
-
-export const reducer = (state = empty) => state;
+const reducer = combineReducers({
+  [dataKey]: data,
+});
 
 export const createStore = (args?: {
   enableDevTools?: boolean;
