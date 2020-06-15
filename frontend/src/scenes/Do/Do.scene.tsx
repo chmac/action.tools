@@ -16,8 +16,8 @@ import {
 import Clear from "@material-ui/icons/Clear";
 import NavigateBefore from "@material-ui/icons/NavigateBefore";
 import NavigateNext from "@material-ui/icons/NavigateNext";
-import { repeatTasks, today } from "do.md";
-import { Filter } from "do.md/dist/filter";
+import { repeatTasks, today } from "do.md-archive";
+import { Filter } from "do.md-archive/dist/filter";
 
 import {
   startup,

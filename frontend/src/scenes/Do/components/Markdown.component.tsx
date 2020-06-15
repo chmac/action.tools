@@ -2,13 +2,13 @@ import React, { useCallback } from "react";
 import unified from "unified";
 import remark2rehype from "remark-rehype";
 import rehype2react from "rehype-react";
-import { filterTasks, today, countTasks, trim } from "do.md";
+import { filterTasks, today, countTasks, trim } from "do.md-archive";
 import { Node, Parent } from "unist";
 import listItemDefault from "mdast-util-to-hast/lib/handlers/list-item";
 import listDefault from "mdast-util-to-hast/lib/handlers/list";
 import { Typography, Paper, makeStyles } from "@material-ui/core";
-import { isTask } from "do.md/dist/utils";
-import { Filter } from "do.md/dist/filter";
+import { isTask } from "do.md-archive/dist/utils";
+import { Filter } from "do.md-archive/dist/filter";
 
 import { markdownToMdast } from "../../../services/mdast/mdast.service";
 import TaskFactory, { SetCheckedByLineNumber } from "./Task.component";

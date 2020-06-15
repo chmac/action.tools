@@ -3,7 +3,7 @@ import { Color } from "@material-ui/core";
 import red from "@material-ui/core/colors/red";
 import lightBlue from "@material-ui/core/colors/lightBlue";
 import { LocalDate, Period } from "@js-joda/core";
-import { AFTER, BY } from "do.md/dist/constants";
+import { AFTER, BY } from "do.md-archive/dist/constants";
 
 const formatPeriod = (until: Period) => {
   const days = until.days();

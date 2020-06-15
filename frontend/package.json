@@ -22,7 +22,7 @@
     "@types/unist": "^2.0.3",
     "apollo-boost": "^0.4.7",
     "dayjs": "^1.8.20",
-    "do.md": "^0.1.0",
+    "do.md-archive": "^0.1.0",
     "graphql": "^14.5.8",
     "history": "^4.10.1",
     "isomorphic-git": "^1.0.0",
