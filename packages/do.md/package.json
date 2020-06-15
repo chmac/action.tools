@@ -15,7 +15,8 @@
     "build": "tsdx build",
     "test": "tsdx test",
     "lint": "tsdx lint",
-    "prepare": "tsdx build"
+    "prepare": "tsdx build",
+    "redux-devtools": "redux-devtools --hostname=localhost --port=8000"
   },
   "peerDependencies": {},
   "husky": {
