@@ -47,6 +47,7 @@ export interface Task {
   /** Every task must have an ID, generated if necessary */
   id: string;
   parentId?: string;
+  sectionId: string;
   finished: boolean;
   data: TaskData;
   /**

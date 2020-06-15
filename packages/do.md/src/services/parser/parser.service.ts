@@ -15,6 +15,8 @@ import {
 import { Section, Task, TaskData } from '../../types';
 import { isDataInlineCode } from '../../utils';
 
+type TaskWithoutSectionId = Omit<Task, 'sectionId'>;
+
 export const createIdForTask = ({
   data,
   text,
@@ -95,7 +97,7 @@ export const getTextFromListItem = (item: ListItem): string => {
 
 export const listItemToTaskFactory = (parentId?: string) => (
   item: ListItem
-): Task => {
+): TaskWithoutSectionId => {
   if (typeof item.checked === 'undefined') {
     throw new Error('listItemToTask() called without checked field #GgmU22');
   }
@@ -128,7 +130,7 @@ export const _recusrseOverListItems = ({
   list: List;
   depth: number;
   parentId: string;
-}): Task[] => {
+}): TaskWithoutSectionId[] => {
   const tasks = list.children.flatMap(listItem => {
     const task = listItemToTaskFactory(parentId)(listItem);
 
@@ -153,7 +155,7 @@ export const listToTasks = (list: List) => {
 };
 
 type SectionWithTasks = Section & {
-  tasks: Task[];
+  tasks: Omit<Task, 'sectionId'>[];
 };
 
 type UnsequencedSection = Omit<SectionWithTasks, 'id' | 'sequence'>;
