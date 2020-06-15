@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`unparser createMdast() Creates a task list that matches expected markdown #ARaqJE 1`] = `
+"- [ ] A task
+"
+`;
+
+exports[`unparser createMdast() Creates an empty root without content #kLjEzn 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [],
+      "type": "list",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`unparser createMdast() Creates an initial task list #kLjEzn 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "checked": false,
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "A task",
+                },
+              ],
+              "type": "paragraph",
+            },
+          ],
+          "type": "listItem",
+        },
+      ],
+      "type": "list",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`unparser serializeData() Serializes #yy5H4E 1`] = `
+Array [
+  Object {
+    "type": "break",
+  },
+  Object {
+    "type": "inlineCode",
+    "value": "id:foo",
+  },
+  Object {
+    "type": "text",
+    "value": " ",
+  },
+  Object {
+    "type": "inlineCode",
+    "value": "after:2020-02-24",
+  },
+]
+`;
