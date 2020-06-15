@@ -1,3 +1,4 @@
+import './services/startup/startup.service';
 /**
  * # Update to redux based data model
  *
