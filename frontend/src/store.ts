@@ -1,23 +1,19 @@
-import thunkMiddleware from "redux-thunk";
-import { createStore, combineReducers, applyMiddleware, compose } from "redux";
-
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { reducer as domdReducer, REDUX_ROOT_KEY as domdReduxKey } from "do.md";
 import notifications from "./services/notifications/notifications.state";
 
 const reducer = combineReducers({
+  [domdReduxKey]: domdReducer,
   notifications,
 });
 
 export type AppState = ReturnType<typeof reducer>;
 
-const composeEnhancers =
-  typeof window === "object" &&
-  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    : compose;
-
-const store = createStore(
+const store = configureStore({
   reducer,
-  composeEnhancers(applyMiddleware(thunkMiddleware))
-);
+  devTools: true,
+});
 
 export default store;
+
+export type AppDispatch = typeof store.dispatch;
