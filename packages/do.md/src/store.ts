@@ -6,7 +6,7 @@ import { REDUX_ROOT_KEY } from './constants';
 
 const empty: { empty: boolean } = { empty: true };
 
-export const reducer = (state = empty, action) => state;
+export const reducer = (state = empty) => state;
 
 export const createStore = (args?: {
   enableDevTools?: boolean;
