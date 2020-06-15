@@ -1,5 +1,7 @@
 export const REDUX_ROOT_KEY = '__domd';
 
+export const TOP_SECTION_ID = 'top';
+
 export const EVERY = 'every' as const;
 export const ID = 'id' as const;
 export const AFTER = 'after' as const;

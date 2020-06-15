@@ -7,7 +7,11 @@ import {
   isParagraph,
 } from 'mdast-util-is-type';
 import toString from 'mdast-util-to-string';
-import { DATA_KEYS, KEY_VALUE_SEPARATOR } from '../../constants';
+import {
+  DATA_KEYS,
+  KEY_VALUE_SEPARATOR,
+  TOP_SECTION_ID,
+} from '../../constants';
 import { Section, Task, TaskData } from '../../types';
 import { isDataInlineCode } from '../../utils';
 
@@ -38,7 +42,7 @@ export const createIdForSection = ({
   // and that is the very top of the document, potentially containing no
   // content, which appears before the first heading
   if (typeof heading === 'undefined') {
-    return 'top';
+    return TOP_SECTION_ID;
   }
 
   const { position } = heading;
