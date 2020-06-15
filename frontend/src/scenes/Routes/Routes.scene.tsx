@@ -15,6 +15,7 @@ import {
 } from "../../services/storage/storage.service";
 import { AppDispatch } from "../../store";
 import Actions from "../Actions/Actions.scene";
+import AllTasks from "../AllTasks/AllTasks.scene";
 import Bar from "../Bar/Bar.scene";
 import Do from "../Do/Do.scene";
 import Home from "../Home/Home.scene";
@@ -44,6 +45,7 @@ const Routes: React.FC = () => {
         <Container className={classes.container}>
           <Switch>
             <Route exact path="/" component={Do} />
+            <Route exact path="/tasks" component={AllTasks} />
             <Route exact path="/actions" component={Actions} />
             <Route exact path="/home" component={Home} />
           </Switch>
