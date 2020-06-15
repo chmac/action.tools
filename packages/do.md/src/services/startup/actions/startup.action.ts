@@ -20,10 +20,6 @@ export const startup = ({ markdown }: { markdown: string }): AppThunk => async (
     allTasks.push(...tasks);
   });
 
-  if (process.env.NODE_ENV === 'development') {
-    console.log('tasks #Nd0SDS', sections[0].tasks);
-  }
-
   dispatch(setSections(sectionsWithoutTasks));
   dispatch(setTasks(allTasks));
 };
