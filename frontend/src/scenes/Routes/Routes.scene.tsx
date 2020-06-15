@@ -1,17 +1,16 @@
-import React from "react";
-import { Router, Switch, Route } from "react-router-dom";
-import { createBrowserHistory } from "history";
-import { createStyles, Theme, createMuiTheme } from "@material-ui/core";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import { createMuiTheme, createStyles, Theme } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
-import { responsiveFontSizes, makeStyles } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { makeStyles, responsiveFontSizes } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
+import { createBrowserHistory } from "history";
+import React, { useEffect } from "react";
+import { Route, Router, Switch } from "react-router-dom";
 import { SnackbarContainer } from "uno-material-ui";
-
-import Bar from "../Bar/Bar.scene";
-import Home from "../Home/Home.scene";
 import Actions from "../Actions/Actions.scene";
+import Bar from "../Bar/Bar.scene";
 import Do from "../Do/Do.scene";
+import Home from "../Home/Home.scene";
 
 const baseTheme = createMuiTheme();
 const theme = responsiveFontSizes(baseTheme);
