@@ -777,6 +777,7 @@ Array [
     "contents": Array [],
     "depth": 0,
     "heading": undefined,
+    "id": "top",
     "sequence": 0,
     "tasks": Array [],
   },
@@ -819,6 +820,7 @@ Array [
       },
       "type": "heading",
     },
+    "id": "{\\"end\\":{\\"column\\":16,\\"line\\":1,\\"offset\\":15},\\"indent\\":[],\\"start\\":{\\"column\\":1,\\"line\\":1,\\"offset\\":0}}",
     "sequence": 1,
     "tasks": Array [
       Object {
@@ -1167,6 +1169,7 @@ Array [
       },
       "type": "heading",
     },
+    "id": "{\\"end\\":{\\"column\\":15,\\"line\\":8,\\"offset\\":165},\\"indent\\":[],\\"start\\":{\\"column\\":1,\\"line\\":8,\\"offset\\":151}}",
     "sequence": 2,
     "tasks": Array [
       Object {
