@@ -47,7 +47,7 @@ describe('unparser', () => {
       ).toMatchSnapshot();
     });
 
-    it('Creates a task list that matches expected markdown #ARaqJE', async () => {
+    it('Creates a task list that matches expected markdown with one task #ARaqJE', async () => {
       expect(
         await mdastToMarkdown(
           createMdast({
@@ -69,6 +69,53 @@ describe('unparser', () => {
           })
         )
       ).toEqual(`- [ ] A task\n`);
+    });
+    it('Creates a task list that matches expected markdown with three tasks #LbIvfd', async () => {
+      expect(
+        await mdastToMarkdown(
+          createMdast({
+            sections: [{ id: 'top', contents: [], depth: 0 }],
+            tasks: [
+              {
+                id: 'example1',
+                finished: false,
+                sectionId: 'top',
+                data: {},
+                contents: [
+                  {
+                    type: 'paragraph',
+                    children: [{ type: 'text', value: 'A task' }],
+                  },
+                ],
+              },
+              {
+                id: 'example2',
+                finished: true,
+                sectionId: 'top',
+                data: {},
+                contents: [
+                  {
+                    type: 'paragraph',
+                    children: [{ type: 'text', value: 'A completed task' }],
+                  },
+                ],
+              },
+              {
+                id: 'example3',
+                finished: false,
+                sectionId: 'top',
+                data: {},
+                contents: [
+                  {
+                    type: 'paragraph',
+                    children: [{ type: 'text', value: 'Another task' }],
+                  },
+                ],
+              },
+            ],
+          })
+        )
+      ).toEqual(`- [ ] A task\n- [x] A completed task\n- [ ] Another task\n`);
     });
   });
 });
