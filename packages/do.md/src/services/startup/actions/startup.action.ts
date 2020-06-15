@@ -17,7 +17,11 @@ export const startup = ({ markdown }: { markdown: string }): AppThunk => async (
   sections.forEach(section => {
     const { tasks, ...sectionWithoutTasks } = section;
     sectionsWithoutTasks.push(sectionWithoutTasks);
-    allTasks.push(...tasks);
+    const tasksWithSectionId = tasks.map(task => ({
+      ...task,
+      sectionId: section.id,
+    }));
+    allTasks.push(...tasksWithSectionId);
   });
 
   dispatch(setSections(sectionsWithoutTasks));
