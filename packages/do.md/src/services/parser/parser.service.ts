@@ -34,11 +34,7 @@ export const createIdForTask = ({
   return stringify({ data, text });
 };
 
-export const createIdForSection = ({
-  section,
-}: {
-  section: UnsequencedSection;
-}): string => {
+export const createIdForSection = (section: Omit<Section, 'id'>): string => {
   const { heading } = section;
   // There should only ever be a single section which does not have a heading,
   // and that is the very top of the document, potentially containing no
@@ -158,9 +154,7 @@ type SectionWithTasks = Section & {
   tasks: Omit<Task, 'sectionId'>[];
 };
 
-type UnsequencedSection = Omit<SectionWithTasks, 'id' | 'sequence'>;
-
-const getEmptySection = (): UnsequencedSection => {
+const getEmptySection = (): Omit<SectionWithTasks, 'id'> => {
   return {
     depth: 0,
     heading: undefined,
@@ -175,9 +169,9 @@ export const parseMdast = (root: Root): SectionWithTasks[] => {
    * - Iterate over children
    * - Build a stack of sections
    */
-  const sections: UnsequencedSection[] = [];
+  const sections: Omit<SectionWithTasks, 'id'>[] = [];
 
-  let currentSection = getEmptySection();
+  let currentSection: Omit<SectionWithTasks, 'id'> = getEmptySection();
 
   children.forEach(node => {
     if (!isList(node)) {
@@ -200,11 +194,10 @@ export const parseMdast = (root: Root): SectionWithTasks[] => {
 
   sections.push(currentSection);
 
-  const sequencedSections = sections.map((section, index) => {
+  const sequencedSections = sections.map(section => {
     return {
       ...section,
-      id: createIdForSection({ section }),
-      sequence: index,
+      id: createIdForSection(section),
     };
   });
 

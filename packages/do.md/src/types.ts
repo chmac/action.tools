@@ -29,7 +29,6 @@ export type Section = {
   depth: number;
   heading?: Heading;
   contents: Content[];
-  sequence: number;
 };
 
 // export type Data = ReturnType<typeof buildDataForTask>;
