@@ -8,6 +8,8 @@ declare module "mdast-util-to-hast/lib/handlers/list-item";
 declare module "mdast-util-to-hast/lib/handlers/list";
 declare module "react-markdown/lib/renderers";
 
+declare module "remark-react";
+
 declare module "rehype-react" {
   import { Plugin } from "unified";
 
