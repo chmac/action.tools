@@ -1,5 +1,5 @@
 import stringify from 'fast-json-stable-stringify';
-import { BlockContent, Content, Heading, List, ListItem, Root } from 'mdast';
+import { BlockContent, List, ListItem, Root } from 'mdast';
 import {
   isHeading,
   isInlineCode,
@@ -8,7 +8,7 @@ import {
 } from 'mdast-util-is-type';
 import toString from 'mdast-util-to-string';
 import { DATA_KEYS, KEY_VALUE_SEPARATOR } from '../../constants';
-import { Task, TaskData } from '../../types';
+import { Section, Task, TaskData } from '../../types';
 import { isDataInlineCode } from '../../utils';
 
 export const createIdForTask = ({
@@ -26,6 +26,25 @@ export const createIdForTask = ({
 
   // Next best case, build a deterministic ID based on the content of the task
   return stringify({ data, text });
+};
+
+export const createIdForSection = ({
+  section,
+}: {
+  section: UnsequencedSection;
+}): string => {
+  const { heading } = section;
+  // There should only ever be a single section which does not have a heading,
+  // and that is the very top of the document, potentially containing no
+  // content, which appears before the first heading
+  if (typeof heading === 'undefined') {
+    return 'top';
+  }
+
+  const { position } = heading;
+
+  // If there is a heading, then we stringify it's position to produce an ID
+  return stringify(position);
 };
 
 export const getDataFromListItem = (item: ListItem): TaskData => {
@@ -129,15 +148,11 @@ export const listToTasks = (list: List) => {
   return _recusrseOverListItems({ list, depth: 0, parentId: '' });
 };
 
-type Section = {
-  depth: number;
-  heading?: Heading;
-  contents: Content[];
+type SectionWithTasks = Section & {
   tasks: Task[];
-  sequence: number;
 };
 
-type UnsequencedSection = Omit<Section, 'sequence'>;
+type UnsequencedSection = Omit<SectionWithTasks, 'id' | 'sequence'>;
 
 const getEmptySection = (): UnsequencedSection => {
   return {
@@ -148,7 +163,7 @@ const getEmptySection = (): UnsequencedSection => {
   };
 };
 
-export const parseMdast = (root: Root): Section[] => {
+export const parseMdast = (root: Root): SectionWithTasks[] => {
   const { children } = root;
   /**
    * - Iterate over children
@@ -182,6 +197,7 @@ export const parseMdast = (root: Root): Section[] => {
   const sequencedSections = sections.map((section, index) => {
     return {
       ...section,
+      id: createIdForSection({ section }),
       sequence: index,
     };
   });

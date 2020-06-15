@@ -1,5 +1,5 @@
 import { LocalDate } from '@js-joda/core';
-import { BlockContent } from 'mdast';
+import { BlockContent, Content, Heading } from 'mdast';
 import {
   AFTER,
   BY,
@@ -22,6 +22,15 @@ export type Day = typeof DAYS[number];
 export type Month = typeof MONTHS[number];
 
 export type MonthNumber = typeof MONTHS_TO_NUMBER[Month];
+
+export type Section = {
+  /** Every section must have an ID, which may not be stable */
+  id: string;
+  depth: number;
+  heading?: Heading;
+  contents: Content[];
+  sequence: number;
+};
 
 // export type Data = ReturnType<typeof buildDataForTask>;
 export interface TaskData {
