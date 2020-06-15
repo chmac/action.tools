@@ -681,7 +681,6 @@ Array [
     "finished": false,
     "id": "{\\"data\\":{},\\"text\\":\\"A simple task\\"}",
     "parentId": "",
-    "text": "A simple task",
   },
   Object {
     "contents": Array [
@@ -725,7 +724,6 @@ Array [
     "finished": false,
     "id": "{\\"data\\":{},\\"text\\":\\"A second simple task\\"}",
     "parentId": "",
-    "text": "A second simple task",
   },
   Object {
     "contents": Array [
@@ -769,7 +767,6 @@ Array [
     "finished": false,
     "id": "{\\"data\\":{},\\"text\\":\\"One more simple task\\"}",
     "parentId": "",
-    "text": "One more simple task",
   },
 ]
 `;
@@ -975,7 +972,6 @@ Array [
         "finished": false,
         "id": "abc123",
         "parentId": "",
-        "text": "A top level task",
       },
       Object {
         "contents": Array [
@@ -1093,7 +1089,6 @@ Array [
         "finished": false,
         "id": "{\\"data\\":{\\"after\\":\\"2020-01-01\\",\\"by\\":\\"2020-02-25\\"},\\"text\\":\\"A second task\\"}",
         "parentId": "",
-        "text": "A second task",
       },
     ],
   },
@@ -1290,7 +1285,6 @@ Array [
         "finished": false,
         "id": "{\\"data\\":{\\"after\\":\\"2020-02-23\\",\\"by\\":\\"2020-02-25\\"},\\"text\\":\\"Third task\\"}",
         "parentId": "",
-        "text": "Third task",
       },
       Object {
         "contents": Array [
@@ -1408,7 +1402,6 @@ Array [
         "finished": false,
         "id": "{\\"data\\":{\\"after\\":\\"2020-01-01\\",\\"by\\":\\"2020-02-24\\"},\\"text\\":\\"Fourth task on the list\\"}",
         "parentId": "",
-        "text": "Fourth task on the list",
       },
       Object {
         "contents": Array [
@@ -1452,7 +1445,6 @@ Array [
         "finished": false,
         "id": "{\\"data\\":{},\\"text\\":\\"Nested task first\\"}",
         "parentId": "{\\"data\\":{\\"after\\":\\"2020-01-01\\",\\"by\\":\\"2020-02-24\\"},\\"text\\":\\"Fourth task on the list\\"}",
-        "text": "Nested task first",
       },
       Object {
         "contents": Array [
@@ -1496,7 +1488,6 @@ Array [
         "finished": false,
         "id": "{\\"data\\":{},\\"text\\":\\"Second nested task\\"}",
         "parentId": "{\\"data\\":{\\"after\\":\\"2020-01-01\\",\\"by\\":\\"2020-02-24\\"},\\"text\\":\\"Fourth task on the list\\"}",
-        "text": "Second nested task",
       },
     ],
   },

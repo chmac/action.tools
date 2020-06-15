@@ -92,7 +92,6 @@ export const listItemToTaskFactory = (parentId?: string) => (
     id,
     parentId,
     finished: item.checked,
-    text,
     contents,
     data,
   };

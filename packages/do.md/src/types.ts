@@ -1,5 +1,5 @@
 import { LocalDate } from '@js-joda/core';
-import { ListItem, BlockContent } from 'mdast';
+import { BlockContent } from 'mdast';
 import {
   AFTER,
   BY,
@@ -39,12 +39,11 @@ export interface Task {
   id: string;
   parentId?: string;
   finished: boolean;
-  /** A string representation of the text of the task, can contain newlines */
-  text: string;
   data: TaskData;
   /**
    * This contains the direct descendents of the listItem element, excluding any
-   * nested list elements */
+   * nested list elements. In other words, how to render this task in markdown
+   * (excluding any child tasks). */
   contents: BlockContent[];
 }
 
