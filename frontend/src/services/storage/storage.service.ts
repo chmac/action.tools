@@ -129,6 +129,11 @@ export const startup = async () => {
     window.localStorage.setItem(REPO_KEY, repo);
   }
 
+  if (false && process.env.NODE_ENV === "development") {
+    push({ message: "Skipping git fetch #FI3hkA", type: "info" });
+    return;
+  }
+
   push({ message: "Starting git fetch #l16Pys", type: "info" });
 
   await ensureDir(DIR);
@@ -231,10 +236,15 @@ export const getMarkdown = async (filepath: string = FILEPATH) => {
   return fs.promises.readFile(filepath, { encoding: "utf8" });
 };
 
-export const setMarkdown = async (
-  markdown: string,
-  filepath: string = FILEPATH
-) => {
+export const setMarkdown = async ({
+  markdown,
+  filepath = FILEPATH,
+  commitMessage = "Adding an update from the web",
+}: {
+  markdown: string;
+  filepath?: string;
+  commitMessage?: string;
+}) => {
   push({ message: "Starting save to Git #YpHeKm", type: "info" });
   try {
     await fs.promises.writeFile(filepath, markdown, { encoding: "utf8" });
@@ -263,7 +273,7 @@ export const setMarkdown = async (
 
     await git.commit(
       addBaseParams({
-        message: "Adding an update from the web",
+        message: commitMessage,
       })
     );
 

@@ -9,9 +9,11 @@ import { mdastToMarkdown } from "./services/mdast/mdast.service";
 
 // We use this to try and ensure only 1 operation runs at a time
 let block = false;
-let lastMarkdown = "";
 
-const setMarkdownFromReduxState = async (state: AppState["__domd"]) => {
+const setMarkdownFromReduxState = async (
+  state: AppState["__domd"],
+  commitMessage?: string
+) => {
   if (block === true) {
     console.log("blocked, calling setTimeout #CRm6Yn");
     setTimeout(() => setMarkdownFromReduxState(state), 30);
@@ -22,11 +24,7 @@ const setMarkdownFromReduxState = async (state: AppState["__domd"]) => {
   const mdast = createMdast({ sections, tasks });
   const markdown = await mdastToMarkdown(mdast);
 
-  if (markdown !== lastMarkdown) {
-    await setMarkdown(markdown);
-  } else {
-    console.log("setMarkdown() skipped for duplicate content #dCCYs2");
-  }
+  await setMarkdown({ markdown, commitMessage });
 
   block = false;
 };
@@ -36,11 +34,12 @@ const startup = async () => {
   const markdown = await getMarkdown();
   await store.dispatch(domdStartup({ markdown }));
 
-  lastMarkdown = markdown;
-
   // After successful startup, try writing the markdown immediately, to ensure
   // that we separate any transforms from operations carried out by the user.
-  await setMarkdownFromReduxState(store.getState().__domd);
+  await setMarkdownFromReduxState(
+    store.getState().__domd,
+    "Transforms on startup"
+  );
 
   let lastState: AppState["__domd"];
   store.subscribe(() => {

@@ -71,7 +71,9 @@ const humanReadableDate = (offset: number): string => {
   if (offset === 1) {
     return "Tomorrow";
   }
-  return today().plusDays(offset).toString();
+  return today()
+    .plusDays(offset)
+    .toString();
 };
 
 const Do = () => {
@@ -100,7 +102,7 @@ const Do = () => {
     async (input: string) => {
       try {
         const markdown = await applyMarkdownTransforms(input);
-        setMarkdown(markdown);
+        setMarkdown({ markdown, commitMessage: "Changes from Do.scene" });
         setFullMarkdown(markdown);
       } catch (error) {
         // NOTE: We can safely ignore errors here because they have already
@@ -156,7 +158,9 @@ const Do = () => {
 
     if (filterByDate) {
       return {
-        exactDate: today().plusDays(dateFilterOffsetDays).toString(),
+        exactDate: today()
+          .plusDays(dateFilterOffsetDays)
+          .toString(),
         showUndated: false,
         text,
       };
