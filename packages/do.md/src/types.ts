@@ -49,6 +49,10 @@ export interface Task {
   parentId: string;
   sectionId: string;
   finished: boolean;
+  /**
+   * If this is a sequential task, it can only be completed AFTER its preceding
+   * sibling has been completed */
+  isSequential: boolean;
   data: TaskData;
   /**
    * This contains the direct descendents of the listItem element, excluding any

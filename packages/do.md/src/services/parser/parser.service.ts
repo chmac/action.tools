@@ -91,9 +91,13 @@ export const getTextFromListItem = (item: ListItem): string => {
   return texts.join(`\n`);
 };
 
-export const listItemToTaskFactory = (parentId?: string) => (
-  item: ListItem
-): TaskWithoutSectionId => {
+export const listItemToTaskFactory = ({
+  parentId = '',
+  isSequential,
+}: {
+  parentId?: string;
+  isSequential: boolean;
+}) => (item: ListItem): TaskWithoutSectionId => {
   if (typeof item.checked === 'undefined') {
     throw new Error('listItemToTask() called without checked field #GgmU22');
   }
@@ -113,6 +117,7 @@ export const listItemToTaskFactory = (parentId?: string) => (
     id,
     parentId,
     finished: item.checked,
+    isSequential,
     contents,
     data,
   };
@@ -128,7 +133,10 @@ export const _recusrseOverListItems = ({
   parentId: string;
 }): TaskWithoutSectionId[] => {
   const tasks = list.children.flatMap(listItem => {
-    const task = listItemToTaskFactory(parentId)(listItem);
+    const task = listItemToTaskFactory({
+      parentId,
+      isSequential: list.ordered || false,
+    })(listItem);
 
     const taskId = task.id;
 
