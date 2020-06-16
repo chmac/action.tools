@@ -239,7 +239,7 @@ export const getMarkdown = async (filepath: string = FILEPATH) => {
 export const setMarkdown = async ({
   markdown,
   filepath = FILEPATH,
-  commitMessage = "Adding an update from the web",
+  commitMessage = "do.md: Adding an update from the web",
 }: {
   markdown: string;
   filepath?: string;

@@ -12,7 +12,7 @@ let block = false;
 
 const setMarkdownFromReduxState = async (
   state: AppState["__domd"],
-  commitMessage?: string
+  commitMessage = "do.md: Saving update from redux"
 ) => {
   if (block === true) {
     console.log("blocked, calling setTimeout #CRm6Yn");
@@ -38,7 +38,7 @@ const startup = async () => {
   // that we separate any transforms from operations carried out by the user.
   await setMarkdownFromReduxState(
     store.getState().__domd,
-    "Transforms on startup"
+    "do.md: Transforms on startup"
   );
 
   let lastState: AppState["__domd"];

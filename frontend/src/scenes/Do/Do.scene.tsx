@@ -102,7 +102,7 @@ const Do = () => {
     async (input: string) => {
       try {
         const markdown = await applyMarkdownTransforms(input);
-        setMarkdown({ markdown, commitMessage: "Changes from Do.scene" });
+        setMarkdown({ markdown, commitMessage: "do.md Changes from Do.scene" });
         setFullMarkdown(markdown);
       } catch (error) {
         // NOTE: We can safely ignore errors here because they have already
