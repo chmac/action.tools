@@ -25,7 +25,7 @@ describe('unparser', () => {
       ).toMatchSnapshot();
     });
 
-    it('Creates an initial task list #kLjEzn', () => {
+    it('Creates an initial task list #73kagJ', () => {
       expect(
         createMdast({
           sections: [{ id: 'top', contents: [], depth: 0 }],
@@ -35,14 +35,10 @@ describe('unparser', () => {
               finished: false,
               sectionId: 'top',
               isSequential: false,
+              isTask: true,
               parentId: '',
               data: {},
-              contents: [
-                {
-                  type: 'paragraph',
-                  children: [{ type: 'text', value: 'A task' }],
-                },
-              ],
+              contentMarkdown: 'A task',
             },
           ],
         })
@@ -61,13 +57,9 @@ describe('unparser', () => {
                 sectionId: 'top',
                 isSequential: false,
                 parentId: '',
+                isTask: true,
                 data: {},
-                contents: [
-                  {
-                    type: 'paragraph',
-                    children: [{ type: 'text', value: 'A task' }],
-                  },
-                ],
+                contentMarkdown: 'A task',
               },
             ],
           })
@@ -86,13 +78,9 @@ describe('unparser', () => {
                 sectionId: 'top',
                 isSequential: false,
                 parentId: '',
+                isTask: true,
                 data: {},
-                contents: [
-                  {
-                    type: 'paragraph',
-                    children: [{ type: 'text', value: 'A task' }],
-                  },
-                ],
+                contentMarkdown: 'A task',
               },
               {
                 id: 'example2',
@@ -100,13 +88,9 @@ describe('unparser', () => {
                 sectionId: 'top',
                 isSequential: false,
                 parentId: '',
+                isTask: true,
                 data: {},
-                contents: [
-                  {
-                    type: 'paragraph',
-                    children: [{ type: 'text', value: 'A completed task' }],
-                  },
-                ],
+                contentMarkdown: 'A completed task',
               },
               {
                 id: 'example3',
@@ -114,13 +98,9 @@ describe('unparser', () => {
                 sectionId: 'top',
                 isSequential: false,
                 parentId: '',
+                isTask: true,
                 data: {},
-                contents: [
-                  {
-                    type: 'paragraph',
-                    children: [{ type: 'text', value: 'Another task' }],
-                  },
-                ],
+                contentMarkdown: 'Another task',
               },
             ],
           })
@@ -162,13 +142,9 @@ describe('unparser', () => {
                 sectionId: 'top',
                 isSequential: false,
                 parentId: '',
+                isTask: true,
                 data: {},
-                contents: [
-                  {
-                    type: 'paragraph',
-                    children: [{ type: 'text', value: 'A task' }],
-                  },
-                ],
+                contentMarkdown: 'A task',
               },
               {
                 id: 'example2',
@@ -176,13 +152,9 @@ describe('unparser', () => {
                 sectionId: 'top',
                 isSequential: false,
                 parentId: '',
+                isTask: true,
                 data: {},
-                contents: [
-                  {
-                    type: 'paragraph',
-                    children: [{ type: 'text', value: 'A completed task' }],
-                  },
-                ],
+                contentMarkdown: 'A completed task',
               },
               {
                 id: 'example3',
@@ -190,13 +162,9 @@ describe('unparser', () => {
                 sectionId: 'top',
                 isSequential: false,
                 parentId: '',
+                isTask: true,
                 data: {},
-                contents: [
-                  {
-                    type: 'paragraph',
-                    children: [{ type: 'text', value: 'Another task' }],
-                  },
-                ],
+                contentMarkdown: 'Another task',
               },
               {
                 id: 'example4',
@@ -204,13 +172,9 @@ describe('unparser', () => {
                 sectionId: 'h1',
                 isSequential: false,
                 parentId: '',
+                isTask: true,
                 data: {},
-                contents: [
-                  {
-                    type: 'paragraph',
-                    children: [{ type: 'text', value: 'A sectioned task' }],
-                  },
-                ],
+                contentMarkdown: 'A sectioned task',
               },
               {
                 id: 'example5',
@@ -218,15 +182,9 @@ describe('unparser', () => {
                 sectionId: 'h1',
                 isSequential: false,
                 parentId: '',
+                isTask: true,
                 data: {},
-                contents: [
-                  {
-                    type: 'paragraph',
-                    children: [
-                      { type: 'text', value: 'A second sectioned task' },
-                    ],
-                  },
-                ],
+                contentMarkdown: 'A second sectioned task',
               },
             ],
           })

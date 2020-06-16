@@ -1,5 +1,5 @@
 import stringify from 'fast-json-stable-stringify';
-import { BlockContent, List, ListItem, Root } from 'mdast';
+import { List, ListItem, Root } from 'mdast';
 import {
   isHeading,
   isInlineCode,
@@ -23,10 +23,10 @@ type TaskWithoutSectionId = Omit<Task, 'sectionId'>;
 
 export const createIdForTask = ({
   data,
-  text,
+  contentMarkdown,
 }: {
   data: TaskData;
-  text: string;
+  contentMarkdown: string;
 }): string => {
   // Best case, get the ID from our data, this is sourced from markdown, and is
   // guaranteed (hopefully) stable
@@ -35,7 +35,7 @@ export const createIdForTask = ({
   }
 
   // Next best case, build a deterministic ID based on the content of the task
-  return stringify({ data, text });
+  return stringify({ data, text: contentMarkdown });
 };
 
 export const createIdForSection = (section: Omit<Section, 'id'>): string => {
@@ -121,8 +121,8 @@ export const listItemToTaskFactory = ({
   isSequential: boolean;
 }) => (item: ListItem): TaskWithoutSectionId => {
   const data = getDataFromListItem(item);
-  const text = getTextFromListItem(item);
-  const id = createIdForTask({ data, text });
+  const contentMarkdown = getTextFromListItem(item);
+  const id = createIdForTask({ data, contentMarkdown });
 
   if (!isTaskListItem(item)) {
     return {
@@ -131,18 +131,11 @@ export const listItemToTaskFactory = ({
       finished: false,
       isSequential,
       isTask: false,
-      contents: item.children,
+      contentMarkdown,
       // NOTE: Do not set any data if this is not a task
       data: {},
     };
   }
-
-  const contents = item.children.reduce<BlockContent[]>((acc, node) => {
-    if (!isList(node)) {
-      return acc.concat(node);
-    }
-    return acc;
-  }, []);
 
   return {
     id,
@@ -150,7 +143,7 @@ export const listItemToTaskFactory = ({
     finished: item.checked || false,
     isSequential,
     isTask: true,
-    contents,
+    contentMarkdown,
     data,
   };
 };
@@ -210,15 +203,6 @@ const isSectionEmpty = (section: SectionWithTasksWithoutId): boolean => {
   return equals(section, emptySection);
 };
 
-const stripPositionsFromTask = (
-  task: TaskWithoutSectionId
-): TaskWithoutSectionId => {
-  return {
-    ...task,
-    contents: task.contents.map(node => removePosition(node)),
-  };
-};
-
 const stripPositionsFromSection = (
   section: SectionWithTasks
 ): SectionWithTasks => {
@@ -229,7 +213,6 @@ const stripPositionsFromSection = (
       typeof section.heading === 'undefined'
         ? section.heading
         : removePosition(section.heading),
-    tasks: section.tasks.map(stripPositionsFromTask),
   };
 };
 

@@ -63,10 +63,10 @@ export interface Task {
   isTask: boolean;
   data: TaskData;
   /**
-   * This contains the direct descendents of the listItem element, excluding any
-   * nested list elements. In other words, how to render this task in markdown
-   * (excluding any child tasks). */
-  contents: BlockContent[];
+   * The inner contents of this task, which must be a single paragraph, as
+   * markdown. Excluding the leading "- [ ]" and the trailing " " double space.
+   * */
+  contentMarkdown: string;
 }
 
 export type RepeatSimple = {

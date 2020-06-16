@@ -777,43 +777,7 @@ Object {
 exports[`parser listToTasks() Generates tasks #HetQot 1`] = `
 Array [
   Object {
-    "contents": Array [
-      Object {
-        "children": Array [
-          Object {
-            "position": Position {
-              "end": Object {
-                "column": 20,
-                "line": 1,
-                "offset": 19,
-              },
-              "indent": Array [],
-              "start": Object {
-                "column": 7,
-                "line": 1,
-                "offset": 6,
-              },
-            },
-            "type": "text",
-            "value": "A simple task",
-          },
-        ],
-        "position": Position {
-          "end": Object {
-            "column": 20,
-            "line": 1,
-            "offset": 19,
-          },
-          "indent": Array [],
-          "start": Object {
-            "column": 7,
-            "line": 1,
-            "offset": 6,
-          },
-        },
-        "type": "paragraph",
-      },
-    ],
+    "contentMarkdown": "A simple task",
     "data": Object {},
     "finished": false,
     "id": "{\\"data\\":{},\\"text\\":\\"A simple task\\"}",
@@ -822,43 +786,7 @@ Array [
     "parentId": "",
   },
   Object {
-    "contents": Array [
-      Object {
-        "children": Array [
-          Object {
-            "position": Position {
-              "end": Object {
-                "column": 27,
-                "line": 2,
-                "offset": 46,
-              },
-              "indent": Array [],
-              "start": Object {
-                "column": 7,
-                "line": 2,
-                "offset": 26,
-              },
-            },
-            "type": "text",
-            "value": "A second simple task",
-          },
-        ],
-        "position": Position {
-          "end": Object {
-            "column": 27,
-            "line": 2,
-            "offset": 46,
-          },
-          "indent": Array [],
-          "start": Object {
-            "column": 7,
-            "line": 2,
-            "offset": 26,
-          },
-        },
-        "type": "paragraph",
-      },
-    ],
+    "contentMarkdown": "A second simple task",
     "data": Object {},
     "finished": false,
     "id": "{\\"data\\":{},\\"text\\":\\"A second simple task\\"}",
@@ -867,43 +795,7 @@ Array [
     "parentId": "",
   },
   Object {
-    "contents": Array [
-      Object {
-        "children": Array [
-          Object {
-            "position": Position {
-              "end": Object {
-                "column": 27,
-                "line": 3,
-                "offset": 73,
-              },
-              "indent": Array [],
-              "start": Object {
-                "column": 7,
-                "line": 3,
-                "offset": 53,
-              },
-            },
-            "type": "text",
-            "value": "One more simple task",
-          },
-        ],
-        "position": Position {
-          "end": Object {
-            "column": 27,
-            "line": 3,
-            "offset": 73,
-          },
-          "indent": Array [],
-          "start": Object {
-            "column": 7,
-            "line": 3,
-            "offset": 53,
-          },
-        },
-        "type": "paragraph",
-      },
-    ],
+    "contentMarkdown": "One more simple task",
     "data": Object {},
     "finished": false,
     "id": "{\\"data\\":{},\\"text\\":\\"One more simple task\\"}",
@@ -1962,48 +1854,8 @@ Array [
     "id": "1:1-1:16",
     "tasks": Array [
       Object {
-        "contents": Array [
-          Object {
-            "children": Array [
-              Object {
-                "position": undefined,
-                "type": "text",
-                "value": "A top level task",
-              },
-              Object {
-                "position": undefined,
-                "type": "break",
-              },
-              Object {
-                "position": undefined,
-                "type": "inlineCode",
-                "value": "after:2020-02-23",
-              },
-              Object {
-                "position": undefined,
-                "type": "text",
-                "value": "  ",
-              },
-              Object {
-                "position": undefined,
-                "type": "inlineCode",
-                "value": "by:2020-02-24",
-              },
-              Object {
-                "position": undefined,
-                "type": "text",
-                "value": " ",
-              },
-              Object {
-                "position": undefined,
-                "type": "inlineCode",
-                "value": "id:abc123",
-              },
-            ],
-            "position": undefined,
-            "type": "paragraph",
-          },
-        ],
+        "contentMarkdown": "A top level task  
+  ",
         "data": Object {
           "after": "2020-02-23",
           "by": "2020-02-24",
@@ -2016,38 +1868,8 @@ Array [
         "parentId": "",
       },
       Object {
-        "contents": Array [
-          Object {
-            "children": Array [
-              Object {
-                "position": undefined,
-                "type": "text",
-                "value": "A second task",
-              },
-              Object {
-                "position": undefined,
-                "type": "break",
-              },
-              Object {
-                "position": undefined,
-                "type": "inlineCode",
-                "value": "after:2020-01-01",
-              },
-              Object {
-                "position": undefined,
-                "type": "text",
-                "value": " ",
-              },
-              Object {
-                "position": undefined,
-                "type": "inlineCode",
-                "value": "by:2020-02-25",
-              },
-            ],
-            "position": undefined,
-            "type": "paragraph",
-          },
-        ],
+        "contentMarkdown": "A second task  
+ ",
         "data": Object {
           "after": "2020-01-01",
           "by": "2020-02-25",
@@ -2090,38 +1912,8 @@ Array [
     "id": "8:1-8:15",
     "tasks": Array [
       Object {
-        "contents": Array [
-          Object {
-            "children": Array [
-              Object {
-                "position": undefined,
-                "type": "text",
-                "value": "Third task",
-              },
-              Object {
-                "position": undefined,
-                "type": "break",
-              },
-              Object {
-                "position": undefined,
-                "type": "inlineCode",
-                "value": "after:2020-02-23",
-              },
-              Object {
-                "position": undefined,
-                "type": "text",
-                "value": " ",
-              },
-              Object {
-                "position": undefined,
-                "type": "inlineCode",
-                "value": "by:2020-02-25",
-              },
-            ],
-            "position": undefined,
-            "type": "paragraph",
-          },
-        ],
+        "contentMarkdown": "Third task  
+ ",
         "data": Object {
           "after": "2020-02-23",
           "by": "2020-02-25",
@@ -2133,38 +1925,8 @@ Array [
         "parentId": "",
       },
       Object {
-        "contents": Array [
-          Object {
-            "children": Array [
-              Object {
-                "position": undefined,
-                "type": "text",
-                "value": "Fourth task on the list",
-              },
-              Object {
-                "position": undefined,
-                "type": "break",
-              },
-              Object {
-                "position": undefined,
-                "type": "inlineCode",
-                "value": "after:2020-01-01",
-              },
-              Object {
-                "position": undefined,
-                "type": "text",
-                "value": " ",
-              },
-              Object {
-                "position": undefined,
-                "type": "inlineCode",
-                "value": "by:2020-02-24",
-              },
-            ],
-            "position": undefined,
-            "type": "paragraph",
-          },
-        ],
+        "contentMarkdown": "Fourth task on the list  
+ ",
         "data": Object {
           "after": "2020-01-01",
           "by": "2020-02-24",
@@ -2176,19 +1938,7 @@ Array [
         "parentId": "",
       },
       Object {
-        "contents": Array [
-          Object {
-            "children": Array [
-              Object {
-                "position": undefined,
-                "type": "text",
-                "value": "Nested task first",
-              },
-            ],
-            "position": undefined,
-            "type": "paragraph",
-          },
-        ],
+        "contentMarkdown": "Nested task first",
         "data": Object {},
         "finished": false,
         "id": "{\\"data\\":{},\\"text\\":\\"Nested task first\\"}",
@@ -2197,19 +1947,7 @@ Array [
         "parentId": "{\\"data\\":{\\"after\\":\\"2020-01-01\\",\\"by\\":\\"2020-02-24\\"},\\"text\\":\\"Fourth task on the list  \\\\n \\"}",
       },
       Object {
-        "contents": Array [
-          Object {
-            "children": Array [
-              Object {
-                "position": undefined,
-                "type": "text",
-                "value": "Second nested task",
-              },
-            ],
-            "position": undefined,
-            "type": "paragraph",
-          },
-        ],
+        "contentMarkdown": "Second nested task",
         "data": Object {},
         "finished": false,
         "id": "{\\"data\\":{},\\"text\\":\\"Second nested task\\"}",
@@ -2238,19 +1976,7 @@ Array [
     "id": "19:1-19:29",
     "tasks": Array [
       Object {
-        "contents": Array [
-          Object {
-            "children": Array [
-              Object {
-                "position": undefined,
-                "type": "text",
-                "value": "A sequential task",
-              },
-            ],
-            "position": undefined,
-            "type": "paragraph",
-          },
-        ],
+        "contentMarkdown": "A sequential task",
         "data": Object {},
         "finished": false,
         "id": "{\\"data\\":{},\\"text\\":\\"A sequential task\\"}",
@@ -2259,19 +1985,7 @@ Array [
         "parentId": "",
       },
       Object {
-        "contents": Array [
-          Object {
-            "children": Array [
-              Object {
-                "position": undefined,
-                "type": "text",
-                "value": "A second sequential task",
-              },
-            ],
-            "position": undefined,
-            "type": "paragraph",
-          },
-        ],
+        "contentMarkdown": "A second sequential task",
         "data": Object {},
         "finished": false,
         "id": "{\\"data\\":{},\\"text\\":\\"A second sequential task\\"}",

@@ -47,7 +47,7 @@ export const recursiveTaskToMdast = ({
     type: 'listItem',
     checked: task.finished,
     children: [
-      ...task.contents,
+      { type: 'text', value: task.contentMarkdown },
       ...serializeData(task.data),
       ...(childTasks.length > 0
         ? [

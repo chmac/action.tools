@@ -2,7 +2,7 @@ import { Checkbox, Paper, Typography } from "@material-ui/core";
 import { createSelector } from "@reduxjs/toolkit";
 import { finishTask, unfinishTask } from "do.md";
 import { Task } from "do.md/dist/types";
-import toString from "mdast-util-to-string";
+import Markdown from "markdown-to-jsx";
 import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, AppState } from "../../../../store";
@@ -32,25 +32,28 @@ const TaskSingle = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   return (
-    <Paper variant={task.isSequential ? "elevation" : "outlined"} square>
+    <Paper
+      variant={task.isSequential ? "elevation" : "outlined"}
+      square
+      style={{
+        paddingLeft: depth * 42 + (task.isTask ? 0 : 42),
+      }}
+    >
       <Typography>
-        <Indent count={depth} />{" "}
-        {task.isTask ? (
-          <Checkbox
-            checked={task.finished}
-            color="default"
-            onChange={(event) => {
-              if (event.target.checked) {
-                dispatch(finishTask(task.id));
-              } else {
-                dispatch(unfinishTask(task.id));
-              }
-            }}
-          />
-        ) : (
-          <NonCheckbox />
-        )}{" "}
-        {toString(task.contents)}
+        <Checkbox
+          checked={task.finished}
+          color="default"
+          onChange={(event) => {
+            if (event.target.checked) {
+              dispatch(finishTask(task.id));
+            } else {
+              dispatch(unfinishTask(task.id));
+            }
+          }}
+        />
+        <Markdown options={{ forceInline: true }}>
+          {task.contentMarkdown}
+        </Markdown>
       </Typography>
       {tasks.map((task) => (
         <TaskSingle key={task.id} task={task} depth={depth + 1} />

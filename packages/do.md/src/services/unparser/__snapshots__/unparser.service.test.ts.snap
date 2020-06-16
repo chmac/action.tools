@@ -12,7 +12,7 @@ Object {
 }
 `;
 
-exports[`unparser createMdast() Creates an initial task list #kLjEzn 1`] = `
+exports[`unparser createMdast() Creates an initial task list #73kagJ 1`] = `
 Object {
   "children": Array [
     Object {
@@ -21,13 +21,8 @@ Object {
           "checked": false,
           "children": Array [
             Object {
-              "children": Array [
-                Object {
-                  "type": "text",
-                  "value": "A task",
-                },
-              ],
-              "type": "paragraph",
+              "type": "text",
+              "value": "A task",
             },
           ],
           "type": "listItem",
