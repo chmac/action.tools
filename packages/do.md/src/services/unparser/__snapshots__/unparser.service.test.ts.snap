@@ -2,12 +2,7 @@
 
 exports[`unparser createMdast() Creates an empty root without content #kLjEzn 1`] = `
 Object {
-  "children": Array [
-    Object {
-      "children": Array [],
-      "type": "list",
-    },
-  ],
+  "children": Array [],
   "type": "root",
 }
 `;
@@ -56,9 +51,12 @@ Object {
               "type": "paragraph",
             },
           ],
+          "spread": false,
           "type": "listItem",
         },
       ],
+      "ordered": false,
+      "spread": false,
       "type": "list",
     },
   ],

@@ -201,5 +201,121 @@ A paragraph under the heading.
 - [ ] A second sectioned task
 `);
     });
+
+    it('Creates a task list that matches the expected markdown with a nested list #XLbatC', async () => {
+      expect(
+        await mdastToMarkdown(
+          createMdast({
+            sections: [
+              { id: 'top', contents: [], depth: 0 },
+              {
+                id: 'h1',
+                contents: [
+                  {
+                    type: 'paragraph',
+                    children: [
+                      {
+                        type: 'text',
+                        value: 'A paragraph under the heading.',
+                      },
+                    ],
+                  },
+                ],
+                depth: 1,
+                heading: {
+                  type: 'heading',
+                  depth: 1,
+                  children: [{ type: 'text', value: 'A top heading' }],
+                },
+              },
+            ],
+            tasks: [
+              {
+                id: 'example1',
+                finished: false,
+                sectionId: 'top',
+                isSequential: false,
+                parentId: '',
+                isTask: true,
+                data: {},
+                contentMarkdown: 'A task',
+              },
+              {
+                id: 'example2',
+                finished: true,
+                sectionId: 'top',
+                isSequential: false,
+                parentId: '',
+                isTask: true,
+                data: {},
+                contentMarkdown: 'A completed task',
+              },
+              {
+                id: 'example21j',
+                finished: false,
+                sectionId: 'top',
+                isSequential: false,
+                parentId: 'example2',
+                isTask: true,
+                data: {},
+                contentMarkdown: 'A child task',
+              },
+              {
+                id: 'example22',
+                finished: false,
+                sectionId: 'top',
+                isSequential: false,
+                parentId: 'example2',
+                isTask: true,
+                data: {},
+                contentMarkdown: 'Another child task',
+              },
+              {
+                id: 'example3',
+                finished: false,
+                sectionId: 'top',
+                isSequential: false,
+                parentId: '',
+                isTask: true,
+                data: {},
+                contentMarkdown: 'Another top level task',
+              },
+              {
+                id: 'example4',
+                finished: false,
+                sectionId: 'h1',
+                isSequential: false,
+                parentId: '',
+                isTask: true,
+                data: {},
+                contentMarkdown: 'A sectioned task',
+              },
+              {
+                id: 'example5',
+                finished: false,
+                sectionId: 'h1',
+                isSequential: false,
+                parentId: '',
+                isTask: true,
+                data: {},
+                contentMarkdown: 'A second sectioned task',
+              },
+            ],
+          })
+        )
+      ).toEqual(`- [ ] A task
+- [x] A completed task
+  - [ ] A child task
+  - [ ] Another child task
+- [ ] Another top level task
+
+# A top heading
+
+A paragraph under the heading.
+
+- [ ] A sectioned task
+- [ ] A second sectioned task
+`);
+    });
   });
 });

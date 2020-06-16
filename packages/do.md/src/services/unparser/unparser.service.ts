@@ -65,7 +65,10 @@ export const recursiveTaskToMdast = ({
     );
     children.push({
       type: 'list',
+      // NOTE: We assume that if 1 child task is sequential, they must all be,
+      // because this list must be an ordered (numbered) list.
       ordered: childTasks[0].isSequential,
+      spread: false,
       children: childListItems,
     });
   }
@@ -73,6 +76,7 @@ export const recursiveTaskToMdast = ({
   const mdast = {
     type: 'listItem',
     checked: task.finished,
+    spread: false,
     children,
   } as ListItem;
   return mdast;
@@ -106,6 +110,10 @@ export const createMdast = ({
 
     children.push({
       type: 'list',
+      spread: false,
+      // NOTE: We assume that if 1 child task is sequential, they must all be,
+      // because this list must be an ordered (numbered) list.
+      ordered: sectionTasks[0].isSequential,
       children: listItems,
     });
   });
