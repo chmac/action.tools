@@ -8,7 +8,7 @@ import remark2rehype from "remark-rehype";
 import unified from "unified";
 import { Node } from "unist";
 import { AppState } from "../../store";
-import SectionScene from './scenes/Section/Section.scene';
+import SectionScene from "./scenes/Section/Section.scene";
 
 const converterOld = unified()
   .use(remark2rehype)
@@ -34,17 +34,18 @@ const mdastToReact = <T extends Node>(content?: T | T[]) => {
 
 const AllTasks = () => {
   const classes = useStyles();
-  const { sections, tasks } = useSelector((state: AppState) => {
+  const { sections } = useSelector((state: AppState) => {
     return {
       sections: state[REDUX_ROOT_KEY].data.sections,
-      tasks: state[REDUX_ROOT_KEY].data.tasks,
     };
   });
 
   return (
     <div className={classes.page}>
       <Typography variant="h1">Tasks</Typography>
-      {sections.map((section) => <SectionScene key={section.id} section={section} />)}
+      {sections.map((section) => (
+        <SectionScene key={section.id} section={section} />
+      ))}
     </div>
   );
 };
