@@ -34,6 +34,7 @@
   "author": "Callum Macdonald",
   "module": "dist/do.md.esm.js",
   "devDependencies": {
+    "@types/markdown-to-jsx": "^6.11.0",
     "@types/mdast": "^3.0.3",
     "@types/remote-redux-devtools": "^0.5.4",
     "@types/unist": "^2.0.3",
@@ -54,6 +55,7 @@
     "@rschedule/core": "^1.0.4",
     "@rschedule/joda-date-adapter": "^1.0.2",
     "fast-json-stable-stringify": "^2.1.0",
+    "markdown-to-jsx": "^6.11.4",
     "mdast-util-is-type": "^0.1.0",
     "mdast-util-to-string": "^1.1.0",
     "nanoid": "^3.1.9",
