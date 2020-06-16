@@ -1,11 +1,11 @@
-import { Paper, Switch, Typography } from "@material-ui/core";
+import { Checkbox, Paper, Typography } from "@material-ui/core";
 import { createSelector } from "@reduxjs/toolkit";
+import { finishTask, unfinishTask } from "do.md";
 import { Task } from "do.md/dist/types";
 import toString from "mdast-util-to-string";
 import React, { useMemo } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { AppState, AppDispatch } from "../../../../store";
-import { finishTask, unfinishTask } from "do.md";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, AppState } from "../../../../store";
 
 const makeChildTasksSelector = () =>
   createSelector(
@@ -17,7 +17,7 @@ const makeChildTasksSelector = () =>
   );
 
 const Indent = ({ count }: { count: number }) => {
-  return <span style={{ paddingLeft: 58 * count }} />;
+  return <span style={{ paddingLeft: 42 * count }} />;
 };
 
 const TaskSingle = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
@@ -31,8 +31,9 @@ const TaskSingle = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
     <Paper variant={task.isSequential ? "elevation" : "outlined"} square>
       <Typography>
         <Indent count={depth} />{" "}
-        <Switch
+        <Checkbox
           checked={task.finished}
+          color="default"
           onChange={(event) => {
             if (event.target.checked) {
               dispatch(finishTask(task.id));
