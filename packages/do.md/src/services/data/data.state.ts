@@ -21,7 +21,7 @@ const getTaskIndex = (state: State, id: string): number => {
 };
 
 const sectionSlice = createSlice({
-  name: 'data',
+  name: 'domd/data',
   initialState,
   reducers: {
     setSections: (state, action: PayloadAction<Section[]>) => {
