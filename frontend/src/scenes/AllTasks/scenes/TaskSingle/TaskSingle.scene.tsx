@@ -23,6 +23,9 @@ const TaskSingle = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
   );
   const dispatch = useDispatch<AppDispatch>();
 
+  const dataEntries = Object.entries(task.data);
+  const hasData = dataEntries.length > 0;
+
   return (
     <Paper
       variant={task.isSequential ? "elevation" : "outlined"}
@@ -46,6 +49,17 @@ const TaskSingle = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
         <Markdown options={{ forceInline: true }}>
           {task.contentMarkdown}
         </Markdown>
+        {hasData ? (
+          <>
+            <br />
+            <span style={{ paddingLeft: 42 }} />
+            {Object.entries(task.data).map(([key, value]) => (
+              <span key="key">
+                {key}: {value}
+              </span>
+            ))}
+          </>
+        ) : null}
       </Typography>
       {tasks.map((task) => (
         <TaskSingle key={task.id} task={task} depth={depth + 1} />
