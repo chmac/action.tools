@@ -27,7 +27,11 @@ describe('parser', () => {
   Multiple paras?`)
       ).toMatchSnapshot();
       expect(
-        markdownToMdast(`- [ ] A first line task  \n  \`after:2020-02-024\`\n`)
+        markdownToMdast(`- [ ] A first line task  \n  \`after:2020-02-024\`
+  - [ ] A child task
+  - [ ] A second child
+- [ ] A top level task
+`)
       ).toMatchSnapshot();
     });
   });
@@ -59,7 +63,7 @@ describe('parser', () => {
       );
 
       expect(getTextFromListItem(item)).toEqual(
-        `A second line task  \nWith a second line and a by date `
+        `A second line task  \nWith a second line and a by date`
       );
     });
 
@@ -72,7 +76,22 @@ describe('parser', () => {
 
       // NOTE: `*second*` is converted to `_second_`
       expect(getTextFromListItem(item)).toEqual(
-        `A _second_ line **task**  \nWith a second line and a by date `
+        `A _second_ line **task**  \nWith a second line and a by date`
+      );
+    });
+
+    it('Strips indentation from any lines after the first #XNOQsy', () => {
+      const item = getFirstTaskFromMdast(
+        markdownToMdast(
+          '- [ ] A *second* line **task**  \n    With a second line and a by date `by:2020-02-24`' +
+            `
+          and a third line very far indented`
+        )
+      );
+
+      // NOTE: `*second*` is converted to `_second_`
+      expect(getTextFromListItem(item)).toEqual(
+        `A _second_ line **task**  \nWith a second line and a by date  \nand a third line very far indented`
       );
     });
   });

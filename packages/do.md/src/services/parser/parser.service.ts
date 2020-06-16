@@ -35,7 +35,7 @@ export const createIdForTask = ({
   }
 
   // Next best case, build a deterministic ID based on the content of the task
-  return stringify({ data, text: contentMarkdown });
+  return stringify({ data, contentMarkdown });
 };
 
 export const createIdForSection = (section: Omit<Section, 'id'>): string => {
@@ -110,7 +110,14 @@ export const getTextFromListItem = (item: ListItem): string => {
 
   const text = processor.stringify({ type: 'paragraph', children });
 
-  return text;
+  const output = text
+    .split('\n')
+    .map(line => line.trim())
+    .filter(trimmedLine => trimmedLine.length > 0)
+    // NOTE: We terminate every line with 2 spaces
+    .join('  \n');
+
+  return output;
 };
 
 export const listItemToTaskFactory = ({
