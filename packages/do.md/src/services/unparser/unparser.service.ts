@@ -1,6 +1,10 @@
-import { Content, ListItem, PhrasingContent, Root } from 'mdast';
+import { Content, ListItem, PhrasingContent, Root, Paragraph } from 'mdast';
 import { KEY_VALUE_SEPARATOR } from '../../constants';
 import { Section, Task, TaskData } from '../../types';
+import unified from 'unified';
+import markdown from 'remark-parse';
+
+const toMdastProcessor = unified().use(markdown, { gfm: true });
 
 export const serializeData = (data: TaskData) => {
   // NOTE: This will have an extra space as the first element
@@ -42,24 +46,34 @@ export const recursiveTaskToMdast = ({
       'recursiveTaskToMdast() called with invalid taskId #iuLSAf'
     );
   }
+  // NOTE: We only allow 1 child paragraph and 1 child list
+
+  const root = toMdastProcessor.parse(task.contentMarkdown) as Root;
+  const paragraph = root.children[0] as Paragraph;
+
+  const dataContent = serializeData(task.data);
+  paragraph.children.push(...dataContent);
+
   const childTasks = tasks.filter(task => task.parentId === taskId);
+  const hasChildTasks = childTasks.length > 0;
+
+  const children: Content[] = [paragraph];
+
+  if (hasChildTasks) {
+    const childListItems = childTasks.map(task =>
+      recursiveTaskToMdast({ tasks, taskId: task.id })
+    );
+    children.push({
+      type: 'list',
+      ordered: childTasks[0].isSequential,
+      children: childListItems,
+    });
+  }
+
   const mdast = {
     type: 'listItem',
     checked: task.finished,
-    children: [
-      { type: 'text', value: task.contentMarkdown },
-      ...serializeData(task.data),
-      ...(childTasks.length > 0
-        ? [
-            {
-              type: 'list',
-              children: childTasks.map(task =>
-                recursiveTaskToMdast({ tasks, taskId: task.id })
-              ),
-            },
-          ]
-        : []),
-    ],
+    children,
   } as ListItem;
   return mdast;
 };

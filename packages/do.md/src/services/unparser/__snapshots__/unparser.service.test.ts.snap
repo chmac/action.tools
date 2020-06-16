@@ -21,8 +21,39 @@ Object {
           "checked": false,
           "children": Array [
             Object {
-              "type": "text",
-              "value": "A task",
+              "children": Array [
+                Object {
+                  "position": Position {
+                    "end": Object {
+                      "column": 7,
+                      "line": 1,
+                      "offset": 6,
+                    },
+                    "indent": Array [],
+                    "start": Object {
+                      "column": 1,
+                      "line": 1,
+                      "offset": 0,
+                    },
+                  },
+                  "type": "text",
+                  "value": "A task",
+                },
+              ],
+              "position": Position {
+                "end": Object {
+                  "column": 7,
+                  "line": 1,
+                  "offset": 6,
+                },
+                "indent": Array [],
+                "start": Object {
+                  "column": 1,
+                  "line": 1,
+                  "offset": 0,
+                },
+              },
+              "type": "paragraph",
             },
           ],
           "type": "listItem",
