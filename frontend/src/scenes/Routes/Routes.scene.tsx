@@ -3,17 +3,10 @@ import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles, responsiveFontSizes } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
-import { startup as domdStartup } from "do.md";
 import { createBrowserHistory } from "history";
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
 import { Route, Router, Switch } from "react-router-dom";
 import { SnackbarContainer } from "uno-material-ui";
-import {
-  getMarkdown,
-  startup as storageStartup,
-} from "../../services/storage/storage.service";
-import { AppDispatch } from "../../store";
 import Actions from "../Actions/Actions.scene";
 import AllTasks from "../AllTasks/AllTasks.scene";
 import Bar from "../Bar/Bar.scene";
@@ -27,14 +20,6 @@ export const history = createBrowserHistory();
 
 const Routes: React.FC = () => {
   const classes = useStyles();
-  const dispatch: AppDispatch = useDispatch();
-
-  useEffect(() => {
-    storageStartup().then(async () => {
-      const markdown = await getMarkdown();
-      dispatch(domdStartup({ markdown }));
-    });
-  }, [dispatch]);
 
   return (
     <ThemeProvider theme={theme}>
