@@ -16,14 +16,6 @@ const makeChildTasksSelector = () =>
     (parentId, tasks) => tasks.filter((task) => task.parentId === parentId)
   );
 
-const Indent = ({ count }: { count: number }) => {
-  return <span style={{ paddingLeft: 42 * count }} />;
-};
-
-const NonCheckbox = () => {
-  return <span style={{ padding: 21, lineHeight: "42px" }} />;
-};
-
 const TaskSingle = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
   const selectChildTasks = useMemo(makeChildTasksSelector, []);
   const tasks = useSelector((state: AppState) =>
