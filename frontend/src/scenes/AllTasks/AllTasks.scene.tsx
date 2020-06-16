@@ -1,13 +1,14 @@
-import { makeStyles, Paper, Typography } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 import { REDUX_ROOT_KEY } from "do.md";
 import React, { createElement } from "react";
 import { useSelector } from "react-redux";
 import rehype2react from "rehype-react";
+import remark2react from "remark-react";
 import remark2rehype from "remark-rehype";
 import unified from "unified";
-import remark2react from "remark-react";
 import { Node } from "unist";
 import { AppState } from "../../store";
+import SectionScene from './scenes/Section/Section.scene';
 
 const converterOld = unified()
   .use(remark2rehype)
@@ -43,29 +44,7 @@ const AllTasks = () => {
   return (
     <div className={classes.page}>
       <Typography variant="h1">Tasks</Typography>
-      {sections.map((section) => {
-        return (
-          <div key={section.id}>
-            {mdastToReact(section.heading)}
-            {mdastToReact(section.contents)}
-            <Paper elevation={1} className={classes.paper}>
-              {tasks
-                .filter((task) => task.sectionId === section.id)
-                .map((task) => {
-                  return (
-                    <div key={task.id}>
-                      {mdastToReact({
-                        type: "list",
-                        ordered: false,
-                        children: task.contents,
-                      })}
-                    </div>
-                  );
-                })}
-            </Paper>
-          </div>
-        );
-      })}
+      {sections.map((section) => <SectionScene key={section.id} section={section} />)}
     </div>
   );
 };
