@@ -8,7 +8,11 @@ import {
 } from 'mdast-util-is-type';
 import toString from 'mdast-util-to-string';
 import { clone, equals } from 'remeda';
-import { DATA_KEYS, KEY_VALUE_SEPARATOR } from '../../constants';
+import {
+  DATA_KEYS,
+  KEY_VALUE_SEPARATOR,
+  TOP_SECTION_ID,
+} from '../../constants';
 import { Section, Task, TaskData } from '../../types';
 import { isDataInlineCode } from '../../utils';
 
@@ -35,9 +39,12 @@ export const createIdForSection = (section: Omit<Section, 'id'>): string => {
   const { heading } = section;
 
   if (typeof heading === 'undefined') {
-    const { position } = section.contents[0];
+    const { position } = section.contents[0] || {};
     if (typeof position === 'undefined') {
-      throw new Error('Trying to create an ID for an empty section #M8Utrv');
+      // There should only be one section which has no content and no heading.
+      // This would be the very first section if the markdown file begins with a
+      // task list.
+      return TOP_SECTION_ID;
     }
     return stringify(position);
   }
