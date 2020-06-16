@@ -8,6 +8,7 @@ import {
 } from 'mdast-util-is-type';
 import toString from 'mdast-util-to-string';
 import { clone, equals } from 'remeda';
+import stringifyPosition from 'unist-util-stringify-position';
 import {
   DATA_KEYS,
   KEY_VALUE_SEPARATOR,
@@ -46,12 +47,16 @@ export const createIdForSection = (section: Omit<Section, 'id'>): string => {
       // task list.
       return TOP_SECTION_ID;
     }
-    return stringify(position);
+    return stringifyPosition(position);
   }
 
   const { position } = heading;
 
-  return stringify(position);
+  if (typeof position === 'undefined') {
+    throw new Error('Trying to create ID without position #8wjJcb');
+  }
+
+  return stringifyPosition(position);
 };
 
 export const getDataFromListItem = (item: ListItem): TaskData => {
