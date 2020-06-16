@@ -3,8 +3,9 @@ import { createSelector } from "@reduxjs/toolkit";
 import { Task } from "do.md/dist/types";
 import toString from "mdast-util-to-string";
 import React, { useMemo } from "react";
-import { useSelector } from "react-redux";
-import { AppState } from "../../../../store";
+import { useSelector, useDispatch } from "react-redux";
+import { AppState, AppDispatch } from "../../../../store";
+import { finishTask, unfinishTask } from "do.md";
 
 const makeChildTasksSelector = () =>
   createSelector(
@@ -24,11 +25,22 @@ const TaskSingle = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
   const tasks = useSelector((state: AppState) =>
     selectChildTasks(state, task.id)
   );
+  const dispatch = useDispatch<AppDispatch>();
 
   return (
     <Paper variant="outlined" square>
       <Typography>
-        <Indent count={depth} /> <Switch checked={task.finished} />{" "}
+        <Indent count={depth} />{" "}
+        <Switch
+          checked={task.finished}
+          onChange={(event) => {
+            if (event.target.checked) {
+              dispatch(finishTask(task.id));
+            } else {
+              dispatch(unfinishTask(task.id));
+            }
+          }}
+        />{" "}
         {toString(task.contents)}
       </Typography>
       {tasks.map((task) => (
