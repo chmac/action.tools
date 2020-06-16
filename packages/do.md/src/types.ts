@@ -45,7 +45,8 @@ export interface TaskData {
 export interface Task {
   /** Every task must have an ID, generated if necessary */
   id: string;
-  parentId?: string;
+  /** Empty string means this is a top level task */
+  parentId: string;
   sectionId: string;
   finished: boolean;
   data: TaskData;
