@@ -9,8 +9,12 @@ import devToolsEnhancer, {
 } from 'remote-redux-devtools';
 import { REDUX_ROOT_KEY } from './constants';
 import data, { REDUX_KEY as dataKey } from './services/data/data.state';
+import startup, {
+  REDUX_KEY as startupKey,
+} from './services/startup/startup.state';
 
 export const reducer = combineReducers({
+  [startupKey]: startup,
   [dataKey]: data,
 });
 
