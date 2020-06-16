@@ -8,6 +8,7 @@ import {
 } from 'mdast-util-is-type';
 import toString from 'mdast-util-to-string';
 import { clone, equals } from 'remeda';
+import removePosition from 'unist-util-remove-position';
 import stringifyPosition from 'unist-util-stringify-position';
 import {
   DATA_KEYS,
@@ -188,7 +189,33 @@ const isSectionEmpty = (section: SectionWithTasksWithoutId): boolean => {
   return equals(section, emptySection);
 };
 
-export const parseMdast = (root: Root): SectionWithTasks[] => {
+const stripPositionsFromTask = (
+  task: TaskWithoutSectionId
+): TaskWithoutSectionId => {
+  return {
+    ...task,
+    contents: task.contents.map(node => removePosition(node)),
+  };
+};
+
+const stripPositionsFromSection = (
+  section: SectionWithTasks
+): SectionWithTasks => {
+  return {
+    ...section,
+    contents: section.contents.map(node => removePosition(node)),
+    heading:
+      typeof section.heading === 'undefined'
+        ? section.heading
+        : removePosition(section.heading),
+    tasks: section.tasks.map(stripPositionsFromTask),
+  };
+};
+
+export const parseMdast = (
+  root: Root,
+  { stripPositions = true }: { stripPositions?: boolean } = {}
+): SectionWithTasks[] => {
   const { children } = root;
   /**
    * - Iterate over children
@@ -241,12 +268,20 @@ export const parseMdast = (root: Root): SectionWithTasks[] => {
     sections.push(currentSection);
   }
 
-  const sequencedSections = sections.map(section => {
+  const sectionsWithIds = sections.map(section => {
     return {
       ...section,
       id: createIdForSection(section),
     };
   });
 
-  return sequencedSections;
+  if (!stripPositions) {
+    return sectionsWithIds;
+  }
+
+  const sectionsWithIdsWithoutPositions = sectionsWithIds.map(
+    stripPositionsFromSection
+  );
+
+  return sectionsWithIdsWithoutPositions;
 };
