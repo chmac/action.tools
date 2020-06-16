@@ -10,6 +10,7 @@ export type NodeWithData = Node & { _data: { [prop: string]: any } };
 const toMdastProcessor = unified().use(markdown, { gfm: true });
 const toMarkdownProcessor = unified().use(stringify, {
   listItemIndent: '1',
+  incrementListMarker: false,
 });
 
 export const markdownToMdast = (text: string): Root => {
