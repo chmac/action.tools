@@ -75,7 +75,7 @@ export const recursiveTaskToMdast = ({
 
   const mdast = {
     type: 'listItem',
-    checked: task.finished,
+    checked: task.isTask ? task.finished : null,
     spread: false,
     children,
   } as ListItem;
