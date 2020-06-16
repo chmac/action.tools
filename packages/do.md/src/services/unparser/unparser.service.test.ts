@@ -34,6 +34,8 @@ describe('unparser', () => {
               id: 'example1',
               finished: false,
               sectionId: 'top',
+              isSequential: false,
+              parentId: '',
               data: {},
               contents: [
                 {
@@ -57,6 +59,8 @@ describe('unparser', () => {
                 id: 'example1',
                 finished: false,
                 sectionId: 'top',
+                isSequential: false,
+                parentId: '',
                 data: {},
                 contents: [
                   {
@@ -80,6 +84,8 @@ describe('unparser', () => {
                 id: 'example1',
                 finished: false,
                 sectionId: 'top',
+                isSequential: false,
+                parentId: '',
                 data: {},
                 contents: [
                   {
@@ -92,6 +98,8 @@ describe('unparser', () => {
                 id: 'example2',
                 finished: true,
                 sectionId: 'top',
+                isSequential: false,
+                parentId: '',
                 data: {},
                 contents: [
                   {
@@ -104,6 +112,8 @@ describe('unparser', () => {
                 id: 'example3',
                 finished: false,
                 sectionId: 'top',
+                isSequential: false,
+                parentId: '',
                 data: {},
                 contents: [
                   {
@@ -150,6 +160,8 @@ describe('unparser', () => {
                 id: 'example1',
                 finished: false,
                 sectionId: 'top',
+                isSequential: false,
+                parentId: '',
                 data: {},
                 contents: [
                   {
@@ -162,6 +174,8 @@ describe('unparser', () => {
                 id: 'example2',
                 finished: true,
                 sectionId: 'top',
+                isSequential: false,
+                parentId: '',
                 data: {},
                 contents: [
                   {
@@ -174,6 +188,8 @@ describe('unparser', () => {
                 id: 'example3',
                 finished: false,
                 sectionId: 'top',
+                isSequential: false,
+                parentId: '',
                 data: {},
                 contents: [
                   {
@@ -186,6 +202,8 @@ describe('unparser', () => {
                 id: 'example4',
                 finished: false,
                 sectionId: 'h1',
+                isSequential: false,
+                parentId: '',
                 data: {},
                 contents: [
                   {
@@ -198,6 +216,8 @@ describe('unparser', () => {
                 id: 'example5',
                 finished: false,
                 sectionId: 'h1',
+                isSequential: false,
+                parentId: '',
                 data: {},
                 contents: [
                   {
