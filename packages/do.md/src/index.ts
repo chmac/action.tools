@@ -2,8 +2,16 @@ import './services/startup/startup.service';
 
 // Export redux
 export { REDUX_ROOT_KEY } from './constants';
-export { reducer } from './store';
+export {
+  finishTask,
+  newSection,
+  newTask,
+  setSections,
+  setTasks,
+  unfinishTask,
+} from './services/data/data.state';
 export { startup } from './services/startup/actions/startup.action';
+export { reducer } from './store';
 /**
  * # Update to redux based data model
  *
