@@ -98,9 +98,24 @@ describe('parser', () => {
 
   describe('parseMdast()', () => {
     it('Generates sections with tasks #otm70r', () => {
+      // NOTE: This snapshot is so we have a record of the input as well as the
+      // expected output
+      expect(markdownToMdast(complexTaskListMarkdown)).toMatchSnapshot();
       expect(
         parseMdast(markdownToMdast(complexTaskListMarkdown))
       ).toMatchSnapshot();
+    });
+
+    it('debugging #gVI0DY', () => {
+      // This makes the snapshots a bit easier to see, huge mdast trees make it
+      // hard to see what's going on otherwise.
+      const sections = parseMdast(markdownToMdast(complexTaskListMarkdown));
+      const sectionDeets = sections.map(section => ({
+        id: section.id,
+        heading: section.heading?.children[0],
+        taskCount: section.tasks.length,
+      }));
+      expect(sectionDeets).toMatchSnapshot();
     });
   });
 });

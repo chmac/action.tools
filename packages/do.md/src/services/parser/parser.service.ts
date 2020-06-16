@@ -7,11 +7,8 @@ import {
   isParagraph,
 } from 'mdast-util-is-type';
 import toString from 'mdast-util-to-string';
-import {
-  DATA_KEYS,
-  KEY_VALUE_SEPARATOR,
-  TOP_SECTION_ID,
-} from '../../constants';
+import { clone, equals } from 'remeda';
+import { DATA_KEYS, KEY_VALUE_SEPARATOR } from '../../constants';
 import { Section, Task, TaskData } from '../../types';
 import { isDataInlineCode } from '../../utils';
 
@@ -36,16 +33,17 @@ export const createIdForTask = ({
 
 export const createIdForSection = (section: Omit<Section, 'id'>): string => {
   const { heading } = section;
-  // There should only ever be a single section which does not have a heading,
-  // and that is the very top of the document, potentially containing no
-  // content, which appears before the first heading
+
   if (typeof heading === 'undefined') {
-    return TOP_SECTION_ID;
+    const { position } = section.contents[0];
+    if (typeof position === 'undefined') {
+      throw new Error('Trying to create an ID for an empty section #M8Utrv');
+    }
+    return stringify(position);
   }
 
   const { position } = heading;
 
-  // If there is a heading, then we stringify it's position to produce an ID
   return stringify(position);
 };
 
@@ -162,13 +160,20 @@ type SectionWithTasks = Section & {
   tasks: Omit<Task, 'sectionId'>[];
 };
 
-const getEmptySection = (): Omit<SectionWithTasks, 'id'> => {
-  return {
-    depth: 0,
-    heading: undefined,
-    contents: [],
-    tasks: [],
-  };
+type SectionWithTasksWithoutId = Omit<SectionWithTasks, 'id'>;
+
+const emptySection = {
+  depth: 0,
+  heading: undefined,
+  contents: [],
+  tasks: [],
+};
+const getEmptySection = (): SectionWithTasksWithoutId => {
+  return clone(emptySection);
+};
+
+const isSectionEmpty = (section: SectionWithTasksWithoutId): boolean => {
+  return equals(section, emptySection);
 };
 
 export const parseMdast = (root: Root): SectionWithTasks[] => {
@@ -177,30 +182,52 @@ export const parseMdast = (root: Root): SectionWithTasks[] => {
    * - Iterate over children
    * - Build a stack of sections
    */
-  const sections: Omit<SectionWithTasks, 'id'>[] = [];
+  const sections: SectionWithTasksWithoutId[] = [];
 
-  let currentSection: Omit<SectionWithTasks, 'id'> = getEmptySection();
+  let currentSection: SectionWithTasksWithoutId = getEmptySection();
+
+  /**
+   * - Iterate over the root's children
+   * - Start with an "empty" section with the ID "top"
+   * - When reaching a heading:
+   *   - Start a new section
+   *   - Set the heading on the new section
+   * - When reaching a list:
+   *   - Add the tasks to the current section
+   *   - Start a new section
+   */
 
   children.forEach(node => {
     if (!isList(node)) {
-      if (!isHeading(node)) {
+      if (isHeading(node)) {
+        // Firstly, if there is anything in the current section, save it and
+        // start a new section. The heading should always be the first thing we
+        // add to a section.
+        if (!isSectionEmpty(currentSection)) {
+          sections.push(currentSection);
+          currentSection = getEmptySection();
+        }
+
+        // Now that we know the current section is empty, add the heading we
+        // just found to it.
+        currentSection.heading = node;
+      } else {
         // If we reach a node that is not a list, and not a heading, then add it
         // to the currently open section
         currentSection.contents.push(node);
-      } else {
-        // If we find a heading, then close the "currentSection" by pushing it
-        // into the array of sections and create a new section starting with
-        // this heading
-        sections.push(currentSection);
-        currentSection = getEmptySection();
-        currentSection.heading = node;
       }
     } else {
+      // When we find a list, we always add to the current section and start a
+      // new section
       currentSection.tasks = listToTasks(node);
+      sections.push(currentSection);
+      currentSection = getEmptySection();
     }
   });
 
-  sections.push(currentSection);
+  if (!isSectionEmpty(currentSection)) {
+    sections.push(currentSection);
+  }
 
   const sequencedSections = sections.map(section => {
     return {
