@@ -92,7 +92,13 @@ export const createMdast = ({
     }
     children.push(...section.contents);
 
-    const sectionTasks = tasks.filter(task => task.sectionId === section.id);
+    const sectionTasks = tasks.filter(
+      task => task.sectionId === section.id && task.parentId === ''
+    );
+
+    if (sectionTasks.length === 0) {
+      return;
+    }
 
     const listItems = sectionTasks.map(task =>
       recursiveTaskToMdast({ tasks, taskId: task.id })
