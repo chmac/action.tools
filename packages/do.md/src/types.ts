@@ -53,6 +53,14 @@ export interface Task {
    * If this is a sequential task, it can only be completed AFTER its preceding
    * sibling has been completed */
   isSequential: boolean;
+  /** It's possible to have non-task items mixed between tasks. Like so:
+   * - [ ] Task
+   * - Not task
+   * - [ ] Second task
+   *
+   * This field will be `false` in such cases.
+   */
+  isTask: boolean;
   data: TaskData;
   /**
    * This contains the direct descendents of the listItem element, excluding any

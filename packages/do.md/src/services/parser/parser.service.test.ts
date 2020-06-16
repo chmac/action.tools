@@ -17,7 +17,7 @@ describe('parser', () => {
   // We test the fixtures to ensure that as we upgrade / swap the packages that
   // convert text to mdast and back, they don't introduce changes.
   describe('fixtures', () => {
-    it('Fixtures remain consistent', () => {
+    it('Fixtures remain consistent #wtBpsn', () => {
       expect(markdownToMdast(taskListOnlyMarkdown)).toMatchSnapshot();
       expect(markdownToMdast(tasksWithSecondLineMarkdown)).toMatchSnapshot();
       expect(markdownToMdast(`- [ ] # Can we heading?`)).toMatchSnapshot();
@@ -25,6 +25,9 @@ describe('parser', () => {
         markdownToMdast(`- [ ] # Will a heading fit here?  
   
   Multiple paras?`)
+      ).toMatchSnapshot();
+      expect(
+        markdownToMdast(`- [ ] A first line task  \n  \`after:2020-02-024\`\n`)
       ).toMatchSnapshot();
     });
   });
@@ -44,7 +47,7 @@ describe('parser', () => {
       );
 
       expect(getTextFromListItem(item)).toEqual(
-        `A second line task\nWith a second line`
+        `A second line task  \nWith a second line`
       );
     });
 
@@ -56,7 +59,20 @@ describe('parser', () => {
       );
 
       expect(getTextFromListItem(item)).toEqual(
-        `A second line task\nWith a second line and a by date`
+        `A second line task  \nWith a second line and a by date `
+      );
+    });
+
+    it('Retains any formatting markdown #YLhffw', () => {
+      const item = getFirstTaskFromMdast(
+        markdownToMdast(
+          '- [ ] A *second* line **task**  \nWith a second line and a by date `by:2020-02-24`'
+        )
+      );
+
+      // NOTE: `*second*` is converted to `_second_`
+      expect(getTextFromListItem(item)).toEqual(
+        `A _second_ line **task**  \nWith a second line and a by date `
       );
     });
   });

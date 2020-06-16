@@ -20,6 +20,10 @@ const Indent = ({ count }: { count: number }) => {
   return <span style={{ paddingLeft: 42 * count }} />;
 };
 
+const NonCheckbox = () => {
+  return <span style={{ padding: 21, lineHeight: "42px" }} />;
+};
+
 const TaskSingle = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
   const selectChildTasks = useMemo(makeChildTasksSelector, []);
   const tasks = useSelector((state: AppState) =>
@@ -31,17 +35,21 @@ const TaskSingle = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
     <Paper variant={task.isSequential ? "elevation" : "outlined"} square>
       <Typography>
         <Indent count={depth} />{" "}
-        <Checkbox
-          checked={task.finished}
-          color="default"
-          onChange={(event) => {
-            if (event.target.checked) {
-              dispatch(finishTask(task.id));
-            } else {
-              dispatch(unfinishTask(task.id));
-            }
-          }}
-        />{" "}
+        {task.isTask ? (
+          <Checkbox
+            checked={task.finished}
+            color="default"
+            onChange={(event) => {
+              if (event.target.checked) {
+                dispatch(finishTask(task.id));
+              } else {
+                dispatch(unfinishTask(task.id));
+              }
+            }}
+          />
+        ) : (
+          <NonCheckbox />
+        )}{" "}
         {toString(task.contents)}
       </Typography>
       {tasks.map((task) => (

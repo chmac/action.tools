@@ -6,8 +6,9 @@ import {
   isList,
   isParagraph,
 } from 'mdast-util-is-type';
-import toString from 'mdast-util-to-string';
+import remarkStringify from 'remark-stringify';
 import { clone, equals } from 'remeda';
+import unified from 'unified';
 import removePosition from 'unist-util-remove-position';
 import stringifyPosition from 'unist-util-stringify-position';
 import {
@@ -16,7 +17,7 @@ import {
   TOP_SECTION_ID,
 } from '../../constants';
 import { Section, Task, TaskData } from '../../types';
-import { isDataInlineCode } from '../../utils';
+import { isDataInlineCode, isTaskListItem } from '../../utils';
 
 type TaskWithoutSectionId = Omit<Task, 'sectionId'>;
 
@@ -79,27 +80,37 @@ export const getDataFromListItem = (item: ListItem): TaskData => {
   return Object.fromEntries(dataPairs);
 };
 
-export const getTextFromListItem = (item: ListItem): string => {
-  const texts = item.children.reduce<string[]>((texts, child) => {
-    if (isParagraph(child)) {
-      const childTexts = child.children.reduce<string[]>(
-        (texts, grandchild) => {
-          if (!isInlineCode(grandchild) || !isDataInlineCode(grandchild)) {
-            const granchildText = toString(grandchild).trim();
-            if (granchildText.trim() !== '') {
-              return texts.concat(granchildText);
-            }
-          }
-          return texts;
-        },
-        []
-      );
-      return texts.concat(childTexts);
-    }
-    return texts;
-  }, []);
+const processor = unified().use(remarkStringify, { gfm: true });
 
-  return texts.join(`\n`);
+/**
+ * Given a `ListItem` that represents a task, get the text content only.
+ *
+ * This means:
+ * - Strip out any of our `key:value` fields
+ * - Retain any **formatting**
+ * - Do not include the leading "- [ ]"
+ */
+export const getTextFromListItem = (item: ListItem): string => {
+  // For now, we assume there is a singular paragraph as the first child of all
+  // lists
+  const firstParagraph = item.children[0];
+
+  if (!isParagraph(firstParagraph)) {
+    throw new Error(
+      'Task does not have a paragraph as its first child. #Kq5lH1'
+    );
+  }
+
+  const children = firstParagraph.children.filter(child => {
+    if (isInlineCode(child) && isDataInlineCode(child)) {
+      return false;
+    }
+    return true;
+  });
+
+  const text = processor.stringify({ type: 'paragraph', children });
+
+  return text;
 };
 
 export const listItemToTaskFactory = ({
@@ -109,13 +120,22 @@ export const listItemToTaskFactory = ({
   parentId?: string;
   isSequential: boolean;
 }) => (item: ListItem): TaskWithoutSectionId => {
-  if (typeof item.checked === 'undefined') {
-    throw new Error('listItemToTask() called without checked field #GgmU22');
-  }
-
   const data = getDataFromListItem(item);
   const text = getTextFromListItem(item);
   const id = createIdForTask({ data, text });
+
+  if (!isTaskListItem(item)) {
+    return {
+      id,
+      parentId,
+      finished: false,
+      isSequential,
+      isTask: false,
+      contents: item.children,
+      // NOTE: Do not set any data if this is not a task
+      data: {},
+    };
+  }
 
   const contents = item.children.reduce<BlockContent[]>((acc, node) => {
     if (!isList(node)) {
@@ -127,8 +147,9 @@ export const listItemToTaskFactory = ({
   return {
     id,
     parentId,
-    finished: item.checked,
+    finished: item.checked || false,
     isSequential,
+    isTask: true,
     contents,
     data,
   };

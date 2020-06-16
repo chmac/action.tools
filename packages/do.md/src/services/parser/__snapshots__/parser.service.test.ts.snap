@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`parser fixtures Fixtures remain consistent 1`] = `
+exports[`parser fixtures Fixtures remain consistent #wtBpsn 1`] = `
 Object {
   "children": Array [
     Object {
@@ -209,7 +209,7 @@ Object {
 }
 `;
 
-exports[`parser fixtures Fixtures remain consistent 2`] = `
+exports[`parser fixtures Fixtures remain consistent #wtBpsn 2`] = `
 Object {
   "children": Array [
     Object {
@@ -402,7 +402,7 @@ Object {
 }
 `;
 
-exports[`parser fixtures Fixtures remain consistent 3`] = `
+exports[`parser fixtures Fixtures remain consistent #wtBpsn 3`] = `
 Object {
   "children": Array [
     Object {
@@ -499,7 +499,7 @@ Object {
 }
 `;
 
-exports[`parser fixtures Fixtures remain consistent 4`] = `
+exports[`parser fixtures Fixtures remain consistent #wtBpsn 4`] = `
 Object {
   "children": Array [
     Object {
@@ -637,6 +637,143 @@ Object {
 }
 `;
 
+exports[`parser fixtures Fixtures remain consistent #wtBpsn 5`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "checked": false,
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "position": Position {
+                    "end": Object {
+                      "column": 24,
+                      "line": 1,
+                      "offset": 23,
+                    },
+                    "indent": Array [],
+                    "start": Object {
+                      "column": 7,
+                      "line": 1,
+                      "offset": 6,
+                    },
+                  },
+                  "type": "text",
+                  "value": "A first line task",
+                },
+                Object {
+                  "position": Position {
+                    "end": Object {
+                      "column": 3,
+                      "line": 2,
+                      "offset": 28,
+                    },
+                    "indent": Array [
+                      3,
+                    ],
+                    "start": Object {
+                      "column": 24,
+                      "line": 1,
+                      "offset": 23,
+                    },
+                  },
+                  "type": "break",
+                },
+                Object {
+                  "position": Position {
+                    "end": Object {
+                      "column": 22,
+                      "line": 2,
+                      "offset": 47,
+                    },
+                    "indent": Array [],
+                    "start": Object {
+                      "column": 3,
+                      "line": 2,
+                      "offset": 28,
+                    },
+                  },
+                  "type": "inlineCode",
+                  "value": "after:2020-02-024",
+                },
+              ],
+              "position": Position {
+                "end": Object {
+                  "column": 22,
+                  "line": 2,
+                  "offset": 47,
+                },
+                "indent": Array [
+                  3,
+                ],
+                "start": Object {
+                  "column": 7,
+                  "line": 1,
+                  "offset": 6,
+                },
+              },
+              "type": "paragraph",
+            },
+          ],
+          "position": Position {
+            "end": Object {
+              "column": 22,
+              "line": 2,
+              "offset": 47,
+            },
+            "indent": Array [
+              1,
+            ],
+            "start": Object {
+              "column": 1,
+              "line": 1,
+              "offset": 0,
+            },
+          },
+          "spread": false,
+          "type": "listItem",
+        },
+      ],
+      "ordered": false,
+      "position": Position {
+        "end": Object {
+          "column": 22,
+          "line": 2,
+          "offset": 47,
+        },
+        "indent": Array [
+          1,
+        ],
+        "start": Object {
+          "column": 1,
+          "line": 1,
+          "offset": 0,
+        },
+      },
+      "spread": false,
+      "start": null,
+      "type": "list",
+    },
+  ],
+  "position": Object {
+    "end": Object {
+      "column": 1,
+      "line": 3,
+      "offset": 48,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "type": "root",
+}
+`;
+
 exports[`parser listToTasks() Generates tasks #HetQot 1`] = `
 Array [
   Object {
@@ -681,6 +818,7 @@ Array [
     "finished": false,
     "id": "{\\"data\\":{},\\"text\\":\\"A simple task\\"}",
     "isSequential": false,
+    "isTask": true,
     "parentId": "",
   },
   Object {
@@ -725,6 +863,7 @@ Array [
     "finished": false,
     "id": "{\\"data\\":{},\\"text\\":\\"A second simple task\\"}",
     "isSequential": false,
+    "isTask": true,
     "parentId": "",
   },
   Object {
@@ -769,6 +908,7 @@ Array [
     "finished": false,
     "id": "{\\"data\\":{},\\"text\\":\\"One more simple task\\"}",
     "isSequential": false,
+    "isTask": true,
     "parentId": "",
   },
 ]
@@ -1842,7 +1982,7 @@ Array [
               Object {
                 "position": undefined,
                 "type": "text",
-                "value": " ",
+                "value": "  ",
               },
               Object {
                 "position": undefined,
@@ -1872,6 +2012,7 @@ Array [
         "finished": false,
         "id": "abc123",
         "isSequential": false,
+        "isTask": true,
         "parentId": "",
       },
       Object {
@@ -1912,8 +2053,9 @@ Array [
           "by": "2020-02-25",
         },
         "finished": false,
-        "id": "{\\"data\\":{\\"after\\":\\"2020-01-01\\",\\"by\\":\\"2020-02-25\\"},\\"text\\":\\"A second task\\"}",
+        "id": "{\\"data\\":{\\"after\\":\\"2020-01-01\\",\\"by\\":\\"2020-02-25\\"},\\"text\\":\\"A second task  \\\\n \\"}",
         "isSequential": false,
+        "isTask": true,
         "parentId": "",
       },
     ],
@@ -1985,8 +2127,9 @@ Array [
           "by": "2020-02-25",
         },
         "finished": false,
-        "id": "{\\"data\\":{\\"after\\":\\"2020-02-23\\",\\"by\\":\\"2020-02-25\\"},\\"text\\":\\"Third task\\"}",
+        "id": "{\\"data\\":{\\"after\\":\\"2020-02-23\\",\\"by\\":\\"2020-02-25\\"},\\"text\\":\\"Third task  \\\\n \\"}",
         "isSequential": false,
+        "isTask": true,
         "parentId": "",
       },
       Object {
@@ -2027,8 +2170,9 @@ Array [
           "by": "2020-02-24",
         },
         "finished": false,
-        "id": "{\\"data\\":{\\"after\\":\\"2020-01-01\\",\\"by\\":\\"2020-02-24\\"},\\"text\\":\\"Fourth task on the list\\"}",
+        "id": "{\\"data\\":{\\"after\\":\\"2020-01-01\\",\\"by\\":\\"2020-02-24\\"},\\"text\\":\\"Fourth task on the list  \\\\n \\"}",
         "isSequential": false,
+        "isTask": true,
         "parentId": "",
       },
       Object {
@@ -2049,7 +2193,8 @@ Array [
         "finished": false,
         "id": "{\\"data\\":{},\\"text\\":\\"Nested task first\\"}",
         "isSequential": false,
-        "parentId": "{\\"data\\":{\\"after\\":\\"2020-01-01\\",\\"by\\":\\"2020-02-24\\"},\\"text\\":\\"Fourth task on the list\\"}",
+        "isTask": true,
+        "parentId": "{\\"data\\":{\\"after\\":\\"2020-01-01\\",\\"by\\":\\"2020-02-24\\"},\\"text\\":\\"Fourth task on the list  \\\\n \\"}",
       },
       Object {
         "contents": Array [
@@ -2069,7 +2214,8 @@ Array [
         "finished": false,
         "id": "{\\"data\\":{},\\"text\\":\\"Second nested task\\"}",
         "isSequential": false,
-        "parentId": "{\\"data\\":{\\"after\\":\\"2020-01-01\\",\\"by\\":\\"2020-02-24\\"},\\"text\\":\\"Fourth task on the list\\"}",
+        "isTask": true,
+        "parentId": "{\\"data\\":{\\"after\\":\\"2020-01-01\\",\\"by\\":\\"2020-02-24\\"},\\"text\\":\\"Fourth task on the list  \\\\n \\"}",
       },
     ],
   },
@@ -2109,6 +2255,7 @@ Array [
         "finished": false,
         "id": "{\\"data\\":{},\\"text\\":\\"A sequential task\\"}",
         "isSequential": true,
+        "isTask": true,
         "parentId": "",
       },
       Object {
@@ -2129,6 +2276,7 @@ Array [
         "finished": false,
         "id": "{\\"data\\":{},\\"text\\":\\"A second sequential task\\"}",
         "isSequential": true,
+        "isTask": true,
         "parentId": "",
       },
     ],
