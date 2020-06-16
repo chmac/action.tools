@@ -28,7 +28,7 @@ const TaskSingle = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   return (
-    <Paper variant="outlined" square>
+    <Paper variant={task.isSequential ? "elevation" : "outlined"} square>
       <Typography>
         <Indent count={depth} />{" "}
         <Switch
