@@ -25,10 +25,8 @@ const startup = async () => {
     if (lastState !== newState) {
       lastState = newState;
       const { sections, tasks } = newState.data;
-      debugger;
       const mdast = createMdast({ sections, tasks });
       const markdown = await mdastToMarkdown(mdast);
-      debugger;
       setMarkdown(markdown);
     }
   });
