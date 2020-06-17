@@ -1,4 +1,4 @@
-import { Content, Heading } from 'mdast';
+import { Content, Heading, ListItem, Paragraph, List } from 'mdast';
 import {
   AFTER,
   DATA_KEYS,
@@ -30,7 +30,7 @@ type ValidKeys = typeof DATA_KEYS[number];
 export type ValidKeyData = {
   [key in ValidKeys]?: string;
 };
-type TaskData = ValidKeyData & {
+export type TaskData = ValidKeyData & {
   contexts?: string[];
 };
 
@@ -83,3 +83,7 @@ export type RepeatMonthly = {
 };
 
 export type Repeat = RepeatSimple | RepeatWeekly | RepeatMonthly;
+
+export interface TaskListItem extends ListItem {
+  children: [Paragraph] | [Paragraph, List];
+}

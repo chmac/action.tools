@@ -1,5 +1,6 @@
 import { InlineCode, ListItem } from 'mdast';
 import { DATA_KEYS, KEY_VALUE_SEPARATOR } from './constants';
+import { TaskListItem } from './types';
 
 export const identity = <T>(p: T): T => p;
 
@@ -9,10 +10,14 @@ export const isDataInlineCode = (input: InlineCode): boolean => {
   return DATA_KEYS.includes(key as any);
 };
 
-export const isTaskListItem = (item: ListItem): boolean => {
+export const isListItemWithCheckedField = (item: ListItem): boolean => {
   if (typeof item.checked === 'undefined' || item.checked === null) {
     return false;
   }
+  return true;
+};
+
+export const isTaskListItem = (item: ListItem): item is TaskListItem => {
   // A task may contain exactly 1 child paragraph, and optionally, 1 child list,
   // but absolutely nothing else, even though many other things are valid
   // markdown and mdast

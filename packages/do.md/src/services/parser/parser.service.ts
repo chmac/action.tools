@@ -1,23 +1,18 @@
 import stringify from 'fast-json-stable-stringify';
 import { List, ListItem, Root } from 'mdast';
-import {
-  isHeading,
-  isInlineCode,
-  isList,
-  isParagraph,
-} from 'mdast-util-is-type';
+import { isHeading, isInlineCode, isList } from 'mdast-util-is-type';
 import remarkStringify from 'remark-stringify';
 import { clone, equals } from 'remeda';
 import unified from 'unified';
 import removePosition from 'unist-util-remove-position';
 import stringifyPosition from 'unist-util-stringify-position';
+import { KEY_VALUE_SEPARATOR, TOP_SECTION_ID } from '../../constants';
+import { Section, Task, TaskData, TaskListItem } from '../../types';
 import {
-  DATA_KEYS,
-  KEY_VALUE_SEPARATOR,
-  TOP_SECTION_ID,
-} from '../../constants';
-import { Section, Task, TaskData } from '../../types';
-import { isDataInlineCode, isTaskListItem } from '../../utils';
+  isDataInlineCode,
+  isListItemWithCheckedField,
+  isTaskListItem,
+} from '../../utils';
 
 type TaskWithoutSectionId = Omit<Task, 'sectionId'>;
 
@@ -61,23 +56,30 @@ export const createIdForSection = (section: Omit<Section, 'id'>): string => {
   return stringifyPosition(position);
 };
 
-export const getDataFromListItem = (item: ListItem): TaskData => {
-  const dataPairs: string[][] = [];
+export const getDataFromListItem = (item: TaskListItem): TaskData => {
+  const firstParagraph = item.children[0];
 
-  item.children.forEach(possiblyParagraph => {
-    if (isParagraph(possiblyParagraph)) {
-      possiblyParagraph.children.forEach(content => {
-        if (isInlineCode(content)) {
-          const [key, value] = content.value.split(KEY_VALUE_SEPARATOR);
-          if (DATA_KEYS.includes(key as any)) {
-            dataPairs.push([key, value]);
-          }
-        }
-      });
+  const data = firstParagraph.children.reduce<TaskData>((data, child) => {
+    if (isInlineCode(child)) {
+      const [key, value] = child.value.split(KEY_VALUE_SEPARATOR);
+
+      // If the first character of `key` is a @ then this is a context
+      if (key[0] === '@') {
+        const { contexts } = data;
+        return {
+          ...data,
+          contexts:
+            typeof contexts === 'undefined' ? [key] : contexts.concat(key),
+        };
+      }
+
+      // If this was not a context, then add this field to the data object
+      return { ...data, [key]: value };
     }
-  });
+    return data;
+  }, {});
 
-  return Object.fromEntries(dataPairs);
+  return data;
 };
 
 const processor = unified().use(remarkStringify, { gfm: true });
@@ -90,16 +92,10 @@ const processor = unified().use(remarkStringify, { gfm: true });
  * - Retain any **formatting**
  * - Do not include the leading "- [ ]"
  */
-export const getTextFromListItem = (item: ListItem): string => {
+export const getTextFromListItem = (item: TaskListItem): string => {
   // For now, we assume there is a singular paragraph as the first child of all
   // lists
   const firstParagraph = item.children[0];
-
-  if (!isParagraph(firstParagraph)) {
-    throw new Error(
-      'Task does not have a paragraph as its first child. #Kq5lH1'
-    );
-  }
 
   const children = firstParagraph.children.filter(child => {
     if (isInlineCode(child) && isDataInlineCode(child)) {
@@ -127,15 +123,19 @@ export const listItemToTaskFactory = ({
   parentId?: string;
   isSequential: boolean;
 }) => (item: ListItem): TaskWithoutSectionId => {
+  if (!isTaskListItem(item)) {
+    throw new Error('Unable to handle non conformat list items. #KqOxgO');
+  }
+
   const data = getDataFromListItem(item);
   const contentMarkdown = getTextFromListItem(item);
   const id = createIdForTask({ data, contentMarkdown });
 
-  if (!isTaskListItem(item)) {
+  if (!isListItemWithCheckedField(item)) {
     return {
       id,
       parentId,
-      finished: false,
+      finished: true,
       isSequential,
       isTask: false,
       contentMarkdown,
