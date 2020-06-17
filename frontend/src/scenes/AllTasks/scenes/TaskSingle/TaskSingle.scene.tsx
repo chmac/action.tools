@@ -54,7 +54,7 @@ const TaskSingle = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
             <br />
             <span style={{ paddingLeft: 42 }} />
             {Object.entries(task.data).map(([key, value]) => (
-              <span key="key">
+              <span key={key}>
                 {key}: {value}
               </span>
             ))}
