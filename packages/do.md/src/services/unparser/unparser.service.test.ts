@@ -1,13 +1,15 @@
-import { LocalDate } from '@js-joda/core';
 import { mdastToMarkdown } from '../../__fixtures__/markdown.fixtures';
 import { createMdast, serializeData } from './unparser.service';
+import { AFTER, BY, KEY_VALUE_SEPARATOR } from '../../constants';
+
+const yesterday = '2020-02-23';
+const today = '2020-02-24';
+const tomorrow = '2020-02-25';
 
 describe('unparser', () => {
   describe('serializeData()', () => {
     it('Serializes #yy5H4E', () => {
-      expect(
-        serializeData({ id: 'foo', after: LocalDate.of(2020, 2, 24) })
-      ).toMatchSnapshot();
+      expect(serializeData({ id: 'foo', after: today })).toMatchSnapshot();
     });
 
     it('Returns empty array for no data #XF6duP', () => {
@@ -18,14 +20,65 @@ describe('unparser', () => {
       expect(
         serializeData({
           id: 'foo',
-          by: LocalDate.of(2020, 2, 26),
-          after: LocalDate.of(2020, 2, 24),
+          by: tomorrow,
+          after: today,
         })
       ).toEqual([
         { type: 'break' },
-        { type: 'inlineCode', value: 'after:2020-02-24' },
+        { type: 'inlineCode', value: `${AFTER}${KEY_VALUE_SEPARATOR}${today}` },
         { type: 'text', value: ' ' },
-        { type: 'inlineCode', value: 'by:2020-02-26' },
+        { type: 'inlineCode', value: `${BY}${KEY_VALUE_SEPARATOR}${tomorrow}` },
+        { type: 'text', value: ' ' },
+        { type: 'inlineCode', value: 'id:foo' },
+      ]);
+    });
+
+    it('Serializes one context as @context #vyGDhE', () => {
+      expect(
+        serializeData({
+          contexts: ['foo'],
+        })
+      ).toEqual([{ type: 'break' }, { type: 'inlineCode', value: '@foo' }]);
+    });
+
+    it('Serializes multiple contexts as repeated @context #eFYIjV', () => {
+      expect(
+        serializeData({
+          contexts: ['foo', 'bar', 'baz'],
+        })
+      ).toEqual([
+        { type: 'break' },
+        { type: 'inlineCode', value: '@foo' },
+        { type: 'text', value: ' ' },
+        { type: 'inlineCode', value: '@bar' },
+        { type: 'text', value: ' ' },
+        { type: 'inlineCode', value: '@baz' },
+      ]);
+    });
+
+    it('Serializes in alphabetical order of key including contexts #weABSU', () => {
+      expect(
+        serializeData({
+          id: 'foo',
+          by: tomorrow,
+          after: yesterday,
+          contexts: ['foo', 'bar', 'baz'],
+        })
+      ).toEqual([
+        { type: 'break' },
+        {
+          type: 'inlineCode',
+          value: `${AFTER}${KEY_VALUE_SEPARATOR}${yesterday}`,
+        },
+        { type: 'text', value: ' ' },
+        { type: 'inlineCode', value: `${BY}${KEY_VALUE_SEPARATOR}${tomorrow}` },
+        { type: 'text', value: ' ' },
+        // NOTE: Contexts are inserted in alphabetical order of C for context
+        { type: 'inlineCode', value: '@foo' },
+        { type: 'text', value: ' ' },
+        { type: 'inlineCode', value: '@bar' },
+        { type: 'text', value: ' ' },
+        { type: 'inlineCode', value: '@baz' },
         { type: 'text', value: ' ' },
         { type: 'inlineCode', value: 'id:foo' },
       ]);

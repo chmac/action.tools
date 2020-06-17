@@ -1,8 +1,8 @@
-import { Content, ListItem, PhrasingContent, Root, Paragraph } from 'mdast';
+import { Content, ListItem, Paragraph, PhrasingContent, Root } from 'mdast';
+import markdown from 'remark-parse';
+import unified from 'unified';
 import { KEY_VALUE_SEPARATOR } from '../../constants';
 import { Section, Task, TaskData } from '../../types';
-import unified from 'unified';
-import markdown from 'remark-parse';
 
 const toMdastProcessor = unified().use(markdown, { gfm: true });
 
@@ -11,6 +11,21 @@ export const serializeData = (data: TaskData) => {
   const children: PhrasingContent[] = Object.entries(data)
     .sort(([a], [b]) => a.localeCompare(b))
     .flatMap(([key, value]) => {
+      // If this is the contexts key, then we create one inline code block per
+      // context value. The `value` will be an array of strings, not a single
+      // string.
+      if (key === 'contexts') {
+        return (value as string[]).flatMap(context => {
+          return [
+            { type: 'text', value: ' ' },
+            {
+              type: 'inlineCode',
+              value: `@${context}`,
+            },
+          ];
+        });
+      }
+
       return [
         { type: 'text', value: ' ' },
         {
