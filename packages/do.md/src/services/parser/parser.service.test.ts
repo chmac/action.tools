@@ -122,6 +122,23 @@ describe('parser', () => {
         id: 'def12',
       });
     });
+
+    it('Fetches data correctly including contexts #hU2VbI', () => {
+      expect(
+        getDataFromListItem(
+          getFirstTaskFromMdast(
+            markdownToMdast(
+              '- [ ] A simple task without any data `after:2020-02-01` `by:2020-02-24` `id:def12` `@foo` `@bar` `@baz`'
+            )
+          )
+        )
+      ).toEqual({
+        after: '2020-02-01',
+        by: '2020-02-24',
+        id: 'def12',
+        contexts: ['foo', 'bar', 'baz'],
+      });
+    });
   });
 
   describe('listToTasks()', () => {

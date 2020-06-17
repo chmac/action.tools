@@ -65,11 +65,14 @@ export const getDataFromListItem = (item: TaskListItem): TaskData => {
 
       // If the first character of `key` is a @ then this is a context
       if (key[0] === '@') {
+        const context = key.substr(1);
         const { contexts } = data;
         return {
           ...data,
           contexts:
-            typeof contexts === 'undefined' ? [key] : contexts.concat(key),
+            typeof contexts === 'undefined'
+              ? [context]
+              : contexts.concat(context),
         };
       }
 
