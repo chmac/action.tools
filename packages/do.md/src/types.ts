@@ -1,5 +1,4 @@
-import { LocalDate } from '@js-joda/core';
-import { BlockContent, Content, Heading } from 'mdast';
+import { Content, Heading } from 'mdast';
 import {
   AFTER,
   BY,
@@ -33,11 +32,11 @@ export type Section = {
 
 // export type Data = ReturnType<typeof buildDataForTask>;
 export interface TaskData {
-  [AFTER]?: LocalDate;
-  [BY]?: LocalDate;
-  [REPEAT]?: LocalDate;
-  [CREATED]?: LocalDate;
-  [FINISHED]?: LocalDate;
+  [AFTER]?: string;
+  [BY]?: string;
+  [REPEAT]?: string;
+  [CREATED]?: string;
+  [FINISHED]?: string;
   /** This is only set if the markdown contains an ID field */
   [ID]?: string;
 }
