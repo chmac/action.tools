@@ -8,11 +8,7 @@ import removePosition from 'unist-util-remove-position';
 import stringifyPosition from 'unist-util-stringify-position';
 import { KEY_VALUE_SEPARATOR, TOP_SECTION_ID } from '../../constants';
 import { Section, Task, TaskData, TaskListItem } from '../../types';
-import {
-  isDataInlineCode,
-  isListItemWithCheckedField,
-  isTaskListItem,
-} from '../../utils';
+import { isListItemWithCheckedField, isTaskListItem } from '../../utils';
 
 type TaskWithoutSectionId = Omit<Task, 'sectionId'>;
 
@@ -101,7 +97,7 @@ export const getTextFromListItem = (item: TaskListItem): string => {
   const firstParagraph = item.children[0];
 
   const children = firstParagraph.children.filter(child => {
-    if (isInlineCode(child) && isDataInlineCode(child)) {
+    if (isInlineCode(child)) {
       return false;
     }
     return true;
