@@ -13,6 +13,23 @@ describe('unparser', () => {
     it('Returns empty array for no data #XF6duP', () => {
       expect(serializeData({})).toEqual([]);
     });
+
+    it('Serializes in alphabetical order of key #rk1CK7', () => {
+      expect(
+        serializeData({
+          id: 'foo',
+          by: LocalDate.of(2020, 2, 26),
+          after: LocalDate.of(2020, 2, 24),
+        })
+      ).toEqual([
+        { type: 'break' },
+        { type: 'inlineCode', value: 'after:2020-02-24' },
+        { type: 'text', value: ' ' },
+        { type: 'inlineCode', value: 'by:2020-02-26' },
+        { type: 'text', value: ' ' },
+        { type: 'inlineCode', value: 'id:foo' },
+      ]);
+    });
   });
 
   describe('createMdast()', () => {
