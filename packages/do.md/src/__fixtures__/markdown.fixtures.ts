@@ -1,9 +1,10 @@
-import { ListItem, Root } from 'mdast';
+import { Root } from 'mdast';
 import markdown from 'remark-parse';
 import stringify from 'remark-stringify';
 import unified from 'unified';
 import { Node } from 'unist';
-import { KEY_VALUE_SEPARATOR, BY, AFTER } from '../constants';
+import { AFTER, BY, KEY_VALUE_SEPARATOR } from '../constants';
+import { TaskListItem } from '../types';
 
 export type NodeWithData = Node & { _data: { [prop: string]: any } };
 
@@ -21,7 +22,7 @@ export const mdastToMarkdown = async (tree: Root): Promise<string> => {
   return toMarkdownProcessor.stringify(tree);
 };
 
-export const getFirstTaskFromMdast = (root: Root): ListItem => {
+export const getFirstTaskFromMdast = (root: Root): TaskListItem => {
   return (root as any).children[0].children[0];
 };
 
@@ -64,10 +65,10 @@ More text without a heading.
 `;
 
 const singleTask = markdownToMdast(`- [ ] A single task`);
-export const taskWithoutData = singleTask.children[0] as ListItem;
+export const taskWithoutData = singleTask.children[0] as TaskListItem;
 
 const singleTaskWithSecondLine = markdownToMdast(
   `- [ ] A second line task task  \nWith a second line`
 );
 export const taskWithSecondLine = singleTaskWithSecondLine
-  .children[0] as ListItem;
+  .children[0] as TaskListItem;
