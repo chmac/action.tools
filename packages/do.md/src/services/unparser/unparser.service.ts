@@ -8,8 +8,9 @@ const toMdastProcessor = unified().use(markdown, { gfm: true });
 
 export const serializeData = (data: TaskData) => {
   // NOTE: This will have an extra space as the first element
-  const children: PhrasingContent[] = Object.entries(data).flatMap(
-    ([key, value]) => {
+  const children: PhrasingContent[] = Object.entries(data)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .flatMap(([key, value]) => {
       return [
         { type: 'text', value: ' ' },
         {
@@ -17,8 +18,7 @@ export const serializeData = (data: TaskData) => {
           value: `${key}${KEY_VALUE_SEPARATOR}${value}`,
         },
       ];
-    }
-  );
+    });
 
   // NOTE: This check is necessary because the next `.splice()` will apply
   // whether or not there are any elements in the array. If there is data, we

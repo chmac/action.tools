@@ -71,7 +71,7 @@ Array [
   },
   Object {
     "type": "inlineCode",
-    "value": "id:foo",
+    "value": "after:2020-02-24",
   },
   Object {
     "type": "text",
@@ -79,7 +79,7 @@ Array [
   },
   Object {
     "type": "inlineCode",
-    "value": "after:2020-02-24",
+    "value": "id:foo",
   },
 ]
 `;
