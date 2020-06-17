@@ -1,17 +1,12 @@
 import { Content, Heading } from 'mdast';
 import {
   AFTER,
-  BY,
-  CREATED,
+  DATA_KEYS,
   DAYS,
   EVERY,
-  FINISHED,
-  ID,
   MONTHS,
   MONTHS_TO_NUMBER,
-  REPEAT,
   UNITS,
-  DATA_KEYS,
 } from './constants';
 import { RuleOption } from './rschedule';
 
@@ -32,8 +27,11 @@ export type Section = {
 };
 
 type ValidKeys = typeof DATA_KEYS[number];
-export type TaskData = {
-  [key in ValidKeys | 'contexts']?: string;
+export type ValidKeyData = {
+  [key in ValidKeys]?: string;
+};
+type TaskData = ValidKeyData & {
+  contexts?: string[];
 };
 
 export interface Task {
