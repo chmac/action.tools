@@ -11,6 +11,7 @@ import {
   MONTHS_TO_NUMBER,
   REPEAT,
   UNITS,
+  DATA_KEYS,
 } from './constants';
 import { RuleOption } from './rschedule';
 
@@ -30,16 +31,10 @@ export type Section = {
   contents: Content[];
 };
 
-// export type Data = ReturnType<typeof buildDataForTask>;
-export interface TaskData {
-  [AFTER]?: string;
-  [BY]?: string;
-  [REPEAT]?: string;
-  [CREATED]?: string;
-  [FINISHED]?: string;
-  /** This is only set if the markdown contains an ID field */
-  [ID]?: string;
-}
+type ValidKeys = typeof DATA_KEYS[number];
+export type TaskData = {
+  [key in ValidKeys | 'contexts']?: string;
+};
 
 export interface Task {
   /** Every task must have an ID, generated if necessary */
