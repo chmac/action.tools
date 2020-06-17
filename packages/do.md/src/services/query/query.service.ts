@@ -33,13 +33,7 @@ export const isTaskActionableToday = ({
 }): boolean => {
   const { data } = task;
   const { contexts, snooze, after } = data;
-  /**
-   * - Exclude by context
-   * - Exclude if sequential and not next in the sequence
-   * - Exclude by dates if they exist
-   *   - snoozed
-   *   - after
-   */
+
   // A task that has already been completed is never actionable
   if (task.finished) {
     return false;
