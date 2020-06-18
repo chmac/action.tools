@@ -10,7 +10,7 @@ import { AppDispatch, AppState } from "../../../../store";
 const makeChildTasksSelector = () =>
   createSelector(
     [
-      (state: AppState, parentId: string) => parentId,
+      (_state: AppState, parentId: string) => parentId,
       (state: AppState) => state.__domd.data.tasks,
     ],
     (parentId, tasks) => tasks.filter((task) => task.parentId === parentId)
