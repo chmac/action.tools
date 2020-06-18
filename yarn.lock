@@ -1223,7 +1223,7 @@
     invariant "^2.2.4"
     mousetrap "^1.6.5"
 
-"@cutting/use-shortcuts@3.7.0":
+"@cutting/use-shortcuts@3.7.0", "@cutting/use-shortcuts@^3.7.0":
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/@cutting/use-shortcuts/-/use-shortcuts-3.7.0.tgz#47c4b8d6d3f7e3dc4df1729e9c7704cfba38eabf"
   integrity sha512-F2C9/3c7xkZazBoLe4Z2oaA9YXVsjBkQrHFb1w0yEb1exbNmrMIph15nSspUMefAfeG3Y7r+Ya1uma2Rr24KVQ==
