@@ -1,7 +1,8 @@
 import { makeStyles, Paper, Typography } from "@material-ui/core";
 import { isReady, makeActionableTodaySelector } from "do.md";
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
+import { AppState } from "../../store";
 import TaskSingle from "../TaskSingle/TaskSingle.scene";
 
 const Consecutive = () => {
@@ -13,7 +14,9 @@ const Consecutive = () => {
     []
   );
   const tasks = useSelector(actionableTodaySelector);
-  const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
+  const nowIds = useSelector((state: AppState) => state.now.taskIds);
+
+  const remainingTasks = tasks.filter((task) => !nowIds.includes(task.id));
 
   // NOTE: This should never render as the route is only rendered AFTER data has
   // loaded
@@ -21,7 +24,7 @@ const Consecutive = () => {
     return <div>Loading...</div>;
   }
 
-  if (tasks.length === 0) {
+  if (remainingTasks.length === 0) {
     return (
       <Paper elevation={1} className={classes.paper}>
         <Typography variant="h1">Zero</Typography>
@@ -30,25 +33,9 @@ const Consecutive = () => {
     );
   }
 
-  if (currentTaskIndex >= tasks.length) {
-    return (
-      <Paper elevation={1} className={classes.paper}>
-        <Typography variant="h1">Finished</Typography>
-        <Typography>Review completed. Congrats.</Typography>
-      </Paper>
-    );
-  }
+  const taskId = remainingTasks[0].id;
 
-  const taskId = tasks[currentTaskIndex].id;
-
-  return (
-    <TaskSingle
-      taskId={taskId}
-      onDecisionMade={() => {
-        setCurrentTaskIndex(currentTaskIndex + 1);
-      }}
-    />
-  );
+  return <TaskSingle taskId={taskId} />;
 };
 
 export default Consecutive;

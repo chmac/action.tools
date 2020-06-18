@@ -6,13 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addId } from "../../services/now/now.state";
 import { AppDispatch, AppState } from "../../store";
 
-const TaskSingle = ({
-  taskId,
-  onDecisionMade,
-}: {
-  taskId: string;
-  onDecisionMade: () => void;
-}) => {
+const TaskSingle = ({ taskId }: { taskId: string }) => {
   const classes = useStyles();
   const task = useSelector((state: AppState) => taskById(state, taskId));
   const dispatch: AppDispatch = useDispatch();
@@ -67,7 +61,6 @@ const TaskSingle = ({
           className={classes.actions}
           onClick={() => {
             dispatch(addId(taskId));
-            onDecisionMade();
           }}
         >
           Now
@@ -78,9 +71,6 @@ const TaskSingle = ({
           className={classes.actions}
           onClick={() => {
             dispatch(snoozeTask({ id: taskId, daysFromToday: 1 }));
-            // NOTE: Ignore this for now, as it will result in skipping one task
-            // in the list
-            // onDecisionMade();
           }}
         >
           Tomorrow
@@ -95,9 +85,6 @@ const TaskSingle = ({
             );
             if (daysFromToday !== 0) {
               dispatch(snoozeTask({ id: taskId, daysFromToday }));
-              // NOTE: Ignore this for now, as it will result in skipping one
-              // task in the list
-              // onDecisionMade();
             }
           }}
         >
