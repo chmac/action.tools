@@ -1,18 +1,41 @@
 import { makeStyles, Switch, Typography } from "@material-ui/core";
-import { addContext, allContexts, removeContext, getPackageState } from "do.md";
+import {
+  addContext,
+  allContexts,
+  removeContext,
+  getPackageState,
+  constants,
+} from "do.md";
 import React, { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, AppState } from "../../../store";
+import { intersection, difference } from "remeda";
 
 const Contexts = () => {
   const classes = useStyles();
-  const contextsFromTasks = useSelector(allContexts);
+  // These are all the possible context values available
+  const allContextsFromTasks = useSelector(allContexts);
+  // These are the currently active "filters"
   const currentContexts = useSelector(
     (state: AppState) => getPackageState(state).query.currentContexts
   );
   const dispatch: AppDispatch = useDispatch();
+  // These are the "positive" context filters
+  const positiveContexts = difference(
+    allContextsFromTasks,
+    constants.EXCLUDED_BY_DEFAULT_CONTEXTS
+  );
+  // These are the "negative" contexts
+  const negativeContexts = intersection(
+    allContextsFromTasks,
+    constants.EXCLUDED_BY_DEFAULT_CONTEXTS
+  );
 
-  const renderContexts = contextsFromTasks.map((c): [string, boolean] => {
+  const positive = positiveContexts.map((c): [string, boolean] => {
+    const enabled = currentContexts.includes(c);
+    return [c, enabled];
+  });
+  const negative = negativeContexts.map((c): [string, boolean] => {
     const enabled = currentContexts.includes(c);
     return [c, enabled];
   });
@@ -20,14 +43,35 @@ const Contexts = () => {
   return (
     <div>
       <Typography>
-        Contexts:
-        {renderContexts.map(([context, enabled]) => {
+        Filter:
+        {positive.map(([context, enabled]) => {
           return (
             <Fragment key={context}>
               <Switch
                 checked={enabled}
                 onChange={(event) => {
                   if (event.target.checked) {
+                    dispatch(addContext(context));
+                  } else {
+                    dispatch(removeContext(context));
+                  }
+                }}
+              />{" "}
+              {context}
+            </Fragment>
+          );
+        })}
+      </Typography>
+      <Typography>
+        Exclude:
+        {negative.map(([context, enabled]) => {
+          return (
+            <Fragment key={context}>
+              <Switch
+                checked={!enabled}
+                defaultChecked
+                onChange={(event) => {
+                  if (!event.target.checked) {
                     dispatch(addContext(context));
                   } else {
                     dispatch(removeContext(context));
