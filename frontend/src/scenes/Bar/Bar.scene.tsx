@@ -10,12 +10,15 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Notifications from "@material-ui/icons/Notifications";
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { AppState } from "../../store";
 import Log from "../Log/Log.scene";
 
 const Bar: React.FC = (props) => {
   const classes = useStyles();
   const [logOpen, setLogOpen] = React.useState(false);
+  const nowCount = useSelector((state: AppState) => state.now.taskIds.length);
 
   return (
     <div className={classes.root}>
@@ -30,10 +33,13 @@ const Bar: React.FC = (props) => {
             Do.md
           </Typography>
           <Button component={Link} to="/tasks">
-            List
-          </Button>{" "}
+            All
+          </Button>
           <Button component={Link} to="/review">
-            Review
+            Plan
+          </Button>
+          <Button component={Link} to="/do">
+            Do {nowCount > 0 ? `(${nowCount})` : ""}
           </Button>
           <IconButton
             onClick={() => {
