@@ -1,5 +1,6 @@
 import { makeStyles, Typography } from "@material-ui/core";
 import { red } from "@material-ui/core/colors";
+import classNames from "classnames";
 import dayjs from "dayjs";
 import { constants, getPackageState as getDomdState, TaskData } from "do.md";
 import React from "react";
@@ -20,7 +21,7 @@ const DateField = ({ name, date }: { name: string; date: string }) => {
   return (
     <>
       {name} {date}{" "}
-      <span className={isOverdue ? classes.overdue : ""}>
+      <span className={classNames({ [classes.overdue]: isOverdue })}>
         ({daysFromToday} days)
       </span>
     </>
@@ -35,7 +36,7 @@ const Data = ({ data }: { data: TaskData }) => {
       {Object.entries(data).map(([key, value]) => {
         if (key === "contexts") {
           return (
-            <li key="key" className={`${classes.li} ${classes.light}`}>
+            <li key="key" className={classNames(classes.li, classes.light)}>
               <Typography>@{(value as string[]).join(" @")}</Typography>
             </li>
           );
@@ -51,13 +52,14 @@ const Data = ({ data }: { data: TaskData }) => {
           );
         }
 
-        const className =
-          key === constants.CREATED
-            ? [classes.li, classes.light].join(" ")
-            : classes.li;
-
         return (
-          <li key={key} className={className}>
+          <li
+            key={key}
+            className={classNames({
+              [classes.li]: true,
+              [classes.light]: key === constants.CREATED,
+            })}
+          >
             <Typography>
               <DateField name={key} date={value as string} />
             </Typography>
