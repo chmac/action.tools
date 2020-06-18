@@ -1213,6 +1213,32 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
+"@cutting/react-typed-mousetrap@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@cutting/react-typed-mousetrap/-/react-typed-mousetrap-3.7.0.tgz#55ab163e279d78b6e685dee9e7ab6c5aae53f527"
+  integrity sha512-zHDyypYUnp1LIqj9usZKI+kPFVROfoNuglyJJkzSMTl1HaRUAoMpc/Bj9yx6u8YMNnwZwScV0byZPLVdqDayVA==
+  dependencies:
+    "@cutting/use-shortcuts" "3.7.0"
+    "@cutting/util" "3.7.0"
+    invariant "^2.2.4"
+    mousetrap "^1.6.5"
+
+"@cutting/use-shortcuts@3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@cutting/use-shortcuts/-/use-shortcuts-3.7.0.tgz#47c4b8d6d3f7e3dc4df1729e9c7704cfba38eabf"
+  integrity sha512-F2C9/3c7xkZazBoLe4Z2oaA9YXVsjBkQrHFb1w0yEb1exbNmrMIph15nSspUMefAfeG3Y7r+Ya1uma2Rr24KVQ==
+  dependencies:
+    "@cutting/util" "3.7.0"
+    invariant "^2.2.4"
+    mousetrap "^1.6.5"
+
+"@cutting/util@3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@cutting/util/-/util-3.7.0.tgz#00a03f64ac55aba9041d67066c56175586949d94"
+  integrity sha512-HLKRPZ3qyhdR58S38lv2dlSPyjDdusMI7q6KGUL+0sD6mnEuMaunNm2wQ17EikRnfeycYh0CtT6tbUrJ4ab9eQ==
+  dependencies:
+    "@cutting/util" "3.7.0"
+
 "@emotion/hash@^0.8.0":
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.8.0.tgz#bbbff68978fefdbe68ccb533bc8cbe1d1afb5413"
@@ -1950,6 +1976,11 @@
   integrity sha512-t4CoEokHTfcyfb4hUaF9oOHu9RmmNWnm1CP0YmMqOOfClKascOmvlEM736vlqeScuGvBDsHkf8R2INd4DWreQA==
   dependencies:
     "@babel/types" "^7.3.0"
+
+"@types/classnames@^2.2.10":
+  version "2.2.10"
+  resolved "https://registry.yarnpkg.com/@types/classnames/-/classnames-2.2.10.tgz#cc658ca319b6355399efc1f5b9e818f1a24bf999"
+  integrity sha512-1UzDldn9GfYYEsWWnn/P4wkTlkZDH7lDb0wBMGbtIQc9zXEQq7FlKBdZUn6OBqD8sKZZ2RQO2mAjGpXiDGoRmQ==
 
 "@types/color-name@^1.1.1":
   version "1.1.1"
@@ -3925,6 +3956,11 @@ class-utils@^0.3.5:
     define-property "^0.2.5"
     isobject "^3.0.0"
     static-extend "^0.1.1"
+
+classnames@^2.2.6:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
+  integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
 
 clean-css@^4.2.3:
   version "4.2.3"
@@ -9680,6 +9716,11 @@ morgan@^1.7.0:
     depd "~2.0.0"
     on-finished "~2.3.0"
     on-headers "~1.0.2"
+
+mousetrap@^1.6.5:
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/mousetrap/-/mousetrap-1.6.5.tgz#8a766d8c272b08393d5f56074e0b5ec183485bf9"
+  integrity sha512-QNo4kEepaIBwiT8CDhP98umTetp+JNfQYBWvC1pc6/OAibuXtRcxZ58Qz8skvEHYvURne/7R8T5VoOI7rDsEUA==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
