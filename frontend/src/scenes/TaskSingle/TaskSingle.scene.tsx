@@ -1,4 +1,5 @@
 import { Button, makeStyles, Paper, Typography } from "@material-ui/core";
+import { pink } from "@material-ui/core/colors";
 import { finishTask, snoozeTask, taskById } from "do.md";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +23,7 @@ const TaskSingle = ({
 
   return (
     <>
-      <Paper elevation={1}>
+      <Paper elevation={1} className={classes.paper}>
         <Typography variant="h1">{task.contentMarkdown}</Typography>
         {task.hasUnfinishedChildren ? (
           <Typography>Warning: This task has unfinished children</Typography>
@@ -111,13 +112,19 @@ export default TaskSingle;
 
 const useStyles = makeStyles((theme) => {
   return {
+    paper: {
+      marginTop: theme.spacing(2),
+      padding: theme.spacing(1),
+    },
     actionWrapper: {
       position: "absolute",
       bottom: 0,
       left: 0,
+      width: "100vw",
       textAlign: "center",
       paddingTop: theme.spacing(1),
       paddingBottom: theme.spacing(1),
+      backgroundColor: pink[50],
     },
     actions: {
       width: 120,
