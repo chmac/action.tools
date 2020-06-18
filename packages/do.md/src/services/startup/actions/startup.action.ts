@@ -3,11 +3,15 @@ import { Section, Task } from '../../../types';
 import { markdownToMdast } from '../../../__fixtures__/markdown.fixtures';
 import { setData } from '../../data/data.state';
 import { parseMdast } from '../../parser/parser.service';
+import { init } from '../../query/query.state';
 
-export const startup = ({ markdown }: { markdown: string }): AppThunk => async (
-  dispatch,
-  getRootState
-) => {
+export const startup = ({
+  markdown,
+}: {
+  markdown: string;
+}): AppThunk => async dispatch => {
+  dispatch(init());
+
   const sections = parseMdast(markdownToMdast(markdown));
 
   const allTasks: Task[] = [];
