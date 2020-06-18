@@ -1,33 +1,22 @@
-import { Paper, Typography, CircularProgress } from "@material-ui/core";
-import {
-  getPackageState as getDomdState,
-  makeActionableTodaySelector,
-} from "do.md";
+import { Paper, Typography } from "@material-ui/core";
+import { isReady, makeActionableTodaySelector } from "do.md";
 import React, { useMemo, useState } from "react";
 import { useSelector } from "react-redux";
-import { AppState } from "../../store";
 import TaskSingle from "../TaskSingle/TaskSingle.scene";
 
 const Consecutive = () => {
-  const dataLoaded = useSelector(
-    (state: AppState) => getDomdState(state).data.initialDataLoadComplete
-  );
+  const dataLoaded = useSelector(isReady);
   const actionableTodaySelector = useMemo(
     () => makeActionableTodaySelector(),
     []
   );
-  const tasks = useSelector((state: AppState) =>
-    actionableTodaySelector(state)
-  );
+  const tasks = useSelector(actionableTodaySelector);
   const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
 
+  // NOTE: This should never render as the route is only rendered AFTER data has
+  // loaded
   if (!dataLoaded) {
-    return (
-      <Paper elevation={1}>
-        <Typography variant="h1">Loading</Typography>
-        <CircularProgress />
-      </Paper>
-    );
+    return <div>Loading...</div>;
   }
 
   if (tasks.length === 0) {
