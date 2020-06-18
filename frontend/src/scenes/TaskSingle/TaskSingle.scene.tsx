@@ -1,8 +1,8 @@
-import { Button, Paper, Typography, makeStyles } from "@material-ui/core";
-import { taskById } from "do.md";
+import { Button, makeStyles, Paper, Typography } from "@material-ui/core";
+import { addContextsToTask, finishTask, taskById, snoozeTask } from "do.md";
 import React from "react";
-import { useSelector } from "react-redux";
-import { AppState } from "../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, AppState } from "../../store";
 
 const TaskSingle = ({
   taskId,
@@ -13,6 +13,7 @@ const TaskSingle = ({
 }) => {
   const classes = useStyles();
   const task = useSelector((state: AppState) => taskById(state, taskId));
+  const dispatch: AppDispatch = useDispatch();
 
   if (typeof task === "undefined") {
     return <div>Error #Lb1rHu</div>;
@@ -49,7 +50,10 @@ const TaskSingle = ({
           variant="outlined"
           size="large"
           className={classes.actions}
-          onClick={() => onDecisionMade()}
+          onClick={() => {
+            dispatch(finishTask(taskId));
+            onDecisionMade();
+          }}
         >
           Never
         </Button>{" "}
@@ -57,7 +61,10 @@ const TaskSingle = ({
           variant="outlined"
           size="large"
           className={classes.actions}
-          onClick={() => onDecisionMade()}
+          onClick={() => {
+            dispatch(addContextsToTask({ id: taskId, newContexts: ["now"] }));
+            onDecisionMade();
+          }}
         >
           Now
         </Button>{" "}
@@ -65,7 +72,10 @@ const TaskSingle = ({
           variant="outlined"
           size="large"
           className={classes.actions}
-          onClick={() => onDecisionMade()}
+          onClick={() => {
+            dispatch(snoozeTask({ id: taskId, daysFromToday: 1 }));
+            onDecisionMade();
+          }}
         >
           Tomorrow
         </Button>{" "}
@@ -73,7 +83,15 @@ const TaskSingle = ({
           variant="outlined"
           size="large"
           className={classes.actions}
-          onClick={() => onDecisionMade()}
+          onClick={() => {
+            const daysFromToday = parseInt(
+              prompt("How many days hence?") || "0"
+            );
+            if (daysFromToday !== 0) {
+              dispatch(snoozeTask({ id: taskId, daysFromToday }));
+              onDecisionMade();
+            }
+          }}
         >
           Later
         </Button>
