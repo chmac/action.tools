@@ -4,6 +4,7 @@ import {
   IconButton,
   makeStyles,
   Theme,
+  Badge,
 } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -19,6 +20,9 @@ const Bar: React.FC = (props) => {
   const classes = useStyles();
   const [logOpen, setLogOpen] = React.useState(false);
   const nowCount = useSelector((state: AppState) => state.now.taskIds.length);
+  const aheadCount = useSelector(
+    (state: AppState) => state.storage.commitsAhead
+  );
 
   return (
     <div className={classes.root}>
@@ -46,7 +50,9 @@ const Bar: React.FC = (props) => {
               setLogOpen(true);
             }}
           >
-            <Notifications />
+            <Badge badgeContent={aheadCount} color="secondary">
+              <Notifications />
+            </Badge>
           </IconButton>
         </Toolbar>
       </AppBar>

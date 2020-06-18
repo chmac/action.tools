@@ -1,14 +1,23 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import {
+  combineReducers,
+  configureStore,
+  ThunkAction,
+  Action,
+} from "@reduxjs/toolkit";
 import { domdReduxKey, reducer as domdReducer } from "do.md";
 import notifications, {
   REDUX_KEY as notificationsKey,
 } from "./services/notifications/notifications.state";
 import now, { REDUX_KEY as nowKey } from "./services/now/now.state";
+import storage, {
+  REDUX_KEY as storageKey,
+} from "./services/storage/storage.state";
 
 const reducer = combineReducers({
   [domdReduxKey]: domdReducer,
   [notificationsKey]: notifications,
   [nowKey]: now,
+  [storageKey]: storage,
 });
 
 export type AppState = ReturnType<typeof reducer>;

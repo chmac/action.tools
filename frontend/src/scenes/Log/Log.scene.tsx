@@ -2,6 +2,7 @@ import * as React from "react";
 import { makeStyles, Modal, Paper, Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import { getLog } from "../../services/notifications/notifications.state";
+import { AppState } from "../../store";
 
 type Props = {
   open: boolean;
@@ -17,6 +18,9 @@ const Log = (props: Props) => {
   const { open, onClose } = props;
   const classes = useStyles();
   const messages = useSelector(getLog);
+  const lastCommitHash = useSelector(
+    (state: AppState) => state.storage.lastCommitHash
+  );
 
   return (
     <Modal
@@ -26,6 +30,11 @@ const Log = (props: Props) => {
       }}
     >
       <Paper className={classes.root}>
+        <Typography variant="h1">Stats</Typography>
+        <ul>
+          <li>Current local commit: {lastCommitHash}</li>
+        </ul>
+
         <Typography variant="h1">Log</Typography>
         <ul>
           {messages.map(({ message: { message, type }, time }, i) => (

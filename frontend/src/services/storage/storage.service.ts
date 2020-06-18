@@ -3,6 +3,7 @@ import * as LightningFS from "@isomorphic-git/lightning-fs";
 import http from "isomorphic-git/http/web";
 import * as path from "path";
 import { push, pushError } from "../notifications/notifications.service";
+import debounce from "awesome-debounce-promise";
 
 const DIR = "/domd";
 const FILE = "do.md";
@@ -236,6 +237,12 @@ export const getMarkdown = async (filepath: string = FILEPATH) => {
   return fs.promises.readFile(filepath, { encoding: "utf8" });
 };
 
+enum SetMarkdownResult {
+  nochange = "nochange",
+  committed = "committed",
+  error = "error",
+}
+
 export const setMarkdown = async ({
   markdown,
   filepath = FILEPATH,
@@ -244,7 +251,10 @@ export const setMarkdown = async ({
   markdown: string;
   filepath?: string;
   commitMessage?: string;
-}) => {
+}): Promise<
+  | { result: SetMarkdownResult.error | SetMarkdownResult.nochange }
+  | { result: SetMarkdownResult.committed; newCommitHash: string }
+> => {
   try {
     await fs.promises.writeFile(filepath, markdown, { encoding: "utf8" });
   } catch (error) {
@@ -261,7 +271,7 @@ export const setMarkdown = async ({
 
     if (status === "unmodified") {
       // push({ message: "No changes to commit. #rA9DxX", type: "info" });
-      return;
+      return { result: SetMarkdownResult.nochange };
     }
 
     push({ message: "Starting save to Git #YpHeKm", type: "info" });
@@ -272,19 +282,48 @@ export const setMarkdown = async ({
       })
     );
 
-    await git.commit(
+    const newCommitHash = await git.commit(
       addBaseParams({
         message: commitMessage,
       })
     );
 
-    await git.push(addBaseParams({}));
-
-    push({
-      message: "Successfully saved and pushed #AIp4wO",
-      type: "success",
-    });
+    return { result: SetMarkdownResult.committed, newCommitHash };
   } catch (error) {
     debugger;
+    return { result: SetMarkdownResult.error };
   }
+};
+
+export const pushToRemote = async () => {
+  push({ message: "Starting git push #Ts0MNc", type: "info" });
+
+  await git.push(addBaseParams({}));
+
+  push({
+    message: "Successfully saved and pushed #AIp4wO",
+    type: "success",
+  });
+
+  return true;
+};
+
+export const debouncedPush = debounce(pushToRemote, 500);
+
+export const getLatestCommitHash = async () => {
+  const log = await git.log(
+    addBaseParams({
+      depth: 1,
+    })
+  );
+
+  if (log.length === 0) {
+    push({
+      message: "There is nothing in the git log. #s80vHL",
+      type: "warning",
+    });
+    return "";
+  }
+
+  return log[0].oid;
 };
