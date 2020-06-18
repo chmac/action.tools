@@ -1,9 +1,8 @@
 import { AppThunk } from '../../../store';
 import { Section, Task } from '../../../types';
 import { markdownToMdast } from '../../../__fixtures__/markdown.fixtures';
+import { setData } from '../../data/data.state';
 import { parseMdast } from '../../parser/parser.service';
-import { setSections, setTasks } from '../../data/data.state';
-import { setInitialDataLoadFinished } from '../startup.state';
 
 export const startup = ({ markdown }: { markdown: string }): AppThunk => async (
   dispatch,
@@ -25,7 +24,5 @@ export const startup = ({ markdown }: { markdown: string }): AppThunk => async (
     allTasks.push(...tasksWithSectionId);
   });
 
-  dispatch(setSections(sectionsWithoutTasks));
-  dispatch(setTasks(allTasks));
-  dispatch(setInitialDataLoadFinished());
+  dispatch(setData({ sections: sectionsWithoutTasks, tasks: allTasks }));
 };

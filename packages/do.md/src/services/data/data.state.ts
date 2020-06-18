@@ -6,10 +6,12 @@ export const REDUX_KEY = 'data';
 type State = {
   sections: Section[];
   tasks: Task[];
+  initialDataLoadComplete: boolean;
 };
 const initialState: State = {
   sections: [],
   tasks: [],
+  initialDataLoadComplete: false,
 };
 
 const getTaskIndex = (state: State, id: string): number => {
@@ -24,11 +26,16 @@ const sectionSlice = createSlice({
   name: 'domd/data',
   initialState,
   reducers: {
-    setSections: (state, action: PayloadAction<Section[]>) => {
-      state.sections = action.payload;
-    },
-    setTasks: (state, action: PayloadAction<Task[]>) => {
-      state.tasks = action.payload;
+    setData: (
+      state,
+      action: PayloadAction<{
+        sections: Section[];
+        tasks: Task[];
+      }>
+    ) => {
+      state.sections = action.payload.sections;
+      state.tasks = action.payload.tasks;
+      state.initialDataLoadComplete = true;
     },
     newSection: (
       state,
@@ -68,8 +75,7 @@ const sectionSlice = createSlice({
 });
 
 export const {
-  setSections,
-  setTasks,
+  setData,
   newSection,
   finishTask,
   unfinishTask,
