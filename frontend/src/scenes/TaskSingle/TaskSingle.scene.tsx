@@ -9,7 +9,7 @@ const TaskSingle = ({
   onDecisionMade: () => void;
 }) => {
   return (
-    <Paper>
+    <Paper elevation={1}>
       <Typography variant="h1">Task id {taskId}</Typography>
       <Button variant="outlined" onClick={() => onDecisionMade()}>
         Next
