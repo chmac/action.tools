@@ -23,6 +23,9 @@ export {
   LocalState as PackageState,
 } from './store';
 export * from './types';
+
+export * as constants from './constants'
+
 /**
  * # Update to redux based data model
  *
