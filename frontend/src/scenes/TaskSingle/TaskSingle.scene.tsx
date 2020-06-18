@@ -1,7 +1,8 @@
 import { Button, makeStyles, Paper, Typography } from "@material-ui/core";
-import { addContextsToTask, finishTask, taskById, snoozeTask } from "do.md";
+import { finishTask, snoozeTask, taskById } from "do.md";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { addId } from "../../services/now/now.state";
 import { AppDispatch, AppState } from "../../store";
 
 const TaskSingle = ({
@@ -64,7 +65,7 @@ const TaskSingle = ({
           size="large"
           className={classes.actions}
           onClick={() => {
-            dispatch(addContextsToTask({ id: taskId, newContexts: ["now"] }));
+            dispatch(addId(taskId));
             onDecisionMade();
           }}
         >
