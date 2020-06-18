@@ -14,6 +14,7 @@ export { startup } from './services/startup/actions/startup.action';
 export { reducer } from './store';
 export { parseMdast } from './services/parser/parser.service';
 export { createMdast } from './services/unparser/unparser.service';
+export * from './types';
 /**
  * # Update to redux based data model
  *

@@ -1,6 +1,6 @@
 import { makeStyles, Paper, Typography } from "@material-ui/core";
 import { createSelector } from "@reduxjs/toolkit";
-import { Section } from "do.md/dist/types";
+import { Section } from "do.md";
 import { Heading } from "mdast";
 import toString from "mdast-util-to-string";
 import React, { useMemo } from "react";

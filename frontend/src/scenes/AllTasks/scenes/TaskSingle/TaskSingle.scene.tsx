@@ -1,7 +1,7 @@
 import { Checkbox, Paper, Typography } from "@material-ui/core";
 import { createSelector } from "@reduxjs/toolkit";
 import { finishTask, unfinishTask } from "do.md";
-import { Task, TaskData } from "do.md/dist/types";
+import { Task, TaskData } from "do.md";
 import Markdown from "markdown-to-jsx";
 import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
