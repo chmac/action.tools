@@ -13,6 +13,7 @@ export {
 export { makeActionableTodaySelector } from './services/query/selectors/actionableToday.selector';
 export { taskById } from './services/query/selectors/taskById.selector';
 export { isReady } from './services/query/selectors/isReady.selector';
+export { sectionById } from './services/query/selectors/sectionById.selector';
 
 export { parseMdast } from './services/parser/parser.service';
 export { startup } from './services/startup/actions/startup.action';
