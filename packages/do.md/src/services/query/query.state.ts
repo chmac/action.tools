@@ -1,4 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import dayjs from 'dayjs';
+import { stringifyDayjs } from '../../utils';
 
 export const REDUX_KEY = 'query';
 
@@ -11,11 +13,19 @@ const initialState: State = {
   currentContexts: [],
 };
 
+export const init = createAction('init', () => {
+  return {
+    payload: {
+      today: stringifyDayjs(dayjs()),
+    },
+  };
+});
+
 const querySlice = createSlice({
   name: 'domd/query',
   initialState,
   reducers: {
-    init: (state, action: PayloadAction<{ today: string }>) => {
+    [init.type]: (state, action) => {
       state.today = action.payload.today;
     },
     setCurrentContexts: (state, action: PayloadAction<string[]>) => {
@@ -24,6 +34,6 @@ const querySlice = createSlice({
   },
 });
 
-export const { init, setCurrentContexts } = querySlice.actions;
+export const { setCurrentContexts } = querySlice.actions;
 
 export default querySlice.reducer;
