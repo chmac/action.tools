@@ -93,6 +93,7 @@ const sectionSlice = createSlice({
       const taskIndex = getTaskIndex(state, action.payload.id);
       const task = state.tasks[taskIndex];
 
+      // If there are no existing contexts, just return the new array
       if (typeof task.data.contexts === 'undefined') {
         task.data.contexts = action.payload.newContexts;
         return;
@@ -103,6 +104,8 @@ const sectionSlice = createSlice({
         action.payload.newContexts,
         task.data.contexts
       );
+
+      // If there are no new contexts, do nothing, return
       if (insertContexts.length === 0) {
         return;
       }
