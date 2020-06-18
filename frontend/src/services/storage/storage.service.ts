@@ -1,9 +1,10 @@
-import * as git from "isomorphic-git";
 import * as LightningFS from "@isomorphic-git/lightning-fs";
+import * as git from "isomorphic-git";
 import http from "isomorphic-git/http/web";
+import pDebounce from "p-debounce";
+import pLimit from "p-limit";
 import * as path from "path";
 import { push, pushError } from "../notifications/notifications.service";
-import debounce from "awesome-debounce-promise";
 
 const DIR = "/domd";
 const FILE = "do.md";
@@ -308,7 +309,9 @@ export const pushToRemote = async () => {
   return true;
 };
 
-export const debouncedPush = debounce(pushToRemote, 500);
+const limitOne = pLimit(1);
+
+export const debouncedPush = pDebounce(() => limitOne(pushToRemote), 1e3);
 
 export const getLatestCommitHash = async () => {
   const log = await git.log(
