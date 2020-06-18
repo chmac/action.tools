@@ -245,7 +245,6 @@ export const setMarkdown = async ({
   filepath?: string;
   commitMessage?: string;
 }) => {
-  push({ message: "Starting save to Git #YpHeKm", type: "info" });
   try {
     await fs.promises.writeFile(filepath, markdown, { encoding: "utf8" });
   } catch (error) {
@@ -264,6 +263,8 @@ export const setMarkdown = async ({
       // push({ message: "No changes to commit. #rA9DxX", type: "info" });
       return;
     }
+
+    push({ message: "Starting save to Git #YpHeKm", type: "info" });
 
     await git.add(
       addBaseParams({
