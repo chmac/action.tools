@@ -4,6 +4,7 @@ import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "../../store";
 import TaskSingle from "../TaskSingle/TaskSingle.scene";
+import Contexts from "./components/Contexts.component";
 
 const Consecutive = () => {
   const classes = useStyles();
@@ -26,16 +27,24 @@ const Consecutive = () => {
 
   if (remainingTasks.length === 0) {
     return (
-      <Paper elevation={1} className={classes.paper}>
-        <Typography variant="h1">Zero</Typography>
-        <Typography>Nothing to review. Congrats.</Typography>
-      </Paper>
+      <>
+        <Contexts />
+        <Paper elevation={1} className={classes.paper}>
+          <Typography variant="h1">Zero</Typography>
+          <Typography>Nothing to review. Congrats.</Typography>
+        </Paper>
+      </>
     );
   }
 
   const taskId = remainingTasks[0].id;
 
-  return <TaskSingle taskId={taskId} />;
+  return (
+    <>
+      <Contexts />
+      <TaskSingle taskId={taskId} />
+    </>
+  );
 };
 
 export default Consecutive;
