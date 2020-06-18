@@ -1,11 +1,16 @@
-import React from "react";
-
-import { createStyles, Theme, makeStyles, IconButton } from "@material-ui/core";
+import {
+  Button,
+  createStyles,
+  IconButton,
+  makeStyles,
+  Theme,
+} from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Notifications from "@material-ui/icons/Notifications";
-
+import React from "react";
+import { Link } from "react-router-dom";
 import Log from "../Log/Log.scene";
 
 const Bar: React.FC = (props) => {
@@ -24,6 +29,12 @@ const Bar: React.FC = (props) => {
           >
             Do.md
           </Typography>
+          <Button component={Link} to="/tasks">
+            List
+          </Button>{" "}
+          <Button component={Link} to="/review">
+            Review
+          </Button>
           <IconButton
             onClick={() => {
               setLogOpen(true);
