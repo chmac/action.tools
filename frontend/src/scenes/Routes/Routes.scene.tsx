@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     loadingWrapper: {
-      width: "100vh",
+      width: "100vw",
       height: "100vh",
       position: "absolute",
       top: 0,
