@@ -8,13 +8,6 @@ import { useSelector } from "react-redux";
 import { AppState } from "../../store";
 import TaskSingle from "../TaskSingle/TaskSingle.scene";
 
-/**
- * - Get tasks which are actionable today
- * - Show them one at a time
- *   - Add actions to the single view
- *   - Each action proceeds to the next in the list
- */
-
 const Consecutive = () => {
   const dataLoaded = useSelector(
     (state: AppState) => getDomdState(state).data.initialDataLoadComplete
@@ -42,6 +35,15 @@ const Consecutive = () => {
       <Paper elevation={1}>
         <Typography variant="h1">Zero</Typography>
         <Typography>Nothing to review. Congrats.</Typography>
+      </Paper>
+    );
+  }
+
+  if (currentTaskIndex >= tasks.length) {
+    return (
+      <Paper elevation={1}>
+        <Typography variant="h1">Finished</Typography>
+        <Typography>Review completed. Congrats.</Typography>
       </Paper>
     );
   }
