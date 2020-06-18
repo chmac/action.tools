@@ -7,6 +7,8 @@ export {
   newTask,
   setData,
   unfinishTask,
+  addContextsToTask,
+  snoozeTask,
 } from './services/data/data.state';
 export { makeActionableTodaySelector } from './services/query/selectors/actionableToday.selector';
 export { taskById } from './services/query/selectors/taskById.selector';

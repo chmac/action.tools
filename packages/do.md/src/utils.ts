@@ -1,6 +1,7 @@
 import { InlineCode, ListItem } from 'mdast';
 import { DATA_KEYS, KEY_VALUE_SEPARATOR } from './constants';
 import { TaskListItem } from './types';
+import { Dayjs } from 'dayjs';
 
 export const identity = <T>(p: T): T => p;
 
@@ -37,4 +38,8 @@ export const isTaskListItem = (item: ListItem): item is TaskListItem => {
   }
 
   return true;
+};
+
+export const stringifyDayjs = (date: Dayjs): string => {
+  return date.format('YYYY-MM-DD');
 };

@@ -1,5 +1,8 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createAction } from '@reduxjs/toolkit';
 import { Section, Task } from '../../types';
+import dayjs from 'dayjs';
+import { stringifyDayjs } from '../../utils';
+import { difference } from 'remeda';
 
 export const REDUX_KEY = 'data';
 
@@ -21,6 +24,18 @@ const getTaskIndex = (state: State, id: string): number => {
   }
   return taskIndex;
 };
+
+export const snoozeTask = createAction(
+  'snoozeTask',
+  ({ id, daysFromToday }: { id: string; daysFromToday: number }) => {
+    return {
+      payload: {
+        id,
+        snooze: stringifyDayjs(dayjs().add(daysFromToday, 'day')),
+      },
+    };
+  }
+);
 
 const sectionSlice = createSlice({
   name: 'domd/data',
@@ -71,15 +86,45 @@ const sectionSlice = createSlice({
         ...action.payload.changes,
       };
     },
+    addContextsToTask: (
+      state,
+      action: PayloadAction<{ id: string; newContexts: string[] }>
+    ) => {
+      const taskIndex = getTaskIndex(state, action.payload.id);
+      const task = state.tasks[taskIndex];
+
+      if (typeof task.data.contexts === 'undefined') {
+        task.data.contexts = action.payload.newContexts;
+        return;
+      }
+
+      // Find contexts which are new
+      const insertContexts = difference(
+        action.payload.newContexts,
+        task.data.contexts
+      );
+      if (insertContexts.length === 0) {
+        return;
+      }
+
+      task.data.contexts = task.data.contexts.concat(insertContexts);
+    },
+  },
+  extraReducers: builder => {
+    builder.addCase(snoozeTask, (state, action) => {
+      const taskIndex = getTaskIndex(state, action.payload.id);
+      state.tasks[taskIndex].data.snooze = action.payload.snooze;
+    });
   },
 });
 
 export const {
   setData,
   newSection,
+  newTask,
   finishTask,
   unfinishTask,
-  newTask,
+  addContextsToTask,
 } = sectionSlice.actions;
 
 export default sectionSlice.reducer;
