@@ -8,8 +8,10 @@ export const taskById = (state: RootState, id: string) => {
     throw new Error('Tried to find non existent task. #fUNAfb');
   }
 
-  const hasChildren =
-    typeof tasks.find(task => task.parentId === task.id) !== 'undefined';
+  const hasUnfinishedChildren =
+    typeof tasks.find(
+      task => task.parentId === task.id && task.isTask && !task.finished
+    ) !== 'undefined';
 
-  return { ...task, hasChildren };
+  return { ...task, hasUnfinishedChildren };
 };

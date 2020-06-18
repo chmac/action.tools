@@ -21,6 +21,9 @@ const TaskSingle = ({
   return (
     <Paper elevation={1}>
       <Typography variant="h1">{task.contentMarkdown}</Typography>
+      {task.hasUnfinishedChildren ? (
+        <Typography>Warning: This task has unfinished children</Typography>
+      ) : null}
       <ul>
         {Object.entries(task.data).map(([key, value]) => {
           if (key === "contexts") {
