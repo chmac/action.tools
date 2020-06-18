@@ -52,7 +52,9 @@ const TaskSingle = ({
           className={classes.actions}
           onClick={() => {
             dispatch(finishTask(taskId));
-            onDecisionMade();
+            // NOTE: Ignore this for now, as it will result in skipping one task
+            // in the list
+            // onDecisionMade();
           }}
         >
           Never
@@ -74,7 +76,9 @@ const TaskSingle = ({
           className={classes.actions}
           onClick={() => {
             dispatch(snoozeTask({ id: taskId, daysFromToday: 1 }));
-            onDecisionMade();
+            // NOTE: Ignore this for now, as it will result in skipping one task
+            // in the list
+            // onDecisionMade();
           }}
         >
           Tomorrow
@@ -89,7 +93,9 @@ const TaskSingle = ({
             );
             if (daysFromToday !== 0) {
               dispatch(snoozeTask({ id: taskId, daysFromToday }));
-              onDecisionMade();
+              // NOTE: Ignore this for now, as it will result in skipping one
+              // task in the list
+              // onDecisionMade();
             }
           }}
         >
