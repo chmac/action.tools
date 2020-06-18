@@ -1,7 +1,7 @@
 import { Checkbox, Paper, Typography } from "@material-ui/core";
 import { createSelector } from "@reduxjs/toolkit";
 import { finishTask, unfinishTask } from "do.md";
-import { Task } from "do.md/dist/types";
+import { Task, TaskData } from "do.md/dist/types";
 import Markdown from "markdown-to-jsx";
 import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,15 +16,38 @@ const makeChildTasksSelector = () =>
     (parentId, tasks) => tasks.filter((task) => task.parentId === parentId)
   );
 
+const Data = ({ data }: { data: TaskData }) => {
+  const dataEntries = Object.entries(data);
+  const hasData = dataEntries.length > 0;
+
+  if (!hasData) {
+    return null;
+  }
+
+  return (
+    <>
+      <br />
+      <span style={{ paddingLeft: 42 }} />
+      {dataEntries.map(([key, value]) => {
+        if (key === "contexts") {
+          return <span>{`@${(value as string[]).join(" @")}`}</span>;
+        }
+        return (
+          <span>
+            {key}: {value}{" "}
+          </span>
+        );
+      })}
+    </>
+  );
+};
+
 const TaskSingle = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
   const selectChildTasks = useMemo(makeChildTasksSelector, []);
   const tasks = useSelector((state: AppState) =>
     selectChildTasks(state, task.id)
   );
   const dispatch = useDispatch<AppDispatch>();
-
-  const dataEntries = Object.entries(task.data);
-  const hasData = dataEntries.length > 0;
 
   return (
     <Paper
@@ -49,17 +72,7 @@ const TaskSingle = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
         <Markdown options={{ forceInline: true }}>
           {task.contentMarkdown}
         </Markdown>
-        {hasData ? (
-          <>
-            <br />
-            <span style={{ paddingLeft: 42 }} />
-            {Object.entries(task.data).map(([key, value]) => (
-              <span key={key}>
-                {key}: {value}
-              </span>
-            ))}
-          </>
-        ) : null}
+        <Data data={task.data} />
       </Typography>
       {tasks.map((task) => (
         <TaskSingle key={task.id} task={task} depth={depth + 1} />
