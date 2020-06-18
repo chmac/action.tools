@@ -30,10 +30,10 @@ const Data = ({ data }: { data: TaskData }) => {
       <span style={{ paddingLeft: 42 }} />
       {dataEntries.map(([key, value]) => {
         if (key === "contexts") {
-          return <span>{`@${(value as string[]).join(" @")}`}</span>;
+          return <span key={key}>{`@${(value as string[]).join(" @")}`}</span>;
         }
         return (
-          <span>
+          <span key={key}>
             {key}: {value}{" "}
           </span>
         );
