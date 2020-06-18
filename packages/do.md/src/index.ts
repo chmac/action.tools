@@ -9,6 +9,7 @@ export {
   unfinishTask,
 } from './services/data/data.state';
 export { makeActionableTodaySelector } from './services/query/selectors/actionableToday.selector';
+export { taskById } from './services/query/selectors/taskById.selector';
 export { parseMdast } from './services/parser/parser.service';
 export { startup } from './services/startup/actions/startup.action';
 export { createMdast } from './services/unparser/unparser.service';
