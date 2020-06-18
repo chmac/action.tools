@@ -15,6 +15,8 @@ export const TAG_PREFIX = '#' as const;
 export const CONTEXT_PREFIX = '@' as const;
 export const PROJECT_PREFIX = '+' as const;
 
+export const EXCLUDED_BY_DEFAULT_CONTEXTS = ['someday'];
+
 export const DATA_KEYS = [
   ID,
   AFTER,

@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { Task } from '../../types';
-import { intersection } from 'remeda';
+import { intersection, difference } from 'remeda';
+import { EXCLUDED_BY_DEFAULT_CONTEXTS } from '../../constants';
 
 export const isSnoozed = ({
   snooze,
@@ -22,6 +23,36 @@ export const isBlockedByAfterDate = ({
   return dayjs(after).isAfter(today);
 };
 
+export const isTaskActionableInCurrentContexts = ({
+  contexts,
+  currentContexts,
+}: {
+  contexts?: string[];
+  currentContexts: string[];
+}) => {
+  // If the task has no contexts, then it's automatically actionable in all
+  if (typeof contexts === 'undefined' || contexts.length === 0) {
+    return true;
+  }
+
+  // Check if any contexts cause this task to be excluded (eg: @someday)
+  const excludeContexts = difference(
+    EXCLUDED_BY_DEFAULT_CONTEXTS,
+    currentContexts
+  );
+  const matchedExclusions = intersection(excludeContexts, contexts);
+  if (matchedExclusions.length > 0) {
+    return false;
+  }
+
+  // Get all the contexts which are in currentContexts
+  const matchedContexts = intersection(contexts, currentContexts);
+  if (matchedContexts.length > 0) {
+    return true;
+  }
+  return false;
+};
+
 export const isTaskActionableToday = ({
   task,
   today,
@@ -39,15 +70,8 @@ export const isTaskActionableToday = ({
     return false;
   }
 
-  if (
-    typeof contexts !== 'undefined' &&
-    contexts.length > 0 &&
-    currentContexts.length > 0
-  ) {
-    const matchedContexts = intersection(contexts, currentContexts);
-    if (matchedContexts.length === 0) {
-      return false;
-    }
+  if (!isTaskActionableInCurrentContexts({ contexts, currentContexts })) {
+    return false;
   }
 
   if (task.isSequential) {
