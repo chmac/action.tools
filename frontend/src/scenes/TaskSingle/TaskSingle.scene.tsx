@@ -83,7 +83,7 @@ const TaskSingle = ({ taskId }: { taskId: string }) => {
             const daysFromToday = parseInt(
               prompt("How many days hence?") || "0"
             );
-            if (daysFromToday !== 0) {
+            if (daysFromToday > 0) {
               dispatch(snoozeTask({ id: taskId, daysFromToday }));
             }
           }}
