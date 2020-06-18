@@ -1,19 +1,22 @@
 import './services/startup/startup.service';
 
-// Export redux
 export { REDUX_ROOT_KEY as domdReduxKey } from './constants';
 export {
   finishTask,
   newSection,
   newTask,
-  setSections,
-  setTasks,
+  setData,
   unfinishTask,
 } from './services/data/data.state';
-export { startup } from './services/startup/actions/startup.action';
-export { reducer } from './store';
+export { makeActionableTodaySelector } from './services/query/selectors/actionableToday.selector';
 export { parseMdast } from './services/parser/parser.service';
+export { startup } from './services/startup/actions/startup.action';
 export { createMdast } from './services/unparser/unparser.service';
+export {
+  reducer,
+  getLocalState as getPackageState,
+  LocalState as PackageState,
+} from './store';
 export * from './types';
 /**
  * # Update to redux based data model

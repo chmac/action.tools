@@ -1,17 +1,22 @@
-import { startup as domdStartup, createMdast } from "do.md";
+import {
+  createMdast,
+  getPackageState as getDomdState,
+  PackageState as DomdState,
+  startup as domdStartup,
+} from "do.md";
+import { mdastToMarkdown } from "./services/mdast/mdast.service";
 import {
   getMarkdown,
-  startup as storageStartup,
   setMarkdown,
+  startup as storageStartup,
 } from "./services/storage/storage.service";
-import store, { AppState } from "./store";
-import { mdastToMarkdown } from "./services/mdast/mdast.service";
+import store from "./store";
 
 // We use this to try and ensure only 1 operation runs at a time
 let block = false;
 
 const setMarkdownFromReduxState = async (
-  state: AppState["__domd"],
+  state: DomdState,
   commitMessage = "do.md: Saving update from redux"
 ) => {
   if (block === true) {
@@ -37,19 +42,20 @@ const startup = async () => {
   // After successful startup, try writing the markdown immediately, to ensure
   // that we separate any transforms from operations carried out by the user.
   await setMarkdownFromReduxState(
-    store.getState().__domd,
+    getDomdState(store.getState()),
     "do.md: Transforms on startup"
   );
 
-  let lastState: AppState["__domd"];
+  let lastState: DomdState;
   store.subscribe(() => {
     const state = store.getState();
 
+    const newState = getDomdState(state);
+
     // Do nothing until the initial data load has finished
-    if (!state.__domd.startup.initialDataLoadFinished) {
+    if (!newState.data.initialDataLoadComplete) {
       return;
     }
-    const newState = state["__domd"];
 
     if (lastState !== newState) {
       lastState = newState;

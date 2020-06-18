@@ -9,6 +9,7 @@ import devToolsEnhancer, {
 } from 'remote-redux-devtools';
 import { REDUX_ROOT_KEY } from './constants';
 import data, { REDUX_KEY as dataKey } from './services/data/data.state';
+import query, { REDUX_KEY as queryKey } from './services/query/query.state';
 import startup, {
   REDUX_KEY as startupKey,
 } from './services/startup/startup.state';
@@ -16,6 +17,7 @@ import startup, {
 export const reducer = combineReducers({
   [startupKey]: startup,
   [dataKey]: data,
+  [queryKey]: query,
 });
 
 export const createStore = (args?: {
@@ -49,9 +51,11 @@ export const createStore = (args?: {
   return store;
 };
 
+export type LocalState = ReturnType<typeof reducer>;
+
 // export type RootState = ReturnType<typeof store.getState>;
 export type RootState = {
-  [REDUX_ROOT_KEY]: ReturnType<typeof reducer>;
+  [REDUX_ROOT_KEY]: LocalState;
 };
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
