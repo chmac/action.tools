@@ -43,7 +43,9 @@ const Bar: React.FC = (props) => {
             Plan
           </Button>
           <Button component={Link} to="/do">
-            Do {nowCount > 0 ? `(${nowCount})` : ""}
+            <Badge badgeContent={nowCount} color="primary">
+              Do
+            </Badge>
           </Button>
           <IconButton
             onClick={() => {
