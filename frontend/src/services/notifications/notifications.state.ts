@@ -1,6 +1,8 @@
+import { Action } from "redux";
 import { AppState } from "../../store";
 import { Message } from "./notifications.service";
-import { Action } from "redux";
+
+export const REDUX_KEY = "notifications";
 
 type LogMessage = {
   message: Message;
