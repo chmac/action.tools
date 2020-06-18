@@ -1,10 +1,9 @@
-import { Button, makeStyles, Paper, Typography } from "@material-ui/core";
-import { pink } from "@material-ui/core/colors";
-import { finishTask, sectionTitles, snoozeTask, taskById } from "do.md";
+import { makeStyles, Paper, Typography } from "@material-ui/core";
+import { sectionTitles, taskById } from "do.md";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addId } from "../../services/now/now.state";
-import { AppDispatch, AppState } from "../../store";
+import { useSelector } from "react-redux";
+import { AppState } from "../../store";
+import Actions from "./components/Actions.component";
 import Data from "./components/Data.component";
 
 const TaskSingle = ({ taskId }: { taskId: string }) => {
@@ -13,7 +12,6 @@ const TaskSingle = ({ taskId }: { taskId: string }) => {
   const titles = useSelector((state: AppState) =>
     sectionTitles(state, task.sectionId)
   );
-  const dispatch: AppDispatch = useDispatch();
 
   if (typeof task === "undefined") {
     return <div>Error #Lb1rHu</div>;
@@ -35,53 +33,7 @@ const TaskSingle = ({ taskId }: { taskId: string }) => {
           <Data data={task.data} />
         </Paper>
       </div>
-      <Paper className={classes.actionWrapper}>
-        <Button
-          variant="outlined"
-          size="large"
-          className={classes.actions}
-          onClick={() => {
-            dispatch(finishTask(taskId));
-          }}
-        >
-          Never
-        </Button>{" "}
-        <Button
-          variant="outlined"
-          size="large"
-          className={classes.actions}
-          onClick={() => {
-            dispatch(addId(taskId));
-          }}
-        >
-          Now
-        </Button>{" "}
-        <Button
-          variant="outlined"
-          size="large"
-          className={classes.actions}
-          onClick={() => {
-            dispatch(snoozeTask({ id: taskId, daysFromToday: 1 }));
-          }}
-        >
-          Tomorrow
-        </Button>{" "}
-        <Button
-          variant="outlined"
-          size="large"
-          className={classes.actions}
-          onClick={() => {
-            const daysFromToday = parseInt(
-              prompt("How many days hence?") || "0"
-            );
-            if (daysFromToday > 0) {
-              dispatch(snoozeTask({ id: taskId, daysFromToday }));
-            }
-          }}
-        >
-          Later
-        </Button>
-      </Paper>
+      <Actions taskId={taskId} />
     </>
   );
 };
@@ -121,21 +73,6 @@ const useStyles = makeStyles((theme) => {
     },
     task: {
       fontSize: "2em",
-    },
-    actionWrapper: {
-      position: "absolute",
-      bottom: 0,
-      left: 0,
-      width: "100vw",
-      textAlign: "center",
-      paddingTop: theme.spacing(1),
-      paddingBottom: theme.spacing(1),
-      backgroundColor: pink[50],
-    },
-    actions: {
-      width: 120,
-      marginLeft: theme.spacing(2),
-      marginRigh: theme.spacing(2),
     },
   };
 });
