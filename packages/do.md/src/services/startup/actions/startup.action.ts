@@ -8,7 +8,6 @@ export const startup = ({ markdown }: { markdown: string }): AppThunk => async (
   dispatch,
   getRootState
 ) => {
-  console.log('Root start on boot #bzvBIU', getRootState());
   const sections = parseMdast(markdownToMdast(markdown));
 
   const allTasks: Task[] = [];
