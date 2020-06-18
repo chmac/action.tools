@@ -1,7 +1,7 @@
 import './services/startup/startup.service';
 
 // Export redux
-export { REDUX_ROOT_KEY } from './constants';
+export { REDUX_ROOT_KEY as domdReduxKey } from './constants';
 export {
   finishTask,
   newSection,

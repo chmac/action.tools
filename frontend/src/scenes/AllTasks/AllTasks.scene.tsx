@@ -1,5 +1,5 @@
 import { makeStyles, Typography } from "@material-ui/core";
-import { REDUX_ROOT_KEY } from "do.md";
+import { domdReduxKey } from "do.md";
 import React from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "../../store";
@@ -9,7 +9,7 @@ const AllTasks = () => {
   const classes = useStyles();
   const { sections } = useSelector((state: AppState) => {
     return {
-      sections: state[REDUX_ROOT_KEY].data.sections,
+      sections: state[domdReduxKey].data.sections,
     };
   });
 
