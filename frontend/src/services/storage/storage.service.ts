@@ -261,7 +261,7 @@ export const setMarkdown = async ({
     );
 
     if (status === "unmodified") {
-      push({ message: "No changes to commit. #rA9DxX", type: "info" });
+      // push({ message: "No changes to commit. #rA9DxX", type: "info" });
       return;
     }
 
