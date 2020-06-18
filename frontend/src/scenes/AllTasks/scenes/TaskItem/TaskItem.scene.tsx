@@ -42,7 +42,7 @@ const Data = ({ data }: { data: TaskData }) => {
   );
 };
 
-const TaskSingle = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
+const TaskItem = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
   const selectChildTasks = useMemo(makeChildTasksSelector, []);
   const tasks = useSelector((state: AppState) =>
     selectChildTasks(state, task.id)
@@ -75,10 +75,10 @@ const TaskSingle = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
         <Data data={task.data} />
       </Typography>
       {tasks.map((task) => (
-        <TaskSingle key={task.id} task={task} depth={depth + 1} />
+        <TaskItem key={task.id} task={task} depth={depth + 1} />
       ))}
     </Paper>
   );
 };
 
-export default TaskSingle;
+export default TaskItem;

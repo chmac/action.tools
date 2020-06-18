@@ -6,7 +6,7 @@ import toString from "mdast-util-to-string";
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "../../../../store";
-import TaskSingle from "../TaskSingle/TaskSingle.scene";
+import TaskItem from "../TaskItem/TaskItem.scene";
 
 const makeSectionTasksSelector = () =>
   createSelector(
@@ -52,7 +52,7 @@ const SectionScene = ({ section }: { section: Section }) => {
 
       <Paper elevation={1} className={classes.paper}>
         {tasks.map((task) => (
-          <TaskSingle key={task.id} task={task} />
+          <TaskItem key={task.id} task={task} />
         ))}
       </Paper>
     </div>
