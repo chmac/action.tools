@@ -8,13 +8,12 @@ import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles, responsiveFontSizes } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
-import { getPackageState as getDomdState } from "do.md";
+import { isReady } from "do.md";
 import { createBrowserHistory } from "history";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Route, Router, Switch } from "react-router-dom";
 import { SnackbarContainer } from "uno-material-ui";
-import { AppState } from "../../store";
 import Actions from "../Actions/Actions.scene";
 import AllTasks from "../AllTasks/AllTasks.scene";
 import Bar from "../Bar/Bar.scene";
@@ -39,9 +38,7 @@ const Loading = () => {
 
 const Routes: React.FC = () => {
   const classes = useStyles();
-  const dataLoaded = useSelector(
-    (state: AppState) => getDomdState(state).data.initialDataLoadComplete
-  );
+  const dataLoaded = useSelector(isReady);
 
   return (
     <ThemeProvider theme={theme}>
