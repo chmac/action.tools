@@ -19,30 +19,32 @@ const TaskSingle = ({
   }
 
   return (
-    <Paper elevation={1}>
-      <Typography variant="h1">{task.contentMarkdown}</Typography>
-      {task.hasUnfinishedChildren ? (
-        <Typography>Warning: This task has unfinished children</Typography>
-      ) : null}
-      <ul>
-        {Object.entries(task.data).map(([key, value]) => {
-          if (key === "contexts") {
+    <>
+      <Paper elevation={1}>
+        <Typography variant="h1">{task.contentMarkdown}</Typography>
+        {task.hasUnfinishedChildren ? (
+          <Typography>Warning: This task has unfinished children</Typography>
+        ) : null}
+        <ul>
+          {Object.entries(task.data).map(([key, value]) => {
+            if (key === "contexts") {
+              return (
+                <li key="key">
+                  <Typography>@{(value as string[]).join(" @")}</Typography>
+                </li>
+              );
+            }
             return (
-              <li key="key">
-                <Typography>@{(value as string[]).join(" @")}</Typography>
+              <li key={key}>
+                <Typography>
+                  {key}: {value}
+                </Typography>
               </li>
             );
-          }
-          return (
-            <li key={key}>
-              <Typography>
-                {key}: {value}
-              </Typography>
-            </li>
-          );
-        })}
-      </ul>
-      <div className={classes.actionWrapper}>
+          })}
+        </ul>
+      </Paper>
+      <Paper className={classes.actionWrapper}>
         <Button
           variant="outlined"
           size="large"
@@ -75,8 +77,8 @@ const TaskSingle = ({
         >
           Later
         </Button>
-      </div>
-    </Paper>
+      </Paper>
+    </>
   );
 };
 
@@ -85,12 +87,14 @@ export default TaskSingle;
 const useStyles = makeStyles((theme) => {
   return {
     actionWrapper: {
+      position: "absolute",
+      bottom: 0,
+      left: 0,
       textAlign: "center",
-      // display: "flex",
-      // justifyContent: "center",
+      paddingTop: theme.spacing(1),
+      paddingBottom: theme.spacing(1),
     },
     actions: {
-      // flex: 1,
       width: 120,
       marginLeft: theme.spacing(2),
       marginRigh: theme.spacing(2),
