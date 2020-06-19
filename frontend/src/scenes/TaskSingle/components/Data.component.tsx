@@ -18,13 +18,26 @@ const DateField = ({ name, date }: { name: string; date: string }) => {
 
   const isOverdue = name === constants.BY && daysFromToday <= 0;
 
+  const todayText = daysFromToday === 0 ? "Today" : `${daysFromToday} days`;
+
   return (
-    <>
-      {name} {date}{" "}
-      <span className={classNames({ [classes.overdue]: isOverdue })}>
-        ({daysFromToday} days)
-      </span>
-    </>
+    <li
+      className={classNames({
+        [classes.li]: true,
+        [classes.light]: name === constants.CREATED,
+      })}
+    >
+      <Typography
+        className={classNames({
+          [classes.liOverdue]: isOverdue,
+        })}
+      >
+        {name} {date}{" "}
+        <span className={classNames({ [classes.overdue]: isOverdue })}>
+          ({todayText})
+        </span>
+      </Typography>
+    </li>
   );
 };
 
@@ -52,19 +65,7 @@ const Data = ({ data }: { data: TaskData }) => {
           );
         }
 
-        return (
-          <li
-            key={key}
-            className={classNames({
-              [classes.li]: true,
-              [classes.light]: key === constants.CREATED,
-            })}
-          >
-            <Typography>
-              <DateField name={key} date={value as string} />
-            </Typography>
-          </li>
-        );
+        return <DateField key={key} name={key} date={value as string} />;
       })}
     </ul>
   );
@@ -75,6 +76,9 @@ export default Data;
 const useStyles = makeStyles((theme) => {
   return {
     li: { lineHeight: `${16 * 2}px` },
+    liOverdue: {
+      backgroundColor: red[100],
+    },
     light: { opacity: 0.6 },
     overdue: {
       color: red[900],
