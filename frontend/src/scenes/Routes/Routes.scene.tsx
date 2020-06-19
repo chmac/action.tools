@@ -78,6 +78,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
+      zIndex: -1,
     },
   })
 );
