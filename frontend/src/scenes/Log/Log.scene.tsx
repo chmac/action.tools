@@ -1,8 +1,8 @@
-import * as React from "react";
 import { makeStyles, Modal, Paper, Typography } from "@material-ui/core";
+import * as React from "react";
 import { useSelector } from "react-redux";
-import { getLog } from "../../services/notifications/notifications.state";
 import { AppState } from "../../store";
+import { selectAll } from "../Notifications/Notifications.state";
 
 type Props = {
   open: boolean;
@@ -17,7 +17,7 @@ const formatTimestamp = (time: number): string => {
 const Log = (props: Props) => {
   const { open, onClose } = props;
   const classes = useStyles();
-  const messages = useSelector(getLog);
+  const messages = useSelector(selectAll);
   const lastCommitHash = useSelector(
     (state: AppState) => state.storage.lastCommitHash
   );
@@ -43,7 +43,7 @@ const Log = (props: Props) => {
 
         <Typography variant="h1">Log</Typography>
         <ul>
-          {messages.map(({ message: { message, type }, time }, i) => (
+          {messages.map(({ notice: { message, type }, time }, i) => (
             <Typography component="li" key={i}>
               {formatTimestamp(time)} - {type}: {message}
             </Typography>

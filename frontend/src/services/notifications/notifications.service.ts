@@ -1,24 +1,22 @@
-import { snackbarService, MessageType } from "uno-material-ui";
-
+import {
+  Notice,
+  push as pushRedux,
+} from "../../scenes/Notifications/Notifications.state";
 import store from "../../store";
-import { pushMessage } from "./notifications.state";
 
 export type Message = {
   message: string;
-  type: MessageType;
+  type: Notice["type"];
 };
-const stack: Message[] = [];
 
 export const push = ({
   message,
   type = "info",
 }: {
   message: string;
-  type?: MessageType;
+  type?: Notice["type"];
 }) => {
-  store.dispatch(pushMessage({ message, type }));
-  stack.push({ message, type });
-  snackbarService.showSnackbar(message, type);
+  store.dispatch(pushRedux({ notice: { message, type } }));
 };
 
 export const pushError = ({

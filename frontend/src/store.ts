@@ -5,9 +5,6 @@ import {
   Action,
 } from "@reduxjs/toolkit";
 import { domdReduxKey, reducer as domdReducer } from "do.md";
-import notifications, {
-  REDUX_KEY as notificationsKey,
-} from "./services/notifications/notifications.state";
 import now, { REDUX_KEY as nowKey } from "./services/now/now.state";
 import storage, {
   REDUX_KEY as storageKey,
@@ -15,13 +12,16 @@ import storage, {
 import LeftMenu, {
   REDUX_KEY as LeftMenuKey,
 } from "./scenes/LeftMenu/LeftMenu.state";
+import Notifications, {
+  REDUX_KEY as NotificationsKey,
+} from "./scenes/Notifications/Notifications.state";
 
 const reducer = combineReducers({
   [domdReduxKey]: domdReducer,
-  [notificationsKey]: notifications,
   [nowKey]: now,
   [storageKey]: storage,
   [LeftMenuKey]: LeftMenu,
+  [NotificationsKey]: Notifications,
 });
 
 export type AppState = ReturnType<typeof reducer>;

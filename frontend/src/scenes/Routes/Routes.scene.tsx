@@ -12,7 +12,6 @@ import { createBrowserHistory } from "history";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Route, Router, Switch } from "react-router-dom";
-import { SnackbarContainer } from "uno-material-ui";
 import Actions from "../Actions/Actions.scene";
 import AllTasks from "../AllTasks/AllTasks.scene";
 import Bar from "../Bar/Bar.scene";
@@ -20,6 +19,7 @@ import Consecutive from "../Consecutive/Consecutive.scene";
 import Do from "../Do/Do.scene";
 import Home from "../Home/Home.scene";
 import LeftMenu from "../LeftMenu/LeftMenu.scene";
+import Notifications from "../Notifications/Notifications.scene";
 
 const baseTheme = createMuiTheme();
 const theme = responsiveFontSizes(baseTheme);
@@ -41,7 +41,7 @@ const Routes: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <SnackbarContainer />
+      <Notifications />
       <Router history={history}>
         <Bar />
         <LeftMenu />
