@@ -20,6 +20,7 @@ import Log from "../Log/Log.scene";
 import { newTask } from "do.md";
 import { customAlphabet } from "nanoid";
 import mousetrap from "mousetrap";
+import { history } from "../Routes/Routes.scene";
 
 const nanoid = customAlphabet("abcdefghijklmnopqrstuvwxyz01234567890", 5);
 
@@ -30,6 +31,9 @@ const assertNever = (no: never): never => {
 enum KEY {
   n = "n",
   question = "?",
+  goAll = "g a",
+  goPlan = "g p",
+  goDo = "g d",
 }
 const keys = Object.values(KEY);
 
@@ -43,8 +47,7 @@ const Bar: React.FC = (props) => {
     (key: KEY) => {
       switch (key) {
         case KEY.question: {
-          alert(`GLOBAL: n - new task;
-PLAN: j - never; k - now; l - tomorrow; ; - later`);
+          setLogOpen(true);
           break;
         }
         case KEY.n: {
@@ -67,6 +70,18 @@ PLAN: j - never; k - now; l - tomorrow; ; - later`);
               })
             );
           }
+          break;
+        }
+        case KEY.goAll: {
+          history.push("/tasks");
+          break;
+        }
+        case KEY.goPlan: {
+          history.push("/review");
+          break;
+        }
+        case KEY.goDo: {
+          history.push("/do");
           break;
         }
         default: {

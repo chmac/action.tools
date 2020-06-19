@@ -30,6 +30,12 @@ const Log = (props: Props) => {
       }}
     >
       <Paper className={classes.root}>
+        <Typography variant="h1">Shortcuts</Typography>
+        <Typography>
+          GLOBAL: n - new task;
+          <br />
+          PLAN: j - never; k - now; l - tomorrow; ; - later
+        </Typography>
         <Typography variant="h1">Stats</Typography>
         <ul>
           <li>Current local commit: {lastCommitHash.substr(0, 6)}</li>
