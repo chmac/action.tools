@@ -32,7 +32,7 @@ const Log = (props: Props) => {
       <Paper className={classes.root}>
         <Typography variant="h1">Stats</Typography>
         <ul>
-          <li>Current local commit: {lastCommitHash}</li>
+          <li>Current local commit: {lastCommitHash.substr(0, 6)}</li>
         </ul>
 
         <Typography variant="h1">Log</Typography>
