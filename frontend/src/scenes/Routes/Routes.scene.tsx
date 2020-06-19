@@ -50,6 +50,7 @@ const Routes: React.FC = () => {
           {dataLoaded ? (
             <Switch>
               <Route exact path="/" component={Do} />
+              <Route exact path="/do" component={Do} />
               <Route exact path="/tasks" component={AllTasks} />
               <Route exact path="/review" component={Consecutive} />
               <Route exact path="/actions" component={Actions} />

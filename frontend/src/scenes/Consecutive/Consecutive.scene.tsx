@@ -3,7 +3,7 @@ import { isReady, makeActionableTodaySelector } from "do.md";
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "../../store";
-import TaskSingle from "../TaskSingle/TaskSingle.scene";
+import TaskSingle, { ActionSet } from "../TaskSingle/TaskSingle.scene";
 
 const Consecutive = () => {
   const classes = useStyles();
@@ -39,7 +39,7 @@ const Consecutive = () => {
 
   return (
     <>
-      <TaskSingle taskId={taskId} />
+      <TaskSingle taskId={taskId} actionSet={ActionSet.review} />
     </>
   );
 };

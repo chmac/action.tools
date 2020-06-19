@@ -1,4 +1,4 @@
-import { makeStyles, Paper, Typography } from "@material-ui/core";
+import { makeStyles, Paper, Typography, Button } from "@material-ui/core";
 import { sectionTitles, taskById } from "do.md";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -6,7 +6,18 @@ import { AppState } from "../../store";
 import Actions from "./components/Actions.component";
 import Data from "./components/Data.component";
 
-const TaskSingle = ({ taskId }: { taskId: string }) => {
+export enum ActionSet {
+  review,
+  do,
+}
+
+const TaskSingle = ({
+  taskId,
+  actionSet,
+}: {
+  taskId: string;
+  actionSet: ActionSet;
+}) => {
   const classes = useStyles();
   const task = useSelector((state: AppState) => taskById(state, taskId));
   const titles = useSelector((state: AppState) =>
@@ -32,8 +43,20 @@ const TaskSingle = ({ taskId }: { taskId: string }) => {
           ) : null}
           <Data data={task.data} />
         </Paper>
+        {actionSet === ActionSet.do ? (
+          <div className={classes.buttonWrapper}>
+            <Button
+              variant="contained"
+              color="secondary"
+              size="large"
+              className={classes.done}
+            >
+              Done
+            </Button>
+          </div>
+        ) : null}
       </div>
-      <Actions taskId={taskId} />
+      {actionSet === ActionSet.review ? <Actions taskId={taskId} /> : null}
     </>
   );
 };
@@ -50,12 +73,20 @@ const useStyles = makeStyles((theme) => {
         width: "100vw",
         minHeight: "100vh",
         display: "flex",
+        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         zIndex: -1,
       },
       paddingTop: theme.spacing(1),
       paddingBottom: theme.spacing(1),
+    },
+    buttonWrapper: {
+      padding: theme.spacing(4),
+    },
+    done: {
+      fontSize: "4rem",
+      padding: theme.spacing(2),
     },
     paper: {
       marginTop: theme.spacing(1),
