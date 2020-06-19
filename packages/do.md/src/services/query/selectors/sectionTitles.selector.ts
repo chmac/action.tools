@@ -1,5 +1,6 @@
 import { RootState, getLocalState } from '../../../store';
 import { Section } from '../../../types';
+import { Heading } from 'mdast';
 
 const getTitleFromSection = (section: Section): string => {
   if (typeof section.heading !== 'undefined') {
@@ -13,6 +14,39 @@ const getTitleFromSection = (section: Section): string => {
   }
 
   return '';
+};
+
+export const recursivelyGetParents = ({
+  search,
+  startingDepth,
+}: {
+  search: Section[];
+  startingDepth: number;
+}): string[] => {
+  const foundIndex = search.findIndex(
+    section =>
+      typeof section.heading !== 'undefined' &&
+      section.heading.depth < startingDepth
+  );
+
+  if (foundIndex === -1) {
+    return [];
+  }
+
+  const found = search[foundIndex];
+  const foundDepth = (found.heading as Heading).depth;
+  const title = getTitleFromSection(found);
+
+  // if (found.heading?.depth === 1) {
+  //   return [title]
+  // }
+
+  return [title].concat(
+    recursivelyGetParents({
+      search: search.slice(foundIndex),
+      startingDepth: foundDepth,
+    })
+  );
 };
 
 /**
@@ -46,19 +80,16 @@ export const sectionTitles = (
 
   const startingDepth = section.heading.depth;
 
-  const parent = sections
-    .slice(0, sectionIndex)
-    .reverse()
-    .find(
-      section =>
-        typeof section.heading !== 'undefined' &&
-        section.heading.depth < startingDepth
-    );
+  const search = sections.slice(0, sectionIndex).reverse();
+  // .find(
+  //   section =>
+  //     typeof section.heading !== 'undefined' &&
+  //     section.heading.depth < startingDepth
+  // );
 
-  if (typeof parent !== 'undefined') {
-    const parentTitle = getTitleFromSection(parent);
-    return [parentTitle, title];
+  if (search.length === 0) {
+    return [title];
   }
 
-  return [title];
+  return [title].concat(recursivelyGetParents({ search, startingDepth }));
 };
