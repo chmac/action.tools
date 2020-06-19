@@ -1,8 +1,9 @@
-import { makeStyles, Paper, Typography, Button } from "@material-ui/core";
-import { sectionTitles, taskById } from "do.md";
+import { Button, makeStyles, Paper, Typography } from "@material-ui/core";
+import { finishTask, sectionTitles, taskById } from "do.md";
 import React from "react";
-import { useSelector } from "react-redux";
-import { AppState } from "../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { removeId } from "../../services/now/now.state";
+import { AppDispatch, AppState } from "../../store";
 import Actions from "./components/Actions.component";
 import Data from "./components/Data.component";
 
@@ -23,6 +24,7 @@ const TaskSingle = ({
   const titles = useSelector((state: AppState) =>
     sectionTitles(state, task.sectionId)
   );
+  const dispatch: AppDispatch = useDispatch();
 
   if (typeof task === "undefined") {
     return <div>Error #Lb1rHu</div>;
@@ -50,6 +52,10 @@ const TaskSingle = ({
               color="secondary"
               size="large"
               className={classes.done}
+              onClick={() => {
+                dispatch(finishTask(taskId));
+                dispatch(removeId(taskId));
+              }}
             >
               Done
             </Button>
