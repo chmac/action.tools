@@ -42,13 +42,13 @@ const Bar: React.FC = (props) => {
           >
             Do.md
           </Typography>
-          <Button component={Link} to="/tasks" className={classes.link}>
+          <Button component={Link} to="/tasks" className={classes.hideOnSmall}>
             All
           </Button>
-          <Button component={Link} to="/review" className={classes.link}>
+          <Button component={Link} to="/review" className={classes.hideOnSmall}>
             Plan
           </Button>
-          <Button component={Link} to="/do" className={classes.link}>
+          <Button component={Link} to="/do">
             <Badge badgeContent={nowCount} color="primary">
               Do
             </Badge>
@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       flexGrow: 1,
     },
-    link: {
+    hideOnSmall: {
       [theme.breakpoints.down("sm")]: {
         display: "none",
       },
