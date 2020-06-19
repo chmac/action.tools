@@ -1,5 +1,5 @@
 import { makeStyles, Typography } from "@material-ui/core";
-import { red } from "@material-ui/core/colors";
+import { red, orange } from "@material-ui/core/colors";
 import classNames from "classnames";
 import dayjs from "dayjs";
 import { constants, getPackageState as getDomdState, TaskData } from "do.md";
@@ -17,6 +17,9 @@ const DateField = ({ name, date }: { name: string; date: string }) => {
   const daysFromToday = dayjs(date).diff(dayjs(today), "day");
 
   const isOverdue = name === constants.BY && daysFromToday <= 0;
+  const isToday = name === constants.BY && daysFromToday === 0;
+  const isThisWeek =
+    name === constants.BY && daysFromToday > 0 && daysFromToday < 7;
 
   const todayText = daysFromToday === 0 ? "Today" : `${daysFromToday} days`;
 
@@ -25,6 +28,8 @@ const DateField = ({ name, date }: { name: string; date: string }) => {
       className={classNames({
         [classes.li]: true,
         [classes.light]: name === constants.CREATED,
+        [classes.liThisWeek]: isThisWeek,
+        [classes.liToday]: isToday,
       })}
     >
       <Typography
@@ -78,6 +83,12 @@ const useStyles = makeStyles((theme) => {
     li: { lineHeight: `${16 * 2}px` },
     liOverdue: {
       backgroundColor: red[100],
+    },
+    liToday: {
+      backgroundColor: orange[500],
+    },
+    liThisWeek: {
+      backgroundColor: orange[100],
     },
     light: { opacity: 0.6 },
     overdue: {
