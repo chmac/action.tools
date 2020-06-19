@@ -10,7 +10,7 @@ const initialState: State = {
 };
 
 const nowSlice = createSlice({
-  name: "now",
+  name: "app/now",
   initialState,
   reducers: {
     addId: (state, action: PayloadAction<string>) => {
