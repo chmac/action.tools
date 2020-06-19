@@ -1,13 +1,12 @@
-import {
-  CircularProgress,
-  createMuiTheme,
-  createStyles,
-  Theme,
-} from "@material-ui/core";
+import { CircularProgress, createMuiTheme } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { makeStyles, responsiveFontSizes } from "@material-ui/core/styles";
-import { ThemeProvider } from "@material-ui/styles";
+import {
+  makeStyles,
+  responsiveFontSizes,
+  Theme,
+} from "@material-ui/core/styles";
+import { createStyles, ThemeProvider } from "@material-ui/styles";
 import { isReady } from "do.md";
 import { createBrowserHistory } from "history";
 import React from "react";
@@ -20,6 +19,7 @@ import Bar from "../Bar/Bar.scene";
 import Consecutive from "../Consecutive/Consecutive.scene";
 import Do from "../Do/Do.scene";
 import Home from "../Home/Home.scene";
+import LeftMenu from "../LeftMenu/LeftMenu.scene";
 
 const baseTheme = createMuiTheme();
 const theme = responsiveFontSizes(baseTheme);
@@ -28,7 +28,6 @@ export const history = createBrowserHistory();
 
 const Loading = () => {
   const classes = useStyles();
-
   return (
     <div className={classes.loadingWrapper}>
       <CircularProgress size="6rem" />
@@ -45,6 +44,7 @@ const Routes: React.FC = () => {
       <SnackbarContainer />
       <Router history={history}>
         <Bar />
+        <LeftMenu />
         <CssBaseline />
         <Container className={classes.container}>
           {dataLoaded ? (

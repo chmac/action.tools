@@ -1,19 +1,21 @@
 import {
+  AppBar,
+  Badge,
   Button,
   createStyles,
   IconButton,
   makeStyles,
   Theme,
-  Badge,
+  Toolbar,
+  Typography,
 } from "@material-ui/core";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Notifications from "@material-ui/icons/Notifications";
+import MenuIcon from "@material-ui/icons/Menu";
+import NotificationsIcon from "@material-ui/icons/Notifications";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { AppState } from "../../store";
+import { AppDispatch, AppState } from "../../store";
+import { toggleIsOpen } from "../LeftMenu/LeftMenu.state";
 import Log from "../Log/Log.scene";
 
 const Bar: React.FC = (props) => {
@@ -23,11 +25,15 @@ const Bar: React.FC = (props) => {
   const aheadCount = useSelector(
     (state: AppState) => state.storage.commitsAhead
   );
+  const dispatch: AppDispatch = useDispatch();
 
   return (
     <div className={classes.root}>
       <AppBar position="static" color="default">
         <Toolbar>
+          <IconButton edge="start" onClick={() => dispatch(toggleIsOpen())}>
+            <MenuIcon />
+          </IconButton>
           <Typography
             className={classes.title}
             variant="h6"
@@ -53,7 +59,7 @@ const Bar: React.FC = (props) => {
             }}
           >
             <Badge badgeContent={aheadCount} color="secondary">
-              <Notifications />
+              <NotificationsIcon />
             </Badge>
           </IconButton>
         </Toolbar>
