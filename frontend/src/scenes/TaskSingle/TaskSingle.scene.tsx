@@ -43,26 +43,25 @@ export default TaskSingle;
 const useStyles = makeStyles((theme) => {
   return {
     taskWrapper: {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      paddingTop: 80,
-      paddingBottom: 80,
-      width: "100vw",
-      minHeight: "100vh",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      zIndex: -1,
+      [theme.breakpoints.up("sm")]: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: -1,
+      },
+      paddingTop: theme.spacing(1),
+      paddingBottom: theme.spacing(1),
     },
     paper: {
-      minHeight: 600,
-      margin: theme.spacing(2),
+      marginTop: theme.spacing(1),
       padding: theme.spacing(1),
       [theme.breakpoints.up("sm")]: {
         minHeight: 400,
-      },
-      [theme.breakpoints.up("sm")]: {
         width: 480,
         padding: theme.spacing(4),
       },
