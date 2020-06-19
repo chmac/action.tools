@@ -1213,32 +1213,6 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
-"@cutting/react-typed-mousetrap@^3.7.0":
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/@cutting/react-typed-mousetrap/-/react-typed-mousetrap-3.7.0.tgz#55ab163e279d78b6e685dee9e7ab6c5aae53f527"
-  integrity sha512-zHDyypYUnp1LIqj9usZKI+kPFVROfoNuglyJJkzSMTl1HaRUAoMpc/Bj9yx6u8YMNnwZwScV0byZPLVdqDayVA==
-  dependencies:
-    "@cutting/use-shortcuts" "3.7.0"
-    "@cutting/util" "3.7.0"
-    invariant "^2.2.4"
-    mousetrap "^1.6.5"
-
-"@cutting/use-shortcuts@3.7.0", "@cutting/use-shortcuts@^3.7.0":
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/@cutting/use-shortcuts/-/use-shortcuts-3.7.0.tgz#47c4b8d6d3f7e3dc4df1729e9c7704cfba38eabf"
-  integrity sha512-F2C9/3c7xkZazBoLe4Z2oaA9YXVsjBkQrHFb1w0yEb1exbNmrMIph15nSspUMefAfeG3Y7r+Ya1uma2Rr24KVQ==
-  dependencies:
-    "@cutting/util" "3.7.0"
-    invariant "^2.2.4"
-    mousetrap "^1.6.5"
-
-"@cutting/util@3.7.0":
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/@cutting/util/-/util-3.7.0.tgz#00a03f64ac55aba9041d67066c56175586949d94"
-  integrity sha512-HLKRPZ3qyhdR58S38lv2dlSPyjDdusMI7q6KGUL+0sD6mnEuMaunNm2wQ17EikRnfeycYh0CtT6tbUrJ4ab9eQ==
-  dependencies:
-    "@cutting/util" "3.7.0"
-
 "@emotion/hash@^0.8.0":
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.8.0.tgz#bbbff68978fefdbe68ccb533bc8cbe1d1afb5413"
@@ -2098,6 +2072,11 @@
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
+
+"@types/mousetrap@^1.6.3":
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/@types/mousetrap/-/mousetrap-1.6.3.tgz#3159a01a2b21c9155a3d8f85588885d725dc987d"
+  integrity sha512-13gmo3M2qVvjQrWNseqM3+cR6S2Ss3grbR2NZltgMq94wOwqJYQdgn8qzwDshzgXqMlSUtyPZjysImmktu22ew==
 
 "@types/node@*", "@types/node@>=6":
   version "14.0.13"
@@ -9786,6 +9765,11 @@ nanoid@^2.0.0:
   version "2.1.11"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-2.1.11.tgz#ec24b8a758d591561531b4176a01e3ab4f0f0280"
   integrity sha512-s/snB+WGm6uwi0WjsZdaVcuf3KJXlfGl2LcxgwkEwJF0D/BWzVWAZW/XY4bFaiR7s0Jk3FPvlnepg1H1b1UwlA==
+
+nanoid@^3.1.10:
+  version "3.1.10"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.10.tgz#69a8a52b77892de0d11cede96bc9762852145bc4"
+  integrity sha512-iZFMXKeXWkxzlfmMfM91gw7YhN2sdJtixY+eZh9V6QWJWTOiurhpKhBMgr82pfzgSqglQgqYSCowEYsz8D++6w==
 
 nanoid@^3.1.9:
   version "3.1.9"
