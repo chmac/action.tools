@@ -11,7 +11,7 @@ import { isReady } from "do.md";
 import { createBrowserHistory } from "history";
 import React from "react";
 import { useSelector } from "react-redux";
-import { Route, Router, Switch } from "react-router-dom";
+import { Redirect, Route, Router, Switch } from "react-router-dom";
 import Actions from "../Actions/Actions.scene";
 import AllTasks from "../AllTasks/AllTasks.scene";
 import Bar from "../Bar/Bar.scene";
@@ -49,7 +49,7 @@ const Routes: React.FC = () => {
         <Container className={classes.container}>
           {dataLoaded ? (
             <Switch>
-              <Route exact path="/" component={Do} />
+              <Route exact path="/" component={() => <Redirect to="/do" />} />
               <Route exact path="/do" component={Do} />
               <Route exact path="/tasks" component={AllTasks} />
               <Route exact path="/review" component={Consecutive} />
