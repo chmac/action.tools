@@ -11,21 +11,85 @@ import {
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import React from "react";
+import React, { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { AppDispatch, AppState } from "../../store";
 import { toggleIsOpen } from "../LeftMenu/LeftMenu.state";
 import Log from "../Log/Log.scene";
+import { newTask } from "do.md";
+import { customAlphabet } from "nanoid";
+import mousetrap from "mousetrap";
+
+const nanoid = customAlphabet("abcdefghijklmnopqrstuvwxyz01234567890", 5);
+
+const assertNever = (no: never): never => {
+  throw new Error("assertNever #pcQASS");
+};
+
+enum KEY {
+  n = "n",
+  question = "?",
+}
+const keys = Object.values(KEY);
 
 const Bar: React.FC = (props) => {
   const classes = useStyles();
   const [logOpen, setLogOpen] = React.useState(false);
+
+  const dispatch: AppDispatch = useDispatch();
+
+  const handler = useCallback(
+    (key: KEY) => {
+      switch (key) {
+        case KEY.question: {
+          alert(`GLOBAL: n - new task;
+PLAN: j - never; k - now; l - tomorrow; ; - later`);
+          break;
+        }
+        case KEY.n: {
+          const text = globalThis.prompt("Enter task text");
+          if (typeof text === "string" && text.length > 0) {
+            const id = nanoid();
+            dispatch(
+              newTask({
+                task: {
+                  contentMarkdown: text,
+                  finished: false,
+                  isSequential: false,
+                  isTask: true,
+                  data: { id },
+                  sectionId: "top",
+                  parentId: "",
+                  id,
+                },
+                insertAtIndex: 0,
+              })
+            );
+          }
+          break;
+        }
+        default: {
+          assertNever(key);
+        }
+      }
+    },
+    [dispatch]
+  );
+
+  useEffect(() => {
+    mousetrap.bind(keys, (event, key) => {
+      handler(key as KEY);
+    });
+    return () => {
+      mousetrap.unbind(keys);
+    };
+  }, [handler]);
+
   const nowCount = useSelector((state: AppState) => state.now.taskIds.length);
   const aheadCount = useSelector(
     (state: AppState) => state.storage.commitsAhead
   );
-  const dispatch: AppDispatch = useDispatch();
 
   return (
     <div className={classes.root}>

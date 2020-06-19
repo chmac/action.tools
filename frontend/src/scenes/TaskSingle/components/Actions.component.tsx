@@ -1,59 +1,65 @@
-import { ShortcutMap, useShortcuts } from "@cutting/use-shortcuts";
 import { Button, makeStyles, Paper } from "@material-ui/core";
 import { pink } from "@material-ui/core/colors";
 import { finishTask, snoozeTask } from "do.md";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addId } from "../../../services/now/now.state";
 import { AppDispatch } from "../../../store";
+import mousetrap from "mousetrap";
 
-const shortcutMap: ShortcutMap = {
-  j: "j",
-  k: "k",
-  l: "l",
-  semi: ";",
-  question: "?",
+const assertNever = (no: never): never => {
+  throw new Error("assertNever #pcQASS");
 };
+
+enum KEY {
+  j = "j",
+  k = "k",
+  l = "l",
+  semi = ";",
+}
+const keys = Object.values(KEY);
 
 const Actions = ({ taskId }: { taskId: string }) => {
   const classes = useStyles();
   const dispatch: AppDispatch = useDispatch();
 
-  const handleClick = useCallback(
-    (key: string) => {
+  const handleKey = useCallback(
+    (key: KEY) => {
       switch (key) {
-        case "j": {
+        case KEY.j: {
           dispatch(finishTask(taskId));
           break;
         }
-        case "k": {
+        case KEY.k: {
           dispatch(addId(taskId));
           break;
         }
-        case "l": {
+        case KEY.l: {
           dispatch(snoozeTask({ id: taskId, daysFromToday: 1 }));
           break;
         }
-        case "semi": {
+        case KEY.semi: {
           const daysFromToday = parseInt(prompt("How many days hence?") || "0");
           if (daysFromToday > 0) {
             dispatch(snoozeTask({ id: taskId, daysFromToday }));
           }
           break;
         }
-        case "question": {
-          alert(`j - never; k - now; l - tomorrow; ; - later`);
+        default: {
+          assertNever(key);
         }
       }
     },
     [taskId, dispatch]
   );
 
-  useShortcuts({
-    shortcutMap,
-    handler: (action, event) => {
-      handleClick(action.type);
-    },
+  useEffect(() => {
+    mousetrap.bind(keys, (event, key) => {
+      handleKey(key as KEY);
+    });
+    return () => {
+      mousetrap.unbind(keys);
+    };
   });
 
   return (
@@ -63,7 +69,7 @@ const Actions = ({ taskId }: { taskId: string }) => {
           variant="outlined"
           size="large"
           className={classes.actions}
-          onClick={() => handleClick("j")}
+          onClick={() => handleKey(KEY.j)}
         >
           Never
         </Button>{" "}
@@ -71,7 +77,7 @@ const Actions = ({ taskId }: { taskId: string }) => {
           variant="outlined"
           size="large"
           className={classes.actions}
-          onClick={() => handleClick("k")}
+          onClick={() => handleKey(KEY.k)}
         >
           Now
         </Button>{" "}
@@ -80,7 +86,7 @@ const Actions = ({ taskId }: { taskId: string }) => {
           size="large"
           className={classes.actions}
           onClick={() => {
-            handleClick("l");
+            handleKey(KEY.l);
           }}
         >
           Tomorrow
@@ -90,7 +96,7 @@ const Actions = ({ taskId }: { taskId: string }) => {
           size="large"
           className={classes.actions}
           onClick={() => {
-            handleClick("semi");
+            handleKey(KEY.semi);
           }}
         >
           Later
