@@ -1,22 +1,20 @@
-import { uniq } from "remeda";
 import {
+  FormControlLabel,
+  FormGroup,
   makeStyles,
   Switch,
-  Typography,
-  FormGroup,
-  FormControlLabel,
 } from "@material-ui/core";
 import {
   addContext,
   allContexts,
-  removeContext,
-  getPackageState,
   constants,
+  getPackageState,
+  removeContext,
 } from "do.md";
-import React, { Fragment } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { uniq } from "remeda";
 import { AppDispatch, AppState } from "../../../store";
-import { intersection, difference } from "remeda";
 
 const Contexts = () => {
   const classes = useStyles();
