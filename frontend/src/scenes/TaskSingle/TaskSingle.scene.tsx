@@ -1,7 +1,8 @@
 import { Button, makeStyles, Paper, Typography } from "@material-ui/core";
-import { finishTask, sectionTitles, taskById } from "do.md";
+import { finishTask, taskWithContext } from "do.md";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { reverse } from "remeda";
 import { removeId } from "../../services/now/now.state";
 import { AppDispatch, AppState } from "../../store";
 import Actions from "./components/Actions.component";
@@ -12,6 +13,30 @@ export enum ActionSet {
   do,
 }
 
+const Parents = ({
+  parents,
+}: {
+  parents: ReturnType<typeof taskWithContext>["tasks"];
+}) => {
+  if (parents.length === 0) {
+    return null;
+  }
+
+  return (
+    <div>
+      <ul>
+        {reverse(parents).map((task) => {
+          return (
+            <Typography component="li" key={task.id}>
+              {task.contentMarkdown}
+            </Typography>
+          );
+        })}
+      </ul>
+    </div>
+  );
+};
+
 const TaskSingle = ({
   taskId,
   actionSet,
@@ -20,11 +45,11 @@ const TaskSingle = ({
   actionSet: ActionSet;
 }) => {
   const classes = useStyles();
-  const task = useSelector((state: AppState) => taskById(state, taskId));
-  const titles = useSelector((state: AppState) =>
-    sectionTitles(state, task.sectionId)
+  const { tasks, titles } = useSelector((state: AppState) =>
+    taskWithContext(state, taskId)
   );
   const dispatch: AppDispatch = useDispatch();
+  const [task, ...parents] = tasks;
 
   if (typeof task === "undefined") {
     return <div>Error #Lb1rHu</div>;
@@ -37,6 +62,7 @@ const TaskSingle = ({
           <Typography variant="h6" className={classes.title}>
             {titles.join(" ") || "Inbox"}
           </Typography>
+          <Parents parents={parents} />
           <Typography className={classes.task}>
             {task.contentMarkdown}
           </Typography>
