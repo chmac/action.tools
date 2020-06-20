@@ -16,6 +16,7 @@ export { isReady } from './services/query/selectors/isReady.selector';
 export { sectionById } from './services/query/selectors/sectionById.selector';
 export { sectionTitles } from './services/query/selectors/sectionTitles.selector';
 export { getContexts } from './services/query/selectors/getContexts.selector';
+export { taskWithContext } from './services/query/selectors/taskWithContext.selector';
 
 export { setCurrentContexts, addContext, removeContext } from './services/query/query.state'
 
