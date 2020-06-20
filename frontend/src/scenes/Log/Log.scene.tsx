@@ -96,8 +96,14 @@ const useStyles = makeStyles((theme) => {
       left: "50%",
       top: "50%",
       transform: "translate(-50%, -50%)",
+      [theme.breakpoints.down("sm")]: {
+        top: "53%",
+        width: "95vw",
+        height: "90vh",
+      },
       padding: theme.spacing(2),
       flex: 1,
+      overflowY: "scroll",
     },
     danger: {
       color: red[900],
