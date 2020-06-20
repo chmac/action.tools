@@ -10,7 +10,7 @@ export const taskById = (state: RootState, id: string) => {
 
   const hasUnfinishedChildren =
     typeof tasks.find(
-      task => task.parentId === task.id && task.isTask && !task.finished
+      task => task.parentId === id && task.isTask && !task.finished
     ) !== 'undefined';
 
   return { ...task, hasUnfinishedChildren };
