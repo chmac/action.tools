@@ -31,18 +31,22 @@ const Actions = ({ taskId }: { taskId: string }) => {
     (key: KEY) => {
       switch (key) {
         case KEY.j: {
+          setShowNumbers(false);
           dispatch(finishTask(taskId));
           break;
         }
         case KEY.k: {
+          setShowNumbers(false);
           dispatch(addId(taskId));
           break;
         }
         case KEY.l: {
+          setShowNumbers(false);
           dispatch(snoozeTask({ id: taskId, daysFromToday: 1 }));
           break;
         }
         case KEY.semi: {
+          setShowNumbers(false);
           const daysFromToday = parseInt(prompt("How many days hence?") || "0");
           if (daysFromToday > 0) {
             dispatch(snoozeTask({ id: taskId, daysFromToday }));
@@ -145,8 +149,8 @@ const useStyles = makeStyles((theme) => {
       left: 0,
       width: "100vw",
       textAlign: "center",
-      paddingTop: theme.spacing(1),
-      paddingBottom: theme.spacing(1),
+      paddingTop: theme.spacing(0.5),
+      paddingBottom: theme.spacing(0.5),
       backgroundColor: pink[50],
     },
     dayWrapper: {
@@ -172,8 +176,10 @@ const useStyles = makeStyles((theme) => {
     },
     actions: {
       width: 120,
-      marginLeft: theme.spacing(2),
-      marginRigh: theme.spacing(2),
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
+      marginTop: theme.spacing(0.5),
+      marginBottom: theme.spacing(0.5),
     },
   };
 });
