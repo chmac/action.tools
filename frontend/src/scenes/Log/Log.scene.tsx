@@ -1,8 +1,16 @@
-import { makeStyles, Modal, Paper, Typography } from "@material-ui/core";
+import {
+  makeStyles,
+  Modal,
+  Paper,
+  Typography,
+  Button,
+} from "@material-ui/core";
 import * as React from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "../../store";
 import { selectAll } from "../Notifications/Notifications.state";
+import { wipe, reset } from "../../services/storage/storage.service";
+import { red } from "@material-ui/core/colors";
 
 type Props = {
   open: boolean;
@@ -49,6 +57,29 @@ const Log = (props: Props) => {
             </Typography>
           ))}
         </ul>
+        <Typography variant="h1" className={classes.danger}>
+          Danger
+        </Typography>
+        <Typography>
+          Version: {process.env.REACT_APP_VERSION_GIT || "dev"} built at{" "}
+          {process.env.REACT_APP_BUILD_TIME || "now"}
+        </Typography>
+        <Button
+          size="small"
+          onClick={() => {
+            wipe();
+          }}
+        >
+          Wipe Storage
+        </Button>
+        <Button
+          size="small"
+          onClick={() => {
+            reset();
+          }}
+        >
+          Reset Everything
+        </Button>
       </Paper>
     </Modal>
   );
@@ -67,6 +98,9 @@ const useStyles = makeStyles((theme) => {
       transform: "translate(-50%, -50%)",
       padding: theme.spacing(2),
       flex: 1,
+    },
+    danger: {
+      color: red[900],
     },
   };
 });
