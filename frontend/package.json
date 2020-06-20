@@ -47,7 +47,7 @@
     "remark-react": "^7.0.1",
     "remark-rehype": "^5.0.0",
     "remark-stringify": "^7.0.4",
-    "remeda": "^0.0.14",
+    "remeda": "^0.0.20",
     "typescript": "~3.7.2",
     "unified": "^8.4.2",
     "unified-stream": "^1.0.5",
