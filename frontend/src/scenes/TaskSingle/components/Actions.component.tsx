@@ -1,11 +1,14 @@
 import { Button, makeStyles, Paper } from "@material-ui/core";
-import { pink } from "@material-ui/core/colors";
+import { pink, lightGreen } from "@material-ui/core/colors";
+import classNames from "classnames";
 import { finishTask, snoozeTask } from "do.md";
-import React, { useCallback, useEffect } from "react";
+import mousetrap from "mousetrap";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addId } from "../../../services/now/now.state";
 import { AppDispatch } from "../../../store";
-import mousetrap from "mousetrap";
+
+const snoozeDayOptions = [5, 7, 9, 14, 30];
 
 const assertNever = (no: never): never => {
   throw new Error("assertNever #pcQASS");
@@ -21,6 +24,7 @@ const keys = Object.values(KEY);
 
 const Actions = ({ taskId }: { taskId: string }) => {
   const classes = useStyles();
+  const [showNumbers, setShowNumbers] = useState(false);
   const dispatch: AppDispatch = useDispatch();
 
   const handleKey = useCallback(
@@ -65,6 +69,31 @@ const Actions = ({ taskId }: { taskId: string }) => {
   return (
     <>
       <Paper className={classes.actionWrapper}>
+        <div
+          className={classNames({
+            [classes.dayWrapper]: true,
+            [classes.hidden]: !showNumbers,
+          })}
+        >
+          {snoozeDayOptions.map((days) => {
+            return (
+              <Button
+                key={days}
+                variant="outlined"
+                classes={{
+                  root: classes.days,
+                  label: classes.daysLabel,
+                }}
+                onClick={() => {
+                  dispatch(snoozeTask({ id: taskId, daysFromToday: days }));
+                  setShowNumbers(false);
+                }}
+              >
+                {days}
+              </Button>
+            );
+          })}
+        </div>
         <Button
           variant="outlined"
           size="large"
@@ -96,7 +125,7 @@ const Actions = ({ taskId }: { taskId: string }) => {
           size="large"
           className={classes.actions}
           onClick={() => {
-            handleKey(KEY.semi);
+            setShowNumbers(!showNumbers);
           }}
         >
           Later
@@ -119,6 +148,27 @@ const useStyles = makeStyles((theme) => {
       paddingTop: theme.spacing(1),
       paddingBottom: theme.spacing(1),
       backgroundColor: pink[50],
+    },
+    dayWrapper: {
+      // Pull the top down to hide the top of the actionWrapper
+      marginTop: theme.spacing(-1),
+      paddingTop: theme.spacing(1),
+      paddingBottom: theme.spacing(1),
+      backgroundColor: lightGreen[50],
+    },
+    hidden: {
+      display: "none",
+    },
+    days: {
+      minWidth: 35,
+      marginLeft: theme.spacing(0.5),
+      marginRigh: theme.spacing(0.5),
+      paddingLeft: theme.spacing(1),
+      paddingRight: theme.spacing(1),
+    },
+    daysLabel: {
+      paddingLeft: theme.spacing(1),
+      paddingRight: theme.spacing(1),
     },
     actions: {
       width: 120,
