@@ -19,6 +19,7 @@ import Do from "../Do/Do.scene";
 import Home from "../Home/Home.scene";
 import LeftMenu from "../LeftMenu/LeftMenu.scene";
 import Notifications from "../Notifications/Notifications.scene";
+import Plan from "../Plan/Plan.scene";
 
 const baseTheme = createMuiTheme();
 const theme = responsiveFontSizes(baseTheme);
@@ -52,6 +53,7 @@ const Routes: React.FC = () => {
               <Route exact path="/do" component={Do} />
               <Route exact path="/tasks" component={AllTasks} />
               <Route exact path="/review" component={Consecutive} />
+              <Route exact path="/plan" component={Plan} />
               <Route exact path="/home" component={Home} />
             </Switch>
           ) : (
