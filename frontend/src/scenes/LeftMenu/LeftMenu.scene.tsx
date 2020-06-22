@@ -14,6 +14,7 @@ import {
 import KeyboardTabIcon from "@material-ui/icons/KeyboardTab";
 import ListIcon from "@material-ui/icons/List";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+import TodayIcon from "@material-ui/icons/Today";
 import { addContext, constants, getContexts, removeContext } from "do.md";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -74,6 +75,17 @@ const LeftMenu = () => {
             <PlayCircleOutlineIcon />
           </ListItemIcon>
           <ListItemText primary="Do" />
+        </ListItem>
+        <ListItem
+          button
+          onClick={() => {
+            go("/plan");
+          }}
+        >
+          <ListItemIcon>
+            <TodayIcon />
+          </ListItemIcon>
+          <ListItemText primary="Plan" />
         </ListItem>
         <ListSubheader>Context</ListSubheader>
         {contexts.map(([context, enabled]) => {

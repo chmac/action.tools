@@ -32,8 +32,9 @@ enum KEY {
   n = "n",
   question = "?",
   goAll = "g a",
-  goPlan = "g p",
+  goReview = "g r",
   goDo = "g d",
+  goPlan = "g p",
 }
 const keys = Object.values(KEY);
 
@@ -76,12 +77,16 @@ const Bar: React.FC = (props) => {
           history.push("/tasks");
           break;
         }
-        case KEY.goPlan: {
+        case KEY.goReview: {
           history.push("/review");
           break;
         }
         case KEY.goDo: {
           history.push("/do");
+          break;
+        }
+        case KEY.goPlan: {
+          history.push("/plan");
           break;
         }
         default: {
