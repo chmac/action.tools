@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "do.md -- Node.js: Debug TSDX Jest",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": [
+          "--inspect-brk",
+          "${workspaceRoot}/../../node_modules/tsdx/dist/index.js",
+          "test",
+          "--runInBand"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "port": 9229
+  }
+}
