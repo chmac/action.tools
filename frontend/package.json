@@ -21,12 +21,15 @@
     "@types/react-redux": "^7.1.5",
     "@types/react-router-dom": "^5.1.3",
     "@types/unist": "^2.0.3",
+    "@types/yup": "^0.29.3",
     "apollo-boost": "^0.4.7",
     "awesome-debounce-promise": "^2.1.0",
     "classnames": "^2.2.6",
     "dayjs": "^1.8.28",
     "do.md": "0.1.0",
     "do.md-archive": "^0.1.0",
+    "formik": "^2.1.4",
+    "formik-material-ui": "^2.0.0-beta.1",
     "graphql": "^14.5.8",
     "history": "^4.10.1",
     "isomorphic-git": "^1.0.0",
@@ -56,7 +59,8 @@
     "unist-util-map": "^2.0.0",
     "unist-util-modify-children": "^1.1.5",
     "unist-util-select": "^3.0.0",
-    "unist-util-visit": "^2.0.1"
+    "unist-util-visit": "^2.0.1",
+    "yup": "^0.29.1"
   },
   "scripts": {
     "start": "env-cmd -f ../.env react-scripts start",
