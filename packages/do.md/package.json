@@ -39,6 +39,7 @@
     "@types/remote-redux-devtools": "^0.5.4",
     "@types/unist": "^2.0.3",
     "jest-without-globals": "^0.0.3",
+    "prettier": "^2.0.5",
     "redux-devtools-cli": "^0.0.1-1",
     "remark-parse": "^8.0.2",
     "remark-stringify": "^8.1.0",
