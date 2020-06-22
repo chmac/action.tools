@@ -1,4 +1,4 @@
-import { makeStyles, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import { domdReduxKey } from "do.md";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -15,7 +15,6 @@ const AllTasks = () => {
 
   return (
     <div className={classes.page}>
-      <Typography variant="h1">Tasks</Typography>
       {sections.map((section) => (
         <SectionScene key={section.id} section={section} />
       ))}
