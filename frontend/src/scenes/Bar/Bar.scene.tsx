@@ -11,14 +11,14 @@ import {
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import React, { useEffect, useCallback } from "react";
 import { createId, newTask } from "do.md";
+import mousetrap from "mousetrap";
+import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { AppDispatch, AppState } from "../../store";
 import { toggleIsOpen } from "../LeftMenu/LeftMenu.state";
 import Log from "../Log/Log.scene";
-import mousetrap from "mousetrap";
 import { history } from "../Routes/Routes.scene";
 
 
