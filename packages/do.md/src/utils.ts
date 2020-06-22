@@ -2,6 +2,7 @@ import { InlineCode, ListItem } from 'mdast';
 import { DATA_KEYS, KEY_VALUE_SEPARATOR } from './constants';
 import { TaskListItem } from './types';
 import { Dayjs } from 'dayjs';
+import { nanoid } from '@reduxjs/toolkit';
 
 export const identity = <T>(p: T): T => p;
 
@@ -42,4 +43,8 @@ export const isTaskListItem = (item: ListItem): item is TaskListItem => {
 
 export const stringifyDayjs = (date: Dayjs): string => {
   return date.format('YYYY-MM-DD');
+};
+
+export const createId = () => {
+  return nanoid(5);
 };

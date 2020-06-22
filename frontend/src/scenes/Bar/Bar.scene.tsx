@@ -12,17 +12,15 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import React, { useEffect, useCallback } from "react";
+import { createId, newTask } from "do.md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { AppDispatch, AppState } from "../../store";
 import { toggleIsOpen } from "../LeftMenu/LeftMenu.state";
 import Log from "../Log/Log.scene";
-import { newTask } from "do.md";
-import { customAlphabet } from "nanoid";
 import mousetrap from "mousetrap";
 import { history } from "../Routes/Routes.scene";
 
-const nanoid = customAlphabet("abcdefghijklmnopqrstuvwxyz01234567890", 5);
 
 const assertNever = (no: never): never => {
   throw new Error("assertNever #pcQASS");
@@ -54,7 +52,7 @@ const Bar: React.FC = (props) => {
         case KEY.n: {
           const text = globalThis.prompt("Enter task text");
           if (typeof text === "string" && text.length > 0) {
-            const id = nanoid();
+            const id = createId();
             dispatch(
               newTask({
                 task: {
