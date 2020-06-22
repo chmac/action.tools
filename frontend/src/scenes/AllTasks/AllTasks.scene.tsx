@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-import { domdReduxKey } from "do.md";
+import { getPackageState } from "do.md";
 import React from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "../../store";
@@ -9,7 +9,7 @@ const AllTasks = () => {
   const classes = useStyles();
   const { sections } = useSelector((state: AppState) => {
     return {
-      sections: state[domdReduxKey].data.sections,
+      sections: getPackageState(state).data.sections,
     };
   });
 
