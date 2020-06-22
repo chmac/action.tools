@@ -1,27 +1,31 @@
 import {
+  Action,
   combineReducers,
   configureStore,
   ThunkAction,
-  Action,
 } from "@reduxjs/toolkit";
 import { domdReduxKey, reducer as domdReducer } from "do.md";
-import now, { REDUX_KEY as nowKey } from "./services/now/now.state";
-import storage, {
-  REDUX_KEY as storageKey,
-} from "./services/storage/storage.state";
 import LeftMenu, {
   REDUX_KEY as LeftMenuKey,
 } from "./scenes/LeftMenu/LeftMenu.state";
 import Notifications, {
   REDUX_KEY as NotificationsKey,
 } from "./scenes/Notifications/Notifications.state";
+import TaskForm, {
+  REDUX_KEY as TaskFormKey,
+} from "./scenes/TaskForm/TaskForm.state";
+import now, { REDUX_KEY as nowKey } from "./services/now/now.state";
+import storage, {
+  REDUX_KEY as storageKey,
+} from "./services/storage/storage.state";
 
 const reducer = combineReducers({
   [domdReduxKey]: domdReducer,
-  [nowKey]: now,
-  [storageKey]: storage,
   [LeftMenuKey]: LeftMenu,
   [NotificationsKey]: Notifications,
+  [TaskFormKey]: TaskForm,
+  [nowKey]: now,
+  [storageKey]: storage,
 });
 
 export type AppState = ReturnType<typeof reducer>;

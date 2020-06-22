@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import AddIcon from "@material-ui/icons/Add";
 import { createId, newTask } from "do.md";
 import mousetrap from "mousetrap";
 import React, { useCallback, useEffect } from "react";
@@ -20,13 +21,15 @@ import { AppDispatch, AppState } from "../../store";
 import { toggleIsOpen } from "../LeftMenu/LeftMenu.state";
 import Log from "../Log/Log.scene";
 import { history } from "../Routes/Routes.scene";
-
+import TaskForm from "../TaskForm/TaskForm.scene";
+import { open } from "../TaskForm/TaskForm.state";
 
 const assertNever = (no: never): never => {
   throw new Error("assertNever #pcQASS");
 };
 
 enum KEY {
+  c = "c",
   n = "n",
   question = "?",
   goAll = "g a",
@@ -47,6 +50,10 @@ const Bar: React.FC = (props) => {
       switch (key) {
         case KEY.question: {
           setLogOpen(true);
+          break;
+        }
+        case KEY.c: {
+          dispatch(open());
           break;
         }
         case KEY.n: {
@@ -137,6 +144,13 @@ const Bar: React.FC = (props) => {
           </Button>
           <IconButton
             onClick={() => {
+              handler(KEY.c);
+            }}
+          >
+            <AddIcon />
+          </IconButton>
+          <IconButton
+            onClick={() => {
               setLogOpen(true);
             }}
           >
@@ -152,6 +166,7 @@ const Bar: React.FC = (props) => {
           setLogOpen(false);
         }}
       />
+      <TaskForm />
     </div>
   );
 };
