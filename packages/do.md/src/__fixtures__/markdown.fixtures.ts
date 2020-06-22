@@ -26,9 +26,9 @@ export const getFirstTaskFromMdast = (root: Root): TaskListItem => {
   return (root as any).children[0].children[0];
 };
 
-const yesterday = '2020-02-23';
-const today = '2020-02-24';
-const tomorrow = '2020-02-25';
+export const yesterday = '2020-02-23';
+export const today = '2020-02-24';
+export const tomorrow = '2020-02-25';
 const data = (key: string, value: string) =>
   `\`${key}${KEY_VALUE_SEPARATOR}${value}\``;
 
