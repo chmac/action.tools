@@ -1,5 +1,4 @@
-import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
-import { nanoid } from "nanoid";
+import { createEntityAdapter, createSlice, nanoid } from "@reduxjs/toolkit";
 import { AppState } from "../../store";
 
 export const REDUX_KEY = "Notifications";
