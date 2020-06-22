@@ -62,7 +62,7 @@ const LeftMenu = () => {
           <ListItemIcon>
             <KeyboardTabIcon />
           </ListItemIcon>
-          <ListItemText primary="Plan" />
+          <ListItemText primary="Review" />
         </ListItem>
         <ListItem
           button

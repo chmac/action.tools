@@ -125,7 +125,7 @@ const Bar: React.FC = (props) => {
             All
           </Button>
           <Button component={Link} to="/review" className={classes.hideOnSmall}>
-            Plan
+            Review
           </Button>
           <Button component={Link} to="/do">
             <Badge badgeContent={nowCount} color="primary">
