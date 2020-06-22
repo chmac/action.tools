@@ -26,7 +26,7 @@ const Plan = () => {
                 tasks.map((task) => {
                   return (
                     <Typography component="li" key={task.id}>
-                      {task.id}: {task.contentMarkdown}
+                      {task.contentMarkdown}
                     </Typography>
                   );
                 })
