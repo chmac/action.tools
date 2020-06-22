@@ -1,5 +1,5 @@
 import { makeStyles, Paper, Typography } from "@material-ui/core";
-import { isReady, makeActionableTodaySelector } from "do.md";
+import { isReady, selectActionableTodayFactory } from "do.md";
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "../../store";
@@ -10,7 +10,7 @@ const Consecutive = () => {
 
   const dataLoaded = useSelector(isReady);
   const actionableTodaySelector = useMemo(
-    () => makeActionableTodaySelector(),
+    () => selectActionableTodayFactory(),
     []
   );
   const tasks = useSelector(actionableTodaySelector);

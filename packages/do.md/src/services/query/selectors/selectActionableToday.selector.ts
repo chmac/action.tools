@@ -1,13 +1,15 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { getLocalState, RootState } from '../../../store';
 import { isTaskActionableToday } from '../query.service';
+import { selectCurrentContexts } from './selectCurrentContexts.selector';
+import { selectTasks } from './selectTasks.selector';
 
-export const makeActionableTodaySelector = () => {
+export const selectActionableTodayFactory = () => {
   return createSelector(
     [
       (state: RootState) => getLocalState(state).query.today,
-      (state: RootState) => getLocalState(state).query.currentContexts,
-      (state: RootState) => getLocalState(state).data.tasks,
+      selectCurrentContexts,
+      selectTasks,
     ],
     (today, currentContexts, tasks) => {
       return tasks.filter(task => {

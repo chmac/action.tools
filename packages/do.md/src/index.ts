@@ -10,15 +10,23 @@ export {
   addContextsToTask,
   snoozeTask,
 } from './services/data/data.state';
-export { makeActionableTodaySelector } from './services/query/selectors/actionableToday.selector';
-export { taskById } from './services/query/selectors/taskById.selector';
+export { getContexts } from './services/query/selectors/getContexts.selector';
 export { isReady } from './services/query/selectors/isReady.selector';
 export { sectionById } from './services/query/selectors/sectionById.selector';
 export { sectionTitles } from './services/query/selectors/sectionTitles.selector';
-export { getContexts } from './services/query/selectors/getContexts.selector';
+export { selectActionableTodayFactory } from './services/query/selectors/selectActionableToday.selector';
+export { selectCurrentContexts } from './services/query/selectors/selectCurrentContexts.selector';
+export { selectTasks } from './services/query/selectors/selectTasks.selector';
+export { selectTasksByDateFactory } from './services/query/selectors/selectTasksByDate.selector';
+export { selectTasksByDatesFactory } from './services/query/selectors/selectTasksByDates.selector';
+export { taskById } from './services/query/selectors/taskById.selector';
 export { taskWithContext } from './services/query/selectors/taskWithContext.selector';
 
-export { setCurrentContexts, addContext, removeContext } from './services/query/query.state'
+export {
+  setCurrentContexts,
+  addContext,
+  removeContext,
+} from './services/query/query.state';
 
 export { parseMdast } from './services/parser/parser.service';
 export { startup } from './services/startup/actions/startup.action';
@@ -30,7 +38,7 @@ export {
 } from './store';
 export * from './types';
 
-export * as constants from './constants'
+export * as constants from './constants';
 
 /**
  * # Update to redux based data model

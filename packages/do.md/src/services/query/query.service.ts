@@ -94,3 +94,49 @@ export const isTaskActionableToday = ({
 
   return true;
 };
+
+export const doesTaskMatchDate = ({
+  task,
+  date,
+  currentContexts,
+}: {
+  task: Task;
+  date: string;
+  currentContexts: string[];
+}) => {
+  const { data } = task;
+  const { contexts, after, by } = data;
+
+  // A task that has already been completed is never actionable
+  if (task.finished) {
+    return false;
+  }
+
+  if (!isTaskActionableInCurrentContexts({ contexts, currentContexts })) {
+    return false;
+  }
+
+  if (task.isSequential) {
+    // TODO Figure out how to handle sequential tasks
+    // For now, we ignore the isSequential field, and only validate based on
+    // other fields
+  }
+
+  if (typeof by === 'string') {
+    // NOTE: String comparison works here, both by and date are strings
+    // representing the date, no need for a date library to compare
+    if (by === date) {
+      return true;
+    }
+  }
+
+  if (typeof after === 'string') {
+    // NOTE: String comparison works here, both by and date are strings
+    // representing the date, no need for a date library to compare
+    if (after === date) {
+      return true;
+    }
+  }
+
+  return false;
+};
