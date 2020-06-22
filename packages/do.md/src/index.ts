@@ -40,6 +40,8 @@ export * from './types';
 
 export * as constants from './constants';
 
+export { stringifyDayjs } from './utils';
+
 /**
  * # Update to redux based data model
  *
