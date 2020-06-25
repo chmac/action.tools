@@ -1,2 +1,11 @@
 node_modules/
 yarn-error.log
+
+# Yarn zero installs
+# https://yarnpkg.com/advanced/qa#which-files-should-be-gitignored
+.yarn/*
+!.yarn/cache
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
