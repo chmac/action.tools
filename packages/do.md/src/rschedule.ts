@@ -1,8 +1,6 @@
 // NOTE: We need to install the utc plugin BEFORE rschedule, otherwise it
 // complains and throws an Error on startup.
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-dayjs.extend(utc);
+import 'dayjs-utc';
 
 import '@rschedule/dayjs-date-adapter/setup';
 
