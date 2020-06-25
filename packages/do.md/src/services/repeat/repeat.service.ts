@@ -77,7 +77,8 @@ export const _calculateNextByAfterDates = ({
 };
 
 /**
- * Given a task, and today's date, return the next repetition of this task.
+ * Given a task that **is finished**, and today's date, return the next
+ * repetition of this task.
  */
 export const createNextIteration = ({
   task,

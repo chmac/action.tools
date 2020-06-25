@@ -28,6 +28,7 @@ export {
   removeContext,
 } from './services/query/query.state';
 
+export { createNextIteration } from './services/repeat/repeat.service';
 export { parseMdast } from './services/parser/parser.service';
 export { startup } from './services/startup/actions/startup.action';
 export { createMdast } from './services/unparser/unparser.service';
