@@ -61,12 +61,14 @@ export const calculateNextByAfterDates = ({
 
   const nextBy = nextDateOfIterationAfterToday({ repeat, start: by, today });
 
+  // If there is both a BY and an AFTER date, then having already calculated the
+  // value of the next BY date, calculate the next AFTER date. Do that by
+  // counting the number of days between the original BY and AFTER dates, and
+  // deducting that many days from the new BY date.
   if (typeof after !== 'undefined') {
-    const afterDayjs = dayjs(after);
-    const byDayjs = dayjs(by);
-    const afterNumberOfDaysBeforeBy = afterDayjs.diff(byDayjs, 'day');
+    const daysFromAfterUntilBy = dayjs(by).diff(after, 'day');
     const nextAfter = stringifyDayjs(
-      dayjs(nextBy).subtract(afterNumberOfDaysBeforeBy, 'day')
+      dayjs(nextBy).subtract(daysFromAfterUntilBy, 'day')
     );
     return { by: nextBy, after: nextAfter };
   }
