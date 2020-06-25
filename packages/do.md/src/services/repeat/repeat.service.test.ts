@@ -1,7 +1,9 @@
+import { Task } from '../../types';
 import { today } from '../../__fixtures__/markdown.fixtures';
 import {
   calculateNextByAfterDates,
   calculateNextTaskId,
+  createNextIteration,
 } from './repeat.service';
 import { getRepeatParams } from './services/repeatParser/repeatParser.service';
 
@@ -167,122 +169,151 @@ describe('repeat.service', () => {
       }
     );
 
-    /*
-    it.skip('Always selects a date after the last date #6JzpMD', () => {
-      const task = makeTask(
-        'An example task last Monday repeating on Mondays',
-        true,
-        ['after:2020-02-19', 'repeat:everywed']
-      );
-      const expected = makeTask(
-        'An example task last Monday repeating on Mondays',
-        true,
-        ['after:2020-02-26', 'repeat:everywed']
-      );
-      expect(setNextByAndAfterDates(task, today)).toEqual(expected);
+    it('Always selects a date after the last date #6JzpMD', () => {
+      expect(
+        calculateNextByAfterDates({
+          after: '2020-02-19',
+          today,
+          repeat: getRepeatParams('everywed'),
+        })
+      ).toEqual({ after: '2020-02-26' });
     });
 
-    it.skip('Correctly skips today if today was the next iteration #xiw8x9', () => {
-      const task = makeTask(
-        'An example task last Monday repeating on Mondays',
-        true,
-        ['after:2020-02-17', 'repeat:everymon']
-      );
-      const expected = makeTask(
-        'An example task last Monday repeating on Mondays',
-        true,
-        ['after:2020-03-02', 'repeat:everymon']
-      );
-      expect(setNextByAndAfterDates(task, today)).toEqual(expected);
+    it('Correctly skips today if today was the next iteration #xiw8x9', () => {
+      expect(
+        calculateNextByAfterDates({
+          after: '2020-02-17',
+          today,
+          repeat: getRepeatParams('everymon'),
+        })
+      ).toEqual({ after: '2020-03-02' });
     });
 
-    it.skip('Correctly calculates for after:2020-02-24 repeat:every3days without a by date #b3qWvU', () => {
-      const task = makeTask('A simple task', true, [
-        'after:2020-02-24',
-        'repeat:every3days',
-      ]);
-      const expected = makeTask('A simple task', true, [
-        'after:2020-02-27',
-        'repeat:every3days',
-      ]);
-      expect(setNextByAndAfterDates(task, today)).toEqual(expected);
+    it('Correctly calculates for after:2020-02-24 repeat:every3days without a by date #b3qWvU', () => {
+      expect(
+        calculateNextByAfterDates({
+          after: '2020-02-24',
+          today,
+          repeat: getRepeatParams('every3days'),
+        })
+      ).toEqual({ after: '2020-02-27' });
     });
 
-    it.skip('Correctly adds 1 month to both by and after dates #mVwp7v', () => {
-      const task = makeTask('An example task', true, [
-        'after:2020-02-10',
-        'by:2020-02-20',
-        'repeat:every1month',
-      ]);
-      const expected = makeTask('An example task', true, [
-        'after:2020-03-10',
-        'by:2020-03-20',
-        'repeat:every1month',
-      ]);
-      expect(setNextByAndAfterDates(task, today)).toEqual(expected);
+    it('Correctly adds 1 month to both by and after dates #mVwp7v', () => {
+      expect(
+        calculateNextByAfterDates({
+          after: '2020-02-10',
+          by: '2020-02-20',
+          repeat: getRepeatParams('every1month'),
+          today,
+        })
+      ).toEqual({
+        after: '2020-03-10',
+        by: '2020-03-20',
+      });
     });
 
-    it.skip('Correctly adds 3 years to by and after dates #DYtXLy', () => {
-      const task = makeTask('An example task', true, [
-        'after:2020-02-10',
-        'by:2020-02-20',
-        'repeat:every3year',
-      ]);
-      const expected = makeTask('An example task', true, [
-        'after:2023-02-10',
-        'by:2023-02-20',
-        'repeat:every3year',
-      ]);
-      expect(setNextByAndAfterDates(task, today)).toEqual(expected);
+    it('Correctly adds 3 years to by and after dates #DYtXLy', () => {
+      expect(
+        calculateNextByAfterDates({
+          after: '2020-02-10',
+          by: '2020-02-20',
+          repeat: getRepeatParams('every3year'),
+          today,
+        })
+      ).toEqual({
+        after: '2023-02-10',
+        by: '2023-02-20',
+      });
     });
-
-    it('Throws for a task without an after or by date #Ntbyrc', () => {
-      const task = makeTask('An example without a date', false, [
-        'repeat:every3days',
-      ]);
-      expect(() => setNextByAndAfterDates(task, today)).toThrow();
-    });
-    */
   });
 
-  /*
-  describe.skip('calculateNextIteration()', () => {
+  describe('createNextIteration()', () => {
     it('Correctly calculates for by:2020-02-21 repeat:after3days #b2mYm5', () => {
-      const task = makeTask('A simple task', true, [
-        'by:2020-02-21',
-        'repeat:after3days',
-      ]);
-      const expected = makeTask('A simple task', false, [
-        'by:2020-02-27',
-        'repeat:after3days',
-      ]);
-      expect(createNextRepetitionTask(task, today)).toEqual(expected);
+      const task: Task = {
+        id: 'abc123',
+        contentMarkdown: 'A simple task',
+        finished: true,
+        isSequential: false,
+        isTask: true,
+        parentId: '',
+        sectionId: 'top',
+        data: {
+          id: 'abc123',
+          by: '2020-02-21',
+          repeat: 'after3days',
+        },
+      };
+
+      expect(createNextIteration({ task, today })).toEqual({
+        ...task,
+        id: 'abc123-1',
+        finished: false,
+        data: {
+          id: 'abc123-1',
+          created: today,
+          by: '2020-02-27',
+          repeat: 'after3days',
+        },
+      });
     });
 
     it('Correctly calculates for by:2020-02-24 repeat:every3days #7jfVa5', () => {
-      const task = makeTask('A simple task', true, [
-        'by:2020-02-24',
-        'repeat:every3days',
-      ]);
-      const expected = makeTask('A simple task', false, [
-        'by:2020-02-27',
-        'repeat:every3days',
-      ]);
-      expect(createNextRepetitionTask(task, today)).toEqual(expected);
+      const task: Task = {
+        id: 'abc123',
+        contentMarkdown: 'A simple task',
+        finished: true,
+        isSequential: false,
+        isTask: true,
+        parentId: '',
+        sectionId: 'top',
+        data: {
+          id: 'abc123',
+          by: '2020-02-24',
+          repeat: 'every3days',
+        },
+      };
+      expect(createNextIteration({ task, today })).toEqual({
+        ...task,
+        id: 'abc123-1',
+        finished: false,
+        data: {
+          id: 'abc123-1',
+          created: today,
+          by: '2020-02-27',
+          repeat: 'every3days',
+        },
+      });
     });
 
     it('Removes the finished field #HFcU0o', () => {
-      const task = makeTask('A simple task', true, [
-        'by:2020-02-21',
-        'repeat:after3days',
-        'finished:2020-02-24',
-      ]);
-      const expected = makeTask('A simple task', false, [
-        'by:2020-02-27',
-        'repeat:after3days',
-      ]);
-      expect(createNextRepetitionTask(task, today)).toEqual(expected);
+      const task: Task = {
+        id: 'abc123',
+        contentMarkdown: 'A simple task',
+        finished: true,
+        isSequential: false,
+        isTask: true,
+        parentId: '',
+        sectionId: 'top',
+        data: {
+          id: 'abc123',
+          by: '2020-02-21',
+          finished: today,
+          repeat: 'after3days',
+        },
+      };
+
+      expect(createNextIteration({ task, today })).toEqual({
+        ...task,
+        id: 'abc123-1',
+        finished: false,
+        data: {
+          id: 'abc123-1',
+          created: today,
+          by: '2020-02-27',
+          repeat: 'after3days',
+        },
+      });
     });
   });
-  */
 });
