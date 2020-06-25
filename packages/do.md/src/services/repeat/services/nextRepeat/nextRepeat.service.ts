@@ -7,6 +7,7 @@ import {
   RepeatWeekly,
 } from '../../../../types';
 import { stringifyDayjs } from '../../../../utils';
+import { AFTER } from '../../../../constants';
 
 const notReachable = (_x: never): never => {
   throw new Error('Unknown never error. #gqIMjG');
@@ -100,7 +101,7 @@ export const nextDateOfIteration = ({
 
 export const nextDateOfIterationAfterToday = ({
   repeat,
-  start,
+  start: startInput,
   today,
 }: {
   repeat: Repeat;
@@ -108,6 +109,13 @@ export const nextDateOfIterationAfterToday = ({
   today: string;
 }): string => {
   const todayDayjs = dayjs(today);
+
+  // For repeat "after x time", we calculate the date of the next repetition
+  // from TODAY, with the assumption that the task has been completed today. The
+  // start date may be in the past, and the next repetition is calculated from
+  // when the task was completed, not when it was last due.
+  const start = repeat.repeat === AFTER ? today : startInput;
+
   let next = nextDateOfIteration({ repeat, start });
   const first = next;
 
