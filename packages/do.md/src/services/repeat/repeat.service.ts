@@ -8,7 +8,7 @@ import { getRepeatParams } from './services/repeatParser/repeatParser.service';
 /**
  * Given an id like abc123 create abc123-1, given abc123-1 create abc123-2
  */
-export const calculateNextTaskId = (id?: string): string => {
+export const _calculateNextTaskId = (id?: string): string => {
   if (typeof id === 'undefined') {
     return createId();
   }
@@ -21,7 +21,7 @@ export const calculateNextTaskId = (id?: string): string => {
   return `${baseId}-${(asInt + 1).toString()}`;
 };
 
-export const calculateNextRepetitionDate = ({
+export const _calculateNextRepetitionDate = ({
   date,
   today,
   repeat,
@@ -34,7 +34,7 @@ export const calculateNextRepetitionDate = ({
   return '';
 };
 
-export const calculateNextByAfterDates = ({
+export const _calculateNextByAfterDates = ({
   by,
   after,
   today,
@@ -92,14 +92,14 @@ export const createNextIteration = ({
 
   const repeat = getRepeatParams(task.data.repeat);
 
-  const dates = calculateNextByAfterDates({
+  const dates = _calculateNextByAfterDates({
     by: task.data.by,
     after: task.data.after,
     today,
     repeat,
   });
 
-  const id = calculateNextTaskId(task.data.id);
+  const id = _calculateNextTaskId(task.data.id);
 
   const data: TaskData = {
     id,

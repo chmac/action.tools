@@ -1,5 +1,5 @@
 import { createId } from '../../utils';
-import { calculateNextTaskId } from './repeat.service';
+import { _calculateNextTaskId } from './repeat.service';
 
 /**
  * NOTES
@@ -28,13 +28,13 @@ describe('repeat.service', () => {
 
     it('Calls createId without an ID #9We4qV', () => {
       expect(jest.isMockFunction(createId)).toEqual(true);
-      expect(calculateNextTaskId()).toEqual(MOCK_ID);
+      expect(_calculateNextTaskId()).toEqual(MOCK_ID);
       expect(createId).toHaveBeenCalledTimes(1);
       expect(createId).toHaveBeenCalledWith();
     });
 
     it('Does not call createId when given an id #9XNeDe', () => {
-      expect(calculateNextTaskId('foobar')).toEqual('foobar-1');
+      expect(_calculateNextTaskId('foobar')).toEqual('foobar-1');
       expect(createId).not.toHaveBeenCalled();
     });
   });

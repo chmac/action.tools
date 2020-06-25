@@ -1,8 +1,8 @@
 import { Task } from '../../types';
 import { today } from '../../__fixtures__/markdown.fixtures';
 import {
-  calculateNextByAfterDates,
-  calculateNextTaskId,
+  _calculateNextByAfterDates,
+  _calculateNextTaskId,
   createNextIteration,
 } from './repeat.service';
 import { getRepeatParams } from './services/repeatParser/repeatParser.service';
@@ -13,19 +13,19 @@ import { getRepeatParams } from './services/repeatParser/repeatParser.service';
 describe('repeat.service', () => {
   describe('calculateNextTaskId()', () => {
     it('Adds -1 to the id when given a string without a dash #MlHkjs', () => {
-      expect(calculateNextTaskId('foobar')).toEqual('foobar-1');
+      expect(_calculateNextTaskId('foobar')).toEqual('foobar-1');
     });
 
     it('Adds -2 to an id ending -1 #peAVD3', () => {
-      expect(calculateNextTaskId('foobar-1')).toEqual('foobar-2');
+      expect(_calculateNextTaskId('foobar-1')).toEqual('foobar-2');
     });
 
     it('Adds -10 to an id ending -9 #cXmUuN', () => {
-      expect(calculateNextTaskId('foobar-9')).toEqual('foobar-10');
+      expect(_calculateNextTaskId('foobar-9')).toEqual('foobar-10');
     });
 
     it('Adds -100 to an id ending -99 #zENGsR', () => {
-      expect(calculateNextTaskId('foobar-99')).toEqual('foobar-100');
+      expect(_calculateNextTaskId('foobar-99')).toEqual('foobar-100');
     });
   });
 
@@ -49,7 +49,7 @@ describe('repeat.service', () => {
       'single date %s type %s start %s expected %s repeat %s #oVCcNv',
       (_, dateType, inputDate, expectedDate, repeatString) => {
         expect(
-          calculateNextByAfterDates({
+          _calculateNextByAfterDates({
             [dateType]: inputDate,
             today,
             repeat: getRepeatParams(repeatString),
@@ -156,7 +156,7 @@ describe('repeat.service', () => {
         repeatString
       ) => {
         expect(
-          calculateNextByAfterDates({
+          _calculateNextByAfterDates({
             by: byInputDate,
             after: afterInputDate,
             today,
@@ -171,7 +171,7 @@ describe('repeat.service', () => {
 
     it('Always selects a date after the last date #6JzpMD', () => {
       expect(
-        calculateNextByAfterDates({
+        _calculateNextByAfterDates({
           after: '2020-02-19',
           today,
           repeat: getRepeatParams('everywed'),
@@ -181,7 +181,7 @@ describe('repeat.service', () => {
 
     it('Correctly skips today if today was the next iteration #xiw8x9', () => {
       expect(
-        calculateNextByAfterDates({
+        _calculateNextByAfterDates({
           after: '2020-02-17',
           today,
           repeat: getRepeatParams('everymon'),
@@ -191,7 +191,7 @@ describe('repeat.service', () => {
 
     it('Correctly calculates for after:2020-02-24 repeat:every3days without a by date #b3qWvU', () => {
       expect(
-        calculateNextByAfterDates({
+        _calculateNextByAfterDates({
           after: '2020-02-24',
           today,
           repeat: getRepeatParams('every3days'),
@@ -201,7 +201,7 @@ describe('repeat.service', () => {
 
     it('Correctly adds 1 month to both by and after dates #mVwp7v', () => {
       expect(
-        calculateNextByAfterDates({
+        _calculateNextByAfterDates({
           after: '2020-02-10',
           by: '2020-02-20',
           repeat: getRepeatParams('every1month'),
@@ -215,7 +215,7 @@ describe('repeat.service', () => {
 
     it('Correctly adds 3 years to by and after dates #DYtXLy', () => {
       expect(
-        calculateNextByAfterDates({
+        _calculateNextByAfterDates({
           after: '2020-02-10',
           by: '2020-02-20',
           repeat: getRepeatParams('every3year'),
