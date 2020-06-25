@@ -85,7 +85,7 @@ export const createNextIteration = ({
 }: {
   task: Task;
   today: string;
-}) => {
+}): Task => {
   if (typeof task.data.repeat === 'undefined') {
     throw new Error('Invalid task given to createNextIteration() #ONv7Lt');
   }
@@ -99,12 +99,19 @@ export const createNextIteration = ({
     repeat,
   });
 
+  const id = calculateNextTaskId(task.data.id);
+
   const data: TaskData = {
-    id: calculateNextTaskId(task.data.id),
+    id,
     repeat: task.data.repeat,
     created: stringifyDayjs(dayjs(today)),
     ...dates,
   };
 
-  return { repeat, data, today };
+  return {
+    ...task,
+    finished: false,
+    id,
+    data,
+  };
 };
