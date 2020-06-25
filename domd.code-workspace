@@ -13,6 +13,9 @@
       "path": "packages/do.md"
     },
     {
+      "path": "packages/dayjs-utc"
+    },
+    {
       "path": "packages/do.md-archive"
     },
     {
