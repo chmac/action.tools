@@ -62,7 +62,7 @@ describe('repeat.service', () => {
         '2020-02-12', // After a week past Wednesday
         '2020-02-14', // By a week past Friday
         '2020-02-26', // This Wednesday
-        '2020-02-28', // This Fridayj
+        '2020-02-28', // This Friday
         'every1week',
       ],
       [
