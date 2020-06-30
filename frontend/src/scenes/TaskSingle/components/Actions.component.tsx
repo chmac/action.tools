@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { addId } from "../../../services/now/now.state";
 import { AppDispatch } from "../../../store";
 
-const snoozeDayOptions = [5, 7, 9, 14, 30];
+const snoozeDayOptions = [5, 7, 9, 14, 30, "?"];
 
 const assertNever = (no: never): never => {
   throw new Error("assertNever #pcQASS");
@@ -61,6 +61,23 @@ const Actions = ({ taskId }: { taskId: string }) => {
     [taskId, dispatch]
   );
 
+  const handleDays = useCallback(
+    (days: string | number) => {
+      if (typeof days === "string") {
+        setShowNumbers(false);
+        const daysFromToday = parseInt(prompt("How many days hence?") || "0");
+        if (daysFromToday > 0) {
+          dispatch(snoozeTask({ id: taskId, daysFromToday }));
+        }
+      } else {
+        dispatch(snoozeTask({ id: taskId, daysFromToday: days }));
+      }
+      setShowNumbers(false);
+    },
+
+    [dispatch, setShowNumbers, taskId]
+  );
+
   useEffect(() => {
     mousetrap.bind(keys, (event, key) => {
       handleKey(key as KEY);
@@ -88,10 +105,7 @@ const Actions = ({ taskId }: { taskId: string }) => {
                   root: classes.days,
                   label: classes.daysLabel,
                 }}
-                onClick={() => {
-                  dispatch(snoozeTask({ id: taskId, daysFromToday: days }));
-                  setShowNumbers(false);
-                }}
+                onClick={() => handleDays(days)}
               >
                 {days}
               </Button>
