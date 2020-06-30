@@ -120,56 +120,46 @@ const TaskForm = () => {
             return (
               <div className={classes.wrapper}>
                 <Form>
-                  <Typography>
-                    <Field
-                      component={TextField}
-                      type="string"
-                      name="title"
-                      label="Text"
-                      helperText="Supports inline markdown (not inline code blocks)"
-                      fullWidth
-                    />
-                  </Typography>
-                  <Typography>
-                    <Field
-                      component={TextField}
-                      type="string"
-                      name="after"
-                      label="After"
-                      helperText="YYYY-MM-DD ISO date, or number of days from today (0 today, 1 tomorrow, etc)"
-                      fullWidth
-                    />
-                  </Typography>
-                  <Typography>
-                    <Field
-                      component={TextField}
-                      type="string"
-                      name="by"
-                      label="By"
-                      helperText="YYYY-MM-DD ISO date, or number of days from today (0 today, 1 tomorrow, etc)"
-                      fullWidth
-                    />
-                  </Typography>
-                  <Typography>
-                    <Field
-                      component={TextField}
-                      type="string"
-                      name="contexts"
-                      label="Contexts"
-                      helperText="Comma separated lists of contexts, will be whitespace trimmed"
-                      fullWidth
-                    />
-                  </Typography>
-                  <Typography>
-                    <Field
-                      component={TextField}
-                      type="string"
-                      name="repeat"
-                      label="Repeat"
-                      helperText="3 sections, no spaces. after|every, comma separated numbers, unit (days,weeks,months or day of week or month)"
-                      fullWidth
-                    />
-                  </Typography>
+                  <Field
+                    component={TextField}
+                    type="string"
+                    name="title"
+                    label="Text"
+                    helperText="Supports inline markdown (not inline code blocks)"
+                    fullWidth
+                  />
+                  <Field
+                    component={TextField}
+                    type="string"
+                    name="after"
+                    label="After"
+                    helperText="YYYY-MM-DD ISO date, or number of days from today (0 today, 1 tomorrow, etc)"
+                    fullWidth
+                  />
+                  <Field
+                    component={TextField}
+                    type="string"
+                    name="by"
+                    label="By"
+                    helperText="YYYY-MM-DD ISO date, or number of days from today (0 today, 1 tomorrow, etc)"
+                    fullWidth
+                  />
+                  <Field
+                    component={TextField}
+                    type="string"
+                    name="contexts"
+                    label="Contexts"
+                    helperText="Comma separated lists of contexts, will be whitespace trimmed"
+                    fullWidth
+                  />
+                  <Field
+                    component={TextField}
+                    type="string"
+                    name="repeat"
+                    label="Repeat"
+                    helperText="3 sections, no spaces. after|every, comma separated numbers, unit (days,weeks,months or day of week or month)"
+                    fullWidth
+                  />
                   <Typography>
                     <Button
                       variant="contained"
