@@ -7,8 +7,8 @@ yarn add ../packages/do.md
 echo export REACT_APP_VERSION_GIT=`git rev-parse --short HEAD`
 export REACT_APP_VERSION_GIT=`git rev-parse --short HEAD`
 
-echo export REACT_APP_BUILD_TIME=`date +%Y-%m-%d_%H-%M-%S`
-export REACT_APP_BUILD_TIME=`date +%Y-%m-%d_%H-%M-%S`
+echo export REACT_APP_BUILD_TIME=`date -u +%s`
+export REACT_APP_BUILD_TIME=`date -u +%s`
 
 echo react-scripts build
 react-scripts build

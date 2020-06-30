@@ -1,11 +1,12 @@
 import {
-  Button, makeStyles,
+  Button,
+  makeStyles,
   Modal,
   Paper,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import { red } from "@material-ui/core/colors";
-import * as React from "react";
+import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 import { reset, wipe } from "../../services/storage/storage.service";
 import { AppState } from "../../store";
@@ -21,6 +22,16 @@ const formatTimestamp = (time: number): string => {
   return `${d.getHours()}:${d.getMinutes()}`;
 };
 
+const buildTimeString = () => {
+  const timestampString = process.env.REACT_APP_BUILD_TIME;
+  if (typeof timestampString === "undefined") {
+    return "now";
+  }
+  const timeMs = parseInt(timestampString) * 1e3;
+  var d = new Date(timeMs);
+  return d.toString();
+};
+
 const Log = (props: Props) => {
   const { open, onClose } = props;
   const classes = useStyles();
@@ -28,6 +39,7 @@ const Log = (props: Props) => {
   const lastCommitHash = useSelector(
     (state: AppState) => state.storage.lastCommitHash
   );
+  const buildTime = useCallback(buildTimeString, []);
 
   return (
     <Modal
@@ -60,8 +72,9 @@ const Log = (props: Props) => {
           Danger
         </Typography>
         <Typography>
-          Version: {process.env.REACT_APP_VERSION_GIT || "dev"} built at{" "}
-          {process.env.REACT_APP_BUILD_TIME || "now"}
+          Version: {process.env.REACT_APP_VERSION_GIT || "dev"}
+          <br />
+          Build time: {buildTime()}
         </Typography>
         <Button
           size="small"
