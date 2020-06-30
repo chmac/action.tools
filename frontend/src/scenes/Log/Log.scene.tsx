@@ -78,6 +78,7 @@ const Log = (props: Props) => {
         </Typography>
         <Button
           size="small"
+          variant="outlined"
           onClick={() => {
             wipe();
           }}
@@ -86,6 +87,7 @@ const Log = (props: Props) => {
         </Button>
         <Button
           size="small"
+          variant="outlined"
           onClick={() => {
             reset();
           }}
