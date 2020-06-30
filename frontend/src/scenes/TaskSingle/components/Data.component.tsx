@@ -60,7 +60,7 @@ const Data = ({ data }: { data: TaskData }) => {
           );
         }
 
-        if (key === constants.REPEAT) {
+        if (key === constants.REPEAT || key === constants.ID) {
           return (
             <li key={key} className={classes.li}>
               <Typography>
