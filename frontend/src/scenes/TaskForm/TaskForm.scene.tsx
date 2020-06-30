@@ -128,7 +128,6 @@ const TaskForm = () => {
             dispatch(newTask({ task, insertAtIndex: 0 }));
 
             helpers.resetForm();
-            debugger;
           }}
         >
           {({ isSubmitting }) => {
