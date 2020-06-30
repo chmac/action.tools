@@ -5,6 +5,8 @@ import { createId, stringifyDayjs } from '../../utils';
 import { nextDateOfIterationAfterToday } from './services/nextRepeat/nextRepeat.service';
 import { getRepeatParams } from './services/repeatParser/repeatParser.service';
 
+export { getRepeatParams } from './services/repeatParser/repeatParser.service';
+
 /**
  * Given an id like abc123 create abc123-1, given abc123-1 create abc123-2
  */
