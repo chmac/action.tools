@@ -6,7 +6,14 @@ import {
   Typography,
 } from "@material-ui/core";
 import dayjs from "dayjs";
-import { createId, newTask, stringifyDayjs, Task, TaskData } from "do.md";
+import {
+  createId,
+  getRepeatParams,
+  newTask,
+  stringifyDayjs,
+  Task,
+  TaskData,
+} from "do.md";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
 import React from "react";
@@ -37,7 +44,15 @@ const schema = yup.object().shape({
   repeat: yup
     .string()
     .test("repeat-valid", "Repeat string is not valid", (s) => {
-      return typeof s === "undefined" || s.length === 0;
+      if (typeof s === "undefined" || s.length === 0) {
+        return true;
+      }
+      try {
+        getRepeatParams(s);
+      } catch (error) {
+        return false;
+      }
+      return true;
     }),
 });
 
