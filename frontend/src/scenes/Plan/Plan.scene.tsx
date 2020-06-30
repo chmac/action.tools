@@ -12,6 +12,7 @@ const assertNever = (no: never): never => {
 enum KEY {
   j = "j",
   k = "k",
+  l = "l",
 }
 const keys = Object.values(KEY);
 
@@ -34,6 +35,10 @@ const Plan = () => {
         }
         case KEY.j: {
           setStartDate(stringifyDayjs(dayjs(startDate).add(7, "day")));
+          break;
+        }
+        case KEY.l: {
+          setStartDate(stringifyDayjs(dayjs()));
           break;
         }
         default: {
@@ -85,6 +90,15 @@ const Plan = () => {
           }}
         >
           - 7
+        </Button>{" "}
+        <Button
+          variant="contained"
+          size="large"
+          onClick={() => {
+            handler(KEY.l);
+          }}
+        >
+          0
         </Button>{" "}
         <Button
           variant="contained"
