@@ -28,11 +28,11 @@ const Plan = () => {
   const handler = useCallback(
     (key: KEY) => {
       switch (key) {
-        case KEY.j: {
+        case KEY.k: {
           setStartDate(stringifyDayjs(dayjs(startDate).subtract(7, "day")));
           break;
         }
-        case KEY.k: {
+        case KEY.j: {
           setStartDate(stringifyDayjs(dayjs(startDate).add(7, "day")));
           break;
         }
