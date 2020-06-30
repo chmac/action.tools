@@ -1,8 +1,19 @@
 import { Typography, Button } from "@material-ui/core";
 import dayjs from "dayjs";
 import { selectTasksByDatesFactory, stringifyDayjs } from "do.md";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
+import mousetrap from "mousetrap";
+
+const assertNever = (no: never): never => {
+  throw new Error("assertNever #pcQASS");
+};
+
+enum KEY {
+  j = "j",
+  k = "k",
+}
+const keys = Object.values(KEY);
 
 const Plan = () => {
   const [startDate, setStartDate] = useState(stringifyDayjs(dayjs()));
@@ -13,6 +24,34 @@ const Plan = () => {
     return selectTasksByDatesFactory(dates);
   }, [startDate]);
   const days = useSelector(selectTasksByDates);
+
+  const handler = useCallback(
+    (key: KEY) => {
+      switch (key) {
+        case KEY.j: {
+          setStartDate(stringifyDayjs(dayjs(startDate).subtract(7, "day")));
+          break;
+        }
+        case KEY.k: {
+          setStartDate(stringifyDayjs(dayjs(startDate).add(7, "day")));
+          break;
+        }
+        default: {
+          assertNever(key);
+        }
+      }
+    },
+    [startDate, setStartDate]
+  );
+
+  useEffect(() => {
+    mousetrap.bind(keys, (event, key) => {
+      handler(key as KEY);
+    });
+    return () => {
+      mousetrap.unbind(keys);
+    };
+  }, [handler]);
 
   return (
     <div>
@@ -42,7 +81,7 @@ const Plan = () => {
           variant="contained"
           size="large"
           onClick={() => {
-            setStartDate(stringifyDayjs(dayjs(startDate).subtract(7, "day")));
+            handler(KEY.j);
           }}
         >
           - 7
@@ -51,7 +90,7 @@ const Plan = () => {
           variant="contained"
           size="large"
           onClick={() => {
-            setStartDate(stringifyDayjs(dayjs(startDate).add(7, "day")));
+            handler(KEY.k);
           }}
         >
           + 7
