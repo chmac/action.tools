@@ -1,16 +1,15 @@
 import {
-  makeStyles,
+  Button, makeStyles,
   Modal,
   Paper,
-  Typography,
-  Button,
+  Typography
 } from "@material-ui/core";
+import { red } from "@material-ui/core/colors";
 import * as React from "react";
 import { useSelector } from "react-redux";
+import { reset, wipe } from "../../services/storage/storage.service";
 import { AppState } from "../../store";
 import { selectAll } from "../Notifications/Notifications.state";
-import { wipe, reset } from "../../services/storage/storage.service";
-import { red } from "@material-ui/core/colors";
 
 type Props = {
   open: boolean;
