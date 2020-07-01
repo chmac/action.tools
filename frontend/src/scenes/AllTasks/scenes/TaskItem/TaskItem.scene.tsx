@@ -58,17 +58,19 @@ const TaskItem = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
       }}
     >
       <Typography>
-        <Checkbox
-          checked={task.finished}
-          color="default"
-          onChange={(event) => {
-            if (event.target.checked) {
-              dispatch(finishTask(task.id));
-            } else {
-              dispatch(unfinishTask(task.id));
-            }
-          }}
-        />
+        {task.isTask ? (
+          <Checkbox
+            checked={task.finished}
+            color="default"
+            onChange={(event) => {
+              if (event.target.checked) {
+                dispatch(finishTask(task.id));
+              } else {
+                dispatch(unfinishTask(task.id));
+              }
+            }}
+          />
+        ) : null}
         <Markdown options={{ forceInline: true }}>
           {task.contentMarkdown}
         </Markdown>
