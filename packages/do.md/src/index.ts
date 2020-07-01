@@ -19,6 +19,7 @@ export { selectCurrentContexts } from './services/query/selectors/selectCurrentC
 export { selectTasks } from './services/query/selectors/selectTasks.selector';
 export { selectTasksByDateFactory } from './services/query/selectors/selectTasksByDate.selector';
 export { selectTasksByDatesFactory } from './services/query/selectors/selectTasksByDates.selector';
+export { selectUndatedTasks } from './services/query/selectors/selectUndatedTasks.selector';
 export { taskById } from './services/query/selectors/taskById.selector';
 export { taskWithContext } from './services/query/selectors/taskWithContext.selector';
 
