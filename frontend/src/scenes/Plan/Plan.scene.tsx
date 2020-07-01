@@ -1,9 +1,9 @@
-import { Typography, Button } from "@material-ui/core";
+import { Button, makeStyles, Typography } from "@material-ui/core";
 import dayjs from "dayjs";
 import { selectTasksByDatesFactory, stringifyDayjs } from "do.md";
-import React, { useMemo, useState, useCallback, useEffect } from "react";
-import { useSelector } from "react-redux";
 import mousetrap from "mousetrap";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useSelector } from "react-redux";
 
 const assertNever = (no: never): never => {
   throw new Error("assertNever #pcQASS");
@@ -17,6 +17,7 @@ enum KEY {
 const keys = Object.values(KEY);
 
 const Plan = () => {
+  const classes = useStyles();
   const [startDate, setStartDate] = useState(stringifyDayjs(dayjs()));
   const selectTasksByDates = useMemo(() => {
     const dates = Array.from({ length: 7 }).map((_, index) => {
@@ -75,7 +76,7 @@ const Plan = () => {
                   );
                 })
               ) : (
-                <li>No tasks</li>
+                <li className={classes.noTasks}>No tasks</li>
               )}
             </ul>
           </div>
@@ -115,3 +116,11 @@ const Plan = () => {
 };
 
 export default Plan;
+
+const useStyles = makeStyles((theme) => {
+  return {
+    noTasks: {
+      opacity: 0.5,
+    },
+  };
+});
