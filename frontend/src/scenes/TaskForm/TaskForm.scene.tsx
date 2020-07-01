@@ -90,7 +90,7 @@ const TaskForm = () => {
               "contexts",
               "repeat",
             ] as Fields[]).reduce<TaskData>((data, name) => {
-              if (typeof values[name] !== "undefined") {
+              if (typeof values[name] !== "undefined" && values[name] !== "") {
                 switch (name) {
                   case "after":
                   case "by": {
