@@ -118,7 +118,7 @@ const Actions = ({ taskId }: { taskId: string }) => {
           className={classes.actions}
           onClick={() => handleKey(KEY.j)}
         >
-          Never
+          Done
         </Button>{" "}
         <Button
           variant="outlined"
