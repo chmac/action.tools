@@ -17,9 +17,11 @@ export { sectionTitles } from './services/query/selectors/sectionTitles.selector
 export { selectActionableTodayFactory } from './services/query/selectors/selectActionableToday.selector';
 export { selectCurrentContexts } from './services/query/selectors/selectCurrentContexts.selector';
 export { selectTasks } from './services/query/selectors/selectTasks.selector';
+export { selectTasksActionableInCurrentContexts } from './services/query/selectors/selectTasksActionableInCurrentContexts.selector';
 export { selectTasksByDateFactory } from './services/query/selectors/selectTasksByDate.selector';
 export { selectTasksByDatesFactory } from './services/query/selectors/selectTasksByDates.selector';
 export { selectUndatedTasks } from './services/query/selectors/selectUndatedTasks.selector';
+export { selectUnfinishedTasks } from './services/query/selectors/selectUnfinishedTasks.selector';
 export { taskById } from './services/query/selectors/taskById.selector';
 export { taskWithContext } from './services/query/selectors/taskWithContext.selector';
 
