@@ -1,5 +1,4 @@
-import { Button, makeStyles, Paper } from "@material-ui/core";
-import { pink, lightGreen } from "@material-ui/core/colors";
+import { AppBar, Button, makeStyles, Toolbar } from "@material-ui/core";
 import classNames from "classnames";
 import { finishTask, snoozeTask } from "do.md";
 import mousetrap from "mousetrap";
@@ -88,32 +87,35 @@ const Actions = ({ taskId }: { taskId: string }) => {
   });
 
   return (
-    <>
-      <Paper className={classes.actionWrapper}>
-        <div
-          className={classNames({
-            [classes.dayWrapper]: true,
+    <AppBar position="fixed" color="primary" className={classes.bar}>
+      <Toolbar
+        variant="dense"
+        classes={{
+          root: classNames({
+            [classes.daysToolbar]: true,
             [classes.hidden]: !showNumbers,
-          })}
-        >
-          {snoozeDayOptions.map((days) => {
-            return (
-              <Button
-                key={days}
-                variant="outlined"
-                classes={{
-                  root: classes.days,
-                  label: classes.daysLabel,
-                }}
-                onClick={() => handleDays(days)}
-              >
-                {days}
-              </Button>
-            );
-          })}
-        </div>
+          }),
+        }}
+      >
+        {snoozeDayOptions.map((days) => {
+          return (
+            <Button
+              key={days}
+              variant="contained"
+              classes={{
+                root: classes.days,
+                label: classes.daysLabel,
+              }}
+              onClick={() => handleDays(days)}
+            >
+              {days}
+            </Button>
+          );
+        })}
+      </Toolbar>
+      <Toolbar>
         <Button
-          variant="outlined"
+          variant="contained"
           size="large"
           className={classes.actions}
           onClick={() => handleKey(KEY.j)}
@@ -121,7 +123,7 @@ const Actions = ({ taskId }: { taskId: string }) => {
           Done
         </Button>{" "}
         <Button
-          variant="outlined"
+          variant="contained"
           size="large"
           className={classes.actions}
           onClick={() => handleKey(KEY.k)}
@@ -129,7 +131,7 @@ const Actions = ({ taskId }: { taskId: string }) => {
           Now
         </Button>{" "}
         <Button
-          variant="outlined"
+          variant="contained"
           size="large"
           className={classes.actions}
           onClick={() => {
@@ -139,7 +141,7 @@ const Actions = ({ taskId }: { taskId: string }) => {
           Tomorrow
         </Button>{" "}
         <Button
-          variant="outlined"
+          variant="contained"
           size="large"
           className={classes.actions}
           onClick={() => {
@@ -148,8 +150,8 @@ const Actions = ({ taskId }: { taskId: string }) => {
         >
           Later
         </Button>
-      </Paper>
-    </>
+      </Toolbar>
+    </AppBar>
   );
 };
 
@@ -157,23 +159,12 @@ export default Actions;
 
 const useStyles = makeStyles((theme) => {
   return {
-    actionWrapper: {
-      position: "absolute",
+    bar: {
+      top: "auto",
       bottom: 0,
-      left: 0,
-      width: "100vw",
-      textAlign: "center",
-      paddingTop: theme.spacing(0.5),
-      paddingBottom: theme.spacing(0.5),
-      backgroundColor: pink[50],
+      alignItems: "center",
     },
-    dayWrapper: {
-      // Pull the top down to hide the top of the actionWrapper
-      marginTop: theme.spacing(-1),
-      paddingTop: theme.spacing(1),
-      paddingBottom: theme.spacing(1),
-      backgroundColor: lightGreen[50],
-    },
+    daysToolbar: {},
     hidden: {
       display: "none",
     },
