@@ -3,6 +3,7 @@ import {
   isBlockedByAfterDate,
   isTaskActionableToday,
   isTaskActionableInCurrentContexts,
+  isTaskUndated,
 } from './query.service';
 import { EXCLUDED_BY_DEFAULT_CONTEXTS } from '../../constants';
 
@@ -183,6 +184,75 @@ describe('query.service', () => {
           currentContexts: [],
         })
       ).toEqual(true);
+    });
+  });
+
+  describe('isTaskUndated()', () => {
+    it('Returns true for a task without any dates #P26XBk', () => {
+      expect(
+        isTaskUndated({
+          contentMarkdown: 'A task',
+          finished: false,
+          id: 'abc',
+          isSequential: false,
+          isTask: true,
+          parentId: '',
+          sectionId: 'h1',
+          data: {},
+        })
+      ).toEqual(true);
+    });
+
+    it('Returns false for a task with an after date #HvuiTe', () => {
+      expect(
+        isTaskUndated({
+          contentMarkdown: 'A task',
+          finished: false,
+          id: 'abc',
+          isSequential: false,
+          isTask: true,
+          parentId: '',
+          sectionId: 'h1',
+          data: {
+            after: yesterday,
+          },
+        })
+      ).toEqual(false);
+    });
+
+    it('Returns false for a task with a by date #sItloG', () => {
+      expect(
+        isTaskUndated({
+          contentMarkdown: 'A task',
+          finished: false,
+          id: 'abc',
+          isSequential: false,
+          isTask: true,
+          parentId: '',
+          sectionId: 'h1',
+          data: {
+            by: tomorrow,
+          },
+        })
+      ).toEqual(false);
+    });
+
+    it('Returns false for a task with after and by dates #Ccm7kH', () => {
+      expect(
+        isTaskUndated({
+          contentMarkdown: 'A task',
+          finished: false,
+          id: 'abc',
+          isSequential: false,
+          isTask: true,
+          parentId: '',
+          sectionId: 'h1',
+          data: {
+            after: yesterday,
+            by: tomorrow,
+          },
+        })
+      ).toEqual(false);
     });
   });
 });

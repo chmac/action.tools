@@ -3,6 +3,10 @@ import { Task } from '../../types';
 import { intersection, difference } from 'remeda';
 import { EXCLUDED_BY_DEFAULT_CONTEXTS } from '../../constants';
 
+export const isTaskUnfinished = (task: Task) => {
+  return !task.finished;
+};
+
 export const isSnoozed = ({
   snooze,
   today,
@@ -139,4 +143,15 @@ export const doesTaskMatchDate = ({
   }
 
   return false;
+};
+
+export const isTaskUndated = (task: Task): boolean => {
+  const { data } = task;
+  if (typeof data.after !== 'undefined') {
+    return false;
+  }
+  if (typeof data.by !== 'undefined') {
+    return false;
+  }
+  return true;
 };
