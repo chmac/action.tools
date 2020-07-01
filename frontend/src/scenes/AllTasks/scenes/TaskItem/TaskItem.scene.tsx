@@ -49,9 +49,14 @@ const TaskItem = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
   );
   const dispatch = useDispatch<AppDispatch>();
 
+  // Show this task wrapped in an outline if it is either not a task, or it is a
+  // sequential task
+  const hideOutline = !task.isTask || task.isSequential;
+
   return (
     <Paper
-      variant={task.isSequential ? "elevation" : "outlined"}
+      variant={hideOutline ? "elevation" : "outlined"}
+      elevation={hideOutline ? 0 : undefined}
       square
       style={{
         paddingLeft: depth * 42 + (task.isTask ? 0 : 42),
