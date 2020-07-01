@@ -1,6 +1,10 @@
 import { Button, makeStyles, Typography } from "@material-ui/core";
 import dayjs from "dayjs";
-import { selectTasksByDatesFactory, stringifyDayjs } from "do.md";
+import {
+  selectTasksByDatesFactory,
+  selectUndatedTasks,
+  stringifyDayjs,
+} from "do.md";
 import mousetrap from "mousetrap";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
@@ -26,6 +30,7 @@ const Plan = () => {
     return selectTasksByDatesFactory(dates);
   }, [startDate]);
   const days = useSelector(selectTasksByDates);
+  const undatedTasks = useSelector(selectUndatedTasks);
 
   const handler = useCallback(
     (key: KEY) => {
@@ -111,6 +116,16 @@ const Plan = () => {
           + 7
         </Button>
       </Typography>
+      <Typography variant="h1">Undated</Typography>
+      <ul>
+        {undatedTasks.map((task) => {
+          return (
+            <Typography component="li" key={task.id}>
+              {task.contentMarkdown}
+            </Typography>
+          );
+        })}
+      </ul>
     </div>
   );
 };
