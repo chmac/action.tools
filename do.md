@@ -4,23 +4,14 @@
 - [x] Lessen the highlight of `after` dates in the past
 - [x] Ignore someday tasks
 - [ ] Add a refresh button to refetch from git
-- [ ] Add a view / edit single task scene
+- [x] Add a view / edit single task scene
   - Title, after, by, priroity, repeat, context, snooze
-- [ ] Hide empty sections when filtering
+- [x] Hide empty sections when filtering
 - [ ] Add created dates to all tasks
 - [ ] Warn for `by` dates before `after` dates
 - [ ] Decide if `by date` or `by:date` makes sense
-- [ ] Consider adding a unique (to the file) ID to each task
-
-# Big picture
-
-- [ ] Implement the doast
-  - Needs `mdast-to-doast` and `doast-to-mdast`
-  - [ ] Move filtering onto the doast
-- [ ] Better automation
-  - `after:today`, maybe even `after:tod` etc
-  - Adding `created` dates
-  - Potentially adding `id` fields
+- [x] Consider adding a unique (to the file) ID to each task
+- [ ] Switch to numeric IDs, sequential to the file
 
 # Bugs
 
