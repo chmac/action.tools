@@ -14,6 +14,8 @@ export const isSnoozed = ({
   snooze: string;
   today: string;
 }): boolean => {
+  // NOTE: dayjs('').isAfter or isBefore always returns false, passing an empty
+  // string to dayjs() generates an invalid date.
   return dayjs(snooze).isAfter(today);
 };
 
@@ -84,13 +86,13 @@ export const isTaskActionableToday = ({
     // other fields
   }
 
-  if (typeof snooze === 'string') {
+  if (typeof snooze === 'string' && snooze.length > 0) {
     if (isSnoozed({ snooze, today })) {
       return false;
     }
   }
 
-  if (typeof after === 'string') {
+  if (typeof after === 'string' && after.length > 0) {
     if (isBlockedByAfterDate({ after, today })) {
       return false;
     }

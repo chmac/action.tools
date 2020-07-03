@@ -3,6 +3,7 @@ import {
   isBlockedByAfterDate,
   isTaskActionableToday,
   isTaskActionableInCurrentContexts,
+  doesTaskMatchDate,
   isTaskUndated,
 } from './query.service';
 import { EXCLUDED_BY_DEFAULT_CONTEXTS } from '../../constants';
@@ -184,6 +185,93 @@ describe('query.service', () => {
           currentContexts: [],
         })
       ).toEqual(true);
+    });
+
+    it('Returns true when task has empty string after date #5Em76z', () => {
+      expect(
+        isTaskActionableToday({
+          task: {
+            contentMarkdown: 'A task',
+            finished: false,
+            id: 'abc',
+            isSequential: false,
+            isTask: true,
+            parentId: '',
+            sectionId: 'h1',
+            data: {
+              after: '',
+            },
+          },
+          today,
+          currentContexts: [],
+        })
+      ).toEqual(true);
+    });
+
+    it('Returns true when a task has empty string snooze date #rfjj4L', () => {
+      expect(
+        isTaskActionableToday({
+          task: {
+            contentMarkdown: 'A task',
+            finished: false,
+            id: 'abc',
+            isSequential: false,
+            isTask: true,
+            parentId: '',
+            sectionId: 'h1',
+            data: {
+              snooze: '',
+            },
+          },
+          today,
+          currentContexts: [],
+        })
+      ).toEqual(true);
+    });
+
+    it('Returns true when a task has empty string after and snooze dates #MmuRqO', () => {
+      expect(
+        isTaskActionableToday({
+          task: {
+            contentMarkdown: 'A task',
+            finished: false,
+            id: 'abc',
+            isSequential: false,
+            isTask: true,
+            parentId: '',
+            sectionId: 'h1',
+            data: {
+              after: '',
+              snooze: '',
+            },
+          },
+          today,
+          currentContexts: [],
+        })
+      ).toEqual(true);
+    });
+  });
+
+  describe('doesTaskMatchDate()', () => {
+    it('Returns false for an empty string after date #sqdJr9', () => {
+      expect(
+        doesTaskMatchDate({
+          task: {
+            contentMarkdown: 'A task',
+            finished: false,
+            id: 'abc',
+            isSequential: false,
+            isTask: true,
+            parentId: '',
+            sectionId: 'h1',
+            data: {
+              after: '',
+            },
+          },
+          date: today,
+          currentContexts: [],
+        })
+      );
     });
   });
 
