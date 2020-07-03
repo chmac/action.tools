@@ -74,9 +74,6 @@ const TaskItem = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
                 dispatch(unfinishTask(task.id));
               }
             }}
-            onClick={(event) => {
-              event.stopPropagation();
-            }}
           />
         ) : null}
         <Markdown options={{ forceInline: true }}>
