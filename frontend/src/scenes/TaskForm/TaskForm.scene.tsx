@@ -12,7 +12,9 @@ import {
   newTask,
   stringifyDayjs,
   Task,
+  taskById,
   TaskData,
+  updateTask,
 } from "do.md";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
@@ -59,7 +61,25 @@ const schema = yup.object().shape({
 const TaskForm = () => {
   const classes = useStyles();
   const isOpen = useSelector((state: AppState) => state.TaskForm.isOpen);
+  const editingTaskId = useSelector(
+    (state: AppState) => state.TaskForm.editingTaskId
+  );
+  const editingTask = useSelector((state: AppState) => {
+    if (editingTaskId === "") {
+      return;
+    }
+    return taskById(state, editingTaskId);
+  });
   const dispatch: AppDispatch = useDispatch();
+
+  const initialValues = {
+    title: editingTask?.contentMarkdown || "",
+    after: editingTask?.data.after || "",
+    by: editingTask?.data.by || "",
+    snooze: editingTask?.data.snooze || "",
+    contexts: editingTask?.data.contexts?.join(", ") || "",
+    repeat: editingTask?.data.repeat || "",
+  };
 
   return (
     <Modal
@@ -73,14 +93,7 @@ const TaskForm = () => {
         <Formik
           // NOTE: This must match schema, a value for every field, or the
           // onSubmit() hook will never be called and silently fail.
-          initialValues={{
-            title: "",
-            after: "",
-            by: "",
-            snooze: "",
-            contexts: "",
-            repeat: "",
-          }}
+          initialValues={initialValues}
           validationSchema={schema}
           onSubmit={(values, helpers) => {
             type Fields = "after" | "by" | "contexts" | "repeat";
@@ -114,18 +127,36 @@ const TaskForm = () => {
               return data;
             }, {});
 
-            const task: Task = {
-              id: createId(),
-              contentMarkdown: values.title,
-              data,
-              finished: false,
-              isSequential: false,
-              isTask: true,
-              parentId: "",
-              sectionId: "top",
-            };
+            // NOTE: We need the typeof repeated here so that typescript knows
+            // editingTask will not be undefined inside this if block.
+            if (typeof editingTask !== "undefined") {
+              dispatch(
+                updateTask({
+                  id: editingTaskId,
+                  changes: {
+                    contentMarkdown: values.title,
+                    data: {
+                      ...editingTask.data,
+                      ...data,
+                    },
+                  },
+                })
+              );
+            } else {
+              const task: Task = {
+                id: createId(),
+                contentMarkdown: values.title,
+                data,
+                finished: false,
+                isSequential: false,
+                isTask: true,
+                parentId: "",
+                sectionId: "top",
+              };
 
-            dispatch(newTask({ task, insertAtIndex: 0 }));
+              dispatch(newTask({ task, insertAtIndex: 0 }));
+            }
+
             dispatch(close());
           }}
         >

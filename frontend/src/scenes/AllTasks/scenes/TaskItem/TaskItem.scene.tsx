@@ -1,11 +1,11 @@
 import { Checkbox, Paper, Typography } from "@material-ui/core";
 import { createSelector } from "@reduxjs/toolkit";
-import { finishTask, unfinishTask } from "do.md";
-import { Task, TaskData } from "do.md";
+import { finishTask, Task, TaskData, unfinishTask } from "do.md";
 import Markdown from "markdown-to-jsx";
 import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, AppState } from "../../../../store";
+import { openEdit } from "../../../TaskForm/TaskForm.state";
 
 const makeChildTasksSelector = () =>
   createSelector(
@@ -62,7 +62,11 @@ const TaskItem = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
         paddingLeft: depth * 42 + (task.isTask ? 0 : 42),
       }}
     >
-      <Typography>
+      <Typography
+        onClick={() => {
+          dispatch(openEdit(task.id));
+        }}
+      >
         {task.isTask ? (
           <Checkbox
             checked={task.finished}
