@@ -126,8 +126,7 @@ const TaskForm = () => {
             };
 
             dispatch(newTask({ task, insertAtIndex: 0 }));
-
-            helpers.resetForm();
+            dispatch(close());
           }}
         >
           {({ isSubmitting }) => {

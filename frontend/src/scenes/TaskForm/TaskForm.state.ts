@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export const REDUX_KEY = "TaskForm";
 
@@ -6,20 +6,24 @@ const slice = createSlice({
   name: "app/TaskForm",
   initialState: {
     isOpen: false,
+    editingTaskId: "",
   },
   reducers: {
-    open: (state) => {
+    openNew: (state) => {
       state.isOpen = true;
+      state.editingTaskId = "";
+    },
+    openEdit: (state, action: PayloadAction<string>) => {
+      state.isOpen = true;
+      state.editingTaskId = action.payload;
     },
     close: (state) => {
       state.isOpen = false;
-    },
-    toggle: (state) => {
-      state.isOpen = !state.isOpen;
+      state.editingTaskId = "";
     },
   },
 });
 
-export const { open, close, toggle } = slice.actions;
+export const { openNew: open, openNew, openEdit, close } = slice.actions;
 
 export default slice.reducer;

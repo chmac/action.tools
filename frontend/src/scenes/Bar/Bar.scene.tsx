@@ -22,7 +22,7 @@ import { toggleIsOpen } from "../LeftMenu/LeftMenu.state";
 import Log from "../Log/Log.scene";
 import { history } from "../Routes/Routes.scene";
 import TaskForm from "../TaskForm/TaskForm.scene";
-import { open } from "../TaskForm/TaskForm.state";
+import { openNew } from "../TaskForm/TaskForm.state";
 
 const assertNever = (no: never): never => {
   throw new Error("assertNever #pcQASS");
@@ -53,7 +53,7 @@ const Bar: React.FC = (props) => {
           break;
         }
         case KEY.c: {
-          dispatch(open());
+          dispatch(openNew());
           break;
         }
         case KEY.n: {
