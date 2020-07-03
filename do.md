@@ -1,3 +1,9 @@
+# Top
+
+- [ ] Switch to numeric IDs, sequential to the file
+
+# More
+
 - [x] Add a `by:today`, `by:thisweek`, `by:overdue`, `by:next30days` filters
 - [x] Date filters could be "now", "all", or "now&undated"
   - Right now it's only 2 or 3, but arguably 1 is more useful
@@ -11,7 +17,6 @@
 - [ ] Warn for `by` dates before `after` dates
 - [ ] Decide if `by date` or `by:date` makes sense
 - [x] Consider adding a unique (to the file) ID to each task
-- [ ] Switch to numeric IDs, sequential to the file
 
 # Bugs
 
