@@ -24,13 +24,21 @@ import * as yup from "yup";
 import { AppDispatch, AppState } from "../../store";
 import { close } from "./TaskForm.state";
 
+const isOnlyNumbers = (input: string) => input.match(/^[\d]+$/) !== null;
+
 // Accept a number or a valid date
-const isValidDate = (date: string) => {
+const isValidDate = (date?: string) => {
+  if (typeof date === "undefined") {
+    return true;
+  }
+  if (!isOnlyNumbers(date)) {
+    return dayjs(date).isValid();
+  }
   const asInt = parseInt(date);
   if (asInt > -1) {
     return true;
   }
-  return dayjs(date).isValid();
+  return false;
 };
 
 const schema = yup.object().shape({
@@ -108,24 +116,41 @@ const TaskForm = () => {
               "contexts",
               "repeat",
             ] as Fields[]).reduce<TaskData>((data, name) => {
-              if (typeof values[name] !== "undefined" && values[name] !== "") {
+              if (typeof values[name] !== "undefined") {
+                // NOTE: It's important to set empty strings if the fields are
+                // empty, as the reducer uses empty strings to remove existing
+                // fields.
+
                 switch (name) {
                   case "after":
                   case "by": {
-                    const asInt = parseInt(values[name]);
-                    if (asInt > -1) {
-                      return {
-                        ...data,
-                        [name]: stringifyDayjs(dayjs().add(asInt, "day")),
-                      };
+                    if (values[name] === "") {
+                      return { ...data, [name]: "" };
+                    }
+
+                    if (isOnlyNumbers(values[name])) {
+                      const asInt = parseInt(values[name]);
+                      if (asInt > -1) {
+                        return {
+                          ...data,
+                          [name]: stringifyDayjs(dayjs().add(asInt, "day")),
+                        };
+                      }
                     }
                     return { ...data, [name]: values[name] };
                   }
                   case "contexts": {
+                    if (values[name] === "") {
+                      return { ...data, [name]: [] };
+                    }
+
                     return {
                       ...data,
                       [name]: values[name].split(",").map((c) => c.trim()),
                     };
+                  }
+                  default: {
+                    return { ...data, [name]: values[name] };
                   }
                 }
               }
@@ -141,6 +166,8 @@ const TaskForm = () => {
                   changes: {
                     contentMarkdown: values.title,
                     data: {
+                      // NOTE: We need to copy the existing data as not all the
+                      // fields are included in the edit form.
                       ...editingTask.data,
                       ...data,
                     },
