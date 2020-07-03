@@ -1,5 +1,11 @@
 # Top
 
+- [ ] Put today's tasks first in Review
+- [ ] Edit task button
+  - Including a "Done" button
+  - Click in Plan view to open edit mode
+- [ ] Add a never action
+  - Deletes the task
 - [ ] Switch to numeric IDs, sequential to the file
 
 # More
