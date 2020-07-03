@@ -1,4 +1,4 @@
-import { Checkbox, Paper, Typography } from "@material-ui/core";
+import { Button, Checkbox, Paper, Typography } from "@material-ui/core";
 import { createSelector } from "@reduxjs/toolkit";
 import { finishTask, Task, TaskData, unfinishTask } from "do.md";
 import Markdown from "markdown-to-jsx";
@@ -62,11 +62,7 @@ const TaskItem = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
         paddingLeft: depth * 42 + (task.isTask ? 0 : 42),
       }}
     >
-      <Typography
-        onClick={() => {
-          dispatch(openEdit(task.id));
-        }}
-      >
+      <Typography>
         {task.isTask ? (
           <Checkbox
             checked={task.finished}
@@ -86,7 +82,16 @@ const TaskItem = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
         <Markdown options={{ forceInline: true }}>
           {task.contentMarkdown}
         </Markdown>
-        <Data data={task.data} />
+        <Data data={task.data} />{" "}
+        <Button
+          variant="outlined"
+          size="small"
+          onClick={() => {
+            dispatch(openEdit(task.id));
+          }}
+        >
+          Edit
+        </Button>{" "}
       </Typography>
       {tasks.map((task) => (
         <TaskItem key={task.id} task={task} depth={depth + 1} />
