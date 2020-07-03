@@ -72,11 +72,14 @@ const TaskForm = () => {
   });
   const dispatch: AppDispatch = useDispatch();
 
+  const isEditMode = editingTaskId !== "";
+
   const initialValues = {
     title: editingTask?.contentMarkdown || "",
     after: editingTask?.data.after || "",
     by: editingTask?.data.by || "",
-    snooze: editingTask?.data.snooze || "",
+    // The snooze date is not in the form right now
+    // snooze: editingTask?.data.snooze || "",
     contexts: editingTask?.data.contexts?.join(", ") || "",
     repeat: editingTask?.data.repeat || "",
   };
@@ -89,7 +92,9 @@ const TaskForm = () => {
       }}
     >
       <Paper className={classes.root}>
-        <Typography variant="h1">Create a task</Typography>
+        <Typography variant="h1">
+          {isEditMode ? "Edit" : "Create"} a task
+        </Typography>
         <Formik
           // NOTE: This must match schema, a value for every field, or the
           // onSubmit() hook will never be called and silently fail.
