@@ -4,7 +4,7 @@ import { difference } from 'remeda';
 import { REDUX_ROOT_KEY } from '../../constants';
 import { AppThunk, RootState } from '../../store';
 import { Section, Task } from '../../types';
-import { stringifyDayjs } from '../../utils';
+import { removeEmptyProperties, stringifyDayjs } from '../../utils';
 import { createNextIteration } from '../repeat/repeat.service';
 
 export const REDUX_KEY = 'data';
@@ -81,18 +81,25 @@ const sectionSlice = createSlice({
       const taskIndex = getTaskIndex(state, action.payload);
       state.tasks[taskIndex].finished = false;
     },
+    /**
+     * Update a task. Setting any value to an empty string (or empty array)
+     * will remove that field.
+     */
     updateTask: (
       state,
       action: PayloadAction<{ id: string; changes: Partial<Omit<Task, 'id'>> }>
     ) => {
       const taskIndex = getTaskIndex(state, action.payload.id);
+
+      const data = removeEmptyProperties({
+        ...state.tasks[taskIndex].data,
+        ...action.payload.changes.data,
+      });
+
       state.tasks[taskIndex] = {
         ...state.tasks[taskIndex],
         ...action.payload.changes,
-        data: {
-          ...state.tasks[taskIndex].data,
-          ...action.payload.changes.data,
-        },
+        data,
       };
     },
     addContextsToTask: (

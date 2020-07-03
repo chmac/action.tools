@@ -48,3 +48,29 @@ export const stringifyDayjs = (date: Dayjs): string => {
 export const createId = () => {
   return nanoid(5);
 };
+
+export const isEmpty = (value: any) => {
+  if (typeof value === 'undefined') {
+    return true;
+  }
+  if (typeof value === 'string' && value.length > 0) {
+    return false;
+  }
+  if (Array.isArray(value) && value.length > 0) {
+    return false;
+  }
+  if (value === null) {
+    return true;
+  }
+  return false;
+};
+
+/**
+ * Remove empty properties from an object. An empty property is undefined, an
+ * empty string, an empty array, or null. But false and 0 are not removed.
+ */
+export const removeEmptyProperties = (input: { [prop: string]: any }) => {
+  return Object.fromEntries(
+    Object.entries(input).filter(([, value]) => isEmpty(value))
+  );
+};
