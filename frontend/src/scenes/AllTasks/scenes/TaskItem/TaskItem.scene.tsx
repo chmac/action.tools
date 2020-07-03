@@ -80,15 +80,17 @@ const TaskItem = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
           {task.contentMarkdown}
         </Markdown>
         <Data data={task.data} />{" "}
-        <Button
-          variant="outlined"
-          size="small"
-          onClick={() => {
-            dispatch(openEdit(task.id));
-          }}
-        >
-          Edit
-        </Button>{" "}
+        {task.isTask ? (
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={() => {
+              dispatch(openEdit(task.id));
+            }}
+          >
+            Edit
+          </Button>
+        ) : null}
       </Typography>
       {tasks.map((task) => (
         <TaskItem key={task.id} task={task} depth={depth + 1} />
