@@ -1,15 +1,7 @@
 import './services/startup/startup.service';
 
 export { REDUX_ROOT_KEY as domdReduxKey } from './constants';
-export {
-  finishTask,
-  newSection,
-  newTask,
-  setData,
-  unfinishTask,
-  addContextsToTask,
-  snoozeTask,
-} from './services/data/data.state';
+export * from './services/data/data.state';
 export { getContexts } from './services/query/selectors/getContexts.selector';
 export { isReady } from './services/query/selectors/isReady.selector';
 export { sectionById } from './services/query/selectors/sectionById.selector';

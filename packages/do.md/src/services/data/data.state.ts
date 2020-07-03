@@ -83,12 +83,16 @@ const sectionSlice = createSlice({
     },
     updateTask: (
       state,
-      action: PayloadAction<{ id: string; changes: Omit<Task, 'id'> }>
+      action: PayloadAction<{ id: string; changes: Partial<Omit<Task, 'id'>> }>
     ) => {
       const taskIndex = getTaskIndex(state, action.payload.id);
       state.tasks[taskIndex] = {
         ...state.tasks[taskIndex],
         ...action.payload.changes,
+        data: {
+          ...state.tasks[taskIndex].data,
+          ...action.payload.changes.data,
+        },
       };
     },
     addContextsToTask: (
@@ -139,6 +143,7 @@ export const {
   newSection,
   newTask,
   unfinishTask,
+  updateTask,
   addContextsToTask,
 } = sectionSlice.actions;
 
