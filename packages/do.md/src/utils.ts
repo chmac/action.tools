@@ -49,14 +49,20 @@ export const createId = () => {
   return nanoid(5);
 };
 
-export const isEmpty = (value: any) => {
+export const isEmpty = (value: any): boolean => {
   if (typeof value === 'undefined') {
     return true;
   }
-  if (typeof value === 'string' && value.length > 0) {
-    return false;
+  if (typeof value === 'string') {
+    return value.length === 0;
   }
-  if (Array.isArray(value) && value.length > 0) {
+  if (Array.isArray(value)) {
+    if (value.length === 0) {
+      return true;
+    }
+    if (value.length === 1 && value[0] === '') {
+      return true;
+    }
     return false;
   }
   if (value === null) {
@@ -71,6 +77,6 @@ export const isEmpty = (value: any) => {
  */
 export const removeEmptyProperties = (input: { [prop: string]: any }) => {
   return Object.fromEntries(
-    Object.entries(input).filter(([, value]) => isEmpty(value))
+    Object.entries(input).filter(([, value]) => !isEmpty(value))
   );
 };
