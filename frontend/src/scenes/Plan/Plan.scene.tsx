@@ -92,7 +92,7 @@ const Plan = () => {
           variant="contained"
           size="large"
           onClick={() => {
-            handler(KEY.j);
+            handler(KEY.k);
           }}
         >
           - 7
@@ -110,7 +110,7 @@ const Plan = () => {
           variant="contained"
           size="large"
           onClick={() => {
-            handler(KEY.k);
+            handler(KEY.j);
           }}
         >
           + 7
