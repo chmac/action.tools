@@ -51,6 +51,12 @@ export const isTaskActionableInCurrentContexts = ({
     return false;
   }
 
+  // After handling exclusions (like @someday), if there are no contexts in
+  // `currentContexts`, then all tasks match, so return true now.
+  if (currentContexts.length === 0) {
+    return true;
+  }
+
   // Get all the contexts which are in currentContexts
   const matchedContexts = intersection(contexts, currentContexts);
   if (matchedContexts.length > 0) {

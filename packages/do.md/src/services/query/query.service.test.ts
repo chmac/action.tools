@@ -104,6 +104,15 @@ describe('query.service', () => {
         })
       ).toEqual(true);
     });
+
+    it('Returns true when a task has a context but currentContexts is empty #qsUwAI', () => {
+      expect(
+        isTaskActionableInCurrentContexts({
+          contexts: ['foo'],
+          currentContexts: [],
+        })
+      ).toEqual(true);
+    });
   });
 
   describe('isTaskActionableToday()', () => {
