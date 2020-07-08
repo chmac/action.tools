@@ -71,7 +71,9 @@ const sectionSlice = createSlice({
       state,
       action: PayloadAction<{ task: Task; insertAtIndex: number }>
     ) => {
-      state.tasks.splice(action.payload.insertAtIndex, 0, action.payload.task);
+      const { data, ...rest } = action.payload.task;
+      const task = { ...rest, data: removeEmptyProperties(data) };
+      state.tasks.splice(action.payload.insertAtIndex, 0, task);
     },
     _finishTask: (state, action: PayloadAction<string>) => {
       const taskIndex = getTaskIndex(state, action.payload);
