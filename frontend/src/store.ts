@@ -35,6 +35,10 @@ const store = configureStore({
   devTools: true,
 });
 
+// Expose the store to the console, we want to be developer friendly so folks
+// can easily poke about and see what's going on.
+(globalThis as any).store = store;
+
 export default store;
 
 export type AppDispatch = typeof store.dispatch;
