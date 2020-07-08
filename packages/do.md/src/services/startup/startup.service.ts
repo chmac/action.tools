@@ -9,6 +9,9 @@ export const startWithLocalStore = async ({
   markdown: string;
 }) => {
   const store = createStore();
+  // Expose the store to the console, we want to be developer friendly so folks
+  // can easily poke about and see what's going on.
+  (globalThis as any).store = store;
   await store.dispatch(startup({ markdown }));
 
   return store;
