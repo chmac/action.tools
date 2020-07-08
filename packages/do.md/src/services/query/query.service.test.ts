@@ -41,7 +41,7 @@ describe('query.service', () => {
     });
   });
 
-  describe('', () => {
+  describe('isTaskActionableInCurrentContexts()', () => {
     it('Returns true for a matching context #6mwEJE', () => {
       expect(
         isTaskActionableInCurrentContexts({
