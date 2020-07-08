@@ -113,6 +113,24 @@ describe('query.service', () => {
         })
       ).toEqual(true);
     });
+
+    it('Returns true when task has no context and current is someday #h6jrkV', () => {
+      expect(
+        isTaskActionableInCurrentContexts({
+          contexts: [],
+          currentContexts: [EXCLUDED_BY_DEFAULT_CONTEXTS[0]],
+        })
+      ).toEqual(true);
+    });
+
+    it('Returns true when task has a context and current is someday #hHTHBK', () => {
+      expect(
+        isTaskActionableInCurrentContexts({
+          contexts: ['foo'],
+          currentContexts: [EXCLUDED_BY_DEFAULT_CONTEXTS[0]],
+        })
+      ).toEqual(true);
+    });
   });
 
   describe('isTaskActionableToday()', () => {

@@ -51,9 +51,13 @@ export const isTaskActionableInCurrentContexts = ({
     return false;
   }
 
-  // After handling exclusions (like @someday), if there are no contexts in
-  // `currentContexts`, then all tasks match, so return true now.
-  if (currentContexts.length === 0) {
+  // After handling exclusions (like @someday), if there are no OTHER contexts
+  // in `currentContexts`, then all tasks match, so return true now.
+  const includeContexts = difference(
+    currentContexts,
+    EXCLUDED_BY_DEFAULT_CONTEXTS
+  );
+  if (includeContexts.length === 0) {
     return true;
   }
 
