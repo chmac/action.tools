@@ -51,7 +51,7 @@ const Log = (props: Props) => {
       <Paper className={classes.root}>
         <Typography variant="h1">Shortcuts</Typography>
         <Typography>
-          GLOBAL: n - new task;
+          GLOBAL: n - new task; c - new task form;
           <br />
           PLAN: j - never; k - now; l - tomorrow; ; - later
         </Typography>
