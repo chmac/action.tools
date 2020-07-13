@@ -6,6 +6,7 @@ import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, AppState } from "../../../../store";
 import { openEdit } from "../../../TaskForm/TaskForm.state";
+import EditButton from "../../../EditButton/EditButton.scene";
 
 const makeChildTasksSelector = () =>
   createSelector(
@@ -80,17 +81,7 @@ const TaskItem = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
           {task.contentMarkdown}
         </Markdown>
         <Data data={task.data} />{" "}
-        {task.isTask ? (
-          <Button
-            variant="outlined"
-            size="small"
-            onClick={() => {
-              dispatch(openEdit(task.id));
-            }}
-          >
-            Edit
-          </Button>
-        ) : null}
+        {task.isTask ? <EditButton taskId={task.id} /> : null}
       </Typography>
       {tasks.map((task) => (
         <TaskItem key={task.id} task={task} depth={depth + 1} />
