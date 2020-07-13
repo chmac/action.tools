@@ -1,4 +1,4 @@
-import { AppBar, Button, makeStyles, Toolbar } from "@material-ui/core";
+import { AppBar, Button, Grid, makeStyles, Toolbar } from "@material-ui/core";
 import classNames from "classnames";
 import { finishTask, snoozeTask } from "do.md";
 import mousetrap from "mousetrap";
@@ -114,42 +114,52 @@ const Actions = ({ taskId }: { taskId: string }) => {
         })}
       </Toolbar>
       <Toolbar>
-        <Button
-          variant="contained"
-          size="large"
-          className={classes.actions}
-          onClick={() => handleKey(KEY.j)}
-        >
-          Done
-        </Button>{" "}
-        <Button
-          variant="contained"
-          size="large"
-          className={classes.actions}
-          onClick={() => handleKey(KEY.k)}
-        >
-          Now
-        </Button>{" "}
-        <Button
-          variant="contained"
-          size="large"
-          className={classes.actions}
-          onClick={() => {
-            handleKey(KEY.l);
-          }}
-        >
-          Tomorrow
-        </Button>{" "}
-        <Button
-          variant="contained"
-          size="large"
-          className={classes.actions}
-          onClick={() => {
-            setShowNumbers(!showNumbers);
-          }}
-        >
-          Later
-        </Button>
+        <Grid container direction="row" justify="center">
+          <Grid item xs={6} sm={3} classes={{ item: classes.actionItem }}>
+            <Button
+              variant="contained"
+              size="large"
+              className={classes.actions}
+              onClick={() => handleKey(KEY.j)}
+            >
+              Done
+            </Button>
+          </Grid>
+          <Grid item xs={6} sm={3} classes={{ item: classes.actionItem }}>
+            <Button
+              variant="contained"
+              size="large"
+              className={classes.actions}
+              onClick={() => handleKey(KEY.k)}
+            >
+              Now
+            </Button>
+          </Grid>
+          <Grid item xs={6} sm={3} classes={{ item: classes.actionItem }}>
+            <Button
+              variant="contained"
+              size="large"
+              className={classes.actions}
+              onClick={() => {
+                handleKey(KEY.l);
+              }}
+            >
+              Tomorrow
+            </Button>
+          </Grid>
+          <Grid item xs={6} sm={3} classes={{ item: classes.actionItem }}>
+            <Button
+              variant="contained"
+              size="large"
+              className={classes.actions}
+              onClick={() => {
+                setShowNumbers(!showNumbers);
+              }}
+            >
+              Later
+            </Button>
+          </Grid>
+        </Grid>
       </Toolbar>
     </AppBar>
   );
@@ -178,6 +188,9 @@ const useStyles = makeStyles((theme) => {
     daysLabel: {
       paddingLeft: theme.spacing(1),
       paddingRight: theme.spacing(1),
+    },
+    actionItem: {
+      textAlign: "center",
     },
     actions: {
       width: 120,
