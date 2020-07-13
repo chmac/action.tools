@@ -7,7 +7,9 @@ import {
 } from "do.md";
 import mousetrap from "mousetrap";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../../store";
+import { openEdit } from "../TaskForm/TaskForm.state";
 
 const assertNever = (no: never): never => {
   throw new Error("assertNever #pcQASS");
@@ -22,6 +24,7 @@ const keys = Object.values(KEY);
 
 const Plan = () => {
   const classes = useStyles();
+  const dispatch: AppDispatch = useDispatch();
   const [startDate, setStartDate] = useState(stringifyDayjs(dayjs()));
   const selectTasksByDates = useMemo(() => {
     const dates = Array.from({ length: 7 }).map((_, index) => {
@@ -75,7 +78,13 @@ const Plan = () => {
               {hasTasks ? (
                 tasks.map((task) => {
                   return (
-                    <Typography component="li" key={task.id}>
+                    <Typography
+                      component="li"
+                      key={task.id}
+                      onClick={() => {
+                        dispatch(openEdit(task.id));
+                      }}
+                    >
                       {task.contentMarkdown}
                     </Typography>
                   );
