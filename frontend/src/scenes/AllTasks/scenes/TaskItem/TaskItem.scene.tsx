@@ -1,11 +1,10 @@
-import { Button, Checkbox, Paper, Typography } from "@material-ui/core";
+import { Checkbox, Paper, Typography } from "@material-ui/core";
 import { createSelector } from "@reduxjs/toolkit";
 import { finishTask, Task, TaskData, unfinishTask } from "do.md";
 import Markdown from "markdown-to-jsx";
 import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, AppState } from "../../../../store";
-import { openEdit } from "../../../TaskForm/TaskForm.state";
 import EditButton from "../../../EditButton/EditButton.scene";
 
 const makeChildTasksSelector = () =>
