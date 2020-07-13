@@ -8,6 +8,7 @@ import {
 import dayjs from "dayjs";
 import {
   createId,
+  finishTask,
   getRepeatParams,
   newTask,
   stringifyDayjs,
@@ -253,7 +254,20 @@ const TaskForm = () => {
                       disabled={isSubmitting}
                     >
                       Submit
-                    </Button>
+                    </Button>{" "}
+                    {isEditMode ? (
+                      <Button
+                        variant="contained"
+                        size="large"
+                        color="secondary"
+                        onClick={() => {
+                          dispatch(finishTask(editingTaskId));
+                          dispatch(close());
+                        }}
+                      >
+                        Done
+                      </Button>
+                    ) : null}
                   </Typography>
                 </Form>
               </div>
