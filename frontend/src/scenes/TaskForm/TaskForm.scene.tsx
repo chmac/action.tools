@@ -246,6 +246,20 @@ const TaskForm = () => {
                     >
                       Cancel
                     </Button>{" "}
+                    {typeof editingTask !== "undefined" ? (
+                      <Button
+                        variant="contained"
+                        size="large"
+                        color="secondary"
+                        disabled={editingTask.finished}
+                        onClick={() => {
+                          dispatch(finishTask(editingTaskId));
+                          dispatch(close());
+                        }}
+                      >
+                        Done
+                      </Button>
+                    ) : null}{" "}
                     <Button
                       variant="contained"
                       size="large"
@@ -254,20 +268,7 @@ const TaskForm = () => {
                       disabled={isSubmitting}
                     >
                       Submit
-                    </Button>{" "}
-                    {isEditMode ? (
-                      <Button
-                        variant="contained"
-                        size="large"
-                        color="secondary"
-                        onClick={() => {
-                          dispatch(finishTask(editingTaskId));
-                          dispatch(close());
-                        }}
-                      >
-                        Done
-                      </Button>
-                    ) : null}
+                    </Button>
                   </Typography>
                 </Form>
               </div>
