@@ -67,6 +67,7 @@ const Plan = () => {
 
   return (
     <div>
+      <Typography variant="h1">Dates</Typography>
       {Object.entries(days).map(([day, tasks]) => {
         const hasTasks = tasks.length > 0;
         return (
