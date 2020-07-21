@@ -123,7 +123,7 @@ const Plan = () => {
         {undatedTasks.map((task) => {
           return (
             <Typography component="li" key={task.id}>
-              {task.contentMarkdown}
+              {task.contentMarkdown} <EditButton taskId={task.id} />
             </Typography>
           );
         })}
