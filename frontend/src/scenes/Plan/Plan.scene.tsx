@@ -4,6 +4,7 @@ import {
   selectTasksByDatesFactory,
   selectUndatedTasks,
   stringifyDayjs,
+  Task,
 } from "do.md";
 import mousetrap from "mousetrap";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
@@ -20,6 +21,14 @@ enum KEY {
   l = "l",
 }
 const keys = Object.values(KEY);
+
+const TaskLi = ({ task }: { task: Task }) => {
+  return (
+    <Typography component="li" key={task.id}>
+      {task.contentMarkdown} <EditButton taskId={task.id} />
+    </Typography>
+  );
+};
 
 const Plan = () => {
   const classes = useStyles();
@@ -75,13 +84,7 @@ const Plan = () => {
             <Typography variant="h2">{day}</Typography>
             <ul>
               {hasTasks ? (
-                tasks.map((task) => {
-                  return (
-                    <Typography component="li" key={task.id}>
-                      {task.contentMarkdown} <EditButton taskId={task.id} />
-                    </Typography>
-                  );
-                })
+                tasks.map((task) => <TaskLi key={task.id} task={task} />)
               ) : (
                 <li className={classes.noTasks}>No tasks</li>
               )}
@@ -120,13 +123,9 @@ const Plan = () => {
       </Typography>
       <Typography variant="h1">Undated</Typography>
       <ul>
-        {undatedTasks.map((task) => {
-          return (
-            <Typography component="li" key={task.id}>
-              {task.contentMarkdown} <EditButton taskId={task.id} />
-            </Typography>
-          );
-        })}
+        {undatedTasks.map((task) => (
+          <TaskLi key={task.id} task={task} />
+        ))}
       </ul>
     </div>
   );
