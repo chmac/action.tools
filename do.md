@@ -1,15 +1,18 @@
 # Top
 
 - [ ] Put today's tasks first in Review
-- [ ] Edit task button
+- [x] Edit task button
   - Including a "Done" button
   - Click in Plan view to open edit mode
 - [ ] Add a never action
   - Deletes the task
+  - Or maybe converts it to a bullet point without a [ ] ?
 - [ ] Switch to numeric IDs, sequential to the file
 
 # More
 
+- [ ] Create unique pull-merge-error branch names
+  - Maybe also add some check to see if they exist and warn?
 - [x] Add a `by:today`, `by:thisweek`, `by:overdue`, `by:next30days` filters
 - [x] Date filters could be "now", "all", or "now&undated"
   - Right now it's only 2 or 3, but arguably 1 is more useful
