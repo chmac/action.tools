@@ -24,7 +24,8 @@ if (shouldWipe) {
 const fs = new LightningFS("domd", { wipe: shouldWipe });
 
 if (process.env.NODE_ENV === "development") {
-  (window as any)["fs"] = fs;
+  (globalThis as any).fs = fs;
+  (globalThis as any).git = git;
 }
 
 export const wipe = () => {
