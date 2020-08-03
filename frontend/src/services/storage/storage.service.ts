@@ -202,12 +202,12 @@ export const startup = async () => {
             "There was a merge conflict error. You need to manually merge the pull-merge-error branch into your upstream master and reload.",
           type: "warning",
         });
-      } catch (pushError) {
+      } catch (error) {
         pushError({
           message: "Error during merge conflict push. #fkIt0c",
           error,
         });
-        throw pushError;
+        throw error;
       }
     } else {
       pushError({
