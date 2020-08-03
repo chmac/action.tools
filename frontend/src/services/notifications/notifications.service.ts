@@ -16,6 +16,9 @@ export const push = ({
   message: string;
   type?: Notice["type"];
 }) => {
+  if (process.env.NODE_ENV === "development") {
+    console.log(`${type}::: ${message}`);
+  }
   store.dispatch(pushRedux({ notice: { message, type } }));
 };
 
