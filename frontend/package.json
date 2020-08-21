@@ -23,6 +23,7 @@
     "@types/unist": "^2.0.3",
     "@types/yup": "^0.29.3",
     "apollo-boost": "^0.4.7",
+    "async-lock": "^1.2.4",
     "awesome-debounce-promise": "^2.1.0",
     "classnames": "^2.2.6",
     "dayjs": "^1.8.28",
@@ -84,6 +85,7 @@
     ]
   },
   "devDependencies": {
+    "@types/async-lock": "^1.1.2",
     "@types/classnames": "^2.2.10",
     "@types/mousetrap": "^1.6.3",
     "env-cmd": "^10.0.1",
