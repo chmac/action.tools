@@ -1,5 +1,11 @@
 # Top
 
+- [ ] Add a Today view
+  - All overdue tasks
+  - Today's tasks (anything > after and < by)
+  - Undated tasks
+  - Potentially show 3 tasks per page, and swipe through
+  - Essentially a better review / do flow
 - [ ] Put today's tasks first in Review
 - [x] Edit task button
   - Including a "Done" button
