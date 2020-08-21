@@ -1,4 +1,5 @@
 import * as LightningFS from "@isomorphic-git/lightning-fs";
+import AsyncLock from "async-lock";
 import * as git from "isomorphic-git";
 import http from "isomorphic-git/http/web";
 import pDebounce from "p-debounce";
@@ -245,7 +246,7 @@ enum SetMarkdownResult {
   error = "error",
 }
 
-export const setMarkdown = async ({
+export const _setMarkdown = async ({
   markdown,
   filepath = FILEPATH,
   commitMessage = "do.md: Adding an update from the web",
@@ -295,6 +296,26 @@ export const setMarkdown = async ({
     debugger;
     return { result: SetMarkdownResult.error };
   }
+};
+
+const SetMarkdownLock = new AsyncLock();
+const SetMarkdownLockKey = "setMarkdown" as const;
+
+export const setMarkdown = async ({
+  markdown,
+  filepath = FILEPATH,
+  commitMessage = "do.md: Adding an update from the web",
+}: {
+  markdown: string;
+  filepath?: string;
+  commitMessage?: string;
+}): Promise<
+  | { result: SetMarkdownResult.error | SetMarkdownResult.nochange }
+  | { result: SetMarkdownResult.committed; newCommitHash: string }
+> => {
+  return SetMarkdownLock.acquire(SetMarkdownLockKey, () =>
+    _setMarkdown({ markdown, filepath, commitMessage })
+  );
 };
 
 export const pushToRemote = async () => {
