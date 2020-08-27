@@ -5,6 +5,7 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
+import CheckBox from "@material-ui/icons/CheckBox";
 import dayjs from "dayjs";
 import {
   createId,
@@ -104,6 +105,22 @@ const TaskForm = () => {
         <Typography variant="h1">
           {isEditMode ? "Edit" : "Create"} a task
         </Typography>
+        {typeof editingTask !== "undefined" ? (
+          <Typography className={classes.done}>
+            <Button
+              variant="outlined"
+              size="large"
+              color="default"
+              disabled={editingTask.finished}
+              onClick={() => {
+                dispatch(finishTask(editingTaskId));
+                dispatch(close());
+              }}
+            >
+              <CheckBox /> Mark task as done
+            </Button>
+          </Typography>
+        ) : null}{" "}
         <Formik
           // NOTE: This must match schema, a value for every field, or the
           // onSubmit() hook will never be called and silently fail.
@@ -246,20 +263,6 @@ const TaskForm = () => {
                     >
                       Cancel
                     </Button>{" "}
-                    {typeof editingTask !== "undefined" ? (
-                      <Button
-                        variant="contained"
-                        size="large"
-                        color="secondary"
-                        disabled={editingTask.finished}
-                        onClick={() => {
-                          dispatch(finishTask(editingTaskId));
-                          dispatch(close());
-                        }}
-                      >
-                        Done
-                      </Button>
-                    ) : null}{" "}
                     <Button
                       variant="contained"
                       size="large"
@@ -305,5 +308,6 @@ const useStyles = makeStyles((theme) => {
     wrapper: {
       minWidth: "60%",
     },
+    done: { marginTop: theme.spacing(2), textAlign: "center" },
   };
 });
