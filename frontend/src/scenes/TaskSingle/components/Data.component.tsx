@@ -1,8 +1,12 @@
 import { makeStyles, Typography } from "@material-ui/core";
-import { red, orange } from "@material-ui/core/colors";
+import { orange, red } from "@material-ui/core/colors";
 import classNames from "classnames";
-import dayjs from "dayjs";
-import { constants, getPackageState as getDomdState, TaskData } from "do.md";
+import {
+  constants,
+  dateToHuman,
+  getPackageState as getDomdState,
+  TaskData,
+} from "do.md";
 import React from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "../../../store";
@@ -14,14 +18,11 @@ const DateField = ({ name, date }: { name: keyof TaskData; date: string }) => {
     (state: AppState) => getDomdState(state).query.today
   );
 
-  const daysFromToday = dayjs(date).diff(dayjs(today), "day");
-
-  const isOverdue = name === constants.BY && daysFromToday <= 0;
-  const isToday = name === constants.BY && daysFromToday === 0;
-  const isThisWeek =
-    name === constants.BY && daysFromToday > 0 && daysFromToday < 7;
-
-  const todayText = daysFromToday === 0 ? "Today" : `${daysFromToday} days`;
+  const { isOverdue, isToday, isThisWeek, todayText } = dateToHuman({
+    date,
+    today,
+    dateType: name as typeof constants.BY | typeof constants.AFTER,
+  });
 
   return (
     <li
