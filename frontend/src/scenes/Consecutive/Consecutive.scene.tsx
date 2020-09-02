@@ -1,10 +1,20 @@
 import { makeStyles, Paper, Switch, Typography } from "@material-ui/core";
 import { isReady, selectActionableTodayFactory } from "do.md";
-import React, { useMemo, useState } from "react";
+import mousetrap from "mousetrap";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "../../store";
 import TaskItem from "../AllTasks/scenes/TaskItem/TaskItem.scene";
 import TaskSingle, { ActionSet } from "../TaskSingle/TaskSingle.scene";
+
+const assertNever = (no: never): never => {
+  throw new Error("assertNever #pcQASS");
+};
+
+enum KEY {
+  a = "a",
+}
+const keys = Object.values(KEY);
 
 const Consecutive = () => {
   const classes = useStyles();
@@ -17,6 +27,30 @@ const Consecutive = () => {
   );
   const tasks = useSelector(actionableTodaySelector);
   const nowIds = useSelector((state: AppState) => state.now.taskIds);
+
+  const handler = useCallback(
+    (key: KEY) => {
+      switch (key) {
+        case KEY.a: {
+          setShowAll(!showAll);
+          break;
+        }
+        default: {
+          assertNever(key);
+        }
+      }
+    },
+    [showAll, setShowAll]
+  );
+
+  useEffect(() => {
+    mousetrap.bind(keys, (event, key) => {
+      handler(key as KEY);
+    });
+    return () => {
+      mousetrap.unbind(keys);
+    };
+  }, [handler]);
 
   const remainingTasks = tasks.filter((task) => !nowIds.includes(task.id));
 
@@ -42,7 +76,7 @@ const Consecutive = () => {
       <>
         <Typography>
           <Switch
-            value={showAll}
+            checked={showAll}
             onChange={() => {
               setShowAll(!showAll);
             }}
