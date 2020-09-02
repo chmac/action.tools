@@ -100,7 +100,7 @@ const Consecutive = () => {
     <>
       <Typography>
         <Switch
-          value={showAll}
+          checked={showAll}
           onChange={() => {
             setShowAll(!showAll);
           }}
