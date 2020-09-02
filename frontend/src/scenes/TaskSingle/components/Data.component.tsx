@@ -7,7 +7,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "../../../store";
 
-const DateField = ({ name, date }: { name: string; date: string }) => {
+const DateField = ({ name, date }: { name: keyof TaskData; date: string }) => {
   const classes = useStyles();
 
   const today = useSelector(
