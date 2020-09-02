@@ -1,6 +1,6 @@
-import { makeStyles, Paper, Typography } from "@material-ui/core";
+import { makeStyles, Paper, Typography, Switch } from "@material-ui/core";
 import { isReady, selectActionableTodayFactory } from "do.md";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "../../store";
 import TaskSingle, { ActionSet } from "../TaskSingle/TaskSingle.scene";
@@ -8,6 +8,7 @@ import TaskSingle, { ActionSet } from "../TaskSingle/TaskSingle.scene";
 const Consecutive = () => {
   const classes = useStyles();
 
+  const [showAll, setShowAll] = useState(false);
   const dataLoaded = useSelector(isReady);
   const actionableTodaySelector = useMemo(
     () => selectActionableTodayFactory(),
@@ -35,10 +36,23 @@ const Consecutive = () => {
     );
   }
 
+  if (showAll) {
+    return <div>All tasks</div>;
+  }
+
   const taskId = remainingTasks[0].id;
 
   return (
     <>
+      <p>
+        <Switch
+          value={showAll}
+          onChange={() => {
+            setShowAll(!showAll);
+          }}
+        />{" "}
+        Show all?
+      </p>
       <TaskSingle taskId={taskId} actionSet={ActionSet.review} />
     </>
   );
