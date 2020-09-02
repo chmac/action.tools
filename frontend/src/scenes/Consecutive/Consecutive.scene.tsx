@@ -1,8 +1,9 @@
-import { makeStyles, Paper, Typography, Switch } from "@material-ui/core";
+import { makeStyles, Paper, Switch, Typography } from "@material-ui/core";
 import { isReady, selectActionableTodayFactory } from "do.md";
 import React, { useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "../../store";
+import TaskItem from "../AllTasks/scenes/TaskItem/TaskItem.scene";
 import TaskSingle, { ActionSet } from "../TaskSingle/TaskSingle.scene";
 
 const Consecutive = () => {
@@ -37,14 +38,33 @@ const Consecutive = () => {
   }
 
   if (showAll) {
-    return <div>All tasks</div>;
+    return (
+      <>
+        <Typography>
+          <Switch
+            value={showAll}
+            onChange={() => {
+              setShowAll(!showAll);
+            }}
+          />{" "}
+          Show all?
+        </Typography>
+        <Paper elevation={1} className={classes.paper}>
+          {tasks.map((task) => (
+            <TaskItem key={task.id} task={task} />
+          ))}
+        </Paper>
+      </>
+    );
+
+    // return tasks.map((task) => <TaskInList key={task.id} task={task} />);
   }
 
   const taskId = remainingTasks[0].id;
 
   return (
     <>
-      <p>
+      <Typography>
         <Switch
           value={showAll}
           onChange={() => {
@@ -52,7 +72,7 @@ const Consecutive = () => {
           }}
         />{" "}
         Show all?
-      </p>
+      </Typography>
       <TaskSingle taskId={taskId} actionSet={ActionSet.review} />
     </>
   );
