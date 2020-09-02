@@ -1,6 +1,22 @@
-import { Checkbox, Paper, Typography } from "@material-ui/core";
+import {
+  Checkbox,
+  createStyles,
+  makeStyles,
+  Paper,
+  Typography,
+} from "@material-ui/core";
+import { orange, red } from "@material-ui/core/colors";
 import { createSelector } from "@reduxjs/toolkit";
-import { finishTask, Task, TaskData, unfinishTask } from "do.md";
+import classNames from "classnames";
+import {
+  constants,
+  dateToHuman,
+  finishTask,
+  getPackageState as getDomdState,
+  Task,
+  TaskData,
+  unfinishTask,
+} from "do.md";
 import Markdown from "markdown-to-jsx";
 import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +33,11 @@ const makeChildTasksSelector = () =>
   );
 
 const Data = ({ data }: { data: TaskData }) => {
+  const classes = useStyles();
+  const today = useSelector(
+    (state: AppState) => getDomdState(state).query.today
+  );
+
   const dataEntries = Object.entries(data);
   const hasData = dataEntries.length > 0;
 
@@ -30,10 +51,40 @@ const Data = ({ data }: { data: TaskData }) => {
       <span style={{ paddingLeft: 42 }} />
       {dataEntries.map(([key, value]) => {
         if (key === "contexts") {
-          return <span key={key}>{`@${(value as string[]).join(" @")}`}</span>;
+          return (
+            <span
+              key={key}
+              className={classes.light}
+            >{`@${(value as string[]).join(" @")}`}</span>
+          );
         }
+
+        if (key === constants.BY || key === constants.AFTER) {
+          const { todayText, isOverdue, isThisWeek, isToday } = dateToHuman({
+            date: value as string,
+            today,
+            dateType: key,
+          });
+          return (
+            <span key={key}>
+              <strong>{key === constants.BY ? "BY" : constants.AFTER}</strong>:{" "}
+              {value} (
+              <span
+                className={classNames({
+                  [classes.thisWeek]: isThisWeek,
+                  [classes.today]: isToday,
+                  [classes.overdue]: isOverdue,
+                })}
+              >
+                {todayText}
+              </span>
+              ){" "}
+            </span>
+          );
+        }
+
         return (
-          <span key={key}>
+          <span key={key} className={classes.light}>
             {key}: {value}{" "}
           </span>
         );
@@ -90,3 +141,20 @@ const TaskItem = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
 };
 
 export default TaskItem;
+
+const useStyles = makeStyles((theme) => {
+  return createStyles({
+    today: {
+      backgroundColor: orange[500],
+    },
+    thisWeek: {
+      backgroundColor: orange[100],
+    },
+    light: { opacity: 0.6 },
+    overdue: {
+      color: red[900],
+      fontWeight: 700,
+      fontSize: "1.5em",
+    },
+  });
+});
