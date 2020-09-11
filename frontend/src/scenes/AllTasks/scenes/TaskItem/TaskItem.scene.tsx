@@ -162,7 +162,12 @@ const TaskItem = ({
             variant="outlined"
             size="small"
             onClick={() => {
-              dispatch(snoozeTask({ id: task.id, daysFromToday: 1 }));
+              const daysFromToday = parseInt(
+                prompt("How many days hence?") || "0"
+              );
+              if (daysFromToday > 0) {
+                dispatch(snoozeTask({ id: task.id, daysFromToday }));
+              }
             }}
           >
             snooze
