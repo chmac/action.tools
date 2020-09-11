@@ -89,7 +89,7 @@ const Review = () => {
         />{" "}
         Show all?
       </Typography>
-      <TaskSingle taskId={taskId} actionSet={TaskItemActionSet.review} />
+      <TaskSingle taskId={taskId} actionSet={TaskSingleActionSet.review} />
     </>
   );
 };
