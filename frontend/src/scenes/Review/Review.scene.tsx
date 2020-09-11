@@ -4,7 +4,9 @@ import mousetrap from "mousetrap";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "../../store";
-import TaskSingle from "../TaskSingle/TaskSingle.scene";
+import TaskSingle, {
+  TaskSingleActionSet,
+} from "../TaskSingle/TaskSingle.scene";
 import ReviewAll from "./scenes/ReviewAll/ReviewAll.scene";
 
 const assertNever = (no: never): never => {
