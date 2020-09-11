@@ -24,6 +24,23 @@
   ],
   "settings": {
     "prettier.prettierPath": "../../node_modules/prettier",
-    "typescript.preferences.importModuleSpecifier": "relative"
+    "typescript.preferences.importModuleSpecifier": "relative",
+    "workbench.colorCustomizations": {
+      "activityBar.activeBackground": "#eb5525",
+      "activityBar.activeBorder": "#15ea49",
+      "activityBar.background": "#eb5525",
+      "activityBar.foreground": "#e7e7e7",
+      "activityBar.inactiveForeground": "#e7e7e799",
+      "activityBarBadge.background": "#15ea49",
+      "activityBarBadge.foreground": "#15202b",
+      "statusBar.background": "#ca3f13",
+      "statusBar.foreground": "#e7e7e7",
+      "statusBarItem.hoverBackground": "#eb5525",
+      "titleBar.activeBackground": "#ca3f13",
+      "titleBar.activeForeground": "#e7e7e7",
+      "titleBar.inactiveBackground": "#ca3f1399",
+      "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "peacock.color": "#ca3f13"
   }
 }
