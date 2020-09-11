@@ -8,6 +8,7 @@ import TaskItem, {
   TaskItemActionSet,
 } from "../AllTasks/scenes/TaskItem/TaskItem.scene";
 import TaskSingle from "../TaskSingle/TaskSingle.scene";
+import ReviewAll from "./scenes/ReviewAll/ReviewAll.scene";
 
 const assertNever = (no: never): never => {
   throw new Error("assertNever #pcQASS");
@@ -74,32 +75,7 @@ const Review = () => {
   }
 
   if (showAll) {
-    const allTasksList = tasks.filter((task) => !nowIds.includes(task.id));
-
-    return (
-      <>
-        <Typography>
-          <Switch
-            checked={showAll}
-            onChange={() => {
-              setShowAll(!showAll);
-            }}
-          />{" "}
-          Show all?
-        </Typography>
-        <Paper elevation={1} className={classes.paper}>
-          {allTasksList.map((task) => (
-            <TaskItem
-              key={task.id}
-              task={task}
-              actionSet={TaskItemActionSet.review}
-            />
-          ))}
-        </Paper>
-      </>
-    );
-
-    // return tasks.map((task) => <TaskInList key={task.id} task={task} />);
+    return <ReviewAll showAll={showAll} setShowAll={setShowAll} />;
   }
 
   const taskId = remainingTasks[0].id;
