@@ -4,8 +4,10 @@ import mousetrap from "mousetrap";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "../../store";
-import TaskItem from "../AllTasks/scenes/TaskItem/TaskItem.scene";
-import TaskSingle, { ActionSet } from "../TaskSingle/TaskSingle.scene";
+import TaskItem, {
+  TaskItemActionSet,
+} from "../AllTasks/scenes/TaskItem/TaskItem.scene";
+import TaskSingle from "../TaskSingle/TaskSingle.scene";
 
 const assertNever = (no: never): never => {
   throw new Error("assertNever #pcQASS");
@@ -72,6 +74,8 @@ const Consecutive = () => {
   }
 
   if (showAll) {
+    const allTasksList = tasks.filter((task) => !nowIds.includes(task.id));
+
     return (
       <>
         <Typography>
@@ -84,8 +88,12 @@ const Consecutive = () => {
           Show all?
         </Typography>
         <Paper elevation={1} className={classes.paper}>
-          {tasks.map((task) => (
-            <TaskItem key={task.id} task={task} />
+          {allTasksList.map((task) => (
+            <TaskItem
+              key={task.id}
+              task={task}
+              actionSet={TaskItemActionSet.review}
+            />
           ))}
         </Paper>
       </>
@@ -107,7 +115,7 @@ const Consecutive = () => {
         />{" "}
         Show all?
       </Typography>
-      <TaskSingle taskId={taskId} actionSet={ActionSet.review} />
+      <TaskSingle taskId={taskId} actionSet={TaskItemActionSet.review} />
     </>
   );
 };

@@ -1,4 +1,5 @@
 import {
+  Button,
   Checkbox,
   createStyles,
   makeStyles,
@@ -13,6 +14,7 @@ import {
   dateToHuman,
   finishTask,
   getPackageState as getDomdState,
+  snoozeTask,
   Task,
   TaskData,
   unfinishTask,
@@ -20,8 +22,14 @@ import {
 import Markdown from "markdown-to-jsx";
 import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { addId } from "../../../../services/now/now.state";
 import { AppDispatch, AppState } from "../../../../store";
 import EditButton from "../../../EditButton/EditButton.scene";
+
+export enum TaskItemActionSet {
+  all,
+  review,
+}
 
 const makeChildTasksSelector = () =>
   createSelector(
@@ -93,7 +101,17 @@ const Data = ({ data }: { data: TaskData }) => {
   );
 };
 
-const TaskItem = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
+const TaskItem = ({
+  task,
+  depth = 0,
+  actionSet = TaskItemActionSet.all,
+}: {
+  task: Task;
+  depth?: number;
+  actionSet?: TaskItemActionSet;
+}) => {
+  const classes = useStyles();
+
   const selectChildTasks = useMemo(makeChildTasksSelector, []);
   const tasks = useSelector((state: AppState) =>
     selectChildTasks(state, task.id)
@@ -131,10 +149,45 @@ const TaskItem = ({ task, depth = 0 }: { task: Task; depth?: number }) => {
           {task.contentMarkdown}
         </Markdown>
         <Data data={task.data} />{" "}
+        {actionSet === TaskItemActionSet.review ? (
+          <>
+            <br />
+            <span style={{ paddingLeft: 42 }} />
+          </>
+        ) : null}
         {task.isTask ? <EditButton taskId={task.id} /> : null}
+        {actionSet === TaskItemActionSet.review ? (
+          <Button
+            className={classes.actionSpacing}
+            variant="outlined"
+            size="small"
+            onClick={() => {
+              dispatch(snoozeTask({ id: task.id, daysFromToday: 1 }));
+            }}
+          >
+            snooze
+          </Button>
+        ) : null}
+        {actionSet === TaskItemActionSet.review ? (
+          <Button
+            className={classes.actionSpacing}
+            variant="outlined"
+            size="small"
+            onClick={() => {
+              dispatch(addId(task.id));
+            }}
+          >
+            now
+          </Button>
+        ) : null}
       </Typography>
       {tasks.map((task) => (
-        <TaskItem key={task.id} task={task} depth={depth + 1} />
+        <TaskItem
+          key={task.id}
+          task={task}
+          depth={depth + 1}
+          actionSet={actionSet}
+        />
       ))}
     </Paper>
   );
@@ -155,6 +208,9 @@ const useStyles = makeStyles((theme) => {
       color: red[900],
       fontWeight: 700,
       fontSize: "1.5em",
+    },
+    actionSpacing: {
+      marginLeft: theme.spacing(4),
     },
   });
 });

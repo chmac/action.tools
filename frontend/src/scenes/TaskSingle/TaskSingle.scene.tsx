@@ -8,7 +8,7 @@ import { AppDispatch, AppState } from "../../store";
 import Actions from "./components/Actions.component";
 import Data from "./components/Data.component";
 
-export enum ActionSet {
+export enum TaskSingleActionSet {
   review,
   do,
 }
@@ -42,7 +42,7 @@ const TaskSingle = ({
   actionSet,
 }: {
   taskId: string;
-  actionSet: ActionSet;
+  actionSet: TaskSingleActionSet;
 }) => {
   const classes = useStyles();
   const { tasks, titles } = useSelector((state: AppState) =>
@@ -71,7 +71,7 @@ const TaskSingle = ({
           ) : null}
           <Data data={task.data} />
         </Paper>
-        {actionSet === ActionSet.do ? (
+        {actionSet === TaskSingleActionSet.do ? (
           <div className={classes.buttonWrapper}>
             <Button
               variant="contained"
@@ -88,7 +88,9 @@ const TaskSingle = ({
           </div>
         ) : null}
       </div>
-      {actionSet === ActionSet.review ? <Actions taskId={taskId} /> : null}
+      {actionSet === TaskSingleActionSet.review ? (
+        <Actions taskId={taskId} />
+      ) : null}
     </>
   );
 };
