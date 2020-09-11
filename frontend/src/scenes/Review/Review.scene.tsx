@@ -18,7 +18,7 @@ enum KEY {
 }
 const keys = Object.values(KEY);
 
-const Consecutive = () => {
+const Review = () => {
   const classes = useStyles();
 
   const [showAll, setShowAll] = useState(false);
@@ -120,7 +120,7 @@ const Consecutive = () => {
   );
 };
 
-export default Consecutive;
+export default Review;
 
 const useStyles = makeStyles((theme) => {
   return {
