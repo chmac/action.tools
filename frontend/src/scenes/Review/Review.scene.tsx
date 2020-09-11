@@ -4,9 +4,7 @@ import mousetrap from "mousetrap";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "../../store";
-import TaskItem, {
-  TaskItemActionSet,
-} from "../AllTasks/scenes/TaskItem/TaskItem.scene";
+import { TaskItemActionSet } from "../AllTasks/scenes/TaskItem/TaskItem.scene";
 import TaskSingle from "../TaskSingle/TaskSingle.scene";
 import ReviewAll from "./scenes/ReviewAll/ReviewAll.scene";
 

@@ -1,10 +1,9 @@
 import {
+  createStyles,
+  makeStyles,
   Paper,
   Switch,
   Typography,
-  makeStyles,
-  createStyles,
-  Grid,
 } from "@material-ui/core";
 import { selectActionableTodayFactory } from "do.md";
 import React, { useMemo } from "react";
