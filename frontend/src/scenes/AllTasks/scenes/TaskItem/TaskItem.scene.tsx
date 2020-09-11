@@ -149,14 +149,14 @@ const TaskItem = ({
           {task.contentMarkdown}
         </Markdown>
         <Data data={task.data} />{" "}
-        {actionSet === TaskItemActionSet.review ? (
+        {task.isTask && actionSet === TaskItemActionSet.review ? (
           <>
             <br />
             <span style={{ paddingLeft: 42 }} />
           </>
         ) : null}
         {task.isTask ? <EditButton taskId={task.id} /> : null}
-        {actionSet === TaskItemActionSet.review ? (
+        {task.isTask && actionSet === TaskItemActionSet.review ? (
           <Button
             className={classes.actionSpacing}
             variant="outlined"
@@ -173,7 +173,7 @@ const TaskItem = ({
             snooze
           </Button>
         ) : null}
-        {actionSet === TaskItemActionSet.review ? (
+        {task.isTask && actionSet === TaskItemActionSet.review ? (
           <Button
             className={classes.actionSpacing}
             variant="outlined"
