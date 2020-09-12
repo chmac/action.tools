@@ -72,7 +72,13 @@ const Data = ({ task: { data, finished } }: { task: Task }) => {
           );
         }
 
-        return <DateField key={key} name={key} date={value as string} />;
+        return (
+          <DateField
+            key={key}
+            name={key as keyof TaskData}
+            date={value as string}
+          />
+        );
       })}
     </ul>
   );
