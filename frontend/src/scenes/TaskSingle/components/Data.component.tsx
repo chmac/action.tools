@@ -5,6 +5,7 @@ import {
   constants,
   dateToHuman,
   getPackageState as getDomdState,
+  Task,
   TaskData,
 } from "do.md";
 import React from "react";
@@ -47,7 +48,7 @@ const DateField = ({ name, date }: { name: keyof TaskData; date: string }) => {
   );
 };
 
-const Data = ({ data }: { data: TaskData }) => {
+const Data = ({ task: { data, finished } }: { task: Task }) => {
   const classes = useStyles();
 
   return (
@@ -61,7 +62,7 @@ const Data = ({ data }: { data: TaskData }) => {
           );
         }
 
-        if (key === constants.REPEAT || key === constants.ID) {
+        if (finished || key === constants.REPEAT || key === constants.ID) {
           return (
             <li key={key} className={classes.li}>
               <Typography>

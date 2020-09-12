@@ -69,7 +69,7 @@ const TaskSingle = ({
           {task.hasUnfinishedChildren ? (
             <Typography>Warning: This task has unfinished children</Typography>
           ) : null}
-          <Data data={task.data} />
+          <Data task={task} />
         </Paper>
         {actionSet === TaskSingleActionSet.do ? (
           <div className={classes.buttonWrapper}>

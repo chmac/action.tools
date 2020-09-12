@@ -16,7 +16,6 @@ import {
   getPackageState as getDomdState,
   snoozeTask,
   Task,
-  TaskData,
   unfinishTask,
 } from "do.md";
 import Markdown from "markdown-to-jsx";
@@ -40,7 +39,7 @@ const makeChildTasksSelector = () =>
     (parentId, tasks) => tasks.filter((task) => task.parentId === parentId)
   );
 
-const Data = ({ data }: { data: TaskData }) => {
+const Data = ({ task: { data, finished } }: { task: Task }) => {
   const classes = useStyles();
   const today = useSelector(
     (state: AppState) => getDomdState(state).query.today
@@ -67,7 +66,7 @@ const Data = ({ data }: { data: TaskData }) => {
           );
         }
 
-        if (key === constants.BY || key === constants.AFTER) {
+        if (!finished && (key === constants.BY || key === constants.AFTER)) {
           const { todayText, isOverdue, isThisWeek, isToday } = dateToHuman({
             date: value as string,
             today,
@@ -148,7 +147,7 @@ const TaskItem = ({
         <Markdown options={{ forceInline: true }}>
           {task.contentMarkdown}
         </Markdown>
-        <Data data={task.data} />{" "}
+        <Data task={task} />{" "}
         {task.isTask && actionSet === TaskItemActionSet.review ? (
           <>
             <br />
