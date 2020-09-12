@@ -128,6 +128,7 @@ const TaskItem = ({
       square
       style={{
         paddingLeft: depth * 42 + (task.isTask ? 0 : 42),
+        paddingBottom: 9,
       }}
     >
       <Typography>
