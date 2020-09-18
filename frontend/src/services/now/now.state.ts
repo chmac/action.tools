@@ -21,6 +21,9 @@ const nowSlice = createSlice({
     removeId: (state, action: PayloadAction<string>) => {
       const idIndex = state.taskIds.indexOf(action.payload);
       state.taskIds.splice(idIndex, 1);
+      if (state.taskIds.length === state.skipCount) {
+        state.skipCount = 0;
+      }
     },
     skip: (state) => {
       state.skipCount++;
