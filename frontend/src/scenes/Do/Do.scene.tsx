@@ -8,12 +8,15 @@ import TaskSingle, {
 
 const Do = () => {
   const nowIds = useSelector((state: AppState) => state.now.taskIds);
+  const skipCount = useSelector((state: AppState) => state.now.skipCount);
 
   if (nowIds.length === 0) {
     return <Redirect to="/review" />;
   }
 
-  return <TaskSingle taskId={nowIds[0]} actionSet={TaskSingleActionSet.do} />;
+  const taskId = nowIds[skipCount];
+
+  return <TaskSingle taskId={taskId} actionSet={TaskSingleActionSet.do} />;
 };
 
 export default Do;
