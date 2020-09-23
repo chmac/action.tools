@@ -59,10 +59,12 @@ const Data = ({ task: { data, finished } }: { task: Task }) => {
       {dataEntries.map(([key, value]) => {
         if (key === "contexts") {
           return (
-            <span
-              key={key}
-              className={classes.light}
-            >{`@${(value as string[]).join(" @")}`}</span>
+            <>
+              <span
+                key={key}
+                className={classes.light}
+              >{`@${(value as string[]).join(" @")}`}</span>{" "}
+            </>
           );
         }
 
