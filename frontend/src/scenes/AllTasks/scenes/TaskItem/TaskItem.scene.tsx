@@ -19,7 +19,7 @@ import {
   unfinishTask,
 } from "do.md";
 import Markdown from "markdown-to-jsx";
-import React, { useMemo } from "react";
+import React, { Fragment, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addId } from "../../../../services/now/now.state";
 import { AppDispatch, AppState } from "../../../../store";
@@ -59,12 +59,11 @@ const Data = ({ task: { data, finished } }: { task: Task }) => {
       {dataEntries.map(([key, value]) => {
         if (key === "contexts") {
           return (
-            <>
-              <span
-                key={key}
-                className={classes.light}
-              >{`@${(value as string[]).join(" @")}`}</span>{" "}
-            </>
+            <Fragment key={key}>
+              <span className={classes.light}>{`@${(value as string[]).join(
+                " @"
+              )}`}</span>{" "}
+            </Fragment>
           );
         }
 
