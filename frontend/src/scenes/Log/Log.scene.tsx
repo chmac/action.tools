@@ -53,7 +53,11 @@ const Log = (props: Props) => {
         <Typography>
           GLOBAL: n - new task; c - new task form;
           <br />
+          NAV: ga - all task; gr - review; gd - do; gp - plan
+          <br />
           PLAN: j - done; k - now; l - tomorrow; ; - later
+          <br />
+          REVIEW: shift+a - show all
         </Typography>
         <Typography variant="h1">Stats</Typography>
         <ul>
