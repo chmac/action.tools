@@ -14,7 +14,7 @@ const assertNever = (no: never): never => {
 };
 
 enum KEY {
-  a = "a",
+  a = "shift+a",
 }
 const keys = Object.values(KEY);
 
