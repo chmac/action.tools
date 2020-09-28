@@ -3,7 +3,7 @@ import { finishTask, taskWithContext } from "do.md";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { reverse } from "remeda";
-import { removeId } from "../../services/now/now.state";
+import { removeId, skip } from "../../services/now/now.state";
 import { AppDispatch, AppState } from "../../store";
 import Actions from "./components/Actions.component";
 import Data from "./components/Data.component";
@@ -72,20 +72,31 @@ const TaskSingle = ({
           <Data task={task} />
         </Paper>
         {actionSet === TaskSingleActionSet.do ? (
-          <div className={classes.buttonWrapper}>
-            <Button
-              variant="contained"
-              color="secondary"
-              size="large"
-              className={classes.done}
-              onClick={() => {
-                dispatch(finishTask(taskId));
-                dispatch(removeId(taskId));
-              }}
-            >
-              Done
-            </Button>
-          </div>
+          <>
+            <div className={classes.skipWrapper}>
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={() => dispatch(skip())}
+              >
+                Skip
+              </Button>
+            </div>
+            <div className={classes.buttonWrapper}>
+              <Button
+                variant="contained"
+                color="secondary"
+                size="large"
+                className={classes.done}
+                onClick={() => {
+                  dispatch(finishTask(taskId));
+                  dispatch(removeId(taskId));
+                }}
+              >
+                Done
+              </Button>
+            </div>
+          </>
         ) : null}
       </div>
       {actionSet === TaskSingleActionSet.review ? (
@@ -115,9 +126,13 @@ const useStyles = makeStyles((theme) => {
       paddingTop: theme.spacing(1),
       paddingBottom: theme.spacing(1),
     },
-    buttonWrapper: {
-      padding: theme.spacing(4),
+    skipWrapper: {
+      marginTop: theme.spacing(4),
     },
+    buttonWrapper: {
+      marginTop: theme.spacing(4),
+    },
+
     done: {
       fontSize: "4rem",
       padding: theme.spacing(2),
