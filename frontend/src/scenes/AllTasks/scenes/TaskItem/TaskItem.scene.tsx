@@ -6,7 +6,7 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
-import { orange, red } from "@material-ui/core/colors";
+import { green, grey, orange, red, yellow } from "@material-ui/core/colors";
 import { createSelector } from "@reduxjs/toolkit";
 import classNames from "classnames";
 import {
@@ -122,6 +122,14 @@ const TaskItem = ({
   // sequential task
   const hideOutline = !task.isTask || task.isSequential;
 
+  const words = task.contentMarkdown.split(" ");
+  const prios = {
+    p1: words.indexOf("p1") !== -1,
+    p2: words.indexOf("p2") !== -1,
+    p3: words.indexOf("p3") !== -1,
+    p4: words.indexOf("p4") !== -1,
+  };
+
   return (
     <Paper
       variant={hideOutline ? "elevation" : "outlined"}
@@ -131,6 +139,12 @@ const TaskItem = ({
         paddingLeft: depth * 42 + (task.isTask ? 0 : 42),
         paddingBottom: 9,
       }}
+      className={classNames({
+        [classes.p1]: prios.p1,
+        [classes.p2]: prios.p2,
+        [classes.p3]: prios.p3,
+        [classes.p4]: prios.p4,
+      })}
     >
       <Typography>
         {task.isTask ? (
@@ -208,6 +222,18 @@ const useStyles = makeStyles((theme) => {
     },
     thisWeek: {
       backgroundColor: orange[100],
+    },
+    p1: {
+      backgroundColor: red[500],
+    },
+    p2: {
+      backgroundColor: yellow[500],
+    },
+    p3: {
+      backgroundColor: green[300],
+    },
+    p4: {
+      backgroundColor: grey[300],
     },
     light: { opacity: 0.6 },
     overdue: {
