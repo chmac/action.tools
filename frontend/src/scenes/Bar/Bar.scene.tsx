@@ -118,7 +118,7 @@ const Bar: React.FC = (props) => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="default">
+      <AppBar position="fixed" color="default">
         <Toolbar>
           <IconButton edge="start" onClick={() => dispatch(toggleIsOpen())}>
             <MenuIcon />
@@ -175,6 +175,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
+      paddingBottom: 64,
     },
     title: {
       flexGrow: 1,
