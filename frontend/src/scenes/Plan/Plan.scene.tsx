@@ -1,4 +1,6 @@
 import { Button, makeStyles, Typography } from "@material-ui/core";
+import { green, grey, red, yellow } from "@material-ui/core/colors";
+import classNames from "classnames";
 import dayjs from "dayjs";
 import {
   selectTasksByDatesFactory,
@@ -23,8 +25,27 @@ enum KEY {
 const keys = Object.values(KEY);
 
 const TaskLi = ({ task }: { task: Task }) => {
+  const classes = useStyles();
+
+  const words = task.contentMarkdown.split(" ");
+  const prios = {
+    p1: words.indexOf("p1") !== -1,
+    p2: words.indexOf("p2") !== -1,
+    p3: words.indexOf("p3") !== -1,
+    p4: words.indexOf("p4") !== -1,
+  };
+
   return (
-    <Typography component="li" key={task.id}>
+    <Typography
+      className={classNames({
+        [classes.p1]: prios.p1,
+        [classes.p2]: prios.p2,
+        [classes.p3]: prios.p3,
+        [classes.p4]: prios.p4,
+      })}
+      component="li"
+      key={task.id}
+    >
       {task.contentMarkdown} <EditButton taskId={task.id} />
     </Typography>
   );
@@ -137,6 +158,18 @@ const useStyles = makeStyles((theme) => {
   return {
     noTasks: {
       opacity: 0.5,
+    },
+    p1: {
+      backgroundColor: red[500],
+    },
+    p2: {
+      backgroundColor: yellow[500],
+    },
+    p3: {
+      backgroundColor: green[300],
+    },
+    p4: {
+      backgroundColor: grey[300],
     },
   };
 });
