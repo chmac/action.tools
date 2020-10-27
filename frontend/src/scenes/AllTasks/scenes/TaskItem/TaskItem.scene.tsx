@@ -171,7 +171,7 @@ const TaskItem = ({
           </>
         ) : null}
         {task.isTask ? <EditButton taskId={task.id} /> : null}
-        {task.isTask && actionSet === TaskItemActionSet.review ? (
+        {task.isTask ? (
           <Button
             className={classes.actionSpacing}
             variant="outlined"
