@@ -146,18 +146,18 @@ export const doesTaskMatchDate = ({
     }
   }
 
-  if (typeof after === 'string') {
-    // NOTE: String comparison works here, both by and date are strings
-    // representing the date, no need for a date library to compare
-    if (after === date) {
-      return true;
-    }
-  }
-
   if (typeof snooze === 'string') {
     // NOTE: String comparison works here, both by and date are strings
     // representing the date, no need for a date library to compare
     if (snooze === date) {
+      return true;
+    }
+    // Only check the `after` date if a `snoozze` date does not exist. We assume
+    // that a snooze date will always be later than an `after` date.
+  } else if (typeof after === 'string') {
+    // NOTE: String comparison works here, both by and date are strings
+    // representing the date, no need for a date library to compare
+    if (after === date) {
       return true;
     }
   }
