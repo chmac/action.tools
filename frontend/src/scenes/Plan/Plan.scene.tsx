@@ -12,6 +12,7 @@ import mousetrap from "mousetrap";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import EditButton from "../EditButton/EditButton.scene";
+import SnoozeButton from "../SnoozeButton/SnoozeButton.scene";
 
 const assertNever = (no: never): never => {
   throw new Error("assertNever #pcQASS");
@@ -46,7 +47,8 @@ const TaskLi = ({ task }: { task: Task }) => {
       component="li"
       key={task.id}
     >
-      {task.contentMarkdown} <EditButton taskId={task.id} />
+      {task.contentMarkdown} <EditButton taskId={task.id} />{" "}
+      <SnoozeButton taskId={task.id} />
     </Typography>
   );
 };

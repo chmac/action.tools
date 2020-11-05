@@ -14,7 +14,6 @@ import {
   dateToHuman,
   finishTask,
   getPackageState as getDomdState,
-  snoozeTask,
   Task,
   unfinishTask,
 } from "do.md";
@@ -24,6 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addId } from "../../../../services/now/now.state";
 import { AppDispatch, AppState } from "../../../../store";
 import EditButton from "../../../EditButton/EditButton.scene";
+import SnoozeButton from "../../../SnoozeButton/SnoozeButton.scene";
 
 export enum TaskItemActionSet {
   all,
@@ -172,21 +172,16 @@ const TaskItem = ({
         ) : null}
         {task.isTask ? <EditButton taskId={task.id} /> : null}
         {task.isTask ? (
-          <Button
-            className={classes.actionSpacing}
+          <SnoozeButton
+            className={
+              actionSet === TaskItemActionSet.review
+                ? classes.actionSpacing
+                : undefined
+            }
             variant="outlined"
             size="small"
-            onClick={() => {
-              const daysFromToday = parseInt(
-                prompt("How many days hence?") || "0"
-              );
-              if (daysFromToday > 0) {
-                dispatch(snoozeTask({ id: task.id, daysFromToday }));
-              }
-            }}
-          >
-            snooze
-          </Button>
+            taskId={task.id}
+          />
         ) : null}
         {task.isTask && actionSet === TaskItemActionSet.review ? (
           <Button
