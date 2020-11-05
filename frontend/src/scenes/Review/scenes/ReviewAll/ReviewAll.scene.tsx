@@ -30,7 +30,7 @@ const ReviewAll = ({
   const tasks = useSelector(actionableTodaySelector);
   const nowIds = useSelector((state: AppState) => state.now.taskIds);
 
-  const allTasksList = tasks.filter((task) => !nowIds.includes(task.id));
+  const nowTasksList = tasks.filter((task) => !nowIds.includes(task.id));
 
   return (
     <>
@@ -57,7 +57,7 @@ const ReviewAll = ({
       )}
       <Typography variant="h2">Review</Typography>
       <Paper elevation={1} className={classes.paper}>
-        {allTasksList.map((task) => (
+        {nowTasksList.map((task) => (
           <TaskItem
             key={task.id}
             task={task}
