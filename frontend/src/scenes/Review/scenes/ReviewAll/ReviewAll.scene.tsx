@@ -30,7 +30,8 @@ const ReviewAll = ({
   const tasks = useSelector(actionableTodaySelector);
   const nowIds = useSelector((state: AppState) => state.now.taskIds);
 
-  const nowTasksList = tasks.filter((task) => !nowIds.includes(task.id));
+  // This is a list of tasksk which have not yet been added to the "now" list
+  const remainingTasksList = tasks.filter((task) => !nowIds.includes(task.id));
 
   return (
     <>
@@ -57,7 +58,7 @@ const ReviewAll = ({
       )}
       <Typography variant="h2">Review</Typography>
       <Paper elevation={1} className={classes.paper}>
-        {nowTasksList.map((task) => (
+        {remainingTasksList.map((task) => (
           <TaskItem
             key={task.id}
             task={task}
