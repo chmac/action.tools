@@ -27,6 +27,9 @@ const nowSlice = createSlice({
     },
     skip: (state) => {
       state.skipCount++;
+      if (state.taskIds.length === state.skipCount) {
+        state.skipCount = 0;
+      }
     },
     resetSkip: (state) => {
       state.skipCount = 0;
