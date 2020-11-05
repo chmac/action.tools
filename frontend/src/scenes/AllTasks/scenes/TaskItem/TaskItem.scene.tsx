@@ -188,6 +188,7 @@ const TaskItem = ({
             className={classes.actionSpacing}
             variant="outlined"
             size="small"
+            color="secondary"
             onClick={() => {
               dispatch(addId(task.id));
             }}
