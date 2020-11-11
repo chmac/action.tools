@@ -120,7 +120,7 @@ const TaskForm = () => {
               <CheckBox /> Mark task as done
             </Button>
           </Typography>
-        ) : null}{" "}
+        ) : null}
         <Formik
           // NOTE: This must match schema, a value for every field, or the
           // onSubmit() hook will never be called and silently fail.
