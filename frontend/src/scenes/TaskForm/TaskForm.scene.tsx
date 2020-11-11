@@ -6,6 +6,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import CheckBox from "@material-ui/icons/CheckBox";
+import Close from "@material-ui/icons/Close";
 import dayjs from "dayjs";
 import {
   createId,
@@ -17,6 +18,7 @@ import {
   taskById,
   TaskData,
   updateTask,
+  closeTaskWithoutRepeating,
 } from "do.md";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
@@ -82,7 +84,11 @@ const TaskForm = () => {
   });
   const dispatch: AppDispatch = useDispatch();
 
-  const isEditMode = editingTaskId !== "";
+  const isEditMode = typeof editingTask !== "undefined";
+  const hasRepeat =
+    typeof editingTask !== "undefined" &&
+    typeof editingTask.data.repeat !== "undefined" &&
+    editingTask.data.repeat.length > 0;
 
   const initialValues = {
     title: editingTask?.contentMarkdown || "",
@@ -278,6 +284,21 @@ const TaskForm = () => {
             );
           }}
         </Formik>
+        {hasRepeat ? (
+          <Typography className={classes.close}>
+            <Button
+              variant="outlined"
+              size="small"
+              color="default"
+              onClick={() => {
+                dispatch(closeTaskWithoutRepeating(editingTaskId));
+                dispatch(close());
+              }}
+            >
+              <Close /> Close task without repeating
+            </Button>
+          </Typography>
+        ) : null}
       </Paper>
     </Modal>
   );
@@ -309,5 +330,6 @@ const useStyles = makeStyles((theme) => {
       minWidth: "60%",
     },
     done: { marginTop: theme.spacing(2), textAlign: "center" },
+    close: { marginTop: theme.spacing(2), textAlign: "center" },
   };
 });
