@@ -75,7 +75,7 @@ const sectionSlice = createSlice({
       const task = { ...rest, data: removeEmptyProperties(data) };
       state.tasks.splice(action.payload.insertAtIndex, 0, task);
     },
-    _finishTask: (state, action: PayloadAction<string>) => {
+    closeTaskWithoutRepeating: (state, action: PayloadAction<string>) => {
       const taskIndex = getTaskIndex(state, action.payload);
       state.tasks[taskIndex].finished = true;
     },
@@ -152,6 +152,7 @@ export const {
   newSection,
   newTask,
   unfinishTask,
+  closeTaskWithoutRepeating,
   updateTask,
   addContextsToTask,
 } = sectionSlice.actions;
@@ -168,7 +169,7 @@ export const finishTask = (id: string): AppThunk => async (
   const taskIndex = getTaskIndex(state, id);
   const task = state.tasks[taskIndex];
 
-  dispatch(sectionSlice.actions._finishTask(id));
+  dispatch(closeTaskWithoutRepeating(id));
 
   // If this task has no repetition, then stop here
   if (typeof task.data.repeat === 'undefined') {
