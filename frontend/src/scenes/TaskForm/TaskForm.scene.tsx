@@ -9,6 +9,7 @@ import CheckBox from "@material-ui/icons/CheckBox";
 import Close from "@material-ui/icons/Close";
 import dayjs from "dayjs";
 import {
+  closeTaskWithoutRepeating,
   createId,
   finishTask,
   getRepeatParams,
@@ -18,7 +19,6 @@ import {
   taskById,
   TaskData,
   updateTask,
-  closeTaskWithoutRepeating,
 } from "do.md";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
