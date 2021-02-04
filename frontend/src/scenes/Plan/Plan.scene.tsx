@@ -4,7 +4,7 @@ import classNames from "classnames";
 import dayjs from "dayjs";
 import {
   selectTasksByDatesFactory,
-  selectUndatedTasks,
+  selectUndatedTasksActionableToday,
   stringifyDayjs,
   Task,
 } from "do.md";
@@ -63,7 +63,7 @@ const Plan = () => {
     return selectTasksByDatesFactory(dates);
   }, [startDate]);
   const days = useSelector(selectTasksByDates);
-  const undatedTasks = useSelector(selectUndatedTasks);
+  const undatedTasks = useSelector(selectUndatedTasksActionableToday);
 
   const handler = useCallback(
     (key: KEY) => {
