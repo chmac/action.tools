@@ -24,6 +24,8 @@ import { history } from "../Routes/Routes.scene";
 import TaskForm from "../TaskForm/TaskForm.scene";
 import { openNew } from "../TaskForm/TaskForm.state";
 
+const STALE_WARNING_TIMEOUT_MS = 10 * 1e3 * 100; // 10 minutes
+
 const assertNever = (no: never): never => {
   throw new Error("assertNever #pcQASS");
 };
@@ -110,6 +112,21 @@ const Bar: React.FC = (props) => {
       mousetrap.unbind(keys);
     };
   }, [handler]);
+
+  useEffect(() => {
+    const timeoutID = globalThis.setTimeout(() => {
+      const result = globalThis.confirm(
+        "This window has been open for 10 minutes. Refresh?"
+      );
+      if (result) {
+        globalThis.location.reload();
+      }
+    }, STALE_WARNING_TIMEOUT_MS);
+
+    return () => {
+      globalThis.clearTimeout(timeoutID);
+    };
+  }, []);
 
   const nowCount = useSelector((state: AppState) => state.now.taskIds.length);
   const aheadCount = useSelector(
