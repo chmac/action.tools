@@ -42,7 +42,7 @@ export const isTaskListItem = (item: ListItem): item is TaskListItem => {
 };
 
 export const stringifyDayjs = (date: Dayjs): string => {
-  return date.format('YYYY-MM-DD');
+  return date.format('YYYY-MM-DD ddd');
 };
 
 export const createId = () => {
