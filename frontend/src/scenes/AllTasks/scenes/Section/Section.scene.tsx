@@ -51,8 +51,8 @@ const SectionScene = ({ section }: { section: Section }) => {
       <Typography>{toString(section.contents)}</Typography>
 
       <Paper elevation={1} className={classes.paper}>
-        {tasks.map((task) => (
-          <TaskItem key={task.id} task={task} />
+        {tasks.map((task, i) => (
+          <TaskItem key={i} task={task} />
         ))}
       </Paper>
     </div>
