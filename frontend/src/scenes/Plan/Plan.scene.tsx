@@ -102,9 +102,10 @@ const Plan = () => {
       <Typography variant="h1">Dates</Typography>
       {Object.entries(days).map(([day, tasks]) => {
         const hasTasks = tasks.length > 0;
+        const dayOutput = dayjs(day).format("ddd D MMM");
         return (
           <div key={day}>
-            <Typography variant="h2">{day}</Typography>
+            <Typography variant="h2">{dayOutput}</Typography>
             <ul>
               {hasTasks ? (
                 tasks.map((task) => <TaskLi key={task.id} task={task} />)
