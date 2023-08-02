@@ -1257,17 +1257,17 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@isomorphic-git/idb-keyval@^3.3.1":
+"@isomorphic-git/idb-keyval@3.3.2":
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/@isomorphic-git/idb-keyval/-/idb-keyval-3.3.2.tgz#c0509a6c5987d8a62efb3e47f2815bcc5eda2489"
   integrity sha512-r8/AdpiS0/WJCNR/t/gsgL+M8NMVj/ek7s60uz3LmpCaTF2mEVlZJlB01ZzalgYzRLXwSPC92o+pdzjM7PN/pA==
 
-"@isomorphic-git/lightning-fs@^3.4.1":
-  version "3.4.2"
-  resolved "https://registry.yarnpkg.com/@isomorphic-git/lightning-fs/-/lightning-fs-3.4.2.tgz#cae168873850eae1b471e0654981db4d2d2fa32e"
-  integrity sha512-hz1nDDhtRlGSe9xUaAUtz91LKWurpVgzshWigKIHwQkbVBpwtDA3zEziK+FdwrJg/1XgfryRphJPMCnFCjdcVw==
+"@isomorphic-git/lightning-fs@^4.6.0":
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/@isomorphic-git/lightning-fs/-/lightning-fs-4.6.0.tgz#a7f49784c121241a50cefba6198cff8d6e86eb20"
+  integrity sha512-tfon8f1h6LawjFI/d8lZPWRPTxmdvyTMbkT/j5yo6dB0hALhKw5D9JsdCcUu/D1pAcMMiU7GZFDsDGqylerr7g==
   dependencies:
-    "@isomorphic-git/idb-keyval" "^3.3.1"
+    "@isomorphic-git/idb-keyval" "3.3.2"
     isomorphic-textencoder "1.0.1"
     just-debounce-it "1.1.0"
     just-once "1.1.0"
