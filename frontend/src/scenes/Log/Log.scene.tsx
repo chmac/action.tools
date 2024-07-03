@@ -8,7 +8,11 @@ import {
 import { red } from "@material-ui/core/colors";
 import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
-import { reset, wipe } from "../../services/storage/storage.service";
+import {
+  getMarkdown,
+  reset,
+  wipe,
+} from "../../services/storage/storage.service";
 import { AppState } from "../../store";
 import { selectAll } from "../Notifications/Notifications.state";
 
@@ -98,6 +102,17 @@ const Log = (props: Props) => {
         >
           Reset Everything
         </Button>
+        <Button
+          size="small"
+          variant="outlined"
+          onClick={async () => {
+            const md = await getMarkdown();
+            document.getElementById("md").value = md;
+          }}
+        >
+          Copy do.md
+        </Button>
+        <textarea id="md" />
       </Paper>
     </Modal>
   );
