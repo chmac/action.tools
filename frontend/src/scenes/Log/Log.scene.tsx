@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { red } from "@material-ui/core/colors";
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   getMarkdown,
@@ -44,6 +44,7 @@ const Log = (props: Props) => {
     (state: AppState) => state.storage.lastCommitHash
   );
   const buildTime = useCallback(buildTimeString, []);
+  const [fullMarkdown, setFullMarkdown] = useState("");
 
   return (
     <Modal
@@ -76,6 +77,22 @@ const Log = (props: Props) => {
             </Typography>
           ))}
         </ul>
+        <Typography variant="h1">Markdown</Typography>
+        <Typography>
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={async () => {
+              const md = await getMarkdown();
+              setFullMarkdown(md);
+            }}
+          >
+            Load do.md
+          </Button>
+        </Typography>
+        <Typography>
+          {fullMarkdown === "" ? null : <textarea value={fullMarkdown} />}
+        </Typography>
         <Typography variant="h1" className={classes.danger}>
           Danger
         </Typography>
@@ -84,35 +101,26 @@ const Log = (props: Props) => {
           <br />
           Build time: {buildTime()}
         </Typography>
-        <Button
-          size="small"
-          variant="outlined"
-          onClick={() => {
-            wipe();
-          }}
-        >
-          Wipe Storage
-        </Button>
-        <Button
-          size="small"
-          variant="outlined"
-          onClick={() => {
-            reset();
-          }}
-        >
-          Reset Everything
-        </Button>
-        <Button
-          size="small"
-          variant="outlined"
-          onClick={async () => {
-            const md = await getMarkdown();
-            document.getElementById("md").value = md;
-          }}
-        >
-          Copy do.md
-        </Button>
-        <textarea id="md" />
+        <Typography>
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={() => {
+              wipe();
+            }}
+          >
+            Wipe Storage
+          </Button>
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={() => {
+              reset();
+            }}
+          >
+            Reset Everything
+          </Button>
+        </Typography>
       </Paper>
     </Modal>
   );
