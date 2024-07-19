@@ -68,6 +68,9 @@ const schema = yup.object().shape({
       }
       return true;
     }),
+  snooze: yup
+    .string()
+    .test("after-valid", "After is not a valid date", isValidDate),
 });
 
 const TaskForm = () => {
@@ -98,6 +101,7 @@ const TaskForm = () => {
     // snooze: editingTask?.data.snooze || "",
     contexts: editingTask?.data.contexts?.join(", ") || "",
     repeat: editingTask?.data.repeat || "",
+    snooze: editingTask?.data.snooze || "",
   };
 
   return (
@@ -133,12 +137,13 @@ const TaskForm = () => {
           initialValues={initialValues}
           validationSchema={schema}
           onSubmit={(values, helpers) => {
-            type Fields = "after" | "by" | "contexts" | "repeat";
+            type Fields = "after" | "by" | "contexts" | "repeat" | "snooze";
             const data = ([
               "after",
               "by",
               "contexts",
               "repeat",
+              "snooze",
             ] as Fields[]).reduce<TaskData>((data, name) => {
               if (typeof values[name] !== "undefined") {
                 // NOTE: It's important to set empty strings if the fields are
@@ -146,6 +151,7 @@ const TaskForm = () => {
                 // fields.
 
                 switch (name) {
+                  case "snooze":
                   case "after":
                   case "by": {
                     if (values[name] === "") {
@@ -258,6 +264,14 @@ const TaskForm = () => {
                     name="repeat"
                     label="Repeat"
                     helperText="3 sections, no spaces. after|every, comma separated numbers, unit (days,weeks,months or day of week or month)"
+                    fullWidth
+                  />
+                  <Field
+                    component={TextField}
+                    type="string"
+                    name="snooze"
+                    label="Snooze"
+                    helperText="YYYY-MM-DD ISO date, or number of days from today (0 today, 1 tomorrow, etc)"
                     fullWidth
                   />
                   <Typography>
