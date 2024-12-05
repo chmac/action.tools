@@ -18,7 +18,8 @@ More info coming soon - Apr 2020
 
 This was built a long time ago, and uses out of date node versions, etc.
 
-- Running `dev` will setup the `pkgx` environment
-  - It might be setup automatically on entering the directory
-- To run `serve` requires a different environment, easiest option is `dev off`
+- Running the project requires node ^12
+  - `pkgx +nodejs.org@12.22.12 +classic.yarnpkg.com yarn start`
+  - `pkgx +nodejs.org@12.22.12 +classic.yarnpkg.com yarn build`
+- Running things like serve requires more up to date versions
   - Then `pkgx +nodejs.org npx serve build` should work
