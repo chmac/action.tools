@@ -87,6 +87,5 @@
     "@types/mousetrap": "^1.6.3",
     "env-cmd": "^10.0.1",
     "mockdate": "^2.0.5"
-  },
-  "pkgx": "nodejs.org@12.22.12 classic.yarnpkg.com"
+  }
 }
