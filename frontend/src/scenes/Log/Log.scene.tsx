@@ -10,11 +10,13 @@ import React, { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   getMarkdown,
+  pushToNewBranch,
   reset,
   wipe,
 } from "../../services/storage/storage.service";
 import { AppState } from "../../store";
 import { selectAll } from "../Notifications/Notifications.state";
+import { push } from "../../services/notifications/notifications.service";
 
 type Props = {
   open: boolean;
@@ -78,6 +80,35 @@ const Log = (props: Props) => {
           ))}
         </ul>
         <Typography variant="h1">Markdown</Typography>
+        <Typography>
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={async () => {
+              try {
+                const branchName = await pushToNewBranch();
+                push({
+                  message: `Successfully pushed to origin/${branchName} #2kLFyl`,
+                  type: "success",
+                });
+              } catch (error) {
+                if (error instanceof Error) {
+                  push({
+                    message: `Error pushing #XVQ8ck: ${error.message}`,
+                    type: "error",
+                  });
+                } else {
+                  push({
+                    message: `Unknown type of error pushing #XgnyNW ${error}`,
+                    type: "error",
+                  });
+                }
+              }
+            }}
+          >
+            Push to new branch
+          </Button>
+        </Typography>
         <Typography>
           <Button
             size="small"

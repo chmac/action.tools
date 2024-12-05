@@ -352,3 +352,14 @@ export const getLatestCommitHash = async () => {
 
   return log[0].oid;
 };
+
+export const pushToNewBranch = async () => {
+  const branchName = Date.now().toString();
+  await git.branch(
+    addBaseParams({
+      ref: branchName,
+    })
+  );
+  await git.push(addBaseParams({ remote: "origin", remoteRef: branchName }));
+  return branchName;
+};
