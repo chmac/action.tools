@@ -1,4 +1,4 @@
-## Frontend
+# Frontend
 
 A frontend for the `do.md` file format.
 
@@ -13,3 +13,12 @@ A frontend for the `do.md` file format.
   - Ignore all filters
 
 More info coming soon - Apr 2020
+
+## pkgx
+
+This was built a long time ago, and uses out of date node versions, etc.
+
+- Running `dev` will setup the `pkgx` environment
+  - It might be setup automatically on entering the directory
+- To run `serve` requires a different environment, easiest option is `dev off`
+  - Then `pkgx +nodejs.org npx serve build` should work
